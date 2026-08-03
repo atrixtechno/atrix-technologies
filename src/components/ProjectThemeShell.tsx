@@ -41,7 +41,7 @@ export function ProjectThemeShell({
           "--line":
             mode === "dark"
               ? "rgba(242, 255, 252, 0.1)"
-              : `${active.fg}18`,
+              : "rgba(11, 26, 36, 0.1)",
           "--signal": active.accent,
           "--project-glow": active.glow,
         } as CSSProperties
