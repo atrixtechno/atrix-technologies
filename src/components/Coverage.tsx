@@ -1,4 +1,5 @@
 import { Reveal } from "@/components/Reveal";
+import { SectionLink } from "@/components/SectionLink";
 import { pillars, promises, values } from "@/content/services";
 import { site, whatsappUrl } from "@/content/site";
 
@@ -49,12 +50,12 @@ export function Coverage() {
               >
                 WhatsApp ahora · {site.phoneDisplay}
               </a>
-              <a
-                href="#contacto"
+              <SectionLink
+                hash="contacto"
                 className="rounded-full border border-line bg-bg/70 px-6 py-3.5 text-sm font-medium text-fg backdrop-blur transition hover:border-accent/50 hover:text-accent"
               >
                 Enviar mensaje
-              </a>
+              </SectionLink>
             </div>
           </Reveal>
 

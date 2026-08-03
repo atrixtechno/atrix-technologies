@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Sora, Space_Grotesk } from "next/font/google";
+import { HashGuard } from "@/components/HashGuard";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { site } from "@/content/site";
 import "./globals.css";
@@ -95,7 +96,10 @@ export default function RootLayout({
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
       </head>
       <body className="min-h-full antialiased">
-        <ThemeProvider>{children}</ThemeProvider>
+        <ThemeProvider>
+          <HashGuard />
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );

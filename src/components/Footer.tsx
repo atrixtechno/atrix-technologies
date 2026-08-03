@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { Logo } from "@/components/Logo";
+import { SectionLink } from "@/components/SectionLink";
 import { useTheme } from "@/components/ThemeProvider";
 import { site, whatsappUrl } from "@/content/site";
 
@@ -27,9 +28,9 @@ export function Footer({ light = false }: { light?: boolean }) {
           </div>
         </div>
         <div className="flex flex-wrap justify-center gap-6 text-sm text-muted">
-          <Link href="/#servicios" className="hover:text-accent">
+          <SectionLink hash="servicios" className="hover:text-accent">
             Servicios
-          </Link>
+          </SectionLink>
           <Link href="/proyectos" className="hover:text-accent">
             Software
           </Link>

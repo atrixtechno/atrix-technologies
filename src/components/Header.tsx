@@ -3,16 +3,17 @@
 import Link from "next/link";
 import { useEffect, useId, useRef, useState } from "react";
 import { Logo } from "@/components/Logo";
+import { SectionLink } from "@/components/SectionLink";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { useTheme } from "@/components/ThemeProvider";
 import { projects } from "@/content/projects";
 import { site, whatsappUrl } from "@/content/site";
 
 const links = [
-  { href: "/#servicios", label: "Servicios" },
-  { href: "/#hogares", label: "Hogares" },
-  { href: "/#empresas", label: "Empresas" },
-  { href: "/#contacto", label: "Contacto" },
+  { hash: "servicios", label: "Servicios" },
+  { hash: "hogares", label: "Hogares" },
+  { hash: "empresas", label: "Empresas" },
+  { hash: "contacto", label: "Contacto" },
 ] as const;
 
 function Chevron({ open }: { open?: boolean }) {
@@ -204,13 +205,13 @@ export function Header({
 
         <nav className="hidden items-center gap-1 lg:flex" aria-label="Principal">
           {links.slice(0, 3).map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
+            <SectionLink
+              key={link.hash}
+              hash={link.hash}
               className="rounded-full px-3.5 py-2 text-[13px] font-medium tracking-wide text-muted transition-colors hover:bg-bg-elevated/70 hover:text-fg"
             >
               {link.label}
-            </Link>
+            </SectionLink>
           ))}
 
           <SoftwareDropdown
@@ -219,12 +220,12 @@ export function Header({
             onClose={() => setSoftwareOpen(false)}
           />
 
-          <Link
-            href="/#contacto"
+          <SectionLink
+            hash="contacto"
             className="rounded-full px-3.5 py-2 text-[13px] font-medium tracking-wide text-muted transition-colors hover:bg-bg-elevated/70 hover:text-fg"
           >
             Contacto
-          </Link>
+          </SectionLink>
 
           <div className="ml-2 flex items-center gap-2 border-l border-line pl-4">
             <ThemeToggle />
@@ -274,14 +275,14 @@ export function Header({
         <div className="border-t border-line bg-bg/95 backdrop-blur-md lg:hidden">
           <nav className="mx-auto flex max-w-6xl flex-col px-5 py-4 md:px-8" aria-label="Móvil">
             {links.slice(0, 3).map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
+              <SectionLink
+                key={link.hash}
+                hash={link.hash}
                 className="border-b border-line py-3.5 text-sm font-medium text-fg"
                 onClick={() => setMobileOpen(false)}
               >
                 {link.label}
-              </Link>
+              </SectionLink>
             ))}
 
             <div className="border-b border-line">
@@ -334,13 +335,13 @@ export function Header({
               )}
             </div>
 
-            <Link
-              href="/#contacto"
+            <SectionLink
+              hash="contacto"
               className="border-b border-line py-3.5 text-sm font-medium text-fg"
               onClick={() => setMobileOpen(false)}
             >
               Contacto
-            </Link>
+            </SectionLink>
 
             <a
               href={whatsappUrl()}

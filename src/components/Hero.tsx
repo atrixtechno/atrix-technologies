@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { Logo } from "@/components/Logo";
+import { SectionLink } from "@/components/SectionLink";
 import { useTheme } from "@/components/ThemeProvider";
 import { site, whatsappUrl } from "@/content/site";
 import { getDailyTip } from "@/content/tips";
@@ -116,12 +117,12 @@ export function Hero() {
             >
               Cotizar por WhatsApp
             </a>
-            <a
-              href="#servicios"
+            <SectionLink
+              hash="servicios"
               className="rounded-full border border-line bg-bg-elevated/70 px-6 py-3 text-[15px] font-medium text-fg backdrop-blur transition hover:border-accent/50 hover:text-accent"
             >
               Ver servicios
-            </a>
+            </SectionLink>
           </div>
         </div>
       </div>
