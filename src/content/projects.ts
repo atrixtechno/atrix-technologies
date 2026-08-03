@@ -254,23 +254,100 @@ export const projects: Project[] = [
     name: "Grupo GI Casa de Cambio",
     sector: "Finanzas · Casa de cambio",
     summary:
-      "Landing con sucursales, portal de empleados y panel de administración para operar con orden y confianza.",
+      "Ecosistema integrado para casa de cambio: sitio público, intranet de empleados, panel administrativo y checador biométrico en sucursal.",
     result:
-      "Cara pública sólida y herramientas internas para personal y administración del grupo.",
-    highlights: [
-      "Sitio con sucursales del grupo",
-      "Portal de empleados con acceso por ID",
-      "Panel admin para personal y sucursales",
+      "Plataforma sincronizada en tiempo real — desde el mostrador hasta la nube — en 7 sucursales de Nuevo Laredo.",
+    url: "https://www.grupo-gi.com",
+    designerUrl: "https://www.grupo-gi.com/atrix-technologies",
+    previewImage: "/projects/grupo-gi-preview.jpg",
+    tags: [
+      "Full-stack",
+      "Biometría",
+      "Windows + Cloud",
+      "Realtime",
+      "Multi-sucursal",
+      "RH & asistencia",
     ],
-    stackNote: "Landing + portal + admin",
-    seoTitle: "Grupo GI — landing, portal y admin para casa de cambio",
+    stats: [
+      { value: "7", label: "Sucursales conectadas" },
+      { value: "Full-stack", label: "Web + Windows + Cloud" },
+      { value: "Realtime", label: "Chat, huellas y asistencia" },
+      { value: "1 equipo", label: "Diseño, build y despliegue" },
+    ],
+    story: [
+      "Grupo GI Centro Cambiario necesitaba más que una landing: un ecosistema operativo para casa de cambio con presencia pública, intranet de empleados, panel administrativo y checador biométrico en sucursal.",
+      "ATRIX Technologies diseñó y construyó una sola plataforma sincronizada en tiempo real: portal público con mapa y tipos de cambio, portal empleado (asistencia, chat, anuncios, calendario, credencial), panel admin con permisos granulares y RH, más checador Windows (.NET) con lector ZK9500 sincronizado a www.grupo-gi.com.",
+      "El resultado está en producción multi-sucursal en Nuevo Laredo, con SSO checador→web, huella y chat en vivo, desplegado en Cloudflare Pages con backend Supabase.",
+    ],
+    approach: [
+      {
+        title: "Software a medida",
+        copy: "Portales, paneles admin, apps Windows y flujos operativos diseñados al proceso real — no plantillas genéricas.",
+      },
+      {
+        title: "Biometría & hardware",
+        copy: "Integración de lectores de huella, kioscos de asistencia y sincronización con la nube.",
+      },
+      {
+        title: "Cloud & operación",
+        copy: "Supabase/PostgreSQL, hosting, DNS, CI/CD, reportes PDF e instaladores para sucursales.",
+      },
+    ],
+    deliverables: [
+      {
+        title: "Portal público",
+        copy: "Sitio corporativo con mapa de sucursales, tipos de cambio y acceso al portal de empleados.",
+      },
+      {
+        title: "Intranet empleado",
+        copy: "Asistencia, chat en vivo, anuncios, calendario y credencial digital.",
+      },
+      {
+        title: "Panel administrativo",
+        copy: "Permisos granulares, RH, reportes PDF, organigrama y gestión de sistemas.",
+      },
+      {
+        title: "Checador Windows",
+        copy: "App nativa .NET con ZK9500: huella, asistencia, chat y sync a la nube.",
+      },
+      {
+        title: "Instaladores & ops",
+        copy: "ZIP del checador, scripts PowerShell/Inno Setup y despliegue continuo.",
+      },
+      {
+        title: "UX corporativa",
+        copy: "Identidad visual, credenciales digitales y comunicaciones internas coherentes.",
+      },
+    ],
+    lead: {
+      name: "Ing. Néstor J. Resendiz",
+      role: "Dirección técnica · Ingeniero de Tecnologías de la Información · ATRIX Technologies",
+      badges: ["Ingeniería", "Full-stack"],
+      copy: [
+        "Diseño, arquitectura y desarrollo de la plataforma Grupo GI: capa web React, cloud Supabase y checador Windows con biometría ZKTeco.",
+        "Enfoque: sistemas reales en producción, sincronizados entre sucursal y nube, con documentación y empaquetado listos para operar.",
+      ],
+    },
+    highlights: [
+      "Portal público con mapa Leaflet y 7 sucursales en Nuevo Laredo",
+      "Portal empleado: asistencia, chat, anuncios, calendario y credencial",
+      "Panel admin con permisos, RH, reportes PDF y sistemas",
+      "Checador .NET + ZK9500 con sync realtime a grupo-gi.com",
+      "SSO checador → web y despliegue en Cloudflare Pages + Supabase",
+    ],
+    stackNote: "React · Supabase · .NET · Cloudflare · ZKTeco",
+    seoTitle:
+      "Grupo GI Casa de Cambio — plataforma web, portal y checador biométrico",
     seoDescription:
-      "Caso ATRIX: plataforma digital de Grupo GI Casa de Cambio con sitio público, portal de empleados y panel administrativo.",
+      "Caso ATRIX Technologies: plataforma operativa de Grupo GI con sitio público, intranet, panel admin, checador Windows ZK9500 y cloud Supabase en Nuevo Laredo.",
     keywords: [
-      "casa de cambio sitio web",
-      "portal empleados",
-      "Grupo GI",
-      "software financiero frontera",
+      "casa de cambio software",
+      "Grupo GI Nuevo Laredo",
+      "portal empleados casa de cambio",
+      "checador biométrico ZK9500",
+      "Supabase Cloudflare",
+      "ATRIX Technologies",
+      "sistema asistencia huella",
     ],
     theme: {
       bg: "#f6f4ec",
@@ -292,59 +369,79 @@ export const projects: Project[] = [
       glow: "rgba(224,184,58,0.28)",
     },
     challenge:
-      "Una casa de cambio necesita transmitir confianza al público y, al mismo tiempo, orden interno para personal y sucursales.",
+      "Una casa de cambio multi-sucursal necesita transmitir confianza al público y, al mismo tiempo, operar asistencia, RH, chat y biometría sin hojas de cálculo ni sistemas sueltos.",
     solution:
-      "Construimos una presencia pública clara más un portal de empleados y un panel admin para operar el día a día.",
+      "Construimos un ecosistema full-stack: cara pública, intranet, admin y checador Windows conectados en tiempo real a la misma nube.",
     impact: [
-      "Imagen institucional más sólida frente a clientes",
-      "Acceso controlado para personal",
-      "Administración centralizada de sucursales y usuarios",
+      "7 sucursales conectadas en Nuevo Laredo",
+      "Asistencia y huella sincronizadas con la nube",
+      "Operación RH y admin con permisos y reportes PDF",
     ],
     modules: [
       {
-        title: "Landing pública",
-        copy: "Marca, confianza, sucursales y llamado a contacto.",
+        title: "Portal público",
+        copy: "Mapa de sucursales, tipos de cambio, confianza institucional y acceso al login.",
       },
       {
-        title: "Portal empleados",
-        copy: "Acceso por identificador para el equipo operativo.",
+        title: "Portal empleado",
+        copy: "Asistencia, chat, anuncios, calendario y credencial digital.",
       },
       {
         title: "Panel admin",
-        copy: "Gestión de personal, sucursales y operación interna.",
+        copy: "Permisos granulares, RH, reportes PDF, organigrama y sistemas.",
+      },
+      {
+        title: "Checador biométrico",
+        copy: "WinForms + ZK9500: huella, match, sync y SSO hacia la web.",
+      },
+      {
+        title: "Capa cloud",
+        copy: "Supabase Auth, PostgreSQL, RLS, Realtime y Storage.",
+      },
+      {
+        title: "Despliegue & ops",
+        copy: "Cloudflare Pages, Wrangler, instaladores Windows y migraciones SQL.",
       },
     ],
     technologies: [
-      { name: "Web moderna", role: "Landing responsive de alto impacto" },
-      { name: "Portal autenticado", role: "Acceso controlado para personal" },
-      { name: "Panel admin", role: "Operación de usuarios y sucursales" },
-      { name: "Hosting + CI", role: "Despliegue continuo y estable" },
+      { name: "React 18", role: "Portal público, login, empleado y admin" },
+      { name: "JavaScript / JSX", role: "UI rápida compilada con esbuild + Babel" },
+      { name: "Supabase", role: "Auth JWT, PostgreSQL, RPC, Realtime y Storage" },
+      { name: "PostgreSQL + RLS", role: "Permisos y datos multi-sucursal seguros" },
+      { name: "Cloudflare Pages", role: "Hosting global, HTTPS, DNS y CDN" },
+      { name: "C# / .NET 4.8", role: "Checador nativo WinForms en sucursal" },
+      { name: "ZKTeco ZK9500", role: "Biometría USB + ZKFinger SDK" },
+      { name: "jsPDF", role: "Reportes de asistencia, huellas y credenciales" },
+      { name: "Leaflet / OSM", role: "Mapa interactivo de sucursales" },
+      { name: "Inno Setup + PowerShell", role: "Instaladores y scripts de despliegue" },
+      { name: "Git / GitHub", role: "Versionado, migraciones y CI" },
+      { name: "WebSocket Realtime", role: "Chat, asistencia y sync checador↔nube" },
     ],
     process: [
       {
-        title: "Alcance",
-        copy: "Definimos qué es público, qué es interno y quién administra.",
+        title: "Alcance operativo",
+        copy: "Definimos capas: público, empleado, admin y dispositivo en sucursal.",
       },
       {
-        title: "Diseño",
-        copy: "Identidad sobria y financiera, pensada para confianza.",
+        title: "Diseño & arquitectura",
+        copy: "Identidad corporativa, permisos, biometría y sync realtime.",
       },
       {
-        title: "Implementación",
-        copy: "Landing, portal y panel conectados a la operación real.",
+        title: "Build full-stack",
+        copy: "React + Supabase + checador .NET + hardware ZKTeco.",
       },
       {
-        title: "Entrega",
-        copy: "Capacitación breve y ajustes según el flujo del grupo.",
+        title: "Producción multi-sucursal",
+        copy: "Cloudflare, instaladores, capacitación y operación en vivo.",
       },
     ],
     persuasion: [
-      "Tu negocio financiero también puede verse institucional y operar con menos fricción.",
-      "Separamos lo público de lo interno: seguridad y claridad.",
-      "Ideal para grupos con varias sucursales o equipos.",
+      "Tu operación financiera también puede verse institucional y funcionar sincronizada entre mostrador y nube.",
+      "Web + Windows + biometría en un solo ecosistema: menos fricción, más control.",
+      "Ideal para grupos con varias sucursales, asistencia y RH en tiempo real.",
     ],
-    year: "2025",
-    location: "Nuevo Laredo / frontera",
+    year: "2025–2026",
+    location: "Nuevo Laredo, Tamaulipas · 7 sucursales",
   },
   {
     slug: "dojangspace",
