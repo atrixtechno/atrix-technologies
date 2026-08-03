@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { ScrollFollowLogo } from "@/components/ScrollFollowLogo";
+import { Logo } from "@/components/Logo";
 import { SectionLink } from "@/components/SectionLink";
 import { useTheme } from "@/components/ThemeProvider";
 import { site, whatsappUrl } from "@/content/site";
@@ -49,7 +49,16 @@ export function Hero() {
       </div>
 
       <div className="relative mx-auto grid min-h-[78svh] max-w-6xl items-center gap-5 px-5 pb-12 pt-24 sm:gap-6 sm:pt-28 md:grid-cols-[1.15fr_0.95fr] md:gap-6 md:px-8 md:pb-16 md:pt-28 lg:gap-8">
-        <ScrollFollowLogo />
+        <div className="animate-fade-scale relative mx-auto flex w-full max-w-[280px] items-center justify-center sm:max-w-[360px] md:mx-0 md:-ml-6 md:max-w-none md:justify-start lg:-ml-10 xl:-ml-14">
+          <div className="animate-glow pointer-events-none absolute inset-0 -m-6 rounded-full bg-[radial-gradient(circle,rgba(26,76,255,0.16),transparent_70%)] blur-2xl sm:-m-10" />
+          <Logo
+            key={isLight ? "hero-full-light" : "hero-full-dark"}
+            variant={isLight ? "full-light" : "full"}
+            size={560}
+            className="animate-float relative w-full max-w-[260px] sm:max-w-[340px] md:max-w-[480px] lg:max-w-[540px]"
+            priority
+          />
+        </div>
 
         <div className="animate-rise-delay min-w-0 text-center md:text-left">
           <p className="text-[11px] font-semibold tracking-[0.14em] text-accent uppercase sm:text-xs sm:tracking-[0.16em]">

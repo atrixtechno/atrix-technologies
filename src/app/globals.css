@@ -82,11 +82,6 @@ video {
   height: auto;
 }
 
-html[data-logo-docked="1"] .header-mobile-brand {
-  opacity: 0;
-  pointer-events: none;
-}
-
 @media (max-width: 767px) {
   .project-preview-float {
     animation: none;

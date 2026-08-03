@@ -174,8 +174,6 @@ export function Header({
   const [softwareOpen, setSoftwareOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mobileSoftwareOpen, setMobileSoftwareOpen] = useState(false);
-  /** En landing desktop el logo del hero sigue el scroll; en móvil sí mostramos marca en header. */
-  const hideBrand = !solid;
 
   const mobilePanelRef = useRef<HTMLDivElement>(null);
 
@@ -198,13 +196,7 @@ export function Header({
   }
 
   return (
-    <header
-      className={
-        solid
-          ? "sticky top-0 z-40 border-b border-line bg-bg/90 backdrop-blur-md"
-          : "absolute inset-x-0 top-0 z-40"
-      }
-    >
+    <header className="sticky top-0 z-40 border-b border-line bg-bg/95 backdrop-blur-md">
       <div className="relative z-50 mx-auto flex max-w-6xl items-center justify-between gap-3 px-5 py-3.5 md:px-8 md:py-5">
         <Link
           href="/"
@@ -212,28 +204,20 @@ export function Header({
           aria-label="ATRIX Technologies"
           onClick={closeMobileMenu}
         >
-          {/* Móvil: lockup compacto siempre visible a la izquierda */}
           <Logo
             key={useLightLogo ? "nav-lockup-light-sm" : "nav-lockup-dark-sm"}
             variant={useLightLogo ? "lockup-light" : "lockup"}
             size={152}
-            className={`transition-transform duration-300 group-hover:scale-[1.02] lg:hidden ${
-              hideBrand && !mobileOpen ? "header-mobile-brand" : ""
-            }`}
+            className="transition-transform duration-300 group-hover:scale-[1.02] lg:hidden"
             priority
           />
-          {/* Desktop landing: spacer (el logo grande del hero hace de marca) */}
-          {hideBrand ? (
-            <span className="hidden w-10 lg:block" aria-hidden />
-          ) : (
-            <Logo
-              key={useLightLogo ? "nav-lockup-light-lg" : "nav-lockup-dark-lg"}
-              variant={useLightLogo ? "lockup-light" : "lockup"}
-              size={196}
-              className="hidden transition-transform duration-300 group-hover:scale-[1.02] lg:block"
-              priority
-            />
-          )}
+          <Logo
+            key={useLightLogo ? "nav-lockup-light-lg" : "nav-lockup-dark-lg"}
+            variant={useLightLogo ? "lockup-light" : "lockup"}
+            size={196}
+            className="hidden transition-transform duration-300 group-hover:scale-[1.02] lg:block"
+            priority
+          />
         </Link>
 
         <nav className="hidden items-center gap-1 lg:flex" aria-label="Principal">
