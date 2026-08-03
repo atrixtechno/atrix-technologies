@@ -111,13 +111,13 @@ function SoftwareDropdown({
               Sistemas y plataformas a la medida
             </p>
           </div>
-          <ul className="max-h-[min(24rem,60vh)] overflow-y-auto py-1.5">
+          <ul className="max-h-[calc(4*3.35rem)] overflow-y-auto overscroll-contain py-1.5 [scrollbar-gutter:stable]">
             {projects.map((project) => (
               <li key={project.slug}>
                 <Link
                   href={`/proyectos/${project.slug}`}
                   role="menuitem"
-                  className="group flex items-start gap-3 px-4 py-2.5 transition hover:bg-[color-mix(in_srgb,var(--accent)_8%,transparent)]"
+                  className="group flex h-[3.35rem] items-center gap-3 px-4 transition hover:bg-[color-mix(in_srgb,var(--accent)_8%,transparent)]"
                   onClick={onClose}
                   style={
                     {
@@ -130,13 +130,13 @@ function SoftwareDropdown({
                     <ProjectLogo src={project.logo} name={project.name} size="sm" />
                   ) : (
                     <span
-                      className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full"
+                      className="h-1.5 w-1.5 shrink-0 rounded-full"
                       style={{ background: project.theme.accent }}
                       aria-hidden
                     />
                   )}
                   <span className="min-w-0">
-                    <span className="block text-sm font-semibold text-fg transition group-hover:text-accent">
+                    <span className="block truncate text-sm font-semibold text-fg transition group-hover:text-accent">
                       {project.name}
                     </span>
                     <span className="mt-0.5 block truncate text-xs text-muted">
@@ -363,12 +363,12 @@ export function Header({
                   </button>
                 </div>
                 {mobileSoftwareOpen && (
-                  <ul className="space-y-1 pb-3 pl-1">
+                  <ul className="max-h-[calc(4*2.75rem)] space-y-0 overflow-y-auto overscroll-contain pb-3 pl-1">
                     {projects.map((project) => (
                       <li key={project.slug}>
                         <Link
                           href={`/proyectos/${project.slug}`}
-                          className="flex items-center gap-2.5 py-2 text-sm text-muted"
+                          className="flex h-[2.75rem] items-center gap-2.5 text-sm text-muted"
                           onClick={closeMobileMenu}
                           style={
                             {
@@ -386,14 +386,14 @@ export function Header({
                               aria-hidden
                             />
                           )}
-                          {project.name}
+                          <span className="truncate">{project.name}</span>
                         </Link>
                       </li>
                     ))}
                     <li>
                       <Link
                         href="/proyectos"
-                        className="py-2 text-sm font-semibold text-accent"
+                        className="flex h-[2.75rem] items-center text-sm font-semibold text-accent"
                         onClick={closeMobileMenu}
                       >
                         Ver todos →
