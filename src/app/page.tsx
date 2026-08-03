@@ -70,7 +70,7 @@ export default function HomePage() {
         "@type": "LocalBusiness",
         "@id": `${site.url}/#localbusiness`,
         name: site.legalName,
-        image: `${site.url}/brand/atrix-services-banner.png`,
+        image: `${site.url}/brand/atrix-logo.png`,
         url: site.url,
         telephone: "+52-867-179-3155",
         priceRange: "$$",
