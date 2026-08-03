@@ -1,10 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import type { CSSProperties } from "react";
 import type { Metadata } from "next";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
+import { ProjectThemeShell } from "@/components/ProjectThemeShell";
 import { getProject, projects } from "@/content/projects";
 import { site, whatsappUrl } from "@/content/site";
 
@@ -44,7 +44,6 @@ export default async function ProjectPage({ params }: Props) {
   const { slug } = await params;
   const project = getProject(slug);
   if (!project) notFound();
-  const t = project.theme;
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -69,27 +68,14 @@ export default async function ProjectPage({ params }: Props) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <Header solid />
-      <div
-        style={
-          {
-            "--bg": t.bg,
-            "--bg-elevated": t.bgElevated,
-            "--fg": t.fg,
-            "--muted": t.muted,
-            "--accent": t.accent,
-            "--accent-ink": t.accentInk,
-            "--line": `${t.fg}18`,
-            "--signal": t.accent,
-          } as CSSProperties
-        }
-        className="min-h-screen bg-[var(--bg)] text-[var(--fg)]"
-      >
+      <ProjectThemeShell theme={project.theme} themeDark={project.themeDark}>
         <main>
           <section className="relative overflow-hidden border-b border-[var(--line)]">
             <div
               className="pointer-events-none absolute inset-0 opacity-90"
               style={{
-                background: `radial-gradient(ellipse 70% 55% at 80% 0%, ${t.glow}, transparent 55%)`,
+                background:
+                  "radial-gradient(ellipse 70% 55% at 80% 0%, var(--project-glow), transparent 55%)",
               }}
             />
             <div className="relative mx-auto grid max-w-6xl gap-10 px-5 pb-16 pt-14 md:grid-cols-[1.05fr_0.95fr] md:items-end md:gap-12 md:px-8 md:pb-20 md:pt-16">
@@ -138,8 +124,9 @@ export default async function ProjectPage({ params }: Props) {
                       rel="noopener noreferrer"
                       className="inline-flex items-center gap-2 rounded-full bg-[var(--accent)] px-7 py-3.5 text-sm font-bold text-[var(--accent-ink)] transition hover:brightness-110"
                       style={{
-                        boxShadow: `0 16px 40px ${t.glow}`,
-                        outline: `4px solid color-mix(in srgb, ${t.accent} 22%, transparent)`,
+                        boxShadow: "0 16px 40px var(--project-glow)",
+                        outline:
+                          "4px solid color-mix(in srgb, var(--accent) 22%, transparent)",
                       }}
                     >
                       Ver sitio en vivo
@@ -173,7 +160,7 @@ export default async function ProjectPage({ params }: Props) {
                 <div className="relative">
                   <div
                     className="pointer-events-none absolute -inset-3 -z-10 rounded-[1.5rem] blur-2xl"
-                    style={{ background: t.glow }}
+                    style={{ background: "var(--project-glow)" }}
                   />
                   <a
                     href={project.url ?? "#"}
@@ -428,15 +415,15 @@ export default async function ProjectPage({ params }: Props) {
           </section>
 
           {project.lead && (
-            <section className="border-t border-[var(--line)] bg-[#0a0a0a] py-16 text-white md:py-20">
+            <section className="border-t border-[var(--line)] bg-[color-mix(in_srgb,var(--fg)_92%,#000)] py-16 text-[var(--bg)] md:py-20">
               <div className="mx-auto max-w-6xl px-5 md:px-8">
-                <p className="text-xs font-semibold tracking-[0.2em] text-[#5b8cff] uppercase">
+                <p className="text-xs font-semibold tracking-[0.2em] text-[var(--accent)] uppercase">
                   Conoce al responsable
                 </p>
-                <h2 className="font-display mt-3 text-2xl font-bold sm:text-3xl">
+                <h2 className="font-display mt-3 text-2xl font-bold sm:text-3xl text-[var(--bg)]">
                   {project.lead.name}
                 </h2>
-                <p className="mt-2 text-xs font-semibold tracking-[0.16em] text-white/55 uppercase">
+                <p className="mt-2 text-xs font-semibold tracking-[0.16em] text-[var(--bg)]/55 uppercase">
                   {project.lead.role}
                 </p>
                 {project.lead.badges && (
@@ -444,14 +431,14 @@ export default async function ProjectPage({ params }: Props) {
                     {project.lead.badges.map((badge) => (
                       <span
                         key={badge}
-                        className="rounded-full border border-white/15 bg-white/10 px-3 py-1 text-xs font-semibold"
+                        className="rounded-full border border-[var(--bg)]/20 bg-[var(--bg)]/10 px-3 py-1 text-xs font-semibold text-[var(--bg)]"
                       >
                         {badge}
                       </span>
                     ))}
                   </div>
                 )}
-                <div className="mt-6 max-w-3xl space-y-4 text-sm leading-relaxed text-white/70">
+                <div className="mt-6 max-w-3xl space-y-4 text-sm leading-relaxed text-[var(--bg)]/70">
                   {project.lead.copy.map((p) => (
                     <p key={p}>{p}</p>
                   ))}
@@ -468,10 +455,7 @@ export default async function ProjectPage({ params }: Props) {
               <ul className="mt-8 space-y-4">
                 {project.persuasion.map((item) => (
                   <li key={item} className="flex gap-3 text-[var(--fg)]/90">
-                    <span
-                      className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full"
-                      style={{ background: t.accent }}
-                    />
+                    <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--accent)]" />
                     {item}
                   </li>
                 ))}
@@ -491,7 +475,7 @@ export default async function ProjectPage({ params }: Props) {
                     target="_blank"
                     rel="noopener noreferrer"
                     className="rounded-full bg-[var(--accent)] px-6 py-3.5 text-sm font-bold text-[var(--accent-ink)] transition hover:brightness-110"
-                    style={{ boxShadow: `0 14px 36px ${t.glow}` }}
+                    style={{ boxShadow: "0 14px 36px var(--project-glow)" }}
                   >
                     Ver {project.name} en vivo ↗
                   </a>
@@ -516,7 +500,7 @@ export default async function ProjectPage({ params }: Props) {
             </div>
           </section>
         </main>
-      </div>
+      </ProjectThemeShell>
       <Footer />
     </>
   );

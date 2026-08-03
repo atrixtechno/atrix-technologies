@@ -36,6 +36,8 @@ export type Project = {
   seoDescription: string;
   keywords: string[];
   theme: ProjectTheme;
+  /** Paleta cuando el sitio está en tema oscuro (mantiene acento de marca). */
+  themeDark?: ProjectTheme;
   challenge: string;
   solution: string;
   impact: string[];
@@ -166,6 +168,15 @@ export const projects: Project[] = [
       accentInk: "#ffffff",
       glow: "rgba(0,181,173,0.28)",
       light: true,
+    },
+    themeDark: {
+      bg: "#041618",
+      bgElevated: "#0a2529",
+      fg: "#e8f7f6",
+      muted: "#8eb3b0",
+      accent: "#2ee6d6",
+      accentInk: "#031018",
+      glow: "rgba(46,230,214,0.22)",
     },
     challenge:
       "El consultorio necesitaba más que una página bonita: atraer pacientes en Nuevo Laredo y Laredo TX, explicar tratamientos con claridad y dar seguimiento desde recepción.",
