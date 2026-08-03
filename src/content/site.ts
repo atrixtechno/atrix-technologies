@@ -2,10 +2,12 @@ export const site = {
   name: "ATRIX",
   legalName: "ATRIX Technologies",
   city: "Nuevo Laredo, Tamaulipas",
-  tagline: "Software a la medida para negocios de la frontera",
+  coverage: "Nuevo Laredo y Laredo, TX",
+  tagline: "Soluciones tecnológicas para hogares y empresas",
   motto: "Tecnología · Innovación · Rendimiento",
   description:
-    "ATRIX Technologies diseña y construye sitios web, paneles y apps a la medida para negocios en Nuevo Laredo y la zona frontera. SEO, conversión y operación digital.",
+    "ATRIX Technologies ofrece soporte técnico, CCTV, redes, impresoras, desarrollo de software y soporte IT empresarial en Nuevo Laredo y Laredo, TX. Tecnología confiable, atención personalizada.",
+  phoneDisplay: "867 179 3155",
   whatsapp: process.env.NEXT_PUBLIC_WHATSAPP ?? "528671793155",
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://atrixnld.com",
 } as const;
@@ -13,7 +15,7 @@ export const site = {
 export function whatsappUrl(message?: string) {
   const text = encodeURIComponent(
     message ??
-      "Hola ATRIX, me interesa platicar sobre un proyecto para mi negocio.",
+      "Hola ATRIX Technologies, me interesa cotizar un servicio.",
   );
   return `https://wa.me/${site.whatsapp}?text=${text}`;
 }

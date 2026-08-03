@@ -15,18 +15,17 @@ export function Footer({ light = false }: { light?: boolean }) {
             <p className="mt-1 text-xs tracking-[0.12em] text-muted uppercase">
               {site.motto}
             </p>
-            <p className="mt-1 text-xs text-muted">{site.city}</p>
+            <p className="mt-1 text-xs text-muted">
+              {site.coverage} · {site.phoneDisplay}
+            </p>
           </div>
         </div>
         <div className="flex flex-wrap justify-center gap-6 text-sm text-muted">
+          <Link href="/#servicios" className="hover:text-accent">
+            Servicios
+          </Link>
           <Link href="/proyectos" className="hover:text-accent">
-            Proyectos
-          </Link>
-          <Link href="/#negocios" className="hover:text-accent">
-            Para negocios
-          </Link>
-          <Link href="/#programadores" className="hover:text-accent">
-            Para programadores
+            Software
           </Link>
           <a
             href={whatsappUrl()}
@@ -39,8 +38,8 @@ export function Footer({ light = false }: { light?: boolean }) {
         </div>
       </div>
       <p className="mx-auto mt-8 max-w-6xl px-5 text-center text-[11px] text-muted md:px-8 md:text-left">
-        © {new Date().getFullYear()} {site.legalName}. Diseño y desarrollo en{" "}
-        {site.city}.
+        © {new Date().getFullYear()} {site.legalName}. Soporte técnico, CCTV,
+        redes y desarrollo en {site.coverage}.
       </p>
     </footer>
   );

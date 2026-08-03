@@ -29,10 +29,11 @@ export const metadata: Metadata = {
   category: "technology",
   keywords: [
     "ATRIX Technologies",
-    "desarrollo web Nuevo Laredo",
-    "software a la medida",
-    "diseño web frontera",
-    "SEO local México",
+    "soporte técnico Nuevo Laredo",
+    "CCTV Laredo TX",
+    "redes e infraestructura",
+    "desarrollo de software",
+    "soporte IT empresarial",
   ],
   robots: {
     index: true,

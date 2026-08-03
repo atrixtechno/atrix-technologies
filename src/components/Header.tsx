@@ -3,10 +3,10 @@ import { Logo } from "@/components/Logo";
 import { site, whatsappUrl } from "@/content/site";
 
 const links = [
-  { href: "/proyectos", label: "Proyectos" },
-  { href: "/#consejo", label: "Consejo" },
-  { href: "/#beneficios", label: "Beneficios" },
-  { href: "/#negocios", label: "Negocios" },
+  { href: "/#servicios", label: "Servicios" },
+  { href: "/#hogares", label: "Hogares" },
+  { href: "/#empresas", label: "Empresas" },
+  { href: "/proyectos", label: "Software" },
   { href: "/#contacto", label: "Contacto" },
 ];
 
@@ -42,7 +42,7 @@ export function Header({
             </span>
           </span>
         </Link>
-        <nav className="hidden items-center gap-7 lg:flex">
+        <nav className="hidden items-center gap-6 lg:flex">
           {links.map((link) => (
             <Link
               key={link.href}
@@ -63,10 +63,10 @@ export function Header({
         </nav>
         <div className="flex items-center gap-2 lg:hidden">
           <Link
-            href="/proyectos"
+            href="/#servicios"
             className="rounded-full border border-line px-3 py-2 text-sm text-fg"
           >
-            Proyectos
+            Servicios
           </Link>
           <a
             href={whatsappUrl()}

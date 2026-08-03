@@ -3,130 +3,127 @@ export type DailyTip = {
   copy: string;
 };
 
-/**
- * Consejos orientados a negocios que quieren (o deben) tener sitio web.
- * Se muestra 1 por día en el hero (ciclo continuo por día del año).
- */
+/** Consejos diarios para hogares y negocios (oferta completa ATRIX). */
 export const dailyTips: DailyTip[] = [
   {
-    title: "Tu negocio necesita más que un WhatsApp",
-    copy: "El chat cierra ventas; un sitio web construye confianza las 24 horas y te hace ver profesional antes del primer mensaje.",
+    title: "Un negocio sin respaldo tecnológico se frena",
+    copy: "PC lenta, WiFi inestable o sin cámaras: son costos ocultos. La tecnología bien puesta se paga sola.",
   },
   {
-    title: "Una sola acción en tu página",
-    copy: "WhatsApp, cita o formulario: elige una. Si pides cinco cosas a la vez, el cliente no hace ninguna.",
+    title: "Tu WhatsApp no reemplaza un sistema",
+    copy: "El chat ayuda a vender; un sitio o panel ordena leads, citas y seguimiento sin perder prospectos.",
   },
   {
-    title: "Diseña primero para celular",
-    copy: "La mayoría te encuentra desde el teléfono. Si tu sitio no se entiende en 5 segundos en móvil, pierdes la visita.",
+    title: "La seguridad empieza en casa y en el local",
+    copy: "CCTV con acceso al celular te da tranquilidad cuando no estás. Ver es prevenir.",
   },
   {
-    title: "Muestra prueba real, no frases vacías",
-    copy: "Fotos del local, resultados, opiniones y mapa convencen más que decir “somos los mejores”.",
+    title: "WiFi débil = productividad rota",
+    copy: "Antes de comprar más equipos, revisa cobertura y cableado. Una red estable cambia el día completo.",
   },
   {
-    title: "SEO local: que te encuentren en tu ciudad",
-    copy: "Nombre, servicios y ciudad en tu sitio + Google Business Profile = más clientes que buscan cerca de ti.",
+    title: "Mantenimiento preventivo ahorra emergencias",
+    copy: "Limpiar, actualizar y respaldar a tiempo cuesta menos que detener la operación por una falla.",
   },
   {
-    title: "Un sitio lento se siente poco serio",
-    copy: "Si tarda en cargar, el cliente duda de tu negocio. Velocidad también es imagen de marca.",
+    title: "Impresoras mal configuradas queman horas",
+    copy: "Instalación correcta en red evita “no imprime” cada semana. Un setup bien hecho dura.",
   },
   {
-    title: "No copies una plantilla genérica",
-    copy: "Tu marca debe verse tuya: colores, tipografía y fotos propias. Lo genérico se olvida al instante.",
+    title: "Tu marca también vive en línea",
+    copy: "Un sitio claro con tus servicios y WhatsApp genera confianza antes del primer mensaje.",
   },
   {
-    title: "Explica qué haces en una frase",
-    copy: "En el hero: qué ofreces, para quién y en qué ciudad. Si eso no está claro, el resto del sitio tampoco ayuda.",
+    title: "No esperes a que falle lo crítico",
+    copy: "Respaldos y soporte IT empresarial existen para que un disco dañado no borre tu negocio.",
   },
   {
-    title: "Cada servicio importante merece su página",
-    copy: "Así te encuentran cuando buscan el problema (“implantes”, “cambio de dólares”), no solo tu nombre.",
+    title: "El cableado ordenado evita dolores futuros",
+    copy: "Redes improvisadas fallan en el peor momento. Infraestructura limpia = menos caídas.",
   },
   {
-    title: "Facilita el siguiente paso",
-    copy: "Horarios, ubicación, WhatsApp y “cómo agendar” visibles. Menos fricción = más contactos calificados.",
+    title: "Atiende ambos lados de la frontera",
+    copy: "Si tus clientes están en Nuevo Laredo y Laredo, tu tecnología y tu presencia digital deben llegar a ambos.",
   },
   {
-    title: "Tu sitio también ordena la operación",
-    copy: "Un panel simple para leads o citas evita que se pierdan mensajes entre Excel y chats sueltos.",
+    title: "Soporte remoto resuelve más de lo que crees",
+    copy: "Muchas fallas se arreglan sin visita. Lo importante es diagnóstico rápido y comunicación clara.",
   },
   {
-    title: "Habla como tu cliente",
-    copy: "Menos jerga técnica. Más beneficios, tiempos y qué pasa después de contactarte.",
+    title: "La tecnología debe adaptarse a ti",
+    copy: "No compres por moda. Compra (o desarrolla) lo que tu casa o empresa realmente necesita.",
   },
   {
-    title: "La confianza se diseña",
-    copy: "HTTPS, aviso de privacidad y formularios claros importan — sobre todo en salud, finanzas y datos personales.",
+    title: "Un panel interno ordena el caos",
+    copy: "Si recepción o ventas viven en Excel y chats, un sistema simple reduce errores y tiempos.",
   },
   {
-    title: "Mide lo que paga el sitio",
-    copy: "No solo visitas: cuenta mensajes, formularios y citas. Eso dice si tu página está trabajando.",
+    title: "CCTV visible también disuade",
+    copy: "Además de grabar, una instalación profesional comunica que tu espacio está cuidado.",
   },
   {
-    title: "Actualiza lo que cambia",
-    copy: "Precios, horarios y servicios desactualizados queman confianza. Un sitio vivo vende más que uno abandonado.",
+    title: "Actualiza equipos antes de que te frenen",
+    copy: "Una laptop antigua puede costarte más en tiempo perdido que invertir en una solución adecuada.",
   },
   {
-    title: "Antes/después y casos reales venden",
-    copy: "En consultorios, talleres o academias, la evidencia visual acorta la decisión de escribirte.",
+    title: "Documenta accesos y contraseñas con orden",
+    copy: "Redes, DVR y cuentas del negocio no pueden vivir en un papel suelto. Organización es seguridad.",
   },
   {
-    title: "Presencia bilingüe en la frontera",
-    copy: "Si atiendes Nuevo Laredo y Laredo, un sitio en español (y más idiomas si hace falta) abre más puertas.",
+    title: "El sitio web trabaja cuando tú no",
+    copy: "Horarios, servicios y contacto visibles 24/7. Ideal para captar mientras atiendes otra cosa.",
   },
   {
-    title: "No escondas cómo contactarte",
-    copy: "El botón de WhatsApp y el teléfono deben verse sin buscar. El cliente impaciente se va con el de al lado.",
+    title: "Soporte IT no es lujo: es continuidad",
+    copy: "Empresas que miden uptime entienden que un técnico de confianza es parte del equipo.",
   },
   {
-    title: "Tu competencia ya está en Google",
-    copy: "Si no tienes sitio, alguien más aparece cuando buscan tu giro. Estar online ya no es opcional.",
+    title: "Elige un proveedor que explique",
+    copy: "Si no entiendes qué te instalaron, dependes de alguien más. ATRIX te deja claridad, no misterio.",
   },
   {
-    title: "Empieza sólido, luego escala",
-    copy: "Primero marca, contacto y servicios claros. Después panel, citas o tienda. ATRIX construye para crecer.",
+    title: "Empieza por lo que más duele hoy",
+    copy: "¿Red? ¿Cámaras? ¿PC? ¿Página web? Prioriza el cuello de botella y escala con plan.",
   },
   {
-    title: "Las redes no reemplazan tu sitio",
-    copy: "Facebook e Instagram cambian reglas y algoritmos. Tu dominio es el lugar que controlas tú.",
+    title: "Monitorea tu negocio desde el celular",
+    copy: "Cámaras y sistemas accesibles en móvil te dan control real, no solo “estar instalados”.",
   },
   {
-    title: "Responde dudas antes de que pregunten",
-    copy: "FAQ, tiempos de atención y qué incluye el servicio bajan mensajes repetidos y suben conversiones.",
+    title: "Una red doméstica también merece diseño",
+    copy: "Home office, streaming y cámaras compiten por ancho de banda. Se configura, no se improvisa.",
   },
   {
-    title: "La primera impresión es el hero",
-    copy: "Logo, promesa y llamado a acción. Si el inicio confunde, casi nadie llega al final de la página.",
+    title: "Software a la medida cuando lo genérico no alcanza",
+    copy: "Si tu operación no cabe en una app genérica, un sistema propio puede ser la ventaja.",
   },
   {
-    title: "Invierte donde te ven todos los días",
-    copy: "Un buen sitio trabaja de noche, en fin de semana y cuando tú estás ocupado atendiendo.",
+    title: "La primera impresión también es técnica",
+    copy: "Equipo lento o WiFi caído frente al cliente afecta tu imagen tanto como un local descuidado.",
   },
   {
-    title: "Coherencia visual = marca fuerte",
-    copy: "Mismos colores, tipografía y tono en web, WhatsApp y redes. Así te reconocen al instante.",
+    title: "Agenda soporte antes de temporada alta",
+    copy: "En fechas fuertes, todos necesitan ayuda. Adelántate: revisa equipos y redes con tiempo.",
   },
   {
-    title: "Captura el lead, no lo dejes en el chat",
-    copy: "Guardar nombre, teléfono e interés en un panel evita olvidar prospectos en la conversación del día.",
+    title: "Integrar es más poderoso que acumular gadgets",
+    copy: "Cámaras, red, PCs y web deben hablar el mismo idioma operativo: el de tu negocio.",
   },
   {
-    title: "Piensa en el cliente nuevo, no en ti",
-    copy: "Él no conoce tu negocio. Guiarlo con claridad es más valioso que lucir “moderno” sin mensaje.",
+    title: "Pide evidencia de trabajo",
+    copy: "Pruebas de grabación, cobertura WiFi o sitio en producción. Lo bien hecho se demuestra.",
   },
   {
-    title: "Un dominio propio transmite seriedad",
-    copy: "tunegocio.com genera más confianza que un link de redes o una bio temporal.",
+    title: "Tu número de WhatsApp merece respaldo digital",
+    copy: "Un sitio o ficha clara lleva gente calificada al chat — no solo curiosos sin contexto.",
   },
   {
-    title: "Revisa tu sitio como cliente",
-    copy: "Entra desde el celular, busca el WhatsApp y prueba el formulario. Si te cuesta a ti, al cliente también.",
+    title: "Optimizar es más barato que reemplazar siempre",
+    copy: "A veces una limpieza, SSD o reconfiguración alarga la vida útil sin comprar todo nuevo.",
   },
   {
-    title: "El diseño debe vender, no solo decorar",
-    copy: "Bonito sin conversión es un folleto caro. Bonito + claro + contacto fácil es un sistema que trae clientes.",
+    title: "Tecnología con compromiso local",
+    copy: "En la frontera necesitas alguien que responda cerca. ATRIX está en Nuevo Laredo y Laredo, TX.",
   },
 ];
 

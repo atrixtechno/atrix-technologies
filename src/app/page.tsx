@@ -1,24 +1,28 @@
 import type { Metadata } from "next";
 import { Header } from "@/components/Header";
 import { Hero } from "@/components/Hero";
+import { Services } from "@/components/Services";
+import { Coverage } from "@/components/Coverage";
 import { Benefits } from "@/components/Benefits";
-import { BusinessGuide, DeveloperGuide } from "@/components/Guides";
+import { AudienceGuides } from "@/components/Guides";
 import { ProjectsTeaser } from "@/components/ProjectsTeaser";
 import { Contact } from "@/components/Contact";
 import { Footer } from "@/components/Footer";
 import { site } from "@/content/site";
+import { services } from "@/content/services";
 
 export const metadata: Metadata = {
-  title: `${site.legalName} · Software a la medida en ${site.city}`,
+  title: `${site.legalName} · Tecnología para hogares y empresas`,
   description: site.description,
   alternates: { canonical: "/" },
   keywords: [
     "ATRIX Technologies",
-    "desarrollo web Nuevo Laredo",
-    "software a la medida",
-    "páginas web frontera",
-    "paneles administrativos",
-    "SEO local",
+    "soporte técnico Nuevo Laredo",
+    "CCTV Laredo",
+    "redes e infraestructura",
+    "desarrollo de software frontera",
+    "soporte IT empresarial",
+    "cámaras de seguridad Nuevo Laredo",
   ],
   openGraph: {
     title: `${site.legalName} · ${site.tagline}`,
@@ -46,11 +50,11 @@ export default function HomePage() {
         },
         contactPoint: {
           "@type": "ContactPoint",
-          contactType: "sales",
+          contactType: "customer service",
           telephone: "+52-867-179-3155",
           availableLanguage: ["es", "en"],
+          areaServed: ["Nuevo Laredo", "Laredo"],
         },
-        sameAs: ["https://dentalmate.mx", "https://www.tecoseliteacademy.com"],
       },
       {
         "@type": "WebSite",
@@ -62,17 +66,29 @@ export default function HomePage() {
         inLanguage: "es-MX",
       },
       {
-        "@type": "ProfessionalService",
+        "@type": "LocalBusiness",
+        "@id": `${site.url}/#localbusiness`,
         name: site.legalName,
-        image: `${site.url}/brand/atrix-logo.png`,
+        image: `${site.url}/brand/atrix-services-banner.png`,
         url: site.url,
-        areaServed: ["Nuevo Laredo", "Laredo", "Tamaulipas", "Texas border"],
-        serviceType: [
-          "Diseño web",
-          "Desarrollo de software",
-          "Paneles administrativos",
-          "SEO",
+        telephone: "+52-867-179-3155",
+        priceRange: "$$",
+        areaServed: [
+          { "@type": "City", name: "Nuevo Laredo" },
+          { "@type": "City", name: "Laredo" },
         ],
+        hasOfferCatalog: {
+          "@type": "OfferCatalog",
+          name: "Servicios ATRIX",
+          itemListElement: services.map((s) => ({
+            "@type": "Offer",
+            itemOffered: {
+              "@type": "Service",
+              name: s.title,
+              description: s.copy,
+            },
+          })),
+        },
       },
     ],
   };
@@ -86,9 +102,10 @@ export default function HomePage() {
       <Header />
       <main>
         <Hero />
+        <Services />
+        <Coverage />
         <Benefits />
-        <BusinessGuide />
-        <DeveloperGuide />
+        <AudienceGuides />
         <ProjectsTeaser />
         <Contact />
       </main>

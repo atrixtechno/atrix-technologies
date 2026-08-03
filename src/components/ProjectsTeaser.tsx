@@ -3,26 +3,26 @@ import { projects } from "@/content/projects";
 
 export function ProjectsTeaser() {
   return (
-    <section id="proyectos" className="scroll-mt-10 border-t border-line py-24 md:py-28">
+    <section id="software" className="scroll-mt-10 border-t border-line py-24 md:py-28">
       <div className="mx-auto max-w-6xl px-5 md:px-8">
         <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <div>
             <p className="text-xs font-semibold tracking-[0.28em] text-accent uppercase">
-              Proyectos
+              Desarrollo de software
             </p>
             <h2 className="font-display mt-4 max-w-xl text-3xl font-bold tracking-tight md:text-5xl">
-              Trabajo real para negocios reales
+              Casos de sistemas y plataformas
             </h2>
             <p className="mt-4 max-w-xl text-muted">
-              Cada caso resuelve presencia, operación o ambas. Entra al portafolio
-              completo para ver el detalle técnico y de negocio.
+              Además del soporte e infraestructura, construimos sitios, paneles y
+              apps a la medida. Estos son algunos casos.
             </p>
           </div>
           <Link
             href="/proyectos"
             className="inline-flex rounded-full bg-accent px-6 py-3 text-sm font-semibold text-accent-ink transition hover:bg-white"
           >
-            Ver todos los proyectos
+            Ver portafolio de software
           </Link>
         </div>
 

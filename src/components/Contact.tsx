@@ -1,7 +1,7 @@
 "use client";
 
 import { FormEvent, useState } from "react";
-import { whatsappUrl } from "@/content/site";
+import { site, whatsappUrl } from "@/content/site";
 
 type Status = "idle" | "loading" | "ok" | "error";
 
@@ -36,21 +36,21 @@ export function Contact() {
             Contacto
           </p>
           <h2 className="font-display mt-4 text-3xl font-bold tracking-tight md:text-5xl">
-            Construyamos tu siguiente sistema
+            ¿Listo para cotizar?
           </h2>
           <p className="mt-4 max-w-md leading-relaxed text-muted">
-            Cuéntame qué necesitas. Te respondo por WhatsApp para agendar una plática
-            sin compromiso.
+            Soporte técnico, CCTV, redes, impresoras, software o IT empresarial.
+            Escríbenos y te orientamos sin compromiso.
           </p>
           <a
-            href={whatsappUrl()}
+            href={whatsappUrl("Hola ATRIX, quiero cotizar un servicio.")}
             target="_blank"
             rel="noopener noreferrer"
             className="mt-8 inline-flex rounded-full bg-accent px-6 py-3.5 font-semibold text-accent-ink shadow-[0_0_36px_rgba(46,230,214,0.3)] transition hover:bg-white"
           >
-            Abrir WhatsApp
+            WhatsApp · {site.phoneDisplay}
           </a>
-          <p className="mt-4 text-sm tracking-wide text-muted">+52 867 179 3155</p>
+          <p className="mt-4 text-sm text-muted">{site.coverage}</p>
         </div>
 
         <form onSubmit={onSubmit} className="space-y-5">
@@ -73,9 +73,12 @@ export function Contact() {
             />
           </label>
           <label className="block">
-            <span className="text-xs tracking-[0.16em] text-muted uppercase">Negocio</span>
+            <span className="text-xs tracking-[0.16em] text-muted uppercase">
+              Servicio de interés
+            </span>
             <input
               name="business"
+              placeholder="Ej. CCTV, redes, soporte, sitio web…"
               className="mt-2 w-full border border-line bg-bg-elevated px-4 py-3.5 text-fg outline-none transition focus:border-accent"
             />
           </label>
@@ -96,11 +99,11 @@ export function Contact() {
             {status === "loading" ? "Enviando…" : "Enviar mensaje"}
           </button>
           {status === "ok" && (
-            <p className="text-sm text-accent">Listo. Te contacto pronto.</p>
+            <p className="text-sm text-accent">Listo. Te contactamos pronto.</p>
           )}
           {status === "error" && (
             <p className="text-sm text-red-400">
-              No se pudo enviar. Escríbeme por WhatsApp, por favor.
+              No se pudo enviar. Escríbenos por WhatsApp, por favor.
             </p>
           )}
         </form>
