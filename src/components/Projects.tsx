@@ -3,40 +3,38 @@ import { projects } from "@/content/projects";
 
 export function Projects() {
   return (
-    <section id="proyectos" className="scroll-mt-8 border-t border-line py-24 md:py-28">
-      <div className="mx-auto max-w-6xl px-6 md:px-8">
-        <p className="text-xs font-semibold tracking-[0.2em] text-accent-deep uppercase">
+    <section id="proyectos" className="scroll-mt-10 border-t border-line py-24 md:py-32">
+      <div className="mx-auto max-w-6xl px-5 md:px-8">
+        <p className="text-xs font-semibold tracking-[0.28em] text-accent uppercase">
           Proyectos
         </p>
-        <h2 className="font-display mt-3 max-w-2xl text-3xl font-semibold tracking-tight md:text-5xl">
-          Trabajo real para negocios reales
+        <h2 className="font-display mt-4 max-w-2xl text-3xl font-bold tracking-tight md:text-5xl">
+          Sistemas que ya operan en la frontera
         </h2>
-        <p className="mt-4 max-w-2xl text-muted">
-          Cada proyecto resuelve una necesidad concreta: presencia en línea, operación
-          interna o ambas.
+        <p className="mt-4 max-w-xl text-muted">
+          Casos reales: clínicas, casas de cambio, academias y clubes con software a su medida.
         </p>
 
-        <ul className="mt-12 space-y-4">
+        <ul className="mt-14 divide-y divide-line border-y border-line">
           {projects.map((project, index) => (
             <li key={project.slug}>
               <Link
                 href={`/proyectos/${project.slug}`}
-                className="group block rounded-[1.35rem] border border-line bg-white p-6 shadow-[0_14px_40px_rgba(11,40,45,0.05)] transition hover:border-accent/35 hover:shadow-[0_18px_50px_rgba(0,181,173,0.12)] md:p-8"
+                className="group grid gap-3 py-8 transition-colors md:grid-cols-[5rem_1fr_auto] md:items-baseline md:gap-10"
               >
-                <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between md:gap-8">
-                  <div className="min-w-0">
-                    <p className="text-[11px] font-semibold tracking-[0.16em] text-accent-deep uppercase">
-                      {String(index + 1).padStart(2, "0")} · {project.sector}
-                    </p>
-                    <h3 className="font-display mt-2 text-2xl font-semibold tracking-tight transition-colors group-hover:text-accent-deep md:text-3xl">
-                      {project.name}
-                    </h3>
-                    <p className="mt-3 max-w-2xl text-muted">{project.summary}</p>
-                  </div>
-                  <span className="shrink-0 text-sm font-semibold text-accent-deep opacity-0 transition-opacity group-hover:opacity-100 md:pt-8">
-                    Ver caso →
-                  </span>
+                <span className="font-display text-sm tracking-[0.2em] text-accent/70 tabular-nums">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+                <div>
+                  <h3 className="font-display text-2xl font-bold tracking-tight transition-colors group-hover:text-accent md:text-3xl">
+                    {project.name}
+                  </h3>
+                  <p className="mt-1 text-sm text-muted">{project.sector}</p>
+                  <p className="mt-3 max-w-2xl text-fg/75">{project.summary}</p>
                 </div>
+                <span className="text-sm font-medium text-accent opacity-0 transition-opacity group-hover:opacity-100 md:justify-self-end">
+                  Ver caso →
+                </span>
               </Link>
             </li>
           ))}

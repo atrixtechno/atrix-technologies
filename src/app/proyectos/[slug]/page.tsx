@@ -31,17 +31,17 @@ export default async function ProjectPage({ params }: Props) {
     <>
       <Header />
       <main className="atmosphere min-h-screen pt-28">
-        <article className="mx-auto max-w-3xl px-6 pb-24 md:px-8">
+        <article className="mx-auto max-w-3xl px-5 pb-24 md:px-8">
           <Link
             href="/#proyectos"
-            className="text-sm text-muted transition-colors hover:text-fg"
+            className="text-sm text-muted transition-colors hover:text-accent"
           >
             ← Proyectos
           </Link>
-          <p className="mt-10 text-xs font-semibold tracking-[0.2em] text-accent-deep uppercase">
+          <p className="mt-10 text-xs font-semibold tracking-[0.28em] text-accent uppercase">
             {project.sector}
           </p>
-          <h1 className="font-display mt-3 text-4xl font-semibold tracking-tight md:text-6xl">
+          <h1 className="font-display mt-4 text-4xl font-extrabold tracking-tight md:text-6xl">
             {project.name}
           </h1>
           <p className="mt-6 text-lg leading-relaxed text-fg/85">{project.summary}</p>
@@ -50,7 +50,7 @@ export default async function ProjectPage({ params }: Props) {
           <ul className="mt-12 space-y-4 border-t border-line pt-10">
             {project.highlights.map((item) => (
               <li key={item} className="flex gap-3 text-fg/90">
-                <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />
+                <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-accent shadow-[0_0_12px_rgba(46,230,214,0.8)]" />
                 {item}
               </li>
             ))}
@@ -64,7 +64,7 @@ export default async function ProjectPage({ params }: Props) {
                 href={project.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="rounded-full border border-fg/15 bg-white px-5 py-3 text-sm font-medium transition-colors hover:border-accent/40 hover:text-accent-deep"
+                className="rounded-full border border-line px-5 py-3 text-sm transition hover:border-accent/50 hover:text-accent"
               >
                 Ver sitio en vivo
               </a>
@@ -75,7 +75,7 @@ export default async function ProjectPage({ params }: Props) {
               )}
               target="_blank"
               rel="noopener noreferrer"
-              className="rounded-full bg-[#25D366] px-5 py-3 text-sm font-semibold text-white shadow-[0_12px_28px_rgba(37,211,102,0.28)] transition hover:bg-[#1ebe57]"
+              className="rounded-full bg-accent px-5 py-3 text-sm font-semibold text-accent-ink shadow-[0_0_28px_rgba(46,230,214,0.3)] transition hover:bg-white"
             >
               Quiero algo así
             </a>

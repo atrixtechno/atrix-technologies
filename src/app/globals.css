@@ -1,31 +1,28 @@
 @import "tailwindcss";
 
 :root {
-  --bg: #eef7f7;
-  --bg-elevated: #ffffff;
-  --bg-ink: #04252a;
-  --fg: #0b282d;
-  --muted: #5a7176;
-  --accent: #00b5ad;
-  --accent-deep: #008f89;
-  --accent-soft: #c8efec;
-  --accent-ink: #ffffff;
-  --line: rgba(11, 40, 45, 0.1);
-  --glow: rgba(0, 181, 173, 0.22);
+  --bg: #030912;
+  --bg-elevated: #0a1522;
+  --fg: #f2fffc;
+  --muted: #8aa4b0;
+  --accent: #2ee6d6;
+  --accent-deep: #14b8a8;
+  --accent-ink: #031018;
+  --signal: #5b8cff;
+  --line: rgba(242, 255, 252, 0.1);
 }
 
 @theme inline {
   --color-bg: var(--bg);
   --color-bg-elevated: var(--bg-elevated);
-  --color-bg-ink: var(--bg-ink);
   --color-fg: var(--fg);
   --color-muted: var(--muted);
   --color-accent: var(--accent);
   --color-accent-deep: var(--accent-deep);
-  --color-accent-soft: var(--accent-soft);
   --color-accent-ink: var(--accent-ink);
+  --color-signal: var(--signal);
   --color-line: var(--line);
-  --font-display: var(--font-sora);
+  --font-display: var(--font-syne);
   --font-sans: var(--font-sora);
 }
 
@@ -41,24 +38,55 @@ body {
 
 ::selection {
   background: var(--accent);
-  color: white;
+  color: var(--accent-ink);
 }
 
 .font-display {
-  font-family: var(--font-sora), system-ui, sans-serif;
+  font-family: var(--font-syne), system-ui, sans-serif;
 }
 
 .atmosphere {
   background:
-    radial-gradient(ellipse 70% 55% at 15% 0%, rgba(0, 181, 173, 0.28), transparent 55%),
-    radial-gradient(ellipse 50% 40% at 90% 10%, rgba(0, 143, 137, 0.18), transparent 50%),
-    var(--bg);
+    radial-gradient(ellipse 90% 70% at 70% -10%, rgba(46, 230, 214, 0.22), transparent 55%),
+    radial-gradient(ellipse 60% 50% at 0% 40%, rgba(91, 140, 255, 0.16), transparent 50%),
+    radial-gradient(ellipse 50% 40% at 100% 80%, rgba(20, 184, 168, 0.12), transparent 45%),
+    linear-gradient(180deg, #030912 0%, #071522 45%, #030912 100%);
+}
+
+.grid-tech {
+  background-image:
+    linear-gradient(to right, rgba(46, 230, 214, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(46, 230, 214, 0.05) 1px, transparent 1px);
+  background-size: 56px 56px;
+  mask-image: radial-gradient(ellipse 75% 65% at 55% 35%, black, transparent 75%);
+}
+
+.scanline {
+  background: linear-gradient(
+    105deg,
+    transparent 35%,
+    rgba(46, 230, 214, 0.08) 48%,
+    rgba(91, 140, 255, 0.08) 52%,
+    transparent 65%
+  );
+  background-size: 220% 100%;
+  animation: scan 9s ease-in-out infinite;
+}
+
+@keyframes scan {
+  0%,
+  100% {
+    background-position: 100% 0;
+  }
+  50% {
+    background-position: 0% 0;
+  }
 }
 
 @keyframes rise {
   from {
     opacity: 0;
-    transform: translateY(18px);
+    transform: translateY(22px);
   }
   to {
     opacity: 1;
@@ -69,37 +97,70 @@ body {
 @keyframes brand-in {
   from {
     opacity: 0;
-    letter-spacing: 0.28em;
-    transform: scale(0.98);
+    letter-spacing: 0.42em;
+    filter: blur(6px);
   }
   to {
     opacity: 1;
-    letter-spacing: 0.06em;
+    letter-spacing: 0.1em;
+    filter: blur(0);
+  }
+}
+
+@keyframes pulse-ring {
+  0%,
+  100% {
     transform: scale(1);
+    opacity: 0.45;
+  }
+  50% {
+    transform: scale(1.08);
+    opacity: 0.15;
+  }
+}
+
+@keyframes float-mark {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
   }
 }
 
 .animate-rise {
-  animation: rise 0.8s ease-out both;
+  animation: rise 0.85s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 .animate-rise-delay {
-  animation: rise 0.8s ease-out 0.15s both;
+  animation: rise 0.85s cubic-bezier(0.22, 1, 0.36, 1) 0.14s both;
 }
 
 .animate-rise-delay-2 {
-  animation: rise 0.8s ease-out 0.28s both;
+  animation: rise 0.85s cubic-bezier(0.22, 1, 0.36, 1) 0.26s both;
 }
 
 .animate-brand {
-  animation: brand-in 1.05s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: brand-in 1.15s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.animate-float {
+  animation: float-mark 5.5s ease-in-out infinite;
+}
+
+.animate-pulse-ring {
+  animation: pulse-ring 4.5s ease-in-out infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {
   .animate-rise,
   .animate-rise-delay,
   .animate-rise-delay-2,
-  .animate-brand {
+  .animate-brand,
+  .animate-float,
+  .animate-pulse-ring,
+  .scanline {
     animation: none;
   }
 }

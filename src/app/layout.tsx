@@ -1,12 +1,18 @@
 import type { Metadata } from "next";
-import { Sora } from "next/font/google";
+import { Sora, Syne } from "next/font/google";
 import { site } from "@/content/site";
 import "./globals.css";
+
+const syne = Syne({
+  variable: "--font-syne",
+  subsets: ["latin"],
+  weight: ["600", "700", "800"],
+});
 
 const sora = Sora({
   variable: "--font-sora",
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700", "800"],
+  weight: ["300", "400", "500", "600", "700"],
 });
 
 export const metadata: Metadata = {
@@ -16,6 +22,9 @@ export const metadata: Metadata = {
     template: `%s · ${site.legalName}`,
   },
   description: site.description,
+  icons: {
+    icon: "/icon.svg",
+  },
   openGraph: {
     title: site.legalName,
     description: site.description,
@@ -32,7 +41,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="es" className={`${sora.variable} h-full`}>
+    <html lang="es" className={`${syne.variable} ${sora.variable} h-full`}>
       <body className="min-h-full antialiased">{children}</body>
     </html>
   );
