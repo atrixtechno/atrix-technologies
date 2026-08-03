@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
 import { Header } from "@/components/Header";
 import { Hero } from "@/components/Hero";
-import { DailyTip } from "@/components/DailyTip";
 import { Benefits } from "@/components/Benefits";
 import { BusinessGuide, DeveloperGuide } from "@/components/Guides";
 import { ProjectsTeaser } from "@/components/ProjectsTeaser";
 import { Contact } from "@/components/Contact";
 import { Footer } from "@/components/Footer";
 import { site } from "@/content/site";
+import { getDailyTip } from "@/content/tips";
 
 export const metadata: Metadata = {
   title: `${site.legalName} · Software a la medida en ${site.city}`,
@@ -29,6 +29,7 @@ export const metadata: Metadata = {
 };
 
 export default function HomePage() {
+  const tip = getDailyTip();
   const jsonLd = {
     "@context": "https://schema.org",
     "@graph": [
@@ -86,8 +87,7 @@ export default function HomePage() {
       />
       <Header />
       <main>
-        <Hero />
-        <DailyTip />
+        <Hero tip={tip} />
         <Benefits />
         <BusinessGuide />
         <DeveloperGuide />

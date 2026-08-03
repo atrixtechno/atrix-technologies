@@ -1,80 +1,132 @@
 export type DailyTip = {
   title: string;
   copy: string;
-  audience: "negocios" | "general" | "equipos";
 };
 
-/** Un consejo por día del año (ciclo continuo). */
+/**
+ * Consejos orientados a negocios que quieren (o deben) tener sitio web.
+ * Se muestra 1 por día en el hero (ciclo continuo por día del año).
+ */
 export const dailyTips: DailyTip[] = [
   {
-    title: "Tu WhatsApp no es tu sitio web",
-    copy: "El chat cierra ventas; tu sitio construye confianza las 24 horas. Separar ambos multiplica resultados.",
-    audience: "negocios",
+    title: "Tu negocio necesita más que un WhatsApp",
+    copy: "El chat cierra ventas; un sitio web construye confianza las 24 horas y te hace ver profesional antes del primer mensaje.",
   },
   {
-    title: "Una sola acción clara",
-    copy: "Cada página debe empujar a una acción: WhatsApp, cita o formulario. Si hay cinco CTAs, no hay ninguno.",
-    audience: "negocios",
+    title: "Una sola acción en tu página",
+    copy: "WhatsApp, cita o formulario: elige una. Si pides cinco cosas a la vez, el cliente no hace ninguna.",
   },
   {
-    title: "Móvil primero, siempre",
-    copy: "La mayoría de tus clientes llegan desde el celular. Si no se lee bien en 5 segundos, pierdes la visita.",
-    audience: "general",
+    title: "Diseña primero para celular",
+    copy: "La mayoría te encuentra desde el teléfono. Si tu sitio no se entiende en 5 segundos en móvil, pierdes la visita.",
   },
   {
-    title: "Muestra prueba real",
-    copy: "Fotos del local, resultados, opiniones y ubicación pesan más que frases genéricas de “calidad”.",
-    audience: "negocios",
+    title: "Muestra prueba real, no frases vacías",
+    copy: "Fotos del local, resultados, opiniones y mapa convencen más que decir “somos los mejores”.",
   },
   {
-    title: "SEO local no es opcional",
-    copy: "Nombre de ciudad, servicios y Google Business Profile alineados con tu sitio = más citas orgánicas.",
-    audience: "negocios",
+    title: "SEO local: que te encuentren en tu ciudad",
+    copy: "Nombre, servicios y ciudad en tu sitio + Google Business Profile = más clientes que buscan cerca de ti.",
   },
   {
-    title: "Velocidad es conversión",
-    copy: "Un sitio lento se siente poco profesional. Optimiza imágenes, fuentes y scripts antes de sumar animaciones.",
-    audience: "equipos",
+    title: "Un sitio lento se siente poco serio",
+    copy: "Si tarda en cargar, el cliente duda de tu negocio. Velocidad también es imagen de marca.",
   },
   {
-    title: "Panel interno = menos caos",
-    copy: "Si recepción o ventas viven en Excel y chats, un panel simple reduce errores y tiempos de respuesta.",
-    audience: "negocios",
+    title: "No copies una plantilla genérica",
+    copy: "Tu marca debe verse tuya: colores, tipografía y fotos propias. Lo genérico se olvida al instante.",
   },
   {
-    title: "Habla el idioma del cliente",
-    copy: "Menos jerga técnica o clínica. Más beneficios, tiempos y siguiente paso claro.",
-    audience: "general",
+    title: "Explica qué haces en una frase",
+    copy: "En el hero: qué ofreces, para quién y en qué ciudad. Si eso no está claro, el resto del sitio tampoco ayuda.",
   },
   {
-    title: "Marca antes que plantilla",
-    copy: "Una plantilla genérica se olvida. Tipografía, color y foto propios hacen que te recuerden.",
-    audience: "negocios",
+    title: "Cada servicio importante merece su página",
+    copy: "Así te encuentran cuando buscan el problema (“implantes”, “cambio de dólares”), no solo tu nombre.",
   },
   {
-    title: "Mide una métrica útil",
-    copy: "No mires solo visitas. Mira mensajes, formularios o citas. Eso es lo que paga el sitio.",
-    audience: "equipos",
+    title: "Facilita el siguiente paso",
+    copy: "Horarios, ubicación, WhatsApp y “cómo agendar” visibles. Menos fricción = más contactos calificados.",
   },
   {
-    title: "Contenido que responde dudas",
-    copy: "FAQ, precios orientativos y “cómo agendar” bajan la fricción y aumentan contactos calificados.",
-    audience: "negocios",
+    title: "Tu sitio también ordena la operación",
+    copy: "Un panel simple para leads o citas evita que se pierdan mensajes entre Excel y chats sueltos.",
   },
   {
-    title: "Seguridad básica visible",
-    copy: "HTTPS, aviso de privacidad y formularios serios generan confianza — especialmente en salud y finanzas.",
-    audience: "general",
+    title: "Habla como tu cliente",
+    copy: "Menos jerga técnica. Más beneficios, tiempos y qué pasa después de contactarte.",
   },
   {
-    title: "Automatiza lo repetitivo",
-    copy: "Confirmaciones, recordatorios y leads al panel liberan horas cada semana a tu equipo.",
-    audience: "equipos",
+    title: "La confianza se diseña",
+    copy: "HTTPS, aviso de privacidad y formularios claros importan — sobre todo en salud, finanzas y datos personales.",
   },
   {
-    title: "Diseña para escanear",
-    copy: "Títulos cortos, bloques claros, contraste alto. La gente no lee: escanea y decide.",
-    audience: "general",
+    title: "Mide lo que paga el sitio",
+    copy: "No solo visitas: cuenta mensajes, formularios y citas. Eso dice si tu página está trabajando.",
+  },
+  {
+    title: "Actualiza lo que cambia",
+    copy: "Precios, horarios y servicios desactualizados queman confianza. Un sitio vivo vende más que uno abandonado.",
+  },
+  {
+    title: "Antes/después y casos reales venden",
+    copy: "En consultorios, talleres o academias, la evidencia visual acorta la decisión de escribirte.",
+  },
+  {
+    title: "Presencia bilingüe en la frontera",
+    copy: "Si atiendes Nuevo Laredo y Laredo, un sitio en español (y más idiomas si hace falta) abre más puertas.",
+  },
+  {
+    title: "No escondas cómo contactarte",
+    copy: "El botón de WhatsApp y el teléfono deben verse sin buscar. El cliente impaciente se va con el de al lado.",
+  },
+  {
+    title: "Tu competencia ya está en Google",
+    copy: "Si no tienes sitio, alguien más aparece cuando buscan tu giro. Estar online ya no es opcional.",
+  },
+  {
+    title: "Empieza sólido, luego escala",
+    copy: "Primero marca, contacto y servicios claros. Después panel, citas o tienda. ATRIX construye para crecer.",
+  },
+  {
+    title: "Las redes no reemplazan tu sitio",
+    copy: "Facebook e Instagram cambian reglas y algoritmos. Tu dominio es el lugar que controlas tú.",
+  },
+  {
+    title: "Responde dudas antes de que pregunten",
+    copy: "FAQ, tiempos de atención y qué incluye el servicio bajan mensajes repetidos y suben conversiones.",
+  },
+  {
+    title: "La primera impresión es el hero",
+    copy: "Logo, promesa y llamado a acción. Si el inicio confunde, casi nadie llega al final de la página.",
+  },
+  {
+    title: "Invierte donde te ven todos los días",
+    copy: "Un buen sitio trabaja de noche, en fin de semana y cuando tú estás ocupado atendiendo.",
+  },
+  {
+    title: "Coherencia visual = marca fuerte",
+    copy: "Mismos colores, tipografía y tono en web, WhatsApp y redes. Así te reconocen al instante.",
+  },
+  {
+    title: "Captura el lead, no lo dejes en el chat",
+    copy: "Guardar nombre, teléfono e interés en un panel evita olvidar prospectos en la conversación del día.",
+  },
+  {
+    title: "Piensa en el cliente nuevo, no en ti",
+    copy: "Él no conoce tu negocio. Guiarlo con claridad es más valioso que lucir “moderno” sin mensaje.",
+  },
+  {
+    title: "Un dominio propio transmite seriedad",
+    copy: "tunegocio.com genera más confianza que un link de redes o una bio temporal.",
+  },
+  {
+    title: "Revisa tu sitio como cliente",
+    copy: "Entra desde el celular, busca el WhatsApp y prueba el formulario. Si te cuesta a ti, al cliente también.",
+  },
+  {
+    title: "El diseño debe vender, no solo decorar",
+    copy: "Bonito sin conversión es un folleto caro. Bonito + claro + contacto fácil es un sistema que trae clientes.",
   },
 ];
 
