@@ -1,19 +1,19 @@
 import type { Metadata } from "next";
-import { Sora, Syne } from "next/font/google";
+import { Sora, Space_Grotesk } from "next/font/google";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { site } from "@/content/site";
 import "./globals.css";
 
-const syne = Syne({
+const spaceGrotesk = Space_Grotesk({
   variable: "--font-syne",
   subsets: ["latin"],
-  weight: ["600", "700", "800"],
+  weight: ["500", "600", "700"],
 });
 
 const sora = Sora({
   variable: "--font-sora",
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
+  weight: ["400", "500", "600", "700"],
 });
 
 export const metadata: Metadata = {
@@ -90,7 +90,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="es" className={`${syne.variable} ${sora.variable} h-full`} suppressHydrationWarning>
+    <html lang="es" className={`${spaceGrotesk.variable} ${sora.variable} h-full`} suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
       </head>

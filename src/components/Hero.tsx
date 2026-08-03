@@ -24,7 +24,7 @@ export function Hero() {
       <video
         ref={videoRef}
         className={`absolute inset-0 h-full w-full object-cover transition duration-300 ${
-          isLight ? "opacity-30 saturate-75" : "opacity-100"
+          isLight ? "opacity-28 saturate-75" : "opacity-100"
         }`}
         autoPlay
         muted
@@ -39,62 +39,64 @@ export function Hero() {
 
       <div className="hero-overlay absolute inset-0" />
       <div className="hero-glow absolute inset-0" />
-      <div className="grid-tech pointer-events-none absolute inset-0 opacity-35" />
+      <div className="grid-tech pointer-events-none absolute inset-0 opacity-30" />
 
-      <div className="relative mx-auto grid min-h-[78svh] max-w-6xl items-center gap-8 px-5 pb-12 pt-28 md:grid-cols-[0.9fr_1.1fr] md:gap-12 md:px-8 md:pb-16 md:pt-28 lg:gap-16">
-        {/* Logo izquierda */}
-        <div className="animate-fade-scale relative mx-auto flex w-full max-w-[240px] items-center justify-center md:mx-0 md:max-w-none">
-          <div className="pointer-events-none absolute inset-0 -m-6 rounded-full bg-[radial-gradient(circle,rgba(26,76,255,0.14),transparent_70%)] blur-2xl" />
+      <div className="relative mx-auto grid min-h-[78svh] max-w-6xl items-center gap-8 px-5 pb-12 pt-28 md:grid-cols-[1.05fr_1fr] md:gap-10 md:px-8 md:pb-16 md:pt-28 lg:gap-14">
+        {/* Logo izquierda — más grande */}
+        <div className="animate-fade-scale relative mx-auto flex w-full max-w-[300px] items-center justify-center md:mx-0 md:max-w-none">
+          <div className="pointer-events-none absolute inset-0 -m-8 rounded-full bg-[radial-gradient(circle,rgba(26,76,255,0.16),transparent_70%)] blur-2xl" />
           <Logo
             variant={isLight ? "full-light" : "full"}
-            size={320}
+            size={420}
             priority
-            className="relative w-full max-w-[220px] md:max-w-[280px] lg:max-w-[300px]"
+            className="relative w-full max-w-[280px] sm:max-w-[320px] md:max-w-[380px] lg:max-w-[420px]"
           />
         </div>
 
-        {/* Contenido derecha */}
+        {/* Contenido derecha — tipografía más clara */}
         <div className="animate-rise-delay text-center md:text-left">
-          <p className="text-[11px] font-semibold tracking-[0.28em] text-accent uppercase">
+          <p className="text-xs font-semibold tracking-[0.16em] text-accent uppercase">
             {site.coverage}
           </p>
 
-          <h1 className="font-display mt-3 max-w-xl text-3xl font-extrabold tracking-tight text-fg md:text-4xl lg:text-[2.75rem] lg:leading-tight">
+          <h1 className="font-display mt-3 max-w-xl text-[1.85rem] font-semibold tracking-[-0.02em] text-fg md:text-[2.35rem] md:leading-[1.15] lg:text-[2.65rem]">
             {site.tagline}
           </h1>
 
-          <p className="mt-3 max-w-lg text-sm leading-relaxed text-muted md:text-base">
+          <p className="mt-4 max-w-lg text-[15px] leading-[1.65] text-muted md:text-base md:leading-[1.7]">
             Impulsamos tu negocio — y tu hogar — con tecnología confiable: soporte,
             CCTV, redes, software y más.
           </p>
 
           <aside
             id="consejo"
-            className="mt-5 scroll-mt-28 border-y px-4 py-3.5 backdrop-blur-sm md:px-5"
+            className="mt-5 scroll-mt-28 border-y px-4 py-4 backdrop-blur-sm md:px-5"
             style={{
               background: "var(--tip-bg)",
               borderColor: "var(--tip-border)",
             }}
             aria-labelledby="daily-tip-title"
           >
-            <p className="text-[10px] font-semibold tracking-[0.28em] text-accent uppercase">
+            <p className="text-[11px] font-semibold tracking-[0.14em] text-accent uppercase">
               Consejo del día
             </p>
             {tip ? (
               <>
-                <p className="mt-1 text-[11px] capitalize text-muted">{tip.label}</p>
+                <p className="mt-1.5 text-xs capitalize text-muted">{tip.label}</p>
                 <h2
                   id="daily-tip-title"
-                  className="font-display mt-1.5 text-base font-bold tracking-tight text-fg md:text-lg"
+                  className="font-display mt-2 text-lg font-semibold tracking-[-0.01em] text-fg md:text-xl"
                 >
                   {tip.title}
                 </h2>
-                <p className="mt-1.5 text-sm leading-relaxed text-muted">{tip.copy}</p>
+                <p className="mt-2 text-[15px] leading-[1.65] text-muted">
+                  {tip.copy}
+                </p>
               </>
             ) : (
               <div className="mt-2 space-y-2" aria-hidden>
-                <div className="h-3 w-36 rounded bg-line md:mx-0 mx-auto" />
-                <div className="h-4 w-full max-w-sm rounded bg-line md:mx-0 mx-auto" />
+                <div className="mx-auto h-3 w-36 rounded bg-line md:mx-0" />
+                <div className="mx-auto h-4 w-full max-w-sm rounded bg-line md:mx-0" />
               </div>
             )}
           </aside>
@@ -104,20 +106,22 @@ export function Hero() {
               href={whatsappUrl("Hola ATRIX, quiero cotizar un servicio.")}
               target="_blank"
               rel="noopener noreferrer"
-              className="rounded-full bg-accent px-6 py-3 text-sm font-semibold text-accent-ink shadow-[0_12px_32px_rgba(13,159,150,0.28)] transition hover:brightness-110"
+              className="rounded-full bg-accent px-6 py-3 text-[15px] font-semibold text-accent-ink shadow-[0_12px_32px_rgba(13,159,150,0.28)] transition hover:brightness-110"
             >
               Cotizar por WhatsApp
             </a>
             <a
               href="#servicios"
-              className="rounded-full border border-line bg-bg-elevated/70 px-6 py-3 text-sm text-fg backdrop-blur transition hover:border-accent/50 hover:text-accent"
+              className="rounded-full border border-line bg-bg-elevated/70 px-6 py-3 text-[15px] font-medium text-fg backdrop-blur transition hover:border-accent/50 hover:text-accent"
             >
               Ver servicios
             </a>
           </div>
 
-          <p className="mt-4 text-xs text-muted md:text-sm">
-            {site.phoneDisplay} · {site.motto}
+          <p className="mt-4 text-sm tracking-wide text-muted">
+            {site.phoneDisplay}
+            <span className="mx-2 text-line">·</span>
+            <span className="tracking-[0.12em] uppercase">{site.motto}</span>
           </p>
         </div>
       </div>
