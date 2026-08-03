@@ -102,7 +102,7 @@ export default function HomePage() {
       />
       <div className="relative">
         <PageDecor />
-        <Header solid hideBrand />
+        <Header solid />
         <main className="relative z-10">
           <Hero />
           <Services />
