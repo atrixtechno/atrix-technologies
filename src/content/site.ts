@@ -5,7 +5,7 @@ export const site = {
   tagline: "Software a la medida para negocios de la frontera",
   motto: "Tecnología · Innovación · Rendimiento",
   description:
-    "Diseñamos y construimos sitios, paneles y apps para negocios reales en Nuevo Laredo y la zona frontera.",
+    "ATRIX Technologies diseña y construye sitios web, paneles y apps a la medida para negocios en Nuevo Laredo y la zona frontera. SEO, conversión y operación digital.",
   whatsapp: process.env.NEXT_PUBLIC_WHATSAPP ?? "528671793155",
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://atrixnld.com",
 } as const;

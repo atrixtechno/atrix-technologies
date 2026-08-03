@@ -1,7 +1,7 @@
 import Image from "next/image";
 
 type LogoProps = {
-  variant?: "full" | "mark" | "full-light";
+  variant?: "full" | "mark" | "full-light" | "mark-light";
   className?: string;
   priority?: boolean;
   size?: number;
@@ -11,6 +11,7 @@ const assets = {
   full: { src: "/brand/atrix-logo-on-dark.png", w: 480, h: 480 },
   "full-light": { src: "/brand/atrix-logo.png", w: 480, h: 480 },
   mark: { src: "/brand/atrix-mark-on-dark.png", w: 160, h: 160 },
+  "mark-light": { src: "/brand/atrix-mark.png", w: 160, h: 160 },
 } as const;
 
 export function Logo({
@@ -20,9 +21,9 @@ export function Logo({
   size,
 }: LogoProps) {
   const asset = assets[variant];
-  const width = size ?? (variant === "mark" ? 40 : 280);
-  const height =
-    variant === "mark" ? width : Math.round((width * asset.h) / asset.w);
+  const isMark = variant === "mark" || variant === "mark-light";
+  const width = size ?? (isMark ? 40 : 280);
+  const height = isMark ? width : Math.round((width * asset.h) / asset.w);
 
   return (
     <Image
@@ -31,7 +32,7 @@ export function Logo({
       width={width}
       height={height}
       className={`h-auto w-auto object-contain ${className}`}
-      style={variant === "mark" ? { width, height } : { width, height: "auto" }}
+      style={isMark ? { width, height } : { width, height: "auto" }}
       priority={priority}
     />
   );

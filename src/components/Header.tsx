@@ -3,19 +3,32 @@ import { Logo } from "@/components/Logo";
 import { site, whatsappUrl } from "@/content/site";
 
 const links = [
-  { href: "/#proyectos", label: "Proyectos" },
-  { href: "/#proceso", label: "Proceso" },
-  { href: "/#servicios", label: "Servicios" },
+  { href: "/proyectos", label: "Proyectos" },
+  { href: "/#consejo", label: "Consejo" },
+  { href: "/#beneficios", label: "Beneficios" },
+  { href: "/#negocios", label: "Negocios" },
   { href: "/#contacto", label: "Contacto" },
 ];
 
-export function Header() {
+export function Header({
+  solid = false,
+  light = false,
+}: {
+  solid?: boolean;
+  light?: boolean;
+}) {
   return (
-    <header className="absolute inset-x-0 top-0 z-30">
+    <header
+      className={
+        solid
+          ? "sticky top-0 z-40 border-b border-line bg-bg/90 backdrop-blur-md"
+          : "absolute inset-x-0 top-0 z-30"
+      }
+    >
       <div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-4 md:px-8 md:py-5">
         <Link href="/" className="group flex items-center gap-3">
           <Logo
-            variant="mark"
+            variant={light ? "mark-light" : "mark"}
             size={42}
             className="transition-transform duration-300 group-hover:scale-105"
             priority
@@ -29,15 +42,15 @@ export function Header() {
             </span>
           </span>
         </Link>
-        <nav className="hidden items-center gap-8 md:flex">
+        <nav className="hidden items-center gap-7 lg:flex">
           {links.map((link) => (
-            <a
+            <Link
               key={link.href}
               href={link.href}
               className="text-sm text-muted transition-colors hover:text-accent"
             >
               {link.label}
-            </a>
+            </Link>
           ))}
           <a
             href={whatsappUrl()}
@@ -48,14 +61,22 @@ export function Header() {
             WhatsApp
           </a>
         </nav>
-        <a
-          href={whatsappUrl()}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="rounded-full bg-accent px-3.5 py-2 text-sm font-semibold text-accent-ink md:hidden"
-        >
-          WhatsApp
-        </a>
+        <div className="flex items-center gap-2 lg:hidden">
+          <Link
+            href="/proyectos"
+            className="rounded-full border border-line px-3 py-2 text-sm text-fg"
+          >
+            Proyectos
+          </Link>
+          <a
+            href={whatsappUrl()}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="rounded-full bg-accent px-3.5 py-2 text-sm font-semibold text-accent-ink"
+          >
+            WhatsApp
+          </a>
+        </div>
       </div>
     </header>
   );

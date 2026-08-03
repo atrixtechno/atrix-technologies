@@ -22,6 +22,23 @@ export const metadata: Metadata = {
     template: `%s · ${site.legalName}`,
   },
   description: site.description,
+  applicationName: site.legalName,
+  authors: [{ name: site.legalName, url: site.url }],
+  creator: site.legalName,
+  publisher: site.legalName,
+  category: "technology",
+  keywords: [
+    "ATRIX Technologies",
+    "desarrollo web Nuevo Laredo",
+    "software a la medida",
+    "diseño web frontera",
+    "SEO local México",
+  ],
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: { index: true, follow: true, "max-image-preview": "large" },
+  },
   icons: {
     icon: [
       { url: "/favicon-32.png", sizes: "32x32", type: "image/png" },
@@ -40,6 +57,16 @@ export const metadata: Metadata = {
     locale: "es_MX",
     type: "website",
     images: [{ url: "/brand/atrix-logo.png", width: 1024, height: 1024 }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: site.legalName,
+    description: site.description,
+    images: ["/brand/atrix-logo.png"],
+  },
+  alternates: {
+    canonical: "/",
+    languages: { "es-MX": "/" },
   },
 };
 
