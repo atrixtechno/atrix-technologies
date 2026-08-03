@@ -41,9 +41,9 @@ export function Hero() {
       <div className="hero-glow absolute inset-0" />
       <div className="grid-tech pointer-events-none absolute inset-0 opacity-30" />
 
-      <div className="relative mx-auto grid min-h-[78svh] max-w-6xl items-center gap-6 px-5 pb-12 pt-28 md:grid-cols-[1.15fr_0.95fr] md:gap-8 md:px-8 md:pb-16 md:pt-28 lg:gap-10">
-        {/* Logo izquierda — más grande */}
-        <div className="animate-fade-scale relative mx-auto flex w-full max-w-[360px] items-center justify-center md:mx-0 md:max-w-none">
+      <div className="relative mx-auto grid min-h-[78svh] max-w-6xl items-center gap-6 px-5 pb-12 pt-28 md:grid-cols-[1.15fr_0.95fr] md:gap-6 md:px-8 md:pb-16 md:pt-28 lg:gap-8">
+        {/* Logo izquierda */}
+        <div className="animate-fade-scale relative mx-auto flex w-full max-w-[360px] items-center justify-center md:mx-0 md:-ml-6 md:max-w-none md:justify-start lg:-ml-10 xl:-ml-14">
           <div className="pointer-events-none absolute inset-0 -m-10 rounded-full bg-[radial-gradient(circle,rgba(26,76,255,0.16),transparent_70%)] blur-2xl" />
           <Logo
             variant={isLight ? "full-light" : "full"}
