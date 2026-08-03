@@ -15,20 +15,28 @@ const steps = [
 
 export function Process() {
   return (
-    <section id="proceso" className="scroll-mt-8 border-t border-line bg-bg-elevated/40 py-24 md:py-32">
+    <section
+      id="proceso"
+      className="scroll-mt-8 border-t border-line bg-bg-ink py-24 text-white md:py-28"
+    >
       <div className="mx-auto max-w-6xl px-6 md:px-8">
-        <p className="text-sm tracking-[0.2em] text-muted uppercase">Cómo trabajo</p>
-        <h2 className="font-display mt-3 text-3xl font-bold tracking-tight md:text-5xl">
+        <p className="text-xs font-semibold tracking-[0.2em] text-accent uppercase">
+          Cómo trabajo
+        </p>
+        <h2 className="font-display mt-3 text-3xl font-semibold tracking-tight md:text-5xl">
           Simple y directo
         </h2>
-        <ol className="mt-14 grid gap-10 md:grid-cols-3 md:gap-8">
+        <ol className="mt-12 grid gap-4 md:grid-cols-3">
           {steps.map((step, i) => (
-            <li key={step.title} className="relative">
-              <span className="font-display text-5xl font-bold text-accent/25">
+            <li
+              key={step.title}
+              className="rounded-[1.35rem] border border-white/10 bg-white/5 p-6 backdrop-blur transition hover:border-accent/40 hover:bg-white/10"
+            >
+              <span className="text-[11px] font-semibold tracking-[0.16em] text-accent uppercase">
                 {String(i + 1).padStart(2, "0")}
               </span>
-              <h3 className="font-display mt-4 text-xl font-semibold">{step.title}</h3>
-              <p className="mt-3 text-muted leading-relaxed">{step.body}</p>
+              <h3 className="font-display mt-3 text-xl font-semibold">{step.title}</h3>
+              <p className="mt-3 text-sm leading-relaxed text-white/65">{step.body}</p>
             </li>
           ))}
         </ol>

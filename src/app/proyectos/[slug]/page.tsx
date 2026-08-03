@@ -38,10 +38,10 @@ export default async function ProjectPage({ params }: Props) {
           >
             ← Proyectos
           </Link>
-          <p className="mt-10 text-sm tracking-[0.2em] text-muted uppercase">
+          <p className="mt-10 text-xs font-semibold tracking-[0.2em] text-accent-deep uppercase">
             {project.sector}
           </p>
-          <h1 className="font-display mt-3 text-4xl font-bold tracking-tight md:text-6xl">
+          <h1 className="font-display mt-3 text-4xl font-semibold tracking-tight md:text-6xl">
             {project.name}
           </h1>
           <p className="mt-6 text-lg leading-relaxed text-fg/85">{project.summary}</p>
@@ -58,24 +58,24 @@ export default async function ProjectPage({ params }: Props) {
 
           <p className="mt-10 text-sm text-muted">{project.stackNote}</p>
 
-          <div className="mt-12 flex flex-wrap gap-4">
+          <div className="mt-12 flex flex-wrap gap-3">
             {project.url && (
               <a
                 href={project.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="rounded-sm border border-line px-5 py-3 text-sm transition-colors hover:border-fg/30"
+                className="rounded-full border border-fg/15 bg-white px-5 py-3 text-sm font-medium transition-colors hover:border-accent/40 hover:text-accent-deep"
               >
                 Ver sitio en vivo
               </a>
             )}
             <a
               href={whatsappUrl(
-                `Hola ATRIX, vi el proyecto ${project.name} y me interesa algo similar.`,
+                `Hola ATRIX Technologies, vi el proyecto ${project.name} y me interesa algo similar.`,
               )}
               target="_blank"
               rel="noopener noreferrer"
-              className="rounded-sm bg-accent px-5 py-3 text-sm font-semibold text-accent-ink"
+              className="rounded-full bg-[#25D366] px-5 py-3 text-sm font-semibold text-white shadow-[0_12px_28px_rgba(37,211,102,0.28)] transition hover:bg-[#1ebe57]"
             >
               Quiero algo así
             </a>
