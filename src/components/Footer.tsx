@@ -129,7 +129,7 @@ export function Footer({ light = false }: { light?: boolean }) {
                   Casos recientes
                 </p>
                 <div className="mt-2 flex flex-wrap gap-2">
-                  {projects.slice(0, 3).map((project) => (
+                  {projects.map((project) => (
                     <Link
                       key={project.slug}
                       href={`/proyectos/${project.slug}`}

@@ -49,7 +49,7 @@ export function ProjectsTeaser() {
         </Reveal>
 
         <ul className="mt-12 grid gap-4">
-          {projects.slice(0, 4).map((project, index) => {
+          {projects.map((project, index) => {
             const { accent, glow } = project.theme;
             return (
               <Reveal key={project.slug} delay={index * 70}>
