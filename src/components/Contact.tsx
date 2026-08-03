@@ -1,12 +1,31 @@
 "use client";
 
 import { FormEvent, useEffect, useRef, useState } from "react";
-import { whatsappUrl } from "@/content/site";
+import { site, whatsappUrl } from "@/content/site";
 
 type Phase = "idle" | "loading" | "success" | "error";
 
 /** Ciclo de carga visible antes del mensaje de éxito (~2 s). */
 const LOAD_MS = 2000;
+
+function FacebookIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="currentColor" aria-hidden>
+      <path d="M14 13.5h2.5l1-4H14v-2c0-1.03 0-2 2-2h1.5V2.14C17.174 2.097 15.943 2 14.643 2 11.928 2 10 3.657 10 6.7v2.8H7v4h3V22h4v-8.5Z" />
+    </svg>
+  );
+}
+
+function GmailIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" aria-hidden>
+      <path fill="#4285F4" d="M22 6.5v11a1.5 1.5 0 0 1-1.5 1.5H16V11.1l-4 3-4-3V19H3.5A1.5 1.5 0 0 1 2 17.5v-11l10 7.5L22 6.5Z" />
+      <path fill="#EA4335" d="M22 6.5 12 14 2 6.5V5.2A1.2 1.2 0 0 1 3.2 4h17.6A1.2 1.2 0 0 1 22 5.2v1.3Z" />
+      <path fill="#34A853" d="M2 6.5V17.5A1.5 1.5 0 0 0 3.5 19H8V11.1L2 6.5Z" />
+      <path fill="#FBBC04" d="M22 6.5V17.5A1.5 1.5 0 0 1 20.5 19H16V11.1L22 6.5Z" />
+    </svg>
+  );
+}
 
 export function Contact() {
   const [phase, setPhase] = useState<Phase>("idle");
@@ -94,6 +113,47 @@ export function Contact() {
           >
             WhatsApp
           </a>
+
+          <ul className="mt-6 space-y-3">
+            <li>
+              <a
+                href={site.facebook}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group inline-flex items-center gap-3 text-sm text-muted transition hover:text-fg"
+              >
+                <span className="inline-flex h-10 w-10 items-center justify-center border border-line bg-bg-elevated text-[#1877F2] transition group-hover:border-[#1877F2]/40">
+                  <FacebookIcon className="h-5 w-5" />
+                </span>
+                <span>
+                  <span className="block text-[11px] font-semibold tracking-[0.16em] uppercase">
+                    Facebook
+                  </span>
+                  <span className="mt-0.5 block text-fg transition group-hover:text-accent">
+                    facebook.com/atrixnld
+                  </span>
+                </span>
+              </a>
+            </li>
+            <li>
+              <a
+                href={`mailto:${site.email}`}
+                className="group inline-flex items-center gap-3 text-sm text-muted transition hover:text-fg"
+              >
+                <span className="inline-flex h-10 w-10 items-center justify-center border border-line bg-bg-elevated transition group-hover:border-accent/40">
+                  <GmailIcon className="h-5 w-5" />
+                </span>
+                <span>
+                  <span className="block text-[11px] font-semibold tracking-[0.16em] uppercase">
+                    Gmail
+                  </span>
+                  <span className="mt-0.5 block text-fg transition group-hover:text-accent">
+                    {site.email}
+                  </span>
+                </span>
+              </a>
+            </li>
+          </ul>
         </div>
 
         <form ref={formRef} onSubmit={onSubmit} className="relative space-y-5">
