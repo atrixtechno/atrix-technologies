@@ -18,6 +18,8 @@ export type Project = {
   url?: string;
   designerUrl?: string;
   previewImage?: string;
+  /** Logo circular de marca para listados y casos. */
+  logo?: string;
   tags?: string[];
   stats?: { value: string; label: string }[];
   story?: string[];
@@ -61,6 +63,7 @@ export const projects: Project[] = [
     url: "https://dentalmate.mx",
     designerUrl: "https://dentalmate.mx/disenador",
     previewImage: "/projects/dentalmate-preview.jpg",
+    logo: "/projects/logos/dentalmate.png",
     tags: [
       "UI/UX",
       "Frontend",
@@ -260,6 +263,7 @@ export const projects: Project[] = [
     url: "https://www.grupo-gi.com",
     designerUrl: "https://www.grupo-gi.com/atrix-technologies",
     previewImage: "/projects/grupo-gi-preview.jpg",
+    logo: "/projects/logos/grupo-gi.png",
     tags: [
       "Full-stack",
       "Biometría",
@@ -451,6 +455,7 @@ export const projects: Project[] = [
       "Directorio y perfiles digitales para dojangs de Taekwondo: presencia pública, registro y publicación administrada.",
     result:
       "Plataforma para que dojangs tengan casa en línea y se descubran por país y ciudad.",
+    logo: "/projects/logos/dojangspace.png",
     highlights: [
       "Directorio global con búsqueda",
       "Perfiles públicos por país y ciudad",
@@ -551,6 +556,7 @@ export const projects: Project[] = [
     url: "https://www.tecoseliteacademy.com",
     designerUrl: "https://www.tecoseliteacademy.com/diseñador.html",
     previewImage: "/projects/tecos-elite-preview.jpg",
+    logo: "/projects/logos/tecos-elite.png",
     tags: [
       "Branding & identidad",
       "UX / UI",
@@ -755,6 +761,7 @@ export const projects: Project[] = [
     url: "https://www.tecostaekwondo.com",
     designerUrl: "https://www.tecostaekwondo.com/diseñador.html",
     previewImage: "/projects/tecos-tkd-preview.jpg",
+    logo: "/projects/logos/tecos-taekwondo.png",
     tags: [
       "Branding & identidad",
       "UX / UI",

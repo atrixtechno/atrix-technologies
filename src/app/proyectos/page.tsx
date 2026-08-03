@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
+import { ProjectLogo } from "@/components/ProjectLogo";
 import { projects } from "@/content/projects";
 import { site } from "@/content/site";
 
@@ -69,15 +70,24 @@ export default function ProjectsIndexPage() {
                   className="group block h-full border border-line bg-bg-elevated/50 p-6 transition hover:border-accent/40 hover:bg-bg-elevated md:p-8"
                   style={{
                     boxShadow: `inset 3px 0 0 ${project.theme.accent}`,
+                    ["--accent" as string]: project.theme.accent,
+                    ["--project-glow" as string]: project.theme.glow,
                   }}
                 >
-                  <p className="text-[11px] font-semibold tracking-[0.2em] text-muted uppercase">
-                    {project.sector}
-                  </p>
-                  <h2 className="font-display mt-3 text-2xl font-bold transition group-hover:text-accent md:text-3xl">
-                    {project.name}
-                  </h2>
-                  <p className="mt-3 text-sm leading-relaxed text-muted">
+                  <div className="flex items-start gap-4">
+                    {project.logo && (
+                      <ProjectLogo src={project.logo} name={project.name} size="lg" />
+                    )}
+                    <div className="min-w-0">
+                      <p className="text-[11px] font-semibold tracking-[0.2em] text-muted uppercase">
+                        {project.sector}
+                      </p>
+                      <h2 className="font-display mt-2 text-2xl font-bold transition group-hover:text-accent md:text-3xl">
+                        {project.name}
+                      </h2>
+                    </div>
+                  </div>
+                  <p className="mt-4 text-sm leading-relaxed text-muted">
                     {project.summary}
                   </p>
                   <p className="mt-6 text-sm font-semibold text-accent">

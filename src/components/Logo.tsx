@@ -20,7 +20,8 @@ export function Logo({
   className = "",
   priority = false,
   size,
-}: LogoProps) {
+  fill = false,
+}: LogoProps & { fill?: boolean }) {
   const asset = assets[variant];
   const isMark = variant === "mark" || variant === "mark-light";
   const width = size ?? (isMark ? 40 : 280);
@@ -32,8 +33,14 @@ export function Logo({
       alt="ATRIX Technologies"
       width={width}
       height={height}
-      className={`h-auto w-auto object-contain ${className}`}
-      style={isMark ? { width, height } : { width, height: "auto" }}
+      className={`object-contain ${fill ? "h-full w-full" : "h-auto w-auto"} ${className}`}
+      style={
+        fill
+          ? { width: "100%", height: "100%" }
+          : isMark
+            ? { width, height }
+            : { width, height: "auto" }
+      }
       priority={priority}
     />
   );

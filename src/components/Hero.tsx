@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Logo } from "@/components/Logo";
+import { ScrollFollowLogo } from "@/components/ScrollFollowLogo";
 import { SectionLink } from "@/components/SectionLink";
 import { useTheme } from "@/components/ThemeProvider";
 import { site, whatsappUrl } from "@/content/site";
@@ -49,19 +49,8 @@ export function Hero() {
       </div>
 
       <div className="relative mx-auto grid min-h-[78svh] max-w-6xl items-center gap-6 px-5 pb-12 pt-28 md:grid-cols-[1.15fr_0.95fr] md:gap-6 md:px-8 md:pb-16 md:pt-28 lg:gap-8">
-        {/* Logo izquierda */}
-        <div className="animate-fade-scale relative mx-auto flex w-full max-w-[360px] items-center justify-center md:mx-0 md:-ml-6 md:max-w-none md:justify-start lg:-ml-10 xl:-ml-14">
-          <div className="animate-glow pointer-events-none absolute inset-0 -m-10 rounded-full bg-[radial-gradient(circle,rgba(26,76,255,0.16),transparent_70%)] blur-2xl" />
-          <Logo
-            key={isLight ? "full-light" : "full-dark"}
-            variant={isLight ? "full-light" : "full"}
-            size={560}
-            priority
-            className="animate-float relative w-full max-w-[340px] sm:max-w-[400px] md:max-w-[480px] lg:max-w-[540px]"
-          />
-        </div>
+        <ScrollFollowLogo />
 
-        {/* Contenido derecha — tipografía más clara */}
         <div className="animate-rise-delay text-center md:text-left">
           <p className="text-xs font-semibold tracking-[0.16em] text-accent uppercase">
             {site.coverage}

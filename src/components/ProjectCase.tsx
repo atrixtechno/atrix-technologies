@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { ProjectLogo } from "@/components/ProjectLogo";
 import { Reveal } from "@/components/Reveal";
 import type { Project } from "@/content/projects";
 import { whatsappUrl } from "@/content/site";
@@ -32,12 +33,19 @@ export function ProjectCase({ project }: { project: Project }) {
             >
               ← Todos los proyectos
             </Link>
-            <p className="mt-10 text-xs font-semibold tracking-[0.28em] text-[var(--accent)] uppercase">
-              {project.sector}
-            </p>
-            <h1 className="font-display mt-4 max-w-4xl text-4xl font-extrabold tracking-tight md:text-6xl">
-              {project.name}
-            </h1>
+            <div className="mt-10 flex items-center gap-5">
+              {project.logo && (
+                <ProjectLogo src={project.logo} name={project.name} size="xl" />
+              )}
+              <div>
+                <p className="text-xs font-semibold tracking-[0.28em] text-[var(--accent)] uppercase">
+                  {project.sector}
+                </p>
+                <h1 className="font-display mt-3 max-w-4xl text-4xl font-extrabold tracking-tight md:text-6xl">
+                  {project.name}
+                </h1>
+              </div>
+            </div>
             <div className="project-section-line mt-4 h-px w-24 bg-[var(--accent)]/50" />
             <p className="mt-6 max-w-2xl text-lg leading-relaxed text-[var(--muted)]">
               {project.summary}

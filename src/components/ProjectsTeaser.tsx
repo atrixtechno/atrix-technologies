@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ProjectLogo } from "@/components/ProjectLogo";
 import { Reveal } from "@/components/Reveal";
 import { projects } from "@/content/projects";
 
@@ -65,6 +66,7 @@ export function ProjectsTeaser() {
                         "--project-border": hexToRgba(accent, 0.28),
                         "--project-border-hover": hexToRgba(accent, 0.5),
                         "--project-orb": hexToRgba(accent, 0.22),
+                        "--accent": accent,
                         borderColor: "var(--project-border)",
                         background:
                           "linear-gradient(135deg, var(--project-tint) 0%, var(--project-tint-soft) 55%, transparent 100%)",
@@ -80,10 +82,10 @@ export function ProjectsTeaser() {
                       aria-hidden
                     />
 
-                    <div className="relative flex items-baseline gap-4">
-                      <span className="font-display text-xs font-semibold tracking-[0.2em] text-[var(--project-accent)] tabular-nums">
-                        {String(index + 1).padStart(2, "0")}
-                      </span>
+                    <div className="relative flex items-center gap-4">
+                      {project.logo && (
+                        <ProjectLogo src={project.logo} name={project.name} size="md" />
+                      )}
                       <div>
                         <h3 className="font-display text-xl font-semibold md:text-2xl">
                           {project.name}

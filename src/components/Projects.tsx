@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ProjectLogo } from "@/components/ProjectLogo";
 import { projects } from "@/content/projects";
 
 function hexToRgba(hex: string, alpha: number) {
@@ -38,7 +39,7 @@ export function Projects() {
               <li key={project.slug}>
                 <Link
                   href={`/proyectos/${project.slug}`}
-                  className="project-tile group relative grid gap-3 overflow-hidden border px-5 py-6 transition duration-300 hover:-translate-y-0.5 md:grid-cols-[5rem_1fr_auto] md:items-baseline md:gap-10 md:px-6 md:py-7"
+                  className="project-tile group relative grid gap-4 overflow-hidden border px-5 py-6 transition duration-300 hover:-translate-y-0.5 md:grid-cols-[auto_1fr_auto] md:items-center md:gap-10 md:px-6 md:py-7"
                   style={
                     {
                       "--project-accent": accent,
@@ -48,6 +49,7 @@ export function Projects() {
                       "--project-border": hexToRgba(accent, 0.28),
                       "--project-border-hover": hexToRgba(accent, 0.5),
                       "--project-orb": hexToRgba(accent, 0.22),
+                      "--accent": accent,
                       borderColor: "var(--project-border)",
                       background:
                         "linear-gradient(135deg, var(--project-tint) 0%, var(--project-tint-soft) 55%, transparent 100%)",
@@ -62,9 +64,15 @@ export function Projects() {
                     className="pointer-events-none absolute -right-8 -top-10 h-28 w-28 rounded-full bg-[var(--project-orb)] blur-2xl"
                     aria-hidden
                   />
-                  <span className="font-display relative text-sm tracking-[0.2em] text-[var(--project-accent)] tabular-nums">
-                    {String(index + 1).padStart(2, "0")}
-                  </span>
+                  <div className="relative flex items-center gap-4">
+                    {project.logo ? (
+                      <ProjectLogo src={project.logo} name={project.name} size="lg" />
+                    ) : (
+                      <span className="font-display text-sm tracking-[0.2em] text-[var(--project-accent)] tabular-nums">
+                        {String(index + 1).padStart(2, "0")}
+                      </span>
+                    )}
+                  </div>
                   <div className="relative">
                     <h3 className="font-display text-2xl font-bold tracking-tight md:text-3xl">
                       {project.name}

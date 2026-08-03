@@ -279,7 +279,8 @@ export function Contact() {
                   Mensaje enviado
                 </p>
                 <p className="mt-3 text-sm leading-relaxed text-muted">
-                  Nos pondremos en contacto contigo de inmediato.
+                  Recibimos tu mensaje y te contactaremos por WhatsApp o llamada lo
+                  antes posible.
                 </p>
                 <button
                   type="button"

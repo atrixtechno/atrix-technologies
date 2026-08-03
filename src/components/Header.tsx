@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useId, useRef, useState } from "react";
 import { Logo } from "@/components/Logo";
+import { ProjectLogo } from "@/components/ProjectLogo";
 import { SectionLink } from "@/components/SectionLink";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { useTheme } from "@/components/ThemeProvider";
@@ -118,12 +119,22 @@ function SoftwareDropdown({
                   role="menuitem"
                   className="group flex items-start gap-3 px-4 py-2.5 transition hover:bg-[color-mix(in_srgb,var(--accent)_8%,transparent)]"
                   onClick={onClose}
+                  style={
+                    {
+                      "--accent": project.theme.accent,
+                      "--project-glow": project.theme.glow,
+                    } as React.CSSProperties
+                  }
                 >
-                  <span
-                    className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full"
-                    style={{ background: project.theme.accent }}
-                    aria-hidden
-                  />
+                  {project.logo ? (
+                    <ProjectLogo src={project.logo} name={project.name} size="sm" />
+                  ) : (
+                    <span
+                      className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full"
+                      style={{ background: project.theme.accent }}
+                      aria-hidden
+                    />
+                  )}
                   <span className="min-w-0">
                     <span className="block text-sm font-semibold text-fg transition group-hover:text-accent">
                       {project.name}
@@ -336,14 +347,24 @@ export function Header({
                       <li key={project.slug}>
                         <Link
                           href={`/proyectos/${project.slug}`}
-                          className="flex items-center gap-2 py-2 text-sm text-muted"
+                          className="flex items-center gap-2.5 py-2 text-sm text-muted"
                           onClick={closeMobileMenu}
+                          style={
+                            {
+                              "--accent": project.theme.accent,
+                              "--project-glow": project.theme.glow,
+                            } as React.CSSProperties
+                          }
                         >
-                          <span
-                            className="h-1.5 w-1.5 rounded-full"
-                            style={{ background: project.theme.accent }}
-                            aria-hidden
-                          />
+                          {project.logo ? (
+                            <ProjectLogo src={project.logo} name={project.name} size="sm" />
+                          ) : (
+                            <span
+                              className="h-1.5 w-1.5 rounded-full"
+                              style={{ background: project.theme.accent }}
+                              aria-hidden
+                            />
+                          )}
                           {project.name}
                         </Link>
                       </li>
