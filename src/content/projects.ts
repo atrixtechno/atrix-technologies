@@ -545,26 +545,102 @@ export const projects: Project[] = [
     name: "Tecos Elite Voleibol",
     sector: "Deporte · Club de voleibol",
     summary:
-      "Plataforma integral del club: landing, portal alumno, admin, tienda, pagos, galería y comunicación.",
+      "Plataforma integral del club: landing pública, portal alumno, panel admin, tienda/POS, pagos, galería y comunicación WhatsApp.",
     result:
-      "El club opera digitalmente: menos WhatsApp suelto, más control de operación y una marca deportiva fuerte.",
+      "Academia operando en la nube 24/7: 3 portales, 20+ módulos de gestión y configuración editable sin tocar código.",
     url: "https://www.tecoseliteacademy.com",
     designerUrl: "https://www.tecoseliteacademy.com/diseñador.html",
-    highlights: [
-      "Landing pública con avisos, calendario y captación",
-      "Portal alumno: pagos, documentos y tienda",
-      "Panel admin: ventas, inventario, nómina y finanzas",
-      "WhatsApp, exportaciones y configuración editable",
+    previewImage: "/projects/tecos-elite-preview.jpg",
+    tags: [
+      "Branding & identidad",
+      "UX / UI",
+      "Desarrollo web",
+      "Plataformas a medida",
+      "Marketing digital",
+      "Estrategia creativa",
     ],
-    stackNote: "React · Supabase · Vercel",
-    seoTitle: "Tecos Elite Voleibol — plataforma de academia deportiva",
+    stats: [
+      { value: "1", label: "Plataforma integrada" },
+      { value: "3", label: "Portales · Público · Alumno · Admin" },
+      { value: "20+", label: "Módulos de gestión" },
+      { value: "100%", label: "Diseño responsive" },
+      { value: "24/7", label: "Disponible en la nube" },
+    ],
+    story: [
+      "Tecos Elite VOLLEYBALL necesitaba dejar atrás hojas de cálculo y chats sueltos: una plataforma completa para academia, alumnos, pagos, tienda y comunicación.",
+      "ATRIX TECHNOLOGIES diseñó identidad, narrativa visual y software a medida — con sensibilidad artística (color, tipografía, motion) e ingeniería práctica: bases de datos seguras, paneles intuitivos y experiencias rápidas en móvil y escritorio.",
+      "El resultado es un sistema en producción: landing pública, portal alumno, panel administrativo, tienda/POS, WhatsApp, exportaciones y secciones administrables sin tocar código.",
+    ],
+    approach: [
+      {
+        title: "Escuchar e imaginar",
+        copy: "Cada proyecto lleva una historia: la del equipo y de quienes confían en la marca. Escuchamos, diseñamos y construimos para pantallas reales.",
+      },
+      {
+        title: "Arte + ingeniería",
+        copy: "Color, tipografía y motion con bases de datos seguras, permisos por rol y carga rápida en móvil y escritorio.",
+      },
+      {
+        title: "Sin plantillas genéricas",
+        copy: "Soluciones pensadas para la operación de la academia: pagos, inventario, eventos y comunicación conectados.",
+      },
+    ],
+    deliverables: [
+      {
+        title: "Landing pública",
+        copy: "Avisos, calendario, entrenadores, galería, tienda, mapa y formulario de interesados.",
+      },
+      {
+        title: "Portal alumno",
+        copy: "Pagos, eventos, tienda online, documentos, credencial digital y cartas de torneo.",
+      },
+      {
+        title: "Panel administrativo",
+        copy: "Alumnos, ventas, comprobantes, inventario, nómina, gastos y dashboard financiero.",
+      },
+      {
+        title: "Tienda & POS",
+        copy: "Catálogo web, órdenes con comprobante, venta en mostrador e inventario sincronizado.",
+      },
+      {
+        title: "Comunicación",
+        copy: "WhatsApp bot, avisos con registro, leads de interesados y notificaciones.",
+      },
+      {
+        title: "Exportaciones & config",
+        copy: "Excel, PDF, DOCX, credenciales, asistencias; textos, mapa, redes y tarifas editables.",
+      },
+    ],
+    lead: {
+      name: "Ing. Néstor J. Resendiz, MBA",
+      role: "Diseñador · Programador · Líder técnico · ATRIX Technologies",
+      badges: ["Ingeniería", "MBA", "Full stack"],
+      copy: [
+        "Encargado del diseño visual, la arquitectura y la programación de Tecos Elite VOLLEYBALL: UX, panel admin, tienda, formularios de interesados y conexión con la base de datos en la nube.",
+        "Enfoque: código limpio, interfaces claras y comunicación directa con el cliente hasta que cada requisito quede en funcionalidad real.",
+      ],
+    },
+    highlights: [
+      "3 portales: público, alumno y administración",
+      "20+ módulos: pagos, tienda, inventario, nómina y dashboard",
+      "WhatsApp bot + Edge Functions (wa-bridge)",
+      "Exportaciones Excel / PDF / DOCX y credenciales digitales",
+      "Galería, eventos, mapa y configuración editable sin código",
+      "Despliegue en Vercel con CI/CD vía GitHub Actions",
+    ],
+    stackNote: "React 18 · Supabase · Vercel · WhatsApp",
+    seoTitle:
+      "Tecos Elite Voleibol — plataforma de academia con portal, admin y tienda",
     seoDescription:
-      "Caso ATRIX: sistema completo para Tecos Elite VOLLEYBALL con portal alumno, admin, tienda y operación diaria.",
+      "Caso ATRIX Technologies: plataforma integral de Tecos Elite VOLLEYBALL con landing, portal alumno, panel admin, tienda/POS, WhatsApp, exportaciones y cloud Supabase.",
     keywords: [
       "software academia voleibol",
-      "Tecos Elite",
+      "Tecos Elite Academy",
       "portal alumnos deportes",
       "gestión club deportivo",
+      "tienda POS academia",
+      "Supabase React Vercel",
+      "ATRIX Technologies",
     ],
     theme: {
       bg: "#eef4fb",
@@ -586,61 +662,83 @@ export const projects: Project[] = [
       glow: "rgba(77,134,255,0.32)",
     },
     challenge:
-      "Una academia deportiva no puede vivir de hojas de cálculo y chats: necesita un sistema para alumnos, pagos, tienda y administración.",
+      "Una academia deportiva no puede vivir de hojas de cálculo y chats: necesita un sistema para alumnos, pagos, tienda, eventos y administración.",
     solution:
-      "Entregamos una plataforma integrada: cara pública, portal alumno y panel admin con módulos operativos reales.",
+      "Entregamos una plataforma integrada — cara pública, portal alumno y panel admin — con módulos operativos reales y configuración editable.",
     impact: [
-      "Operación centralizada del club",
+      "Operación centralizada del club en la nube",
       "Mejor experiencia para alumnos y padres",
-      "Control financiero y de inventario",
+      "Control financiero, inventario y comunicación WhatsApp",
     ],
     modules: [
       {
         title: "Landing pública",
-        copy: "Avisos, calendario, entrenadores, galería, tienda y leads.",
+        copy: "Avisos, calendario, entrenadores, galería, tienda, mapa y leads.",
       },
       {
         title: "Portal alumno",
-        copy: "Pagos, eventos, documentos, credencial y cartas de torneo.",
+        copy: "Pagos, eventos, tienda, documentos, credencial y cartas de torneo.",
       },
       {
-        title: "Panel admin",
-        copy: "Alumnos, ventas, comprobantes, inventario, nómina y dashboard.",
+        title: "Panel administrativo",
+        copy: "Alumnos, ventas, comprobantes, inventario, nómina, gastos y dashboard.",
+      },
+      {
+        title: "Tienda & POS",
+        copy: "Catálogo, órdenes, venta en mostrador e inventario sincronizado.",
       },
       {
         title: "Comunicación",
-        copy: "WhatsApp, avisos, notificaciones y configuración editable.",
+        copy: "WhatsApp bot, avisos, interesados y notificaciones.",
+      },
+      {
+        title: "Galería & eventos",
+        copy: "Álbumes, calendario, torneos, cumpleaños y confirmación de asistencia.",
+      },
+      {
+        title: "Exportaciones",
+        copy: "Excel, PDF, expedientes DOCX, credenciales y reportes de pagos.",
+      },
+      {
+        title: "Configuración",
+        copy: "Textos del sitio, ubicación, mapa, redes y tarifas sin tocar código.",
       },
     ],
     technologies: [
-      { name: "React 18", role: "SPA modular: landing, admin y portal" },
-      { name: "Supabase", role: "Auth, DB, Storage y Edge Functions" },
-      { name: "PostgreSQL + RLS", role: "Seguridad por rol" },
-      { name: "Vercel + GitHub", role: "CI/CD a producción" },
-      { name: "ExcelJS · jsPDF · DOCX", role: "Exportaciones operativas" },
-      { name: "WhatsApp bridge", role: "Mensajería y recordatorios" },
+      { name: "React 18 + JSX", role: "SPA modular: landing, admin y portal alumno" },
+      { name: "Supabase", role: "Auth, PostgreSQL, Storage y API realtime" },
+      { name: "PostgreSQL + RLS", role: "Migraciones SQL y seguridad por rol" },
+      { name: "Vercel + GitHub", role: "Hosting, CI/CD y verificación en cada push" },
+      { name: "Babel + esbuild", role: "Compilación JSX optimizada bajo demanda" },
+      { name: "Edge Functions", role: "Puente WhatsApp (wa-bridge) serverless" },
+      { name: "WhatsApp Service", role: "Bot, recordatorios y envío masivo" },
+      { name: "Google Maps + Leaflet", role: "Mapa interactivo con fallback OSM" },
+      { name: "Chart.js & SVG", role: "Gráficas de ingresos en dashboard admin" },
+      { name: "ExcelJS · jsPDF · DOCX", role: "Reportes, expedientes y cartas de torneo" },
+      { name: "Storage + RPC", role: "Comprobantes, fotos, galería y funciones SQL" },
+      { name: "Bebas Neue + Inter", role: "Tipografía deportiva y legible" },
     ],
     process: [
       {
-        title: "Descubrimiento",
-        copy: "Módulos, reglas de negocio y flujos con el equipo Tecos.",
+        title: "Descubrimiento y alcance",
+        copy: "Módulos: landing, admin, portal alumno, tienda, leads, galería, entrenadores y config editable.",
       },
       {
-        title: "Diseño",
-        copy: "Identidad deportiva, UI móvil y componentes reutilizables.",
+        title: "Diseño y prototipado",
+        copy: "Identidad Tecos Elite, componentes reutilizables, animaciones y experiencia móvil.",
       },
       {
-        title: "Implementación",
-        copy: "Supabase, permisos, archivos, exportaciones y bot.",
+        title: "Implementación y pruebas",
+        copy: "Supabase, permisos, archivos, exportaciones y ajustes con feedback del cliente.",
       },
       {
-        title: "Entrega",
-        copy: "Producción estable y secciones administrables sin tocar código.",
+        title: "Entrega y evolución",
+        copy: "Producción lista para operar, administrable sin código y abierta a nuevos módulos.",
       },
     ],
     persuasion: [
-      "Si tu academia crece, necesitas sistema — no más chats sueltos.",
-      "ATRIX entrega operación real: pagos, alumnos, tienda y admin.",
+      "Si tu academia crece, necesitas sistema — no más chats y hojas sueltas.",
+      "ATRIX entrega operación real: pagos, alumnos, tienda, admin y WhatsApp.",
       "Diseño profesional que también convence a padres y prospectos.",
     ],
     year: "2025–2026",
