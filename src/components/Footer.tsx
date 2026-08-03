@@ -28,20 +28,12 @@ export function Footer({ light = false }: { light?: boolean }) {
       <div className="mx-auto max-w-6xl px-5 pt-14 pb-10 md:px-8 md:pt-16">
         <div className="grid gap-12 md:grid-cols-[1.35fr_1fr_1fr_1.1fr] md:gap-10">
           <div>
-            <Link href="/" className="inline-flex items-center gap-3">
+            <Link href="/" className="inline-flex items-center" aria-label="ATRIX Technologies">
               <Logo
-                variant={useLightLogo ? "mark-light" : "mark"}
-                size={44}
+                variant={useLightLogo ? "lockup-light" : "lockup"}
+                size={200}
                 className="shrink-0"
               />
-              <span>
-                <span className="font-display block text-sm font-extrabold tracking-[0.2em] text-fg uppercase">
-                  {site.name}
-                </span>
-                <span className="mt-0.5 block text-[10px] font-semibold tracking-[0.28em] text-signal uppercase">
-                  Technologies
-                </span>
-              </span>
             </Link>
             <p className="mt-5 max-w-xs text-sm leading-relaxed text-muted">
               {site.tagline}. Atención personalizada en {site.coverage}.

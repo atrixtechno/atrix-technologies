@@ -210,7 +210,7 @@ export function Header({
           <>
             <Link
               href="/"
-              className="header-mobile-brand group flex items-center gap-2 transition-opacity duration-300 md:hidden"
+              className="header-mobile-brand group flex items-center transition-opacity duration-300 md:hidden"
               aria-label="ATRIX Technologies"
             >
               <Logo
@@ -224,22 +224,21 @@ export function Header({
             <div className="hidden w-10 md:block" aria-hidden />
           </>
         ) : (
-          <Link href="/" className="group flex items-center gap-3">
+          <Link href="/" className="group inline-flex items-center" aria-label="ATRIX Technologies">
             <Logo
-              key={useLightLogo ? "mark-light" : "mark-dark"}
-              variant={useLightLogo ? "mark-light" : "mark"}
-              size={42}
-              className="transition-transform duration-300 group-hover:scale-105"
+              key={useLightLogo ? "lockup-light" : "lockup-dark"}
+              variant={useLightLogo ? "lockup-light" : "lockup"}
+              size={168}
+              className="transition-transform duration-300 group-hover:scale-[1.02] sm:hidden"
               priority
             />
-            <span className="hidden sm:block">
-              <span className="font-display block text-sm font-extrabold tracking-[0.22em] text-fg uppercase">
-                {site.name}
-              </span>
-              <span className="mt-0.5 block text-[10px] font-semibold tracking-[0.28em] text-signal uppercase">
-                Technologies
-              </span>
-            </span>
+            <Logo
+              key={useLightLogo ? "lockup-light-md" : "lockup-dark-md"}
+              variant={useLightLogo ? "lockup-light" : "lockup"}
+              size={196}
+              className="hidden transition-transform duration-300 group-hover:scale-[1.02] sm:block"
+              priority
+            />
           </Link>
         )}
 

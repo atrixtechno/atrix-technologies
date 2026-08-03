@@ -1,18 +1,29 @@
 import Image from "next/image";
 
 type LogoProps = {
-  variant?: "full" | "mark" | "full-light" | "mark-light";
+  variant?:
+    | "full"
+    | "mark"
+    | "full-light"
+    | "mark-light"
+    | "lockup"
+    | "lockup-light";
   className?: string;
   priority?: boolean;
   size?: number;
+  fill?: boolean;
 };
 
 const assets = {
-  // v2: regenerados limpios para dark (rompe cache CDN del asset viejo)
+  // stacked hero logos
   full: { src: "/brand/atrix-logo-dark-v2.png", w: 1600, h: 1442 },
   "full-light": { src: "/brand/atrix-logo.png", w: 1600, h: 1442 },
-  mark: { src: "/brand/atrix-mark-dark-v2.png", w: 512, h: 512 },
-  "mark-light": { src: "/brand/atrix-mark.png", w: 512, h: 512 },
+  // isotipo v3
+  mark: { src: "/brand/atrix-mark-on-dark-v3.png", w: 512, h: 512 },
+  "mark-light": { src: "/brand/atrix-mark-v3.png", w: 512, h: 512 },
+  // lockup horizontal profesional v3
+  lockup: { src: "/brand/atrix-lockup-on-dark-v3.png", w: 1200, h: 264 },
+  "lockup-light": { src: "/brand/atrix-lockup-v3.png", w: 1200, h: 264 },
 } as const;
 
 export function Logo({
@@ -21,11 +32,14 @@ export function Logo({
   priority = false,
   size,
   fill = false,
-}: LogoProps & { fill?: boolean }) {
+}: LogoProps) {
   const asset = assets[variant];
   const isMark = variant === "mark" || variant === "mark-light";
-  const width = size ?? (isMark ? 40 : 280);
-  const height = isMark ? width : Math.round((width * asset.h) / asset.w);
+  const isLockup = variant === "lockup" || variant === "lockup-light";
+  const width = size ?? (isMark ? 40 : isLockup ? 180 : 280);
+  const height = isMark
+    ? width
+    : Math.round((width * asset.h) / asset.w);
   const fluid = fill || className.includes("w-full");
 
   return (
