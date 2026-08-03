@@ -1,0 +1,110 @@
+@import "tailwindcss";
+
+:root {
+  --bg: #07090b;
+  --bg-elevated: #0e1216;
+  --fg: #f0f2f1;
+  --muted: #8a9499;
+  --accent: #d4ff4a;
+  --accent-ink: #0a0c08;
+  --steel: #2a3540;
+  --line: rgba(240, 242, 241, 0.1);
+  --glow: rgba(212, 255, 74, 0.12);
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-bg-elevated: var(--bg-elevated);
+  --color-fg: var(--fg);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --color-accent-ink: var(--accent-ink);
+  --color-steel: var(--steel);
+  --color-line: var(--line);
+  --font-display: var(--font-syne);
+  --font-sans: var(--font-sora);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-sora), system-ui, sans-serif;
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--accent-ink);
+}
+
+.font-display {
+  font-family: var(--font-syne), system-ui, sans-serif;
+}
+
+.atmosphere {
+  background:
+    radial-gradient(ellipse 90% 60% at 70% 10%, rgba(212, 255, 74, 0.09), transparent 55%),
+    radial-gradient(ellipse 70% 50% at 10% 80%, rgba(58, 90, 120, 0.22), transparent 50%),
+    radial-gradient(ellipse 50% 40% at 90% 70%, rgba(20, 30, 40, 0.9), transparent 45%),
+    var(--bg);
+}
+
+.grid-fade {
+  background-image:
+    linear-gradient(to right, rgba(240, 242, 241, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(240, 242, 241, 0.04) 1px, transparent 1px);
+  background-size: 64px 64px;
+  mask-image: radial-gradient(ellipse 80% 70% at 50% 30%, black, transparent);
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes brand-in {
+  from {
+    opacity: 0;
+    letter-spacing: 0.35em;
+    transform: scale(0.98);
+  }
+  to {
+    opacity: 1;
+    letter-spacing: 0.08em;
+    transform: scale(1);
+  }
+}
+
+.animate-rise {
+  animation: rise 0.8s ease-out both;
+}
+
+.animate-rise-delay {
+  animation: rise 0.8s ease-out 0.15s both;
+}
+
+.animate-rise-delay-2 {
+  animation: rise 0.8s ease-out 0.28s both;
+}
+
+.animate-brand {
+  animation: brand-in 1.1s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-rise,
+  .animate-rise-delay,
+  .animate-rise-delay-2,
+  .animate-brand {
+    animation: none;
+  }
+}
