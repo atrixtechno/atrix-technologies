@@ -6,7 +6,8 @@ export async function POST(request: Request) {
     const body = await request.json();
     const name = String(body.name ?? "").trim();
     const message = String(body.message ?? "").trim();
-    const phone = String(body.phone ?? "").trim() || null;
+    const phoneRaw = String(body.phone ?? "").replace(/\s+/g, "").trim();
+    const phone = phoneRaw || null;
     const business = String(body.business ?? "").trim() || null;
 
     if (!name || !message) {

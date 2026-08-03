@@ -173,6 +173,39 @@ body {
   }
 }
 
+@keyframes orb-drift {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(24px, -18px) scale(1.08);
+  }
+}
+
+@keyframes scan-down {
+  0% {
+    transform: translateY(-10vh);
+    opacity: 0;
+  }
+  15% {
+    opacity: 1;
+  }
+  85% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(110vh);
+    opacity: 0;
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 .animate-rise {
   animation: rise 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
@@ -202,6 +235,62 @@ body {
   animation: line-draw 1s cubic-bezier(0.22, 1, 0.36, 1) 0.35s both;
 }
 
+.animate-orb {
+  animation: orb-drift 14s ease-in-out infinite;
+}
+
+.animate-orb-delayed {
+  animation: orb-drift 18s ease-in-out infinite reverse;
+}
+
+.scanline {
+  animation: scan-down 9s linear infinite;
+}
+
+.contact-spinner {
+  animation: spin 0.85s linear infinite;
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition:
+    opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.tech-frame {
+  position: relative;
+}
+
+.tech-frame::before,
+.tech-frame::after {
+  content: "";
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  border-color: color-mix(in srgb, var(--accent) 55%, transparent);
+  border-style: solid;
+  pointer-events: none;
+}
+
+.tech-frame::before {
+  top: 0;
+  left: 0;
+  border-width: 2px 0 0 2px;
+}
+
+.tech-frame::after {
+  right: 0;
+  bottom: 0;
+  border-width: 0 2px 2px 0;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .animate-rise,
   .animate-rise-delay,
@@ -209,8 +298,18 @@ body {
   .animate-fade-scale,
   .animate-float,
   .animate-glow,
-  .animate-line {
+  .animate-line,
+  .animate-orb,
+  .animate-orb-delayed,
+  .scanline,
+  .contact-spinner {
     animation: none;
+  }
+
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
   }
 
   body {

@@ -8,6 +8,7 @@ import { AudienceGuides } from "@/components/Guides";
 import { ProjectsTeaser } from "@/components/ProjectsTeaser";
 import { Contact } from "@/components/Contact";
 import { Footer } from "@/components/Footer";
+import { PageDecor } from "@/components/PageDecor";
 import { site } from "@/content/site";
 import { services } from "@/content/services";
 
@@ -99,17 +100,22 @@ export default function HomePage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <Header />
-      <main>
-        <Hero />
-        <Services />
-        <Coverage />
-        <Benefits />
-        <AudienceGuides />
-        <ProjectsTeaser />
-        <Contact />
-      </main>
-      <Footer />
+      <div className="relative">
+        <PageDecor />
+        <Header />
+        <main className="relative z-10">
+          <Hero />
+          <Services />
+          <Coverage />
+          <Benefits />
+          <AudienceGuides />
+          <ProjectsTeaser />
+          <Contact />
+        </main>
+        <div className="relative z-10">
+          <Footer />
+        </div>
+      </div>
     </>
   );
 }

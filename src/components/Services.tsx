@@ -1,3 +1,4 @@
+import { Reveal } from "@/components/Reveal";
 import { services } from "@/content/services";
 import { whatsappUrl } from "@/content/site";
 
@@ -73,55 +74,58 @@ function Icon({ name }: { name: string }) {
 
 export function Services() {
   return (
-    <section id="servicios" className="scroll-mt-10 border-t border-line py-24 md:py-28">
+    <section id="servicios" className="relative scroll-mt-10 border-t border-line py-24 md:py-28">
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-accent/40 to-transparent" />
       <div className="mx-auto max-w-6xl px-5 md:px-8">
-        <p className="text-xs font-semibold tracking-[0.28em] text-accent uppercase">
-          Servicios
-        </p>
-        <h2 className="font-display mt-4 max-w-3xl text-3xl font-bold tracking-tight md:text-5xl">
-          Todo lo que ATRIX hace por ti
-        </h2>
-        <p className="mt-4 max-w-2xl text-muted">
-          No solo páginas web. Soporte técnico, seguridad, redes, infraestructura y
-          software — para hogares y empresas en la frontera.
-        </p>
+        <Reveal>
+          <p className="text-xs font-semibold tracking-[0.28em] text-accent uppercase">
+            Servicios
+          </p>
+          <h2 className="font-display mt-4 max-w-3xl text-3xl font-bold tracking-tight md:text-5xl">
+            Todo lo que ATRIX hace por ti
+          </h2>
+          <div className="animate-line mt-4 h-px w-24 bg-accent/50" />
+          <p className="mt-4 max-w-2xl text-muted">
+            No solo páginas web. Soporte técnico, seguridad, redes, infraestructura y
+            software — para hogares y empresas en la frontera.
+          </p>
+        </Reveal>
 
         <ul className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {services.map((service, index) => (
-            <li
-              key={service.slug}
-              className="group border border-line bg-bg-elevated/40 p-6 transition hover:border-accent/40 hover:bg-bg-elevated"
-            >
-              <div className="flex items-start justify-between gap-3">
-                <span className="inline-flex h-11 w-11 items-center justify-center rounded-xl border border-line text-accent transition group-hover:border-accent/50 group-hover:text-signal">
-                  <Icon name={service.icon} />
-                </span>
-                <span className="text-[11px] font-semibold tracking-[0.18em] text-muted">
-                  {String(index + 1).padStart(2, "0")}
-                </span>
-              </div>
-              <h3 className="font-display mt-5 text-xl font-semibold">{service.title}</h3>
-              <p className="mt-1 text-sm font-medium text-signal">{service.short}</p>
-              <p className="mt-3 text-sm leading-relaxed text-muted">{service.copy}</p>
-              <ul className="mt-4 space-y-1.5">
-                {service.bullets.map((b) => (
-                  <li key={b} className="flex gap-2 text-sm text-fg/80">
-                    <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-accent" />
-                    {b}
-                  </li>
-                ))}
-              </ul>
-              <a
-                href={whatsappUrl(
-                  `Hola ATRIX, me interesa el servicio de ${service.title}.`,
-                )}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mt-5 inline-flex text-sm font-semibold text-accent transition hover:text-white"
-              >
-                Cotizar →
-              </a>
-            </li>
+            <Reveal key={service.slug} delay={index * 70}>
+              <li className="tech-frame group border border-line bg-bg-elevated/40 p-6 transition duration-300 hover:-translate-y-1 hover:border-accent/40 hover:bg-bg-elevated hover:shadow-[0_20px_40px_rgba(11,26,36,0.08)]">
+                <div className="flex items-start justify-between gap-3">
+                  <span className="inline-flex h-11 w-11 items-center justify-center rounded-xl border border-line text-accent transition group-hover:scale-105 group-hover:border-accent/50 group-hover:text-signal">
+                    <Icon name={service.icon} />
+                  </span>
+                  <span className="text-[11px] font-semibold tracking-[0.18em] text-muted">
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+                </div>
+                <h3 className="font-display mt-5 text-xl font-semibold">{service.title}</h3>
+                <p className="mt-1 text-sm font-medium text-signal">{service.short}</p>
+                <p className="mt-3 text-sm leading-relaxed text-muted">{service.copy}</p>
+                <ul className="mt-4 space-y-1.5">
+                  {service.bullets.map((b) => (
+                    <li key={b} className="flex gap-2 text-sm text-fg/80">
+                      <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-accent" />
+                      {b}
+                    </li>
+                  ))}
+                </ul>
+                <a
+                  href={whatsappUrl(
+                    `Hola ATRIX, me interesa el servicio de ${service.title}.`,
+                  )}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-5 inline-flex text-sm font-semibold text-accent transition hover:text-fg"
+                >
+                  Cotizar →
+                </a>
+              </li>
+            </Reveal>
           ))}
         </ul>
       </div>
