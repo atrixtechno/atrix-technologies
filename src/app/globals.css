@@ -1,6 +1,28 @@
 @import "tailwindcss";
 
+/* Tema claro por defecto */
 :root {
+  --bg: #f4f8fb;
+  --bg-elevated: #ffffff;
+  --fg: #0b1a24;
+  --muted: #5a7180;
+  --accent: #0d9f96;
+  --accent-deep: #0b7f78;
+  --accent-ink: #ffffff;
+  --signal: #1a4cff;
+  --line: rgba(11, 26, 36, 0.1);
+  --hero-overlay: linear-gradient(
+    180deg,
+    rgba(244, 248, 251, 0.88) 0%,
+    rgba(244, 248, 251, 0.72) 45%,
+    rgba(244, 248, 251, 0.94) 100%
+  );
+  --hero-glow: rgba(26, 76, 255, 0.12);
+  --tip-bg: rgba(255, 255, 255, 0.72);
+  --tip-border: rgba(11, 26, 36, 0.1);
+}
+
+[data-theme="dark"] {
   --bg: #030912;
   --bg-elevated: #0a1522;
   --fg: #f2fffc;
@@ -10,6 +32,15 @@
   --accent-ink: #031018;
   --signal: #2b6bff;
   --line: rgba(242, 255, 252, 0.1);
+  --hero-overlay: linear-gradient(
+    180deg,
+    rgba(3, 9, 18, 0.84) 0%,
+    rgba(3, 9, 18, 0.7) 45%,
+    rgba(3, 9, 18, 0.95) 100%
+  );
+  --hero-glow: rgba(43, 107, 255, 0.2);
+  --tip-bg: rgba(255, 255, 255, 0.04);
+  --tip-border: rgba(255, 255, 255, 0.15);
 }
 
 @theme inline {
@@ -28,12 +59,18 @@
 
 html {
   scroll-behavior: smooth;
+  color-scheme: light;
+}
+
+html[data-theme="dark"] {
+  color-scheme: dark;
 }
 
 body {
   background: var(--bg);
   color: var(--fg);
   font-family: var(--font-sora), system-ui, sans-serif;
+  transition: background-color 0.25s ease, color 0.25s ease;
 }
 
 ::selection {
@@ -47,6 +84,14 @@ body {
 
 .atmosphere {
   background:
+    radial-gradient(ellipse 85% 65% at 75% -5%, rgba(26, 76, 255, 0.1), transparent 55%),
+    radial-gradient(ellipse 70% 55% at 10% 30%, rgba(13, 159, 150, 0.1), transparent 50%),
+    radial-gradient(ellipse 50% 40% at 90% 85%, rgba(13, 159, 150, 0.06), transparent 45%),
+    linear-gradient(180deg, #f4f8fb 0%, #eaf2f7 50%, #f4f8fb 100%);
+}
+
+[data-theme="dark"] .atmosphere {
+  background:
     radial-gradient(ellipse 85% 65% at 75% -5%, rgba(43, 107, 255, 0.2), transparent 55%),
     radial-gradient(ellipse 70% 55% at 10% 30%, rgba(46, 230, 214, 0.16), transparent 50%),
     radial-gradient(ellipse 50% 40% at 90% 85%, rgba(20, 184, 168, 0.1), transparent 45%),
@@ -55,10 +100,24 @@ body {
 
 .grid-tech {
   background-image:
-    linear-gradient(to right, rgba(46, 230, 214, 0.045) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(46, 230, 214, 0.045) 1px, transparent 1px);
+    linear-gradient(to right, rgba(13, 159, 150, 0.07) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(13, 159, 150, 0.07) 1px, transparent 1px);
   background-size: 64px 64px;
   mask-image: radial-gradient(ellipse 70% 60% at 50% 30%, black, transparent 75%);
+}
+
+[data-theme="dark"] .grid-tech {
+  background-image:
+    linear-gradient(to right, rgba(46, 230, 214, 0.045) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(46, 230, 214, 0.045) 1px, transparent 1px);
+}
+
+.hero-overlay {
+  background: var(--hero-overlay);
+}
+
+.hero-glow {
+  background: radial-gradient(ellipse 55% 45% at 50% 15%, var(--hero-glow), transparent 60%);
 }
 
 @keyframes rise {
@@ -152,5 +211,9 @@ body {
   .animate-glow,
   .animate-line {
     animation: none;
+  }
+
+  body {
+    transition: none;
   }
 }

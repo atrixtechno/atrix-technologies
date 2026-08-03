@@ -1,5 +1,9 @@
+"use client";
+
 import Link from "next/link";
 import { Logo } from "@/components/Logo";
+import { ThemeToggle } from "@/components/ThemeToggle";
+import { useTheme } from "@/components/ThemeProvider";
 import { site, whatsappUrl } from "@/content/site";
 
 const links = [
@@ -17,6 +21,9 @@ export function Header({
   solid?: boolean;
   light?: boolean;
 }) {
+  const { theme } = useTheme();
+  const useLightLogo = light || theme === "light";
+
   return (
     <header
       className={
@@ -28,7 +35,7 @@ export function Header({
       <div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-4 md:px-8 md:py-5">
         <Link href="/" className="group flex items-center gap-3">
           <Logo
-            variant={light ? "mark-light" : "mark"}
+            variant={useLightLogo ? "mark-light" : "mark"}
             size={42}
             className="transition-transform duration-300 group-hover:scale-105"
             priority
@@ -42,7 +49,7 @@ export function Header({
             </span>
           </span>
         </Link>
-        <nav className="hidden items-center gap-6 lg:flex">
+        <nav className="hidden items-center gap-5 lg:flex">
           {links.map((link) => (
             <Link
               key={link.href}
@@ -52,22 +59,18 @@ export function Header({
               {link.label}
             </Link>
           ))}
+          <ThemeToggle />
           <a
             href={whatsappUrl()}
             target="_blank"
             rel="noopener noreferrer"
-            className="rounded-full bg-accent px-4 py-2 text-sm font-semibold text-accent-ink transition hover:bg-white"
+            className="rounded-full bg-accent px-4 py-2 text-sm font-semibold text-accent-ink transition hover:brightness-110"
           >
             WhatsApp
           </a>
         </nav>
         <div className="flex items-center gap-2 lg:hidden">
-          <Link
-            href="/#servicios"
-            className="rounded-full border border-line px-3 py-2 text-sm text-fg"
-          >
-            Servicios
-          </Link>
+          <ThemeToggle />
           <a
             href={whatsappUrl()}
             target="_blank"

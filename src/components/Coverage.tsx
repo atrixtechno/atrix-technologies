@@ -14,7 +14,7 @@ export function Coverage() {
           className="h-auto w-full object-cover object-left md:max-h-[320px]"
           priority={false}
         />
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-bg via-transparent to-bg/80" />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-bg via-bg/20 to-bg/70" />
       </div>
 
       <div className="mx-auto max-w-6xl px-5 py-16 md:px-8 md:py-20">

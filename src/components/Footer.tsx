@@ -1,13 +1,19 @@
+"use client";
+
 import Link from "next/link";
 import { Logo } from "@/components/Logo";
+import { useTheme } from "@/components/ThemeProvider";
 import { site, whatsappUrl } from "@/content/site";
 
 export function Footer({ light = false }: { light?: boolean }) {
+  const { theme } = useTheme();
+  const useLightLogo = light || theme === "light";
+
   return (
     <footer className="border-t border-line py-12">
       <div className="mx-auto flex max-w-6xl flex-col items-center gap-8 px-5 text-center md:flex-row md:items-center md:justify-between md:px-8 md:text-left">
         <div className="flex flex-col items-center gap-3 md:flex-row md:items-center">
-          <Logo variant={light ? "mark-light" : "mark"} size={44} />
+          <Logo variant={useLightLogo ? "mark-light" : "mark"} size={44} />
           <div>
             <p className="font-display text-sm font-extrabold tracking-[0.2em] uppercase">
               {site.legalName}

@@ -47,7 +47,7 @@ function GuideBlock({
 export function AudienceGuides() {
   return (
     <div className="border-t border-line">
-      <div className="bg-[linear-gradient(180deg,rgba(10,21,34,0.95),rgba(3,9,18,0.35))]">
+      <div className="bg-bg-elevated/60">
         <GuideBlock
           id="hogares"
           eyebrow={homeGuide.eyebrow}

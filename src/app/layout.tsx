@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Sora, Syne } from "next/font/google";
+import { ThemeProvider } from "@/components/ThemeProvider";
 import { site } from "@/content/site";
 import "./globals.css";
 
@@ -71,14 +72,31 @@ export const metadata: Metadata = {
   },
 };
 
+const themeInitScript = `
+(function(){
+  try {
+    var t = localStorage.getItem('atrix-theme');
+    if (t !== 'dark' && t !== 'light') t = 'light';
+    document.documentElement.setAttribute('data-theme', t);
+  } catch (e) {
+    document.documentElement.setAttribute('data-theme', 'light');
+  }
+})();
+`;
+
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="es" className={`${syne.variable} ${sora.variable} h-full`}>
-      <body className="min-h-full antialiased">{children}</body>
+    <html lang="es" className={`${syne.variable} ${sora.variable} h-full`} suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+      </head>
+      <body className="min-h-full antialiased">
+        <ThemeProvider>{children}</ThemeProvider>
+      </body>
     </html>
   );
 }

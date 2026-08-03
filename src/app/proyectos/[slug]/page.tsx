@@ -42,7 +42,6 @@ export default async function ProjectPage({ params }: Props) {
   const project = getProject(slug);
   if (!project) notFound();
   const t = project.theme;
-  const isLight = Boolean(t.light);
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -66,6 +65,7 @@ export default async function ProjectPage({ params }: Props) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
+      <Header solid />
       <div
         style={
           {
@@ -81,7 +81,6 @@ export default async function ProjectPage({ params }: Props) {
         }
         className="min-h-screen bg-[var(--bg)] text-[var(--fg)]"
       >
-        <Header solid light={isLight} />
         <main>
           <section className="relative overflow-hidden border-b border-[var(--line)]">
             <div
@@ -286,8 +285,8 @@ export default async function ProjectPage({ params }: Props) {
             </div>
           </section>
         </main>
-        <Footer light={isLight} />
       </div>
+      <Footer />
     </>
   );
 }

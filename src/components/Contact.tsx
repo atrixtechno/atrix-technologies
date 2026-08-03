@@ -46,7 +46,7 @@ export function Contact() {
             href={whatsappUrl("Hola ATRIX, quiero cotizar un servicio.")}
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-8 inline-flex rounded-full bg-accent px-6 py-3.5 font-semibold text-accent-ink shadow-[0_0_36px_rgba(46,230,214,0.3)] transition hover:bg-white"
+            className="mt-8 inline-flex rounded-full bg-accent px-6 py-3.5 font-semibold text-accent-ink shadow-[0_12px_32px_rgba(13,159,150,0.25)] transition hover:brightness-110"
           >
             WhatsApp · {site.phoneDisplay}
           </a>
