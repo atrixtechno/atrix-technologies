@@ -188,6 +188,7 @@ export function Header({
       <div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-4 md:px-8 md:py-5">
         <Link href="/" className="group flex items-center gap-3">
           <Logo
+            key={useLightLogo ? "mark-light" : "mark-dark"}
             variant={useLightLogo ? "mark-light" : "mark"}
             size={42}
             className="transition-transform duration-300 group-hover:scale-105"

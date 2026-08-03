@@ -8,9 +8,10 @@ type LogoProps = {
 };
 
 const assets = {
-  full: { src: "/brand/atrix-logo-on-dark.png", w: 1538, h: 1600 },
+  // v2: regenerados limpios para dark (rompe cache CDN del asset viejo)
+  full: { src: "/brand/atrix-logo-dark-v2.png", w: 1600, h: 1442 },
   "full-light": { src: "/brand/atrix-logo.png", w: 1600, h: 1442 },
-  mark: { src: "/brand/atrix-mark-on-dark.png", w: 512, h: 512 },
+  mark: { src: "/brand/atrix-mark-dark-v2.png", w: 512, h: 512 },
   "mark-light": { src: "/brand/atrix-mark.png", w: 512, h: 512 },
 } as const;
 

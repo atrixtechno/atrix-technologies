@@ -53,6 +53,7 @@ export function Hero() {
         <div className="animate-fade-scale relative mx-auto flex w-full max-w-[360px] items-center justify-center md:mx-0 md:-ml-6 md:max-w-none md:justify-start lg:-ml-10 xl:-ml-14">
           <div className="animate-glow pointer-events-none absolute inset-0 -m-10 rounded-full bg-[radial-gradient(circle,rgba(26,76,255,0.16),transparent_70%)] blur-2xl" />
           <Logo
+            key={isLight ? "full-light" : "full-dark"}
             variant={isLight ? "full-light" : "full"}
             size={560}
             priority
