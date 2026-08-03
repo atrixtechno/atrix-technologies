@@ -8,10 +8,10 @@ type LogoProps = {
 };
 
 const assets = {
-  full: { src: "/brand/atrix-logo-on-dark.png", w: 480, h: 480 },
-  "full-light": { src: "/brand/atrix-logo.png", w: 480, h: 480 },
-  mark: { src: "/brand/atrix-mark-on-dark.png", w: 160, h: 160 },
-  "mark-light": { src: "/brand/atrix-mark.png", w: 160, h: 160 },
+  full: { src: "/brand/atrix-logo-on-dark.png", w: 1538, h: 1600 },
+  "full-light": { src: "/brand/atrix-logo.png", w: 1600, h: 1442 },
+  mark: { src: "/brand/atrix-mark-on-dark.png", w: 512, h: 512 },
+  "mark-light": { src: "/brand/atrix-mark.png", w: 512, h: 512 },
 } as const;
 
 export function Logo({
