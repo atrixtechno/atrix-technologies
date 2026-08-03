@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useId, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { Logo } from "@/components/Logo";
 import { ProjectLogo } from "@/components/ProjectLogo";
 import { SectionLink } from "@/components/SectionLink";
@@ -162,6 +163,28 @@ function SoftwareDropdown({
   );
 }
 
+function HamburgerIcon({ open }: { open: boolean }) {
+  return (
+    <span className="relative block h-3.5 w-4" aria-hidden>
+      <span
+        className={`absolute left-0 block h-0.5 w-4 bg-current transition ${
+          open ? "top-1.5 rotate-45" : "top-0"
+        }`}
+      />
+      <span
+        className={`absolute left-0 top-1.5 block h-0.5 w-4 bg-current transition ${
+          open ? "opacity-0" : "opacity-100"
+        }`}
+      />
+      <span
+        className={`absolute left-0 block h-0.5 w-4 bg-current transition ${
+          open ? "top-1.5 -rotate-45" : "top-3"
+        }`}
+      />
+    </span>
+  );
+}
+
 export function Header({
   solid: _solid = false,
   light = false,
@@ -177,20 +200,13 @@ export function Header({
   const [softwareOpen, setSoftwareOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mobileSoftwareOpen, setMobileSoftwareOpen] = useState(false);
-  const [barHeight, setBarHeight] = useState(0);
+  const [portalReady, setPortalReady] = useState(false);
 
-  const barRef = useRef<HTMLDivElement>(null);
   const mobilePanelRef = useRef<HTMLDivElement>(null);
   const scrollLockY = useRef(0);
 
   useEffect(() => {
-    const el = barRef.current;
-    if (!el) return;
-    const update = () => setBarHeight(el.getBoundingClientRect().height);
-    update();
-    const ro = new ResizeObserver(update);
-    ro.observe(el);
-    return () => ro.disconnect();
+    setPortalReady(true);
   }, []);
 
   useEffect(() => {
@@ -200,34 +216,14 @@ export function Header({
       if (e.key === "Escape") setMobileOpen(false);
     };
 
-    // Lock scroll without body position:fixed — that unsticks the header on iOS
-    // and causes the disappear / reappear jump when the drawer opens.
     scrollLockY.current = window.scrollY;
-    const html = document.documentElement;
     const { body } = document;
-    const prevHtmlOverflow = html.style.overflow;
-    const prevBodyOverflow = body.style.overflow;
-    const prevBodyPaddingRight = body.style.paddingRight;
-    const scrollbarGap = window.innerWidth - html.clientWidth;
-    html.style.overflow = "hidden";
+    const prevOverflow = body.style.overflow;
     body.style.overflow = "hidden";
-    if (scrollbarGap > 0) {
-      body.style.paddingRight = `${scrollbarGap}px`;
-    }
 
-    const onTouchMove = (e: TouchEvent) => {
-      const panel = mobilePanelRef.current;
-      if (panel && e.target instanceof Node && panel.contains(e.target)) return;
-      e.preventDefault();
-    };
-    document.addEventListener("touchmove", onTouchMove, { passive: false });
     window.addEventListener("keydown", onKey);
-
     return () => {
-      html.style.overflow = prevHtmlOverflow;
-      body.style.overflow = prevBodyOverflow;
-      body.style.paddingRight = prevBodyPaddingRight;
-      document.removeEventListener("touchmove", onTouchMove);
+      body.style.overflow = prevOverflow;
       window.removeEventListener("keydown", onKey);
       window.scrollTo(0, scrollLockY.current);
     };
@@ -238,42 +234,45 @@ export function Header({
     setMobileSoftwareOpen(false);
   }
 
+  function toggleMobileMenu() {
+    setMobileOpen((v) => {
+      if (v) setMobileSoftwareOpen(false);
+      return !v;
+    });
+  }
+
+  const brandLink = !hideBrand && (
+    <Link
+      href="/"
+      className="group inline-flex min-w-0 shrink items-center"
+      aria-label="ATRIX Technologies"
+      onClick={closeMobileMenu}
+    >
+      <Logo
+        key={useLightLogo ? "nav-lockup-light-sm" : "nav-lockup-dark-sm"}
+        variant={useLightLogo ? "lockup-light" : "lockup"}
+        size={152}
+        className="transition-transform duration-300 group-hover:scale-[1.02] lg:hidden"
+        priority
+      />
+      <Logo
+        key={useLightLogo ? "nav-lockup-light-lg" : "nav-lockup-dark-lg"}
+        variant={useLightLogo ? "lockup-light" : "lockup"}
+        size={196}
+        className="hidden transition-transform duration-300 group-hover:scale-[1.02] lg:block"
+        priority
+      />
+    </Link>
+  );
+
   return (
-    // No backdrop-filter on <header>: it would become the containing block for
-    // position:fixed descendants and break fullscreen drawer/backdrop coverage.
-    <header className="sticky top-0 z-40">
+    <header className="sticky top-0 z-40 border-b border-line bg-bg/95 backdrop-blur-md">
       <div
-        ref={barRef}
-        className={`relative z-50 border-b border-line bg-bg/95 backdrop-blur-md`}
+        className={`mx-auto flex max-w-6xl items-center gap-3 px-5 py-3.5 md:px-8 md:py-5 ${
+          hideBrand ? "justify-end" : "justify-between"
+        }`}
       >
-        <div
-          className={`mx-auto flex max-w-6xl items-center gap-3 px-5 py-3.5 md:px-8 md:py-5 ${
-            hideBrand ? "justify-end" : "justify-between"
-          }`}
-        >
-        {!hideBrand && (
-          <Link
-            href="/"
-            className="group relative z-[60] inline-flex min-w-0 shrink items-center"
-            aria-label="ATRIX Technologies"
-            onClick={closeMobileMenu}
-          >
-            <Logo
-              key={useLightLogo ? "nav-lockup-light-sm" : "nav-lockup-dark-sm"}
-              variant={useLightLogo ? "lockup-light" : "lockup"}
-              size={152}
-              className="transition-transform duration-300 group-hover:scale-[1.02] lg:hidden"
-              priority
-            />
-            <Logo
-              key={useLightLogo ? "nav-lockup-light-lg" : "nav-lockup-dark-lg"}
-              variant={useLightLogo ? "lockup-light" : "lockup"}
-              size={196}
-              className="hidden transition-transform duration-300 group-hover:scale-[1.02] lg:block"
-              priority
-            />
-          </Link>
-        )}
+        {brandLink}
 
         <nav className="hidden items-center gap-1 lg:flex" aria-label="Principal">
           {links.slice(0, 3).map((link) => (
@@ -312,192 +311,159 @@ export function Header({
           </div>
         </nav>
 
-        <div className="relative z-[60] flex items-center gap-2 lg:hidden">
+        <div className="flex items-center gap-2 lg:hidden">
           <ThemeToggle />
           <button
             type="button"
             aria-label={mobileOpen ? "Cerrar menú" : "Abrir menú"}
             aria-expanded={mobileOpen}
-            onClick={() =>
-              setMobileOpen((v) => {
-                if (v) setMobileSoftwareOpen(false);
-                return !v;
-              })
-            }
+            onClick={toggleMobileMenu}
             className="inline-flex h-10 w-10 items-center justify-center border border-line bg-bg-elevated text-fg"
           >
             <span className="sr-only">Menú</span>
-            <span className="relative block h-3.5 w-4">
-              <span
-                className={`absolute left-0 block h-0.5 w-4 bg-current transition ${
-                  mobileOpen ? "top-1.5 rotate-45" : "top-0"
-                }`}
-              />
-              <span
-                className={`absolute left-0 top-1.5 block h-0.5 w-4 bg-current transition ${
-                  mobileOpen ? "opacity-0" : "opacity-100"
-                }`}
-              />
-              <span
-                className={`absolute left-0 block h-0.5 w-4 bg-current transition ${
-                  mobileOpen ? "top-1.5 -rotate-45" : "top-3"
-                }`}
-              />
-            </span>
+            <HamburgerIcon open={mobileOpen} />
           </button>
-        </div>
         </div>
       </div>
 
-      {/* Always mounted to avoid remount flash; visibility toggled. Panel sits
-          under the sticky bar so the top chrome never disappears/reappears. */}
-      <div
-        className={`lg:hidden ${mobileOpen ? "pointer-events-auto" : "pointer-events-none"}`}
-        aria-hidden={!mobileOpen}
-      >
-        <button
-          type="button"
-          tabIndex={mobileOpen ? 0 : -1}
-          aria-label="Cerrar menú"
-          className={`fixed inset-x-0 bottom-0 z-40 bg-[color-mix(in_srgb,var(--fg)_45%,transparent)] transition-opacity duration-200 ${
-            mobileOpen ? "opacity-100" : "opacity-0"
-          }`}
-          style={{ top: barHeight || undefined }}
-          onClick={closeMobileMenu}
-        />
-        <div
-          ref={mobilePanelRef}
-          className={`fixed inset-x-0 z-50 flex flex-col border-b border-line bg-bg shadow-[0_24px_60px_rgba(11,26,36,0.18)] transition duration-200 ${
-            mobileOpen
-              ? "translate-y-0 opacity-100"
-              : "pointer-events-none -translate-y-1 opacity-0"
-          }`}
-          style={{
-            top: barHeight || undefined,
-            maxHeight: barHeight ? `calc(100dvh - ${barHeight}px)` : "100dvh",
-          }}
-        >
-          <div className="shrink-0 border-b border-line px-5 py-3.5">
-            <Link
-              href="/"
-              className="inline-flex min-w-0 items-center"
-              aria-label="ATRIX Technologies"
-              tabIndex={mobileOpen ? 0 : -1}
-              onClick={closeMobileMenu}
-            >
-              <Logo
-                key={useLightLogo ? "drawer-lockup-light" : "drawer-lockup-dark"}
-                variant={useLightLogo ? "lockup-light" : "lockup"}
-                size={168}
-                priority
-              />
-            </Link>
-          </div>
-
-          <nav
-            className="flex flex-1 flex-col overflow-y-auto overscroll-contain px-5 pb-6 pt-2"
-            aria-label="Móvil"
+      {/* Portal to body so backdrop-filter on sticky header doesn't trap fixed coords. */}
+      {portalReady &&
+        mobileOpen &&
+        createPortal(
+          <div
+            ref={mobilePanelRef}
+            className="fixed inset-0 z-[100] flex flex-col bg-bg lg:hidden"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Menú de navegación"
           >
-            <p className="mb-1 pt-3 text-[10px] font-semibold tracking-[0.22em] text-accent uppercase">
-              Menú
-            </p>
+            <div className="flex shrink-0 items-center justify-between gap-3 border-b border-line px-5 py-3.5">
+              <Link
+                href="/"
+                className="inline-flex min-w-0 items-center"
+                aria-label="ATRIX Technologies"
+                onClick={closeMobileMenu}
+              >
+                <Logo
+                  key={useLightLogo ? "drawer-lockup-light" : "drawer-lockup-dark"}
+                  variant={useLightLogo ? "lockup-light" : "lockup"}
+                  size={152}
+                  priority
+                />
+              </Link>
+              <div className="flex items-center gap-2">
+                <ThemeToggle />
+                <button
+                  type="button"
+                  aria-label="Cerrar menú"
+                  onClick={closeMobileMenu}
+                  className="inline-flex h-10 w-10 items-center justify-center border border-line bg-bg-elevated text-fg"
+                >
+                  <HamburgerIcon open />
+                </button>
+              </div>
+            </div>
 
-            {links.slice(0, 3).map((link) => (
+            <nav
+              className="flex flex-1 flex-col overflow-y-auto overscroll-contain px-5 pb-8 pt-2"
+              aria-label="Móvil"
+            >
+              <p className="mb-1 pt-3 text-[10px] font-semibold tracking-[0.22em] text-accent uppercase">
+                Menú
+              </p>
+
+              {links.slice(0, 3).map((link) => (
+                <SectionLink
+                  key={link.hash}
+                  hash={link.hash}
+                  className="border-b border-line py-3.5 text-sm font-semibold text-fg"
+                  onClick={closeMobileMenu}
+                >
+                  {link.label}
+                </SectionLink>
+              ))}
+
+              <div className="border-b border-line">
+                <div className="flex items-center justify-between gap-3 py-3.5">
+                  <Link
+                    href="/proyectos"
+                    className="text-sm font-semibold text-fg"
+                    onClick={closeMobileMenu}
+                  >
+                    Software
+                  </Link>
+                  <button
+                    type="button"
+                    aria-label="Ver proyectos de software"
+                    aria-expanded={mobileSoftwareOpen}
+                    onClick={() => setMobileSoftwareOpen((v) => !v)}
+                    className="inline-flex h-8 w-8 items-center justify-center border border-line bg-bg-elevated text-muted"
+                  >
+                    <Chevron open={mobileSoftwareOpen} />
+                  </button>
+                </div>
+                {mobileSoftwareOpen && (
+                  <ul className="max-h-[calc(4*2.75rem)] space-y-0 overflow-y-auto overscroll-contain bg-bg-elevated pb-2 pl-1">
+                    {projects.map((project) => (
+                      <li key={project.slug}>
+                        <Link
+                          href={`/proyectos/${project.slug}`}
+                          className="flex h-[2.75rem] items-center gap-2.5 px-2 text-sm text-muted"
+                          onClick={closeMobileMenu}
+                          style={
+                            {
+                              "--accent": project.theme.accent,
+                              "--project-glow": project.theme.glow,
+                            } as React.CSSProperties
+                          }
+                        >
+                          {project.logo ? (
+                            <ProjectLogo src={project.logo} name={project.name} size="sm" />
+                          ) : (
+                            <span
+                              className="h-1.5 w-1.5 rounded-full"
+                              style={{ background: project.theme.accent }}
+                              aria-hidden
+                            />
+                          )}
+                          <span className="truncate">{project.name}</span>
+                        </Link>
+                      </li>
+                    ))}
+                    <li>
+                      <Link
+                        href="/proyectos"
+                        className="flex h-[2.75rem] items-center px-2 text-sm font-semibold text-accent"
+                        onClick={closeMobileMenu}
+                      >
+                        Ver todos →
+                      </Link>
+                    </li>
+                  </ul>
+                )}
+              </div>
+
               <SectionLink
-                key={link.hash}
-                hash={link.hash}
+                hash="contacto"
                 className="border-b border-line py-3.5 text-sm font-semibold text-fg"
                 onClick={closeMobileMenu}
               >
-                {link.label}
+                Contacto
               </SectionLink>
-            ))}
 
-            <div className="border-b border-line">
-              <div className="flex items-center justify-between gap-3 py-3.5">
-                <Link
-                  href="/proyectos"
-                  className="text-sm font-semibold text-fg"
-                  tabIndex={mobileOpen ? 0 : -1}
-                  onClick={closeMobileMenu}
-                >
-                  Software
-                </Link>
-                <button
-                  type="button"
-                  tabIndex={mobileOpen ? 0 : -1}
-                  aria-label="Ver proyectos de software"
-                  aria-expanded={mobileSoftwareOpen}
-                  onClick={() => setMobileSoftwareOpen((v) => !v)}
-                  className="inline-flex h-8 w-8 items-center justify-center border border-line bg-bg-elevated text-muted"
-                >
-                  <Chevron open={mobileSoftwareOpen} />
-                </button>
-              </div>
-              {mobileSoftwareOpen && (
-                <ul className="max-h-[calc(4*2.75rem)] space-y-0 overflow-y-auto overscroll-contain bg-bg-elevated pb-2 pl-1">
-                  {projects.map((project) => (
-                    <li key={project.slug}>
-                      <Link
-                        href={`/proyectos/${project.slug}`}
-                        className="flex h-[2.75rem] items-center gap-2.5 px-2 text-sm text-muted"
-                        tabIndex={mobileOpen ? 0 : -1}
-                        onClick={closeMobileMenu}
-                        style={
-                          {
-                            "--accent": project.theme.accent,
-                            "--project-glow": project.theme.glow,
-                          } as React.CSSProperties
-                        }
-                      >
-                        {project.logo ? (
-                          <ProjectLogo src={project.logo} name={project.name} size="sm" />
-                        ) : (
-                          <span
-                            className="h-1.5 w-1.5 rounded-full"
-                            style={{ background: project.theme.accent }}
-                            aria-hidden
-                          />
-                        )}
-                        <span className="truncate">{project.name}</span>
-                      </Link>
-                    </li>
-                  ))}
-                  <li>
-                    <Link
-                      href="/proyectos"
-                      className="flex h-[2.75rem] items-center px-2 text-sm font-semibold text-accent"
-                      tabIndex={mobileOpen ? 0 : -1}
-                      onClick={closeMobileMenu}
-                    >
-                      Ver todos →
-                    </Link>
-                  </li>
-                </ul>
-              )}
-            </div>
-
-            <SectionLink
-              hash="contacto"
-              className="border-b border-line py-3.5 text-sm font-semibold text-fg"
-              onClick={closeMobileMenu}
-            >
-              Contacto
-            </SectionLink>
-
-            <a
-              href={whatsappUrl()}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-5 inline-flex items-center justify-center rounded-full bg-accent px-4 py-3.5 text-sm font-semibold text-accent-ink"
-              tabIndex={mobileOpen ? 0 : -1}
-              onClick={closeMobileMenu}
-            >
-              WhatsApp · {site.phoneDisplay}
-            </a>
-          </nav>
-        </div>
-      </div>
+              <a
+                href={whatsappUrl()}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-5 inline-flex items-center justify-center rounded-full bg-accent px-4 py-3.5 text-sm font-semibold text-accent-ink"
+                onClick={closeMobileMenu}
+              >
+                WhatsApp · {site.phoneDisplay}
+              </a>
+            </nav>
+          </div>,
+          document.body,
+        )}
     </header>
   );
 }
