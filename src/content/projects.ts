@@ -17,6 +17,19 @@ export type Project = {
   result: string;
   url?: string;
   designerUrl?: string;
+  previewImage?: string;
+  tags?: string[];
+  stats?: { value: string; label: string }[];
+  story?: string[];
+  approach?: { title: string; copy: string }[];
+  deliverables?: { title: string; copy: string }[];
+  languages?: { code: string; name: string }[];
+  lead?: {
+    name: string;
+    role: string;
+    badges?: string[];
+    copy: string[];
+  };
   highlights: string[];
   stackNote: string;
   seoTitle: string;
@@ -45,21 +58,104 @@ export const projects: Project[] = [
       "Presencia profesional en dentalmate.mx, SEO local, 9 idiomas y operación interna lista para el día a día.",
     url: "https://dentalmate.mx",
     designerUrl: "https://dentalmate.mx/disenador",
+    previewImage: "/projects/dentalmate-preview.jpg",
+    tags: [
+      "UI/UX",
+      "Frontend",
+      "Branding web",
+      "SEO local",
+      "Panel admin",
+      "Multidioma",
+    ],
+    stats: [
+      { value: "14", label: "Tratamientos con página propia" },
+      { value: "9", label: "Idiomas en el sitio" },
+      { value: "1", label: "Panel de recepción" },
+      { value: "100%", label: "Diseño responsive" },
+    ],
+    story: [
+      "DentalMate necesitaba más que una página bonita: una marca digital confiable para atraer pacientes en Nuevo Laredo (y visitantes de Laredo, TX), mostrar tratamientos con claridad y dar seguimiento a solicitudes desde recepción.",
+      "ATRIX Technologies diseñó y desarrolló el sitio de punta a punta: identidad visual teal, hero con video, catálogo de servicios, casos antes/después, opiniones, FAQ, mapa, contacto multicanal y un panel administrativo para el equipo del consultorio.",
+      "El resultado es dentalmate.mx en producción: SEO local, 9 idiomas, formularios conectados a Supabase y una experiencia pensada para convertir visitas en citas.",
+    ],
+    approach: [
+      {
+        title: "Precisión visual",
+        copy: "Jerarquía, tipografía y detalle para que la marca se sienta profesional desde el primer viewport.",
+      },
+      {
+        title: "Enfoque en el paciente",
+        copy: "Mensajes claros, menos jerga clínica y caminos simples hacia WhatsApp o el formulario.",
+      },
+      {
+        title: "Ejecución completa",
+        copy: "Diseño, desarrollo, SEO, datos, panel interno y despliegue — no solo un mockup.",
+      },
+    ],
+    deliverables: [
+      {
+        title: "Identidad digital",
+        copy: "Sistema visual teal, tipografía Sora/Outfit, motion y microinteracciones coherentes.",
+      },
+      {
+        title: "Catálogo clínico web",
+        copy: "Servicios filtrables y páginas profundas para ortodoncia, implantes, estética y más.",
+      },
+      {
+        title: "Conversión a cita",
+        copy: "CTAs de WhatsApp, formulario de solicitud y flujo pensado para agendar valoración.",
+      },
+      {
+        title: "Operación interna",
+        copy: "Panel de recepción para revisar y marcar seguimiento de contactos entrantes.",
+      },
+      {
+        title: "Experiencia global",
+        copy: "Selector de idioma con banderas reales para pacientes locales e internacionales.",
+      },
+      {
+        title: "Legal y confianza",
+        copy: "Aviso de privacidad LFPDPPP, créditos ATRIX y estructura lista para crecer.",
+      },
+    ],
+    languages: [
+      { code: "ES", name: "Español (México)" },
+      { code: "EN", name: "English" },
+      { code: "PT", name: "Português" },
+      { code: "FR", name: "Français" },
+      { code: "ZH", name: "中文" },
+      { code: "DE", name: "Deutsch" },
+      { code: "IT", name: "Italiano" },
+      { code: "JA", name: "日本語" },
+      { code: "KO", name: "한국어" },
+    ],
+    lead: {
+      name: "Ing. Néstor J. Resendiz, MBA",
+      role: "Diseñador · Programador · Líder técnico · ATRIX Technologies",
+      badges: ["Ingeniería", "MBA"],
+      copy: [
+        "Encargado del diseño visual, la arquitectura de la aplicación y la programación de DentalMate. Coordinó la experiencia de usuario, las páginas de tratamientos, el panel de recepción, los formularios de contacto y la conexión con Supabase para que el consultorio gestione leads y seguimiento de forma clara.",
+        "Enfoque: código limpio, interfaces claras y comunicación directa con el cliente hasta que cada requisito quede reflejado en funcionalidad real.",
+      ],
+    },
     highlights: [
-      "Landing con video, servicios y conversión a WhatsApp",
+      "Landing con video, tip del día, servicios y conversión a WhatsApp",
       "14 páginas de tratamientos con SEO local",
       "Panel de recepción con leads y seguimiento",
-      "9 idiomas y formularios conectados a Supabase",
+      "9 idiomas con selector de banderas",
+      "Formularios conectados a Supabase",
+      "Casos antes/después, opiniones, FAQ, mapa y privacidad",
     ],
     stackNote: "Next.js · Supabase · Netlify · i18n",
     seoTitle: "DentalMate — sitio y panel para consultorio dental",
     seoDescription:
-      "Caso ATRIX Technologies: plataforma web de DentalMate en Nuevo Laredo con captación de pacientes, i18n y panel de recepción.",
+      "Caso ATRIX Technologies: plataforma web de DentalMate en Nuevo Laredo con captación de pacientes, i18n, SEO local y panel de recepción.",
     keywords: [
       "sitio web consultorio dental",
       "DentalMate Nuevo Laredo",
       "panel recepción dental",
       "ATRIX Technologies",
+      "desarrollo web dental",
     ],
     theme: {
       bg: "#eef7f7",
@@ -78,50 +174,60 @@ export const projects: Project[] = [
     impact: [
       "Marca digital confiable lista para convertir visitas en citas",
       "Recepción con control de solicitudes entrantes",
-      "Presencia bilingüe/multidioma para pacientes locales e internacionales",
+      "Presencia multidioma para pacientes locales e internacionales",
     ],
     modules: [
       {
         title: "Landing de marca",
-        copy: "Hero con video, tip del día, servicios, resultados, opiniones, FAQ, mapa y contacto.",
+        copy: "Hero con video, recomendación del día, servicios destacados, resultados, opiniones, FAQ, ubicación y contacto.",
       },
       {
-        title: "14 tratamientos",
-        copy: "Páginas profundas con guía para el paciente, FAQ y SEO orientado a Nuevo Laredo.",
+        title: "14 páginas de tratamientos",
+        copy: "Cada procedimiento con contenido propio, guía para el paciente, FAQ y SEO local orientado a Nuevo Laredo.",
       },
       {
         title: "Panel de recepción",
-        copy: "Login seguro, interesados, seguimiento y operación interna del consultorio.",
+        copy: "Login seguro, listado de leads/solicitudes y seguimiento para el equipo interno del consultorio.",
+      },
+      {
+        title: "Formularios e i18n",
+        copy: "Contacto con prefijos internacionales, 9 idiomas con banderas y copy adaptado al paciente.",
       },
       {
         title: "Integraciones",
-        copy: "WhatsApp, Supabase, redes, mapa, privacidad LFPDPPP y despliegue continuo.",
+        copy: "WhatsApp, Supabase (leads + auth), redes oficiales, mapa y branding del consultorio.",
+      },
+      {
+        title: "SEO y producción",
+        copy: "Sitemap, JSON-LD, meta local, dominio dentalmate.mx y despliegue continuo en Netlify.",
       },
     ],
     technologies: [
-      { name: "Next.js", role: "App Router + TypeScript" },
+      { name: "Next.js 16", role: "App Router + TypeScript" },
+      { name: "React 19", role: "UI moderna y formularios" },
       { name: "Tailwind CSS", role: "Sistema visual DentalMate" },
-      { name: "Supabase", role: "Auth, leads y datos de recepción" },
-      { name: "Netlify", role: "Hosting y CI/CD" },
-      { name: "i18n", role: "9 idiomas con selector de banderas" },
+      { name: "Supabase", role: "Auth + leads de contacto" },
+      { name: "Netlify", role: "Hosting y despliegue continuo" },
+      { name: "i18n", role: "9 idiomas con banderas" },
       { name: "SEO local", role: "Sitemap, JSON-LD y meta por servicio" },
+      { name: "WhatsApp", role: "CTAs y captación directa" },
     ],
     process: [
       {
         title: "Descubrimiento",
-        copy: "Alcance del sitio, servicios prioritarios, tono de marca y flujo real de recepción.",
+        copy: "Alcance del sitio, servicios prioritarios, tono de marca y necesidades del panel de recepción.",
       },
       {
         title: "Diseño y contenido",
         copy: "UI teal, tipografía Sora, copy clínico claro y prototipo de conversión a cita.",
       },
       {
-        title: "Desarrollo",
-        copy: "Next.js, Supabase, WhatsApp, i18n, admin y SEO en producción.",
+        title: "Desarrollo e integraciones",
+        copy: "Next.js, Supabase, WhatsApp, i18n, admin y formularios conectados a producción.",
       },
       {
-        title: "Entrega",
-        copy: "Publicación en dentalmate.mx y ajustes según uso real del consultorio.",
+        title: "Entrega y ajustes",
+        copy: "Publicación en dentalmate.mx, pruebas y refinamiento según uso real del consultorio.",
       },
     ],
     persuasion: [
