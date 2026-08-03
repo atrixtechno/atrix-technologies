@@ -163,11 +163,14 @@ function SoftwareDropdown({
 }
 
 export function Header({
-  solid = false,
+  solid: _solid = false,
   light = false,
+  hideBrand = false,
 }: {
   solid?: boolean;
   light?: boolean;
+  /** En landing: menú sticky sin logo (el hero ya lleva la marca). */
+  hideBrand?: boolean;
 }) {
   const { theme } = useTheme();
   const useLightLogo = light || theme === "light";
@@ -197,28 +200,34 @@ export function Header({
 
   return (
     <header className="sticky top-0 z-40 border-b border-line bg-bg/95 backdrop-blur-md">
-      <div className="relative z-50 mx-auto flex max-w-6xl items-center justify-between gap-3 px-5 py-3.5 md:px-8 md:py-5">
-        <Link
-          href="/"
-          className="group relative z-[60] inline-flex min-w-0 shrink items-center"
-          aria-label="ATRIX Technologies"
-          onClick={closeMobileMenu}
-        >
-          <Logo
-            key={useLightLogo ? "nav-lockup-light-sm" : "nav-lockup-dark-sm"}
-            variant={useLightLogo ? "lockup-light" : "lockup"}
-            size={152}
-            className="transition-transform duration-300 group-hover:scale-[1.02] lg:hidden"
-            priority
-          />
-          <Logo
-            key={useLightLogo ? "nav-lockup-light-lg" : "nav-lockup-dark-lg"}
-            variant={useLightLogo ? "lockup-light" : "lockup"}
-            size={196}
-            className="hidden transition-transform duration-300 group-hover:scale-[1.02] lg:block"
-            priority
-          />
-        </Link>
+      <div
+        className={`relative z-50 mx-auto flex max-w-6xl items-center gap-3 px-5 py-3.5 md:px-8 md:py-5 ${
+          hideBrand ? "justify-end" : "justify-between"
+        }`}
+      >
+        {!hideBrand && (
+          <Link
+            href="/"
+            className="group relative z-[60] inline-flex min-w-0 shrink items-center"
+            aria-label="ATRIX Technologies"
+            onClick={closeMobileMenu}
+          >
+            <Logo
+              key={useLightLogo ? "nav-lockup-light-sm" : "nav-lockup-dark-sm"}
+              variant={useLightLogo ? "lockup-light" : "lockup"}
+              size={152}
+              className="transition-transform duration-300 group-hover:scale-[1.02] lg:hidden"
+              priority
+            />
+            <Logo
+              key={useLightLogo ? "nav-lockup-light-lg" : "nav-lockup-dark-lg"}
+              variant={useLightLogo ? "lockup-light" : "lockup"}
+              size={196}
+              className="hidden transition-transform duration-300 group-hover:scale-[1.02] lg:block"
+              priority
+            />
+          </Link>
+        )}
 
         <nav className="hidden items-center gap-1 lg:flex" aria-label="Principal">
           {links.slice(0, 3).map((link) => (

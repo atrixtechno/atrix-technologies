@@ -55,7 +55,7 @@ export function Hero() {
             key={isLight ? "hero-full-light" : "hero-full-dark"}
             variant={isLight ? "full-light" : "full"}
             size={560}
-            className="animate-float relative w-full max-w-[260px] sm:max-w-[340px] md:max-w-[480px] lg:max-w-[540px]"
+            className="relative w-full max-w-[260px] sm:max-w-[340px] md:max-w-[480px] lg:max-w-[540px]"
             priority
           />
         </div>
