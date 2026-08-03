@@ -123,12 +123,6 @@ export function Hero() {
               Ver servicios
             </a>
           </div>
-
-          <p className="mt-4 text-sm tracking-wide text-muted">
-            {site.phoneDisplay}
-            <span className="mx-2 text-line">·</span>
-            <span className="tracking-[0.12em] uppercase">{site.motto}</span>
-          </p>
         </div>
       </div>
     </section>

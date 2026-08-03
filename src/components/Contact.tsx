@@ -92,9 +92,8 @@ export function Contact() {
             rel="noopener noreferrer"
             className="mt-8 inline-flex rounded-full bg-accent px-6 py-3.5 font-semibold text-accent-ink shadow-[0_12px_32px_rgba(13,159,150,0.25)] transition hover:brightness-110"
           >
-            WhatsApp · {site.phoneDisplay}
+            WhatsApp
           </a>
-          <p className="mt-4 text-sm text-muted">{site.coverage}</p>
         </div>
 
         <form ref={formRef} onSubmit={onSubmit} className="relative space-y-5">
