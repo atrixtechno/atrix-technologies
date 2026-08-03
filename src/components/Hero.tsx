@@ -1,22 +1,20 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Logo } from "@/components/Logo";
 import { site, whatsappUrl } from "@/content/site";
-import type { DailyTip } from "@/content/tips";
+import { getDailyTip } from "@/content/tips";
 
-type HeroProps = {
-  tip: DailyTip & { label: string };
-};
-
-export function Hero({ tip }: HeroProps) {
+export function Hero() {
   const videoRef = useRef<HTMLVideoElement>(null);
+  const [tip, setTip] = useState<ReturnType<typeof getDailyTip> | null>(null);
 
   useEffect(() => {
+    setTip(getDailyTip());
     const v = videoRef.current;
     if (!v) return;
     v.play().catch(() => {
-      /* autoplay puede bloquearse; el poster/overlay cubre */
+      /* autoplay puede bloquearse */
     });
   }, []);
 
@@ -65,16 +63,26 @@ export function Hero({ tip }: HeroProps) {
           <p className="text-[10px] font-semibold tracking-[0.28em] text-accent uppercase">
             Consejo del día · Para tu negocio
           </p>
-          <p className="mt-1.5 text-xs capitalize text-white/45">{tip.label}</p>
-          <h2
-            id="daily-tip-title"
-            className="font-display mt-3 text-xl font-bold tracking-tight text-white md:text-2xl"
-          >
-            {tip.title}
-          </h2>
-          <p className="mt-2 text-sm leading-relaxed text-white/70 md:text-[15px]">
-            {tip.copy}
-          </p>
+          {tip ? (
+            <>
+              <p className="mt-1.5 text-xs capitalize text-white/45">{tip.label}</p>
+              <h2
+                id="daily-tip-title"
+                className="font-display mt-3 text-xl font-bold tracking-tight text-white md:text-2xl"
+              >
+                {tip.title}
+              </h2>
+              <p className="mt-2 text-sm leading-relaxed text-white/70 md:text-[15px]">
+                {tip.copy}
+              </p>
+            </>
+          ) : (
+            <div className="mt-3 space-y-2" aria-hidden>
+              <div className="mx-auto h-3 w-40 rounded bg-white/10" />
+              <div className="mx-auto h-6 w-4/5 max-w-sm rounded bg-white/10" />
+              <div className="mx-auto h-10 w-full max-w-md rounded bg-white/5" />
+            </div>
+          )}
         </aside>
 
         <div className="animate-rise-delay-2 mt-9 flex flex-wrap items-center justify-center gap-3">
