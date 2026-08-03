@@ -1,7 +1,7 @@
 "use client";
 
 import { FormEvent, useEffect, useRef, useState } from "react";
-import { site, whatsappUrl } from "@/content/site";
+import { whatsappUrl } from "@/content/site";
 
 type Phase = "idle" | "loading" | "success" | "error";
 
