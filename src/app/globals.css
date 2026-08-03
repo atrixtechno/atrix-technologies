@@ -303,6 +303,91 @@ body {
   box-shadow: 0 18px 40px var(--project-glow);
 }
 
+@keyframes project-cta-pulse {
+  0%,
+  100% {
+    box-shadow: 0 14px 36px var(--project-glow);
+    transform: translateY(0);
+  }
+  50% {
+    box-shadow: 0 20px 48px var(--project-glow);
+    transform: translateY(-2px);
+  }
+}
+
+@keyframes project-shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+@keyframes project-preview-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+.project-cta-pulse {
+  animation: project-cta-pulse 2.8s ease-in-out infinite;
+}
+
+.project-preview-float {
+  animation: project-preview-float 6s ease-in-out infinite;
+}
+
+.project-card {
+  transition:
+    transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 0.35s ease,
+    box-shadow 0.35s ease,
+    background-color 0.35s ease;
+}
+
+.project-card:hover {
+  transform: translateY(-4px);
+  border-color: color-mix(in srgb, var(--accent) 45%, var(--line));
+  box-shadow: 0 18px 40px color-mix(in srgb, var(--project-glow) 70%, transparent);
+}
+
+.project-tag {
+  transition:
+    transform 0.25s ease,
+    border-color 0.25s ease,
+    background-color 0.25s ease;
+}
+
+.project-tag:hover {
+  transform: translateY(-2px);
+  border-color: color-mix(in srgb, var(--accent) 50%, transparent);
+  background: color-mix(in srgb, var(--accent) 10%, var(--bg-elevated));
+}
+
+.project-stat-value {
+  background: linear-gradient(
+    110deg,
+    var(--accent) 0%,
+    color-mix(in srgb, var(--accent) 55%, white) 45%,
+    var(--accent) 90%
+  );
+  background-size: 220% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: project-shimmer 4.5s linear infinite;
+}
+
+.project-section-line {
+  transform-origin: left;
+  animation: line-draw 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .animate-rise,
   .animate-rise-delay,
@@ -314,8 +399,24 @@ body {
   .animate-orb,
   .animate-orb-delayed,
   .scanline,
-  .contact-spinner {
+  .contact-spinner,
+  .project-cta-pulse,
+  .project-preview-float,
+  .project-stat-value,
+  .project-section-line {
     animation: none;
+  }
+
+  .project-stat-value {
+    color: var(--accent);
+    background: none;
+    -webkit-background-clip: unset;
+    background-clip: unset;
+  }
+
+  .project-card:hover,
+  .project-tag:hover {
+    transform: none;
   }
 
   .reveal {
