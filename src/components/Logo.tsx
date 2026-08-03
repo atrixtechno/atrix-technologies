@@ -26,6 +26,7 @@ export function Logo({
   const isMark = variant === "mark" || variant === "mark-light";
   const width = size ?? (isMark ? 40 : 280);
   const height = isMark ? width : Math.round((width * asset.h) / asset.w);
+  const fluid = fill || className.includes("w-full");
 
   return (
     <Image
@@ -33,13 +34,13 @@ export function Logo({
       alt="ATRIX Technologies"
       width={width}
       height={height}
-      className={`object-contain ${fill ? "h-full w-full" : "h-auto w-auto"} ${className}`}
+      className={`object-contain ${fluid ? "h-auto w-full" : "h-auto w-auto"} ${className}`}
       style={
-        fill
-          ? { width: "100%", height: "100%" }
+        fluid
+          ? { width: "100%", height: "auto", maxWidth: "100%" }
           : isMark
             ? { width, height }
-            : { width, height: "auto" }
+            : { width, height: "auto", maxWidth: "100%" }
       }
       priority={priority}
     />

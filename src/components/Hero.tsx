@@ -48,19 +48,19 @@ export function Hero() {
         <div className="absolute right-6 bottom-10 h-10 w-10 border-r-2 border-b-2 border-signal/35 md:right-10 md:bottom-14" />
       </div>
 
-      <div className="relative mx-auto grid min-h-[78svh] max-w-6xl items-center gap-6 px-5 pb-12 pt-28 md:grid-cols-[1.15fr_0.95fr] md:gap-6 md:px-8 md:pb-16 md:pt-28 lg:gap-8">
+      <div className="relative mx-auto grid min-h-[78svh] max-w-6xl items-center gap-5 px-5 pb-12 pt-24 sm:gap-6 sm:pt-28 md:grid-cols-[1.15fr_0.95fr] md:gap-6 md:px-8 md:pb-16 md:pt-28 lg:gap-8">
         <ScrollFollowLogo />
 
-        <div className="animate-rise-delay text-center md:text-left">
-          <p className="text-xs font-semibold tracking-[0.16em] text-accent uppercase">
+        <div className="animate-rise-delay min-w-0 text-center md:text-left">
+          <p className="text-[11px] font-semibold tracking-[0.14em] text-accent uppercase sm:text-xs sm:tracking-[0.16em]">
             {site.coverage}
           </p>
 
-          <h1 className="font-display mt-3 max-w-xl text-[1.85rem] font-semibold tracking-[-0.02em] text-fg md:text-[2.35rem] md:leading-[1.15] lg:text-[2.65rem]">
+          <h1 className="font-display mt-3 max-w-xl text-balance text-[1.55rem] font-semibold tracking-[-0.02em] text-fg sm:text-[1.85rem] md:text-[2.35rem] md:leading-[1.15] lg:text-[2.65rem]">
             {site.tagline}
           </h1>
 
-          <p className="mt-4 max-w-lg text-[15px] leading-[1.65] text-muted md:text-base md:leading-[1.7]">
+          <p className="mt-4 max-w-lg text-pretty text-[14px] leading-[1.65] text-muted sm:text-[15px] md:text-base md:leading-[1.7]">
             Impulsamos tu negocio — y tu hogar — con tecnología confiable: soporte,
             CCTV, redes, software y más.
           </p>
@@ -98,18 +98,18 @@ export function Hero() {
             )}
           </aside>
 
-          <div className="mt-6 flex flex-wrap items-center justify-center gap-3 md:justify-start">
+          <div className="mt-6 flex w-full flex-col items-stretch gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-center md:justify-start">
             <a
               href={whatsappUrl("Hola ATRIX, quiero cotizar un servicio.")}
               target="_blank"
               rel="noopener noreferrer"
-              className="rounded-full bg-accent px-6 py-3 text-[15px] font-semibold text-accent-ink shadow-[0_12px_32px_rgba(13,159,150,0.28)] transition hover:brightness-110"
+              className="rounded-full bg-accent px-6 py-3 text-center text-[15px] font-semibold text-accent-ink shadow-[0_12px_32px_rgba(13,159,150,0.28)] transition hover:brightness-110"
             >
               Cotizar por WhatsApp
             </a>
             <SectionLink
               hash="servicios"
-              className="rounded-full border border-line bg-bg-elevated/70 px-6 py-3 text-[15px] font-medium text-fg backdrop-blur transition hover:border-accent/50 hover:text-accent"
+              className="rounded-full border border-line bg-bg-elevated/70 px-6 py-3 text-center text-[15px] font-medium text-fg backdrop-blur transition hover:border-accent/50 hover:text-accent"
             >
               Ver servicios
             </SectionLink>

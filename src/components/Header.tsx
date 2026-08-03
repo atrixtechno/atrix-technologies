@@ -174,7 +174,7 @@ export function Header({
   const [softwareOpen, setSoftwareOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mobileSoftwareOpen, setMobileSoftwareOpen] = useState(false);
-  /** En landing el logo grande del hero sigue el scroll; evitamos duplicar marca en el header. */
+  /** En landing desktop el logo del hero sigue el scroll; en móvil sí mostramos marca en header. */
   const hideBrand = !solid;
 
   const mobilePanelRef = useRef<HTMLDivElement>(null);
@@ -207,7 +207,22 @@ export function Header({
     >
       <div className="relative z-50 mx-auto flex max-w-6xl items-center justify-between px-5 py-4 md:px-8 md:py-5">
         {hideBrand ? (
-          <div className="w-10" aria-hidden />
+          <>
+            <Link
+              href="/"
+              className="header-mobile-brand group flex items-center gap-2 transition-opacity duration-300 md:hidden"
+              aria-label="ATRIX Technologies"
+            >
+              <Logo
+                key={useLightLogo ? "m-mark-light" : "m-mark-dark"}
+                variant={useLightLogo ? "mark-light" : "mark"}
+                size={34}
+                className="transition-transform duration-300 group-hover:scale-105"
+                priority
+              />
+            </Link>
+            <div className="hidden w-10 md:block" aria-hidden />
+          </>
         ) : (
           <Link href="/" className="group flex items-center gap-3">
             <Logo

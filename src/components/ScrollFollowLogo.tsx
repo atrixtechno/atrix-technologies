@@ -63,7 +63,7 @@ export function ScrollFollowLogo() {
       originRef.current = {
         left: rect.left,
         top: rect.top,
-        width: rect.width,
+        width: Math.min(rect.width, window.innerWidth - 32),
         height: rect.height,
       };
     }
@@ -73,23 +73,36 @@ export function ScrollFollowLogo() {
       const o = originRef.current;
       if (!o) return;
 
-      const range = Math.max(380, window.innerHeight * 0.7);
+      const mobile = window.innerWidth < 768;
+      const range = Math.max(mobile ? 280 : 380, window.innerHeight * (mobile ? 0.55 : 0.7));
       const t = easeOutCubic(clamp(window.scrollY / range, 0, 1));
 
-      const endSize = window.innerWidth < 640 ? 48 : 56;
-      const endLeft = 18;
-      const endTop = 12;
+      const endSize = mobile ? 44 : 56;
+      const endLeft = mobile
+        ? Math.max(8, window.innerWidth - endSize - 14)
+        : 18;
+      const endTop = 10;
+
+      const width = lerp(o.width, endSize, t);
+      const height = lerp(o.height, endSize, t);
+      let left = lerp(o.left, endLeft, t);
+      let top = lerp(o.top, endTop, t);
+
+      // Nunca salirse del viewport
+      left = clamp(left, 8, Math.max(8, window.innerWidth - width - 8));
+      top = clamp(top, 8, Math.max(8, window.innerHeight - height - 8));
 
       setProgress(t);
+      document.documentElement.dataset.logoDocked = t > 0.45 ? "1" : "0";
       setStyle({
         position: "fixed",
-        left: lerp(o.left, endLeft, t),
-        top: lerp(o.top, endTop, t),
-        width: lerp(o.width, endSize, t),
-        height: lerp(o.height, endSize, t),
+        left,
+        top,
+        width,
+        height,
         zIndex: 60,
         margin: 0,
-        maxWidth: "none",
+        maxWidth: "100%",
         pointerEvents: t > 0.05 ? "auto" : "none",
       });
     }
@@ -101,12 +114,10 @@ export function ScrollFollowLogo() {
 
     function onResize() {
       originRef.current = null;
-      window.scrollTo({ top: window.scrollY }); // keep
       if (window.scrollY <= 4) measureOrigin();
       onFrame();
     }
 
-    // Esperar layout/fuentes
     measureOrigin();
     update();
     const boot = window.setTimeout(() => {
@@ -122,6 +133,7 @@ export function ScrollFollowLogo() {
       cancelAnimationFrame(rafRef.current);
       window.removeEventListener("scroll", onFrame);
       window.removeEventListener("resize", onResize);
+      delete document.documentElement.dataset.logoDocked;
     };
   }, [reducedMotion, isLight]);
 
@@ -153,14 +165,14 @@ export function ScrollFollowLogo() {
       <div
         className={`will-change-[left,top,width,height] ${
           compact
-            ? "rounded-2xl bg-bg/90 p-1.5 shadow-[0_14px_40px_rgba(11,26,36,0.28)] ring-1 ring-line backdrop-blur-md"
+            ? "rounded-2xl bg-bg/90 p-1 shadow-[0_14px_40px_rgba(11,26,36,0.28)] ring-1 ring-line backdrop-blur-md"
             : ""
         }`}
         style={style}
       >
         {progress < 0.5 && (
           <div
-            className="pointer-events-none absolute inset-0 -m-8 rounded-full bg-[radial-gradient(circle,rgba(26,76,255,0.16),transparent_70%)] blur-2xl"
+            className="pointer-events-none absolute inset-0 -m-6 rounded-full bg-[radial-gradient(circle,rgba(26,76,255,0.16),transparent_70%)] blur-2xl sm:-m-8"
             style={{ opacity: Math.max(0, 1 - progress * 1.4) }}
           />
         )}
@@ -185,9 +197,9 @@ export function ScrollFollowLogo() {
 
   if (reducedMotion) {
     return (
-      <div className="animate-fade-scale relative mx-auto flex w-full max-w-[360px] items-center justify-center md:mx-0 md:-ml-6 md:max-w-none md:justify-start lg:-ml-10 xl:-ml-14">
-        <div className="animate-glow pointer-events-none absolute inset-0 -m-10 rounded-full bg-[radial-gradient(circle,rgba(26,76,255,0.16),transparent_70%)] blur-2xl" />
-        <div className="relative w-full max-w-[340px] sm:max-w-[400px] md:max-w-[480px] lg:max-w-[540px]">
+      <div className="animate-fade-scale relative mx-auto flex w-full max-w-[280px] items-center justify-center sm:max-w-[340px] md:mx-0 md:-ml-6 md:max-w-none md:justify-start lg:-ml-10 xl:-ml-14">
+        <div className="animate-glow pointer-events-none absolute inset-0 -m-6 rounded-full bg-[radial-gradient(circle,rgba(26,76,255,0.16),transparent_70%)] blur-2xl sm:-m-10" />
+        <div className="relative w-full max-w-[260px] sm:max-w-[340px] md:max-w-[480px] lg:max-w-[540px]">
           {logoInner}
         </div>
       </div>
@@ -198,11 +210,11 @@ export function ScrollFollowLogo() {
     <>
       <div
         ref={slotRef}
-        className="animate-fade-scale relative mx-auto flex w-full max-w-[360px] items-center justify-center md:mx-0 md:-ml-6 md:max-w-none md:justify-start lg:-ml-10 xl:-ml-14"
+        className="animate-fade-scale relative mx-auto flex w-full max-w-[280px] items-center justify-center sm:max-w-[360px] md:mx-0 md:-ml-6 md:max-w-none md:justify-start lg:-ml-10 xl:-ml-14"
       >
         <div
           data-logo-ghost
-          className="invisible w-full max-w-[340px] sm:max-w-[400px] md:max-w-[480px] lg:max-w-[540px]"
+          className="invisible w-full max-w-[260px] sm:max-w-[340px] md:max-w-[480px] lg:max-w-[540px]"
           aria-hidden
         >
           <Logo

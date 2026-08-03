@@ -60,6 +60,7 @@
 html {
   scroll-behavior: smooth;
   color-scheme: light;
+  overflow-x: clip;
 }
 
 html[data-theme="dark"] {
@@ -70,7 +71,30 @@ body {
   background: var(--bg);
   color: var(--fg);
   font-family: var(--font-sora), system-ui, sans-serif;
+  overflow-x: clip;
   transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+img,
+svg,
+video {
+  max-width: 100%;
+  height: auto;
+}
+
+html[data-logo-docked="1"] .header-mobile-brand {
+  opacity: 0;
+  pointer-events: none;
+}
+
+@media (max-width: 767px) {
+  .project-preview-float {
+    animation: none;
+  }
+
+  .project-cta-pulse {
+    animation: none;
+  }
 }
 
 ::selection {

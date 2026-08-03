@@ -25,45 +25,56 @@ export function ProjectCase({ project }: { project: Project }) {
               "radial-gradient(ellipse 70% 55% at 80% 0%, var(--project-glow), transparent 55%)",
           }}
         />
-        <div className="relative mx-auto grid max-w-6xl gap-10 px-5 pb-16 pt-14 md:grid-cols-[1.05fr_0.95fr] md:items-end md:gap-12 md:px-8 md:pb-20 md:pt-16">
-          <div className="animate-rise">
+        <div className="relative mx-auto grid max-w-6xl gap-8 px-5 pb-14 pt-14 sm:gap-10 sm:pb-16 md:grid-cols-[1.05fr_0.95fr] md:items-end md:gap-12 md:px-8 md:pb-20 md:pt-16">
+          <div className="animate-rise min-w-0">
             <Link
               href="/proyectos"
               className="text-sm text-[var(--muted)] transition hover:text-[var(--accent)]"
             >
               ← Todos los proyectos
             </Link>
-            <div className="mt-10 flex items-center gap-5">
+            <div className="mt-8 flex flex-col gap-4 sm:mt-10 sm:flex-row sm:items-center sm:gap-5">
               {project.logo && (
-                <ProjectLogo src={project.logo} name={project.name} size="xl" />
+                <ProjectLogo
+                  src={project.logo}
+                  name={project.name}
+                  size="lg"
+                  className="self-start sm:self-auto"
+                />
               )}
-              <div>
-                <p className="text-xs font-semibold tracking-[0.28em] text-[var(--accent)] uppercase">
+              <div className="min-w-0">
+                <p className="text-[11px] font-semibold tracking-[0.18em] text-[var(--accent)] uppercase sm:text-xs sm:tracking-[0.28em]">
                   {project.sector}
                 </p>
-                <h1 className="font-display mt-3 max-w-4xl text-4xl font-extrabold tracking-tight md:text-6xl">
+                <h1 className="font-display mt-2 text-balance text-3xl font-extrabold tracking-tight sm:mt-3 sm:text-4xl md:text-6xl">
                   {project.name}
                 </h1>
               </div>
             </div>
             <div className="project-section-line mt-4 h-px w-24 bg-[var(--accent)]/50" />
-            <p className="mt-6 max-w-2xl text-lg leading-relaxed text-[var(--muted)]">
+            <p className="mt-5 max-w-2xl text-pretty text-base leading-relaxed text-[var(--muted)] sm:mt-6 sm:text-lg">
               {project.summary}
             </p>
-            <div className="mt-6 flex flex-wrap gap-3 text-xs font-semibold tracking-[0.14em] text-[var(--muted)] uppercase">
+            <div className="mt-5 flex flex-col gap-1 text-[11px] font-semibold tracking-[0.1em] text-[var(--muted)] uppercase sm:mt-6 sm:flex-row sm:flex-wrap sm:gap-3 sm:text-xs sm:tracking-[0.14em]">
               <span>{project.year}</span>
-              <span>·</span>
+              <span className="hidden sm:inline" aria-hidden>
+                ·
+              </span>
               <span>{project.location}</span>
-              <span>·</span>
-              <span>{project.stackNote}</span>
+              <span className="hidden sm:inline" aria-hidden>
+                ·
+              </span>
+              <span className="normal-case tracking-normal sm:uppercase sm:tracking-[0.14em]">
+                {project.stackNote}
+              </span>
             </div>
 
             {project.tags && project.tags.length > 0 && (
-              <div className="mt-6 flex flex-wrap gap-2">
+              <div className="mt-5 flex flex-wrap gap-2 sm:mt-6">
                 {project.tags.map((tag) => (
                   <span
                     key={tag}
-                    className="project-tag rounded-full border border-[var(--line)] bg-[var(--bg-elevated)] px-3 py-1 text-[11px] font-semibold tracking-[0.14em] text-[var(--accent)] uppercase"
+                    className="project-tag rounded-full border border-[var(--line)] bg-[var(--bg-elevated)] px-2.5 py-1 text-[10px] font-semibold tracking-[0.12em] text-[var(--accent)] uppercase sm:px-3 sm:text-[11px] sm:tracking-[0.14em]"
                   >
                     {tag}
                   </span>
@@ -71,13 +82,13 @@ export function ProjectCase({ project }: { project: Project }) {
               </div>
             )}
 
-            <div className="mt-10 flex flex-wrap items-center gap-3">
+            <div className="mt-8 flex w-full flex-col gap-3 sm:mt-10 sm:flex-row sm:flex-wrap sm:items-center">
               {project.url && (
                 <a
                   href={project.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="project-cta-pulse inline-flex items-center gap-2 rounded-full bg-[var(--accent)] px-7 py-3.5 text-sm font-bold text-[var(--accent-ink)] transition hover:brightness-110"
+                  className="project-cta-pulse inline-flex w-full items-center justify-center gap-2 rounded-full bg-[var(--accent)] px-6 py-3.5 text-sm font-bold text-[var(--accent-ink)] transition hover:brightness-110 sm:w-auto sm:px-7"
                   style={{
                     outline:
                       "4px solid color-mix(in srgb, var(--accent) 22%, transparent)",
@@ -93,7 +104,7 @@ export function ProjectCase({ project }: { project: Project }) {
                 )}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="rounded-full border border-[var(--line)] bg-[var(--bg-elevated)] px-5 py-3.5 text-sm font-semibold transition hover:-translate-y-0.5 hover:border-[var(--accent)] hover:text-[var(--accent)]"
+                className="inline-flex w-full items-center justify-center rounded-full border border-[var(--line)] bg-[var(--bg-elevated)] px-5 py-3.5 text-sm font-semibold transition hover:-translate-y-0.5 hover:border-[var(--accent)] hover:text-[var(--accent)] sm:w-auto"
               >
                 Quiero algo así
               </a>
@@ -102,7 +113,7 @@ export function ProjectCase({ project }: { project: Project }) {
                   href={project.designerUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-sm text-[var(--muted)] underline-offset-4 transition hover:text-[var(--accent)] hover:underline"
+                  className="text-center text-sm text-[var(--muted)] underline-offset-4 transition hover:text-[var(--accent)] hover:underline sm:text-left"
                 >
                   Página del diseñador
                 </a>
@@ -111,16 +122,16 @@ export function ProjectCase({ project }: { project: Project }) {
           </div>
 
           {(project.previewImage || project.url) && (
-            <div className="animate-fade-scale relative">
+            <div className="animate-fade-scale relative min-w-0">
               <div
-                className="animate-glow pointer-events-none absolute -inset-3 -z-10 rounded-[1.5rem] blur-2xl"
+                className="animate-glow pointer-events-none absolute -inset-2 -z-10 rounded-[1.5rem] blur-2xl sm:-inset-3"
                 style={{ background: "var(--project-glow)" }}
               />
               <a
                 href={project.url ?? "#"}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="project-preview-float group block overflow-hidden rounded-[1.15rem] border border-[var(--line)] bg-[var(--bg-elevated)] shadow-[0_24px_60px_rgba(11,40,45,0.12)] transition hover:-translate-y-1"
+                className="project-preview-float group block overflow-hidden rounded-[1rem] border border-[var(--line)] bg-[var(--bg-elevated)] shadow-[0_24px_60px_rgba(11,40,45,0.12)] transition hover:-translate-y-1 sm:rounded-[1.15rem]"
                 aria-label={`Abrir ${project.name} en vivo`}
               >
                 <div className="flex items-center gap-2 border-b border-[var(--line)] bg-[color-mix(in_srgb,var(--fg)_4%,transparent)] px-3 py-2.5">
@@ -435,13 +446,13 @@ export function ProjectCase({ project }: { project: Project }) {
           </Reveal>
 
           <Reveal delay={160}>
-            <div className="mt-12 flex flex-wrap gap-3">
+            <div className="mt-10 flex w-full flex-col gap-3 sm:mt-12 sm:flex-row sm:flex-wrap">
               {project.url && (
                 <a
                   href={project.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="project-cta-pulse rounded-full bg-[var(--accent)] px-6 py-3.5 text-sm font-bold text-[var(--accent-ink)] transition hover:brightness-110"
+                  className="project-cta-pulse inline-flex w-full items-center justify-center rounded-full bg-[var(--accent)] px-6 py-3.5 text-sm font-bold text-[var(--accent-ink)] transition hover:brightness-110 sm:w-auto"
                 >
                   Ver {project.name} en vivo ↗
                 </a>
@@ -452,13 +463,13 @@ export function ProjectCase({ project }: { project: Project }) {
                 )}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="rounded-full border border-[var(--line)] px-6 py-3.5 text-sm font-semibold transition hover:-translate-y-0.5 hover:border-[var(--accent)]"
+                className="inline-flex w-full items-center justify-center rounded-full border border-[var(--line)] px-6 py-3.5 text-sm font-semibold transition hover:-translate-y-0.5 hover:border-[var(--accent)] sm:w-auto"
               >
                 Cotizar un proyecto similar
               </a>
               <Link
                 href="/proyectos"
-                className="rounded-full border border-[var(--line)] px-6 py-3.5 text-sm transition hover:-translate-y-0.5"
+                className="inline-flex w-full items-center justify-center rounded-full border border-[var(--line)] px-6 py-3.5 text-sm transition hover:-translate-y-0.5 sm:w-auto"
               >
                 Ver más casos
               </Link>

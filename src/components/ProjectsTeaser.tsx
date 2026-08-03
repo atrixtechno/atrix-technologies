@@ -56,7 +56,7 @@ export function ProjectsTeaser() {
                 <li>
                   <Link
                     href={`/proyectos/${project.slug}`}
-                    className="project-tile group relative flex flex-col gap-3 overflow-hidden border px-5 py-5 transition duration-300 hover:-translate-y-0.5 md:flex-row md:items-center md:justify-between md:gap-8 md:px-6 md:py-6"
+                    className="project-tile group relative flex min-w-0 flex-col gap-3 overflow-hidden border px-4 py-4 transition duration-300 hover:-translate-y-0.5 sm:px-5 sm:py-5 md:flex-row md:items-center md:justify-between md:gap-8 md:px-6 md:py-6"
                     style={
                       {
                         "--project-accent": accent,
@@ -82,12 +82,12 @@ export function ProjectsTeaser() {
                       aria-hidden
                     />
 
-                    <div className="relative flex items-center gap-4">
+                    <div className="relative flex min-w-0 items-center gap-3 sm:gap-4">
                       {project.logo && (
                         <ProjectLogo src={project.logo} name={project.name} size="md" />
                       )}
-                      <div>
-                        <h3 className="font-display text-xl font-semibold md:text-2xl">
+                      <div className="min-w-0">
+                        <h3 className="font-display text-lg font-semibold sm:text-xl md:text-2xl">
                           {project.name}
                         </h3>
                         <p className="mt-1 text-sm font-medium text-[var(--project-accent)]">
@@ -95,7 +95,7 @@ export function ProjectsTeaser() {
                         </p>
                       </div>
                     </div>
-                    <p className="relative max-w-md text-sm text-muted md:text-right">
+                    <p className="relative max-w-md text-pretty text-sm text-muted md:text-right">
                       {project.summary}
                     </p>
                   </Link>

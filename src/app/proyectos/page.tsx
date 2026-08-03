@@ -50,47 +50,47 @@ export default function ProjectsIndexPage() {
       />
       <Header solid />
       <main className="atmosphere min-h-screen">
-        <div className="mx-auto max-w-6xl px-5 pb-24 pt-16 md:px-8 md:pt-20">
-          <p className="text-xs font-semibold tracking-[0.28em] text-accent uppercase">
+        <div className="mx-auto max-w-6xl px-5 pb-20 pt-14 sm:pb-24 sm:pt-16 md:px-8 md:pt-20">
+          <p className="text-[11px] font-semibold tracking-[0.22em] text-accent uppercase sm:text-xs sm:tracking-[0.28em]">
             Portafolio
           </p>
-          <h1 className="font-display mt-4 max-w-3xl text-4xl font-extrabold tracking-tight md:text-6xl">
+          <h1 className="font-display mt-3 max-w-3xl text-balance text-3xl font-extrabold tracking-tight sm:mt-4 sm:text-4xl md:text-6xl">
             Proyectos que operan en el mundo real
           </h1>
-          <p className="mt-5 max-w-2xl text-lg text-muted">
+          <p className="mt-4 max-w-2xl text-pretty text-base text-muted sm:mt-5 sm:text-lg">
             Entra a cada caso para ver el reto, la solución, módulos, tecnologías y
             por qué un cliente elegiría algo similar.
           </p>
 
-          <ul className="mt-14 grid gap-5 md:grid-cols-2">
+          <ul className="mt-10 grid gap-4 sm:mt-14 sm:gap-5 md:grid-cols-2">
             {projects.map((project) => (
-              <li key={project.slug}>
+              <li key={project.slug} className="min-w-0">
                 <Link
                   href={`/proyectos/${project.slug}`}
-                  className="group block h-full border border-line bg-bg-elevated/50 p-6 transition hover:border-accent/40 hover:bg-bg-elevated md:p-8"
+                  className="group block h-full overflow-hidden border border-line bg-bg-elevated/50 p-5 transition hover:border-accent/40 hover:bg-bg-elevated sm:p-6 md:p-8"
                   style={{
                     boxShadow: `inset 3px 0 0 ${project.theme.accent}`,
                     ["--accent" as string]: project.theme.accent,
                     ["--project-glow" as string]: project.theme.glow,
                   }}
                 >
-                  <div className="flex items-start gap-4">
+                  <div className="flex items-start gap-3 sm:gap-4">
                     {project.logo && (
-                      <ProjectLogo src={project.logo} name={project.name} size="lg" />
+                      <ProjectLogo src={project.logo} name={project.name} size="md" />
                     )}
-                    <div className="min-w-0">
-                      <p className="text-[11px] font-semibold tracking-[0.2em] text-muted uppercase">
+                    <div className="min-w-0 flex-1">
+                      <p className="text-[10px] font-semibold tracking-[0.16em] text-muted uppercase sm:text-[11px] sm:tracking-[0.2em]">
                         {project.sector}
                       </p>
-                      <h2 className="font-display mt-2 text-2xl font-bold transition group-hover:text-accent md:text-3xl">
+                      <h2 className="font-display mt-1.5 text-xl font-bold transition group-hover:text-accent sm:mt-2 sm:text-2xl md:text-3xl">
                         {project.name}
                       </h2>
                     </div>
                   </div>
-                  <p className="mt-4 text-sm leading-relaxed text-muted">
+                  <p className="mt-3 text-pretty text-sm leading-relaxed text-muted sm:mt-4">
                     {project.summary}
                   </p>
-                  <p className="mt-6 text-sm font-semibold text-accent">
+                  <p className="mt-5 text-sm font-semibold text-accent sm:mt-6">
                     Ver caso completo →
                   </p>
                 </Link>
