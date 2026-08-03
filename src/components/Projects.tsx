@@ -39,7 +39,7 @@ export function Projects() {
               <li key={project.slug}>
                 <Link
                   href={`/proyectos/${project.slug}`}
-                  className="project-tile group relative grid gap-4 overflow-hidden border px-5 py-6 transition duration-300 hover:-translate-y-0.5 md:grid-cols-[auto_1fr_auto] md:items-center md:gap-10 md:px-6 md:py-7"
+                  className="project-tile group relative grid min-w-0 gap-3 overflow-hidden border px-4 py-5 transition duration-300 hover:-translate-y-0.5 sm:px-5 sm:py-6 md:grid-cols-[auto_1fr_auto] md:items-center md:gap-10 md:px-6 md:py-7"
                   style={
                     {
                       "--project-accent": accent,
