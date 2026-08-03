@@ -23,7 +23,14 @@ export const metadata: Metadata = {
   },
   description: site.description,
   icons: {
-    icon: "/icon.svg",
+    icon: [
+      { url: "/favicon-32.png", sizes: "32x32", type: "image/png" },
+      { url: "/favicon-48.png", sizes: "48x48", type: "image/png" },
+      { url: "/icon-192.png", sizes: "192x192", type: "image/png" },
+      { url: "/icon-512.png", sizes: "512x512", type: "image/png" },
+    ],
+    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180" }],
+    shortcut: "/favicon-32.png",
   },
   openGraph: {
     title: site.legalName,
@@ -32,6 +39,7 @@ export const metadata: Metadata = {
     siteName: site.legalName,
     locale: "es_MX",
     type: "website",
+    images: [{ url: "/brand/atrix-logo.png", width: 1024, height: 1024 }],
   },
 };
 

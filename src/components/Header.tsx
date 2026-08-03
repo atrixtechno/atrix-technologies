@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { LogoMark } from "@/components/LogoMark";
+import { Logo } from "@/components/Logo";
 import { site, whatsappUrl } from "@/content/site";
 
 const links = [
@@ -12,11 +12,21 @@ const links = [
 export function Header() {
   return (
     <header className="absolute inset-x-0 top-0 z-30">
-      <div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-5 md:px-8 md:py-6">
+      <div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-4 md:px-8 md:py-5">
         <Link href="/" className="group flex items-center gap-3">
-          <LogoMark size={36} className="transition-transform group-hover:scale-105" />
-          <span className="font-display text-sm font-extrabold tracking-[0.18em] text-fg uppercase">
-            {site.name}
+          <Logo
+            variant="mark"
+            size={42}
+            className="transition-transform duration-300 group-hover:scale-105"
+            priority
+          />
+          <span className="hidden sm:block">
+            <span className="font-display block text-sm font-extrabold tracking-[0.22em] text-fg uppercase">
+              {site.name}
+            </span>
+            <span className="mt-0.5 block text-[10px] font-semibold tracking-[0.28em] text-signal uppercase">
+              Technologies
+            </span>
           </span>
         </Link>
         <nav className="hidden items-center gap-8 md:flex">

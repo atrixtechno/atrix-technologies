@@ -3,6 +3,7 @@ export const site = {
   legalName: "ATRIX Technologies",
   city: "Nuevo Laredo, Tamaulipas",
   tagline: "Software a la medida para negocios de la frontera",
+  motto: "Tecnología · Innovación · Rendimiento",
   description:
     "Diseñamos y construimos sitios, paneles y apps para negocios reales en Nuevo Laredo y la zona frontera.",
   whatsapp: process.env.NEXT_PUBLIC_WHATSAPP ?? "528671793155",
