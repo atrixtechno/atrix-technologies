@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Sora, Space_Grotesk } from "next/font/google";
 import { HashGuard } from "@/components/HashGuard";
+import { ScrollReset } from "@/components/ScrollReset";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { site } from "@/content/site";
 import "./globals.css";
@@ -85,6 +86,21 @@ const themeInitScript = `
 })();
 `;
 
+const scrollResetScript = `
+(function(){
+  try {
+    if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+    var nav = performance.getEntriesByType('navigation')[0];
+    if (nav && nav.type === 'reload') {
+      if (location.pathname === '/' && location.hash) {
+        history.replaceState(null, '', '/');
+      }
+      window.scrollTo(0, 0);
+    }
+  } catch (e) {}
+})();
+`;
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -94,10 +110,12 @@ export default function RootLayout({
     <html lang="es" className={`${spaceGrotesk.variable} ${sora.variable} h-full`} suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+        <script dangerouslySetInnerHTML={{ __html: scrollResetScript }} />
       </head>
       <body className="min-h-full antialiased">
         <ThemeProvider>
           <HashGuard />
+          <ScrollReset />
           {children}
         </ThemeProvider>
       </body>

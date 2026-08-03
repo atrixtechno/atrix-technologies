@@ -174,6 +174,8 @@ export function Header({
   const [softwareOpen, setSoftwareOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mobileSoftwareOpen, setMobileSoftwareOpen] = useState(false);
+  /** En landing el logo grande del hero sigue el scroll; evitamos duplicar marca en el header. */
+  const hideBrand = !solid;
 
   const mobilePanelRef = useRef<HTMLDivElement>(null);
 
@@ -204,23 +206,27 @@ export function Header({
       }
     >
       <div className="relative z-50 mx-auto flex max-w-6xl items-center justify-between px-5 py-4 md:px-8 md:py-5">
-        <Link href="/" className="group flex items-center gap-3">
-          <Logo
-            key={useLightLogo ? "mark-light" : "mark-dark"}
-            variant={useLightLogo ? "mark-light" : "mark"}
-            size={42}
-            className="transition-transform duration-300 group-hover:scale-105"
-            priority
-          />
-          <span className="hidden sm:block">
-            <span className="font-display block text-sm font-extrabold tracking-[0.22em] text-fg uppercase">
-              {site.name}
+        {hideBrand ? (
+          <div className="w-10" aria-hidden />
+        ) : (
+          <Link href="/" className="group flex items-center gap-3">
+            <Logo
+              key={useLightLogo ? "mark-light" : "mark-dark"}
+              variant={useLightLogo ? "mark-light" : "mark"}
+              size={42}
+              className="transition-transform duration-300 group-hover:scale-105"
+              priority
+            />
+            <span className="hidden sm:block">
+              <span className="font-display block text-sm font-extrabold tracking-[0.22em] text-fg uppercase">
+                {site.name}
+              </span>
+              <span className="mt-0.5 block text-[10px] font-semibold tracking-[0.28em] text-signal uppercase">
+                Technologies
+              </span>
             </span>
-            <span className="mt-0.5 block text-[10px] font-semibold tracking-[0.28em] text-signal uppercase">
-              Technologies
-            </span>
-          </span>
-        </Link>
+          </Link>
+        )}
 
         <nav className="hidden items-center gap-1 lg:flex" aria-label="Principal">
           {links.slice(0, 3).map((link) => (
