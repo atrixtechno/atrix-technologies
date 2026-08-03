@@ -749,23 +749,102 @@ export const projects: Project[] = [
     name: "Tecos Taekwondo",
     sector: "Deporte · Academia de Taekwondo",
     summary:
-      "Gestión completa de la academia: alumnos, coaches, asistencias, eventos y comunicación.",
+      "Plataforma integral Tecos Taekwondo MBT: landing pública, portal alumno, panel admin, tienda/POS, pagos, galería y comunicación WhatsApp.",
     result:
-      "Misma línea operativa de un club serio, adaptada a la vertical de Taekwondo.",
-    highlights: [
-      "Panel admin para la academia",
-      "Asistencias, eventos y galería",
-      "Comunicación y módulos de operación",
+      "Academia operando en la nube 24/7: 3 portales, 20+ módulos de gestión y configuración editable sin tocar código.",
+    url: "https://www.tecostaekwondo.com",
+    designerUrl: "https://www.tecostaekwondo.com/diseñador.html",
+    previewImage: "/projects/tecos-tkd-preview.jpg",
+    tags: [
+      "Branding & identidad",
+      "UX / UI",
+      "Desarrollo web",
+      "Plataformas a medida",
+      "Marketing digital",
+      "Estrategia creativa",
     ],
-    stackNote: "App de gestión deportiva",
-    seoTitle: "Tecos Taekwondo — gestión digital de academia",
+    stats: [
+      { value: "1", label: "Plataforma integrada" },
+      { value: "3", label: "Portales · Público · Alumno · Admin" },
+      { value: "20+", label: "Módulos de gestión" },
+      { value: "100%", label: "Diseño responsive" },
+      { value: "24/7", label: "Disponible en la nube" },
+    ],
+    story: [
+      "Tecos Taekwondo MBT necesitaba dejar atrás hojas de cálculo y chats sueltos: una plataforma completa para academia, alumnos, pagos, tienda y comunicación.",
+      "ATRIX TECHNOLOGIES diseñó identidad, narrativa visual y software a medida — con sensibilidad artística (color, tipografía, motion) e ingeniería práctica: bases de datos seguras, paneles intuitivos y experiencias rápidas en móvil y escritorio.",
+      "El resultado es un sistema en producción alineado a la marca Tecos: landing pública, portal alumno, panel administrativo, tienda/POS, WhatsApp, exportaciones y secciones administrables sin tocar código.",
+    ],
+    approach: [
+      {
+        title: "Escuchar e imaginar",
+        copy: "Cada proyecto lleva una historia: la del equipo y de quienes confían en la marca. Escuchamos, diseñamos y construimos para pantallas reales.",
+      },
+      {
+        title: "Arte + ingeniería",
+        copy: "Color, tipografía y motion con bases de datos seguras, permisos por rol y carga rápida en móvil y escritorio.",
+      },
+      {
+        title: "Sin plantillas genéricas",
+        copy: "Soluciones pensadas para la operación del dojang: pagos, inventario, eventos y comunicación conectados.",
+      },
+    ],
+    deliverables: [
+      {
+        title: "Landing pública",
+        copy: "Avisos, calendario, entrenadores, galería, tienda, mapa y formulario de interesados.",
+      },
+      {
+        title: "Portal alumno",
+        copy: "Pagos, eventos, tienda online, documentos, credencial digital y cartas de torneo.",
+      },
+      {
+        title: "Panel administrativo",
+        copy: "Alumnos, ventas, comprobantes, inventario, nómina, gastos y dashboard financiero.",
+      },
+      {
+        title: "Tienda & POS",
+        copy: "Catálogo web, órdenes con comprobante, venta en mostrador e inventario sincronizado.",
+      },
+      {
+        title: "Comunicación",
+        copy: "WhatsApp bot (OpenWA / whatsapp-web.js), avisos, leads y notificaciones.",
+      },
+      {
+        title: "Exportaciones & config",
+        copy: "Excel, PDF, DOCX, credenciales, asistencias; textos, mapa, redes y tarifas editables.",
+      },
+    ],
+    lead: {
+      name: "Ing. Néstor J. Resendiz, MBA",
+      role: "Diseñador · Programador · Líder técnico · ATRIX Technologies",
+      badges: ["Ingeniería", "MBA", "Full stack"],
+      copy: [
+        "Encargado del diseño visual, la arquitectura y la programación de Tecos Taekwondo MBT: UX, panel admin, tienda, formularios de interesados y conexión con la base de datos en la nube.",
+        "Enfoque: código limpio, interfaces claras y comunicación directa con el cliente hasta que cada requisito quede en funcionalidad real.",
+      ],
+    },
+    highlights: [
+      "3 portales: público, alumno y administración",
+      "20+ módulos: pagos, tienda, inventario, nómina y dashboard",
+      "WhatsApp local OpenWA + servicio de notificaciones",
+      "Exportaciones Excel / PDF / DOCX y credenciales digitales",
+      "Galería, eventos, mapa y configuración editable sin código",
+      "Despliegue en Vercel con CI/CD vía GitHub Actions",
+    ],
+    stackNote: "React 18 · Supabase · Vercel · WhatsApp",
+    seoTitle:
+      "Tecos Taekwondo MBT — plataforma de academia con portal, admin y tienda",
     seoDescription:
-      "Caso ATRIX: plataforma de gestión para academia de Taekwondo con asistencias, eventos, galería y operación admin.",
+      "Caso ATRIX Technologies: plataforma integral de Tecos Taekwondo MBT con landing, portal alumno, panel admin, tienda/POS, WhatsApp, exportaciones y cloud Supabase.",
     keywords: [
       "software taekwondo",
+      "Tecos Taekwondo MBT",
       "gestión academia artes marciales",
-      "asistencias dojang",
-      "Tecos Taekwondo",
+      "portal alumnos dojang",
+      "tienda POS academia",
+      "Supabase React Vercel",
+      "ATRIX Technologies",
     ],
     theme: {
       bg: "#f6f2f3",
@@ -787,58 +866,86 @@ export const projects: Project[] = [
       glow: "rgba(251,45,90,0.3)",
     },
     challenge:
-      "La academia necesitaba estructura digital para alumnos, coaches y el ritmo diario de clases y eventos.",
+      "La academia necesitaba estructura digital para alumnos, coaches y el ritmo diario de clases, pagos, tienda y eventos — sin sistemas sueltos.",
     solution:
-      "Implementamos un sistema de gestión deportiva alineado a la identidad Tecos, con módulos de operación y comunicación.",
+      "Implementamos una plataforma integrada alineada a Tecos Taekwondo MBT: cara pública, portal alumno y panel admin con módulos operativos reales.",
     impact: [
-      "Mejor control de asistencias y eventos",
-      "Comunicación más ordenada con la comunidad",
-      "Base para crecer sin perder operación",
+      "Operación centralizada del dojang en la nube",
+      "Mejor experiencia para alumnos y padres",
+      "Control financiero, inventario y comunicación WhatsApp",
     ],
     modules: [
       {
-        title: "Admin academia",
-        copy: "Alumnos, coaches y configuración operativa.",
+        title: "Landing pública",
+        copy: "Avisos, calendario, entrenadores, galería, tienda, mapa y leads.",
       },
       {
-        title: "Asistencias y eventos",
-        copy: "Control del día a día y calendario de actividades.",
+        title: "Portal alumno",
+        copy: "Pagos, eventos, tienda, documentos, credencial y cartas de torneo.",
       },
       {
-        title: "Galería y avisos",
-        copy: "Presencia visual y comunicación con la comunidad.",
+        title: "Panel administrativo",
+        copy: "Alumnos, ventas, comprobantes, inventario, nómina, gastos y dashboard.",
+      },
+      {
+        title: "Tienda & POS",
+        copy: "Catálogo, órdenes, venta en mostrador e inventario sincronizado.",
+      },
+      {
+        title: "Comunicación",
+        copy: "WhatsApp bot, avisos, interesados y notificaciones.",
+      },
+      {
+        title: "Galería & eventos",
+        copy: "Álbumes, calendario, torneos, cumpleaños y confirmación de asistencia.",
+      },
+      {
+        title: "Exportaciones",
+        copy: "Excel, PDF, expedientes DOCX, credenciales y reportes de pagos.",
+      },
+      {
+        title: "Configuración",
+        copy: "Textos del sitio, ubicación, mapa, redes y tarifas sin tocar código.",
       },
     ],
     technologies: [
-      { name: "Web app", role: "Panel y módulos de gestión" },
-      { name: "Base de datos", role: "Alumnos, eventos y operación" },
-      { name: "Auth por roles", role: "Acceso según responsabilidad" },
-      { name: "Media", role: "Galería y contenidos de la academia" },
+      { name: "React 18 + JSX", role: "SPA modular: landing, admin y portal alumno" },
+      { name: "Supabase", role: "Auth, PostgreSQL, Storage y API realtime" },
+      { name: "PostgreSQL + RLS", role: "Migraciones SQL y seguridad por rol" },
+      { name: "Vercel + GitHub", role: "Hosting, CI/CD y verificación en cada push" },
+      { name: "Babel + esbuild", role: "Compilación JSX optimizada bajo demanda" },
+      { name: "WhatsApp OpenWA", role: "Bot local en Mac para recordatorios desde admin" },
+      { name: "WhatsApp Service", role: "Notificaciones y envío masivo (whatsapp-web.js)" },
+      { name: "Google Maps + Leaflet", role: "Mapa interactivo con fallback OSM" },
+      { name: "Chart.js & SVG", role: "Gráficas de ingresos en dashboard admin" },
+      { name: "ExcelJS · jsPDF · DOCX", role: "Reportes, expedientes y cartas de torneo" },
+      { name: "Storage + RPC", role: "Comprobantes, fotos, galería y funciones SQL" },
+      { name: "Bebas Neue + Inter", role: "Tipografía deportiva y legible" },
     ],
     process: [
       {
-        title: "Diagnóstico",
-        copy: "Mapeamos operación real de la academia y prioridades.",
+        title: "Descubrimiento y alcance",
+        copy: "Módulos: landing, admin, portal alumno, tienda, leads, galería, entrenadores y config editable.",
       },
       {
-        title: "Diseño",
-        copy: "UI fuerte, clara y alineada a la marca deportiva.",
+        title: "Diseño y prototipado",
+        copy: "Identidad Tecos Taekwondo MBT, componentes reutilizables, animaciones y experiencia móvil.",
       },
       {
-        title: "Build",
-        copy: "Módulos de alumnos, asistencias, eventos y comunicación.",
+        title: "Implementación y pruebas",
+        copy: "Supabase, permisos, archivos, exportaciones y ajustes con feedback del cliente.",
       },
       {
-        title: "Ajuste",
-        copy: "Refinamiento con uso real de coaches y administración.",
+        title: "Entrega y evolución",
+        copy: "Producción lista para operar, administrable sin código y abierta a nuevos módulos.",
       },
     ],
     persuasion: [
       "Tu dojang puede operar con la seriedad de un club profesional.",
+      "ATRIX entrega operación real: pagos, alumnos, tienda, admin y WhatsApp.",
       "Menos fricción administrativa, más foco en el entrenamiento.",
-      "ATRIX adapta el sistema a tu disciplina y forma de trabajar.",
     ],
-    year: "2025",
+    year: "2025–2026",
     location: "Nuevo Laredo, Tamaulipas",
   },
 ];
