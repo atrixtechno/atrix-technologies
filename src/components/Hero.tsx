@@ -20,11 +20,11 @@ export function Hero() {
   }, []);
 
   return (
-    <section className="relative min-h-[100svh] overflow-hidden bg-bg">
+    <section className="relative overflow-hidden bg-bg">
       <video
         ref={videoRef}
         className={`absolute inset-0 h-full w-full object-cover transition duration-300 ${
-          isLight ? "opacity-35 saturate-75" : "opacity-100"
+          isLight ? "opacity-30 saturate-75" : "opacity-100"
         }`}
         autoPlay
         muted
@@ -39,83 +39,87 @@ export function Hero() {
 
       <div className="hero-overlay absolute inset-0" />
       <div className="hero-glow absolute inset-0" />
-      <div className="grid-tech pointer-events-none absolute inset-0 opacity-40" />
+      <div className="grid-tech pointer-events-none absolute inset-0 opacity-35" />
 
-      <div className="relative mx-auto flex min-h-[100svh] max-w-6xl flex-col items-center justify-center px-5 pb-14 pt-28 text-center md:px-8 md:pb-16">
-        <div className="animate-fade-scale relative">
-          <div className="pointer-events-none absolute inset-0 -m-8 rounded-full bg-[radial-gradient(circle,rgba(26,76,255,0.14),transparent_70%)] blur-2xl" />
+      <div className="relative mx-auto grid min-h-[78svh] max-w-6xl items-center gap-8 px-5 pb-12 pt-28 md:grid-cols-[0.9fr_1.1fr] md:gap-12 md:px-8 md:pb-16 md:pt-28 lg:gap-16">
+        {/* Logo izquierda */}
+        <div className="animate-fade-scale relative mx-auto flex w-full max-w-[240px] items-center justify-center md:mx-0 md:max-w-none">
+          <div className="pointer-events-none absolute inset-0 -m-6 rounded-full bg-[radial-gradient(circle,rgba(26,76,255,0.14),transparent_70%)] blur-2xl" />
           <Logo
             variant={isLight ? "full-light" : "full"}
-            size={280}
+            size={320}
             priority
-            className="relative mx-auto max-w-[min(80vw,280px)]"
+            className="relative w-full max-w-[220px] md:max-w-[280px] lg:max-w-[300px]"
           />
         </div>
 
-        <p className="animate-rise-delay mt-5 text-[11px] font-semibold tracking-[0.28em] text-accent uppercase">
-          {site.coverage}
-        </p>
-
-        <h1 className="animate-rise-delay font-display mt-4 max-w-3xl text-3xl font-extrabold tracking-tight text-fg md:text-5xl">
-          {site.tagline}
-        </h1>
-
-        <p className="animate-rise-delay mt-4 max-w-xl text-base leading-relaxed text-muted md:text-lg">
-          Impulsamos tu negocio — y tu hogar — con tecnología confiable: soporte,
-          CCTV, redes, software y más.
-        </p>
-
-        <aside
-          id="consejo"
-          className="animate-rise-delay-2 mt-7 w-full max-w-xl scroll-mt-28 border-y px-5 py-4 backdrop-blur-sm md:px-6"
-          style={{
-            background: "var(--tip-bg)",
-            borderColor: "var(--tip-border)",
-          }}
-          aria-labelledby="daily-tip-title"
-        >
-          <p className="text-[10px] font-semibold tracking-[0.28em] text-accent uppercase">
-            Consejo del día
+        {/* Contenido derecha */}
+        <div className="animate-rise-delay text-center md:text-left">
+          <p className="text-[11px] font-semibold tracking-[0.28em] text-accent uppercase">
+            {site.coverage}
           </p>
-          {tip ? (
-            <>
-              <p className="mt-1 text-xs capitalize text-muted">{tip.label}</p>
-              <h2
-                id="daily-tip-title"
-                className="font-display mt-2 text-lg font-bold tracking-tight text-fg md:text-xl"
-              >
-                {tip.title}
-              </h2>
-              <p className="mt-2 text-sm leading-relaxed text-muted">{tip.copy}</p>
-            </>
-          ) : (
-            <div className="mt-3 space-y-2" aria-hidden>
-              <div className="mx-auto h-3 w-36 rounded bg-line" />
-              <div className="mx-auto h-5 w-4/5 max-w-sm rounded bg-line" />
-            </div>
-          )}
-        </aside>
 
-        <div className="animate-rise-delay-2 mt-8 flex flex-wrap items-center justify-center gap-3">
-          <a
-            href={whatsappUrl("Hola ATRIX, quiero cotizar un servicio.")}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="rounded-full bg-accent px-7 py-3.5 text-base font-semibold text-accent-ink shadow-[0_12px_32px_rgba(13,159,150,0.28)] transition hover:brightness-110"
+          <h1 className="font-display mt-3 max-w-xl text-3xl font-extrabold tracking-tight text-fg md:text-4xl lg:text-[2.75rem] lg:leading-tight">
+            {site.tagline}
+          </h1>
+
+          <p className="mt-3 max-w-lg text-sm leading-relaxed text-muted md:text-base">
+            Impulsamos tu negocio — y tu hogar — con tecnología confiable: soporte,
+            CCTV, redes, software y más.
+          </p>
+
+          <aside
+            id="consejo"
+            className="mt-5 scroll-mt-28 border-y px-4 py-3.5 backdrop-blur-sm md:px-5"
+            style={{
+              background: "var(--tip-bg)",
+              borderColor: "var(--tip-border)",
+            }}
+            aria-labelledby="daily-tip-title"
           >
-            Cotizar por WhatsApp
-          </a>
-          <a
-            href="#servicios"
-            className="rounded-full border border-line bg-bg-elevated/70 px-7 py-3.5 text-base text-fg backdrop-blur transition hover:border-accent/50 hover:text-accent"
-          >
-            Ver servicios
-          </a>
+            <p className="text-[10px] font-semibold tracking-[0.28em] text-accent uppercase">
+              Consejo del día
+            </p>
+            {tip ? (
+              <>
+                <p className="mt-1 text-[11px] capitalize text-muted">{tip.label}</p>
+                <h2
+                  id="daily-tip-title"
+                  className="font-display mt-1.5 text-base font-bold tracking-tight text-fg md:text-lg"
+                >
+                  {tip.title}
+                </h2>
+                <p className="mt-1.5 text-sm leading-relaxed text-muted">{tip.copy}</p>
+              </>
+            ) : (
+              <div className="mt-2 space-y-2" aria-hidden>
+                <div className="h-3 w-36 rounded bg-line md:mx-0 mx-auto" />
+                <div className="h-4 w-full max-w-sm rounded bg-line md:mx-0 mx-auto" />
+              </div>
+            )}
+          </aside>
+
+          <div className="mt-6 flex flex-wrap items-center justify-center gap-3 md:justify-start">
+            <a
+              href={whatsappUrl("Hola ATRIX, quiero cotizar un servicio.")}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="rounded-full bg-accent px-6 py-3 text-sm font-semibold text-accent-ink shadow-[0_12px_32px_rgba(13,159,150,0.28)] transition hover:brightness-110"
+            >
+              Cotizar por WhatsApp
+            </a>
+            <a
+              href="#servicios"
+              className="rounded-full border border-line bg-bg-elevated/70 px-6 py-3 text-sm text-fg backdrop-blur transition hover:border-accent/50 hover:text-accent"
+            >
+              Ver servicios
+            </a>
+          </div>
+
+          <p className="mt-4 text-xs text-muted md:text-sm">
+            {site.phoneDisplay} · {site.motto}
+          </p>
         </div>
-
-        <p className="mt-6 text-sm text-muted">
-          {site.phoneDisplay} · {site.motto}
-        </p>
       </div>
     </section>
   );
