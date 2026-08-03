@@ -164,6 +164,8 @@ export function Header({
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mobileSoftwareOpen, setMobileSoftwareOpen] = useState(false);
 
+  const mobilePanelRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
     if (!mobileOpen) return;
     const onKey = (e: KeyboardEvent) => {
@@ -177,6 +179,11 @@ export function Header({
     };
   }, [mobileOpen]);
 
+  function closeMobileMenu() {
+    setMobileOpen(false);
+    setMobileSoftwareOpen(false);
+  }
+
   return (
     <header
       className={
@@ -185,7 +192,7 @@ export function Header({
           : "absolute inset-x-0 top-0 z-40"
       }
     >
-      <div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-4 md:px-8 md:py-5">
+      <div className="relative z-50 mx-auto flex max-w-6xl items-center justify-between px-5 py-4 md:px-8 md:py-5">
         <Link href="/" className="group flex items-center gap-3">
           <Logo
             key={useLightLogo ? "mark-light" : "mark-dark"}
@@ -247,7 +254,12 @@ export function Header({
             type="button"
             aria-label={mobileOpen ? "Cerrar menú" : "Abrir menú"}
             aria-expanded={mobileOpen}
-            onClick={() => setMobileOpen((v) => !v)}
+            onClick={() =>
+              setMobileOpen((v) => {
+                if (v) setMobileSoftwareOpen(false);
+                return !v;
+              })
+            }
             className="inline-flex h-10 w-10 items-center justify-center border border-line bg-bg-elevated/70 text-fg backdrop-blur"
           >
             <span className="sr-only">Menú</span>
@@ -273,88 +285,102 @@ export function Header({
       </div>
 
       {mobileOpen && (
-        <div className="border-t border-line bg-bg/95 backdrop-blur-md lg:hidden">
-          <nav className="mx-auto flex max-w-6xl flex-col px-5 py-4 md:px-8" aria-label="Móvil">
-            {links.slice(0, 3).map((link) => (
-              <SectionLink
-                key={link.hash}
-                hash={link.hash}
-                className="border-b border-line py-3.5 text-sm font-medium text-fg"
-                onClick={() => setMobileOpen(false)}
-              >
-                {link.label}
-              </SectionLink>
-            ))}
+        <>
+          <button
+            type="button"
+            aria-label="Cerrar menú"
+            className="fixed inset-0 z-40 bg-bg/55 backdrop-blur-[2px] lg:hidden"
+            onClick={closeMobileMenu}
+          />
+          <div
+            ref={mobilePanelRef}
+            className="relative z-50 border-t border-line bg-bg/95 backdrop-blur-md lg:hidden"
+          >
+            <nav
+              className="mx-auto flex max-w-6xl flex-col px-5 py-4 md:px-8"
+              aria-label="Móvil"
+            >
+              {links.slice(0, 3).map((link) => (
+                <SectionLink
+                  key={link.hash}
+                  hash={link.hash}
+                  className="border-b border-line py-3.5 text-sm font-medium text-fg"
+                  onClick={closeMobileMenu}
+                >
+                  {link.label}
+                </SectionLink>
+              ))}
 
-            <div className="border-b border-line">
-              <div className="flex items-center justify-between gap-3 py-3.5">
-                <Link
-                  href="/proyectos"
-                  className="text-sm font-medium text-fg"
-                  onClick={() => setMobileOpen(false)}
-                >
-                  Software
-                </Link>
-                <button
-                  type="button"
-                  aria-label="Ver proyectos de software"
-                  aria-expanded={mobileSoftwareOpen}
-                  onClick={() => setMobileSoftwareOpen((v) => !v)}
-                  className="inline-flex h-8 w-8 items-center justify-center border border-line text-muted"
-                >
-                  <Chevron open={mobileSoftwareOpen} />
-                </button>
-              </div>
-              {mobileSoftwareOpen && (
-                <ul className="space-y-1 pb-3 pl-1">
-                  {projects.map((project) => (
-                    <li key={project.slug}>
+              <div className="border-b border-line">
+                <div className="flex items-center justify-between gap-3 py-3.5">
+                  <Link
+                    href="/proyectos"
+                    className="text-sm font-medium text-fg"
+                    onClick={closeMobileMenu}
+                  >
+                    Software
+                  </Link>
+                  <button
+                    type="button"
+                    aria-label="Ver proyectos de software"
+                    aria-expanded={mobileSoftwareOpen}
+                    onClick={() => setMobileSoftwareOpen((v) => !v)}
+                    className="inline-flex h-8 w-8 items-center justify-center border border-line text-muted"
+                  >
+                    <Chevron open={mobileSoftwareOpen} />
+                  </button>
+                </div>
+                {mobileSoftwareOpen && (
+                  <ul className="space-y-1 pb-3 pl-1">
+                    {projects.map((project) => (
+                      <li key={project.slug}>
+                        <Link
+                          href={`/proyectos/${project.slug}`}
+                          className="flex items-center gap-2 py-2 text-sm text-muted"
+                          onClick={closeMobileMenu}
+                        >
+                          <span
+                            className="h-1.5 w-1.5 rounded-full"
+                            style={{ background: project.theme.accent }}
+                            aria-hidden
+                          />
+                          {project.name}
+                        </Link>
+                      </li>
+                    ))}
+                    <li>
                       <Link
-                        href={`/proyectos/${project.slug}`}
-                        className="flex items-center gap-2 py-2 text-sm text-muted"
-                        onClick={() => setMobileOpen(false)}
+                        href="/proyectos"
+                        className="py-2 text-sm font-semibold text-accent"
+                        onClick={closeMobileMenu}
                       >
-                        <span
-                          className="h-1.5 w-1.5 rounded-full"
-                          style={{ background: project.theme.accent }}
-                          aria-hidden
-                        />
-                        {project.name}
+                        Ver todos →
                       </Link>
                     </li>
-                  ))}
-                  <li>
-                    <Link
-                      href="/proyectos"
-                      className="py-2 text-sm font-semibold text-accent"
-                      onClick={() => setMobileOpen(false)}
-                    >
-                      Ver todos →
-                    </Link>
-                  </li>
-                </ul>
-              )}
-            </div>
+                  </ul>
+                )}
+              </div>
 
-            <SectionLink
-              hash="contacto"
-              className="border-b border-line py-3.5 text-sm font-medium text-fg"
-              onClick={() => setMobileOpen(false)}
-            >
-              Contacto
-            </SectionLink>
+              <SectionLink
+                hash="contacto"
+                className="border-b border-line py-3.5 text-sm font-medium text-fg"
+                onClick={closeMobileMenu}
+              >
+                Contacto
+              </SectionLink>
 
-            <a
-              href={whatsappUrl()}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-4 inline-flex items-center justify-center rounded-full bg-accent px-4 py-3 text-sm font-semibold text-accent-ink"
-              onClick={() => setMobileOpen(false)}
-            >
-              WhatsApp · {site.phoneDisplay}
-            </a>
-          </nav>
-        </div>
+              <a
+                href={whatsappUrl()}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-4 inline-flex items-center justify-center rounded-full bg-accent px-4 py-3 text-sm font-semibold text-accent-ink"
+                onClick={closeMobileMenu}
+              >
+                WhatsApp · {site.phoneDisplay}
+              </a>
+            </nav>
+          </div>
+        </>
       )}
     </header>
   );
