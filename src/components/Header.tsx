@@ -205,42 +205,36 @@ export function Header({
           : "absolute inset-x-0 top-0 z-40"
       }
     >
-      <div className="relative z-50 mx-auto flex max-w-6xl items-center justify-between px-5 py-4 md:px-8 md:py-5">
-        {hideBrand ? (
-          <>
-            <Link
-              href="/"
-              className="header-mobile-brand group flex items-center transition-opacity duration-300 md:hidden"
-              aria-label="ATRIX Technologies"
-            >
-              <Logo
-                key={useLightLogo ? "m-mark-light" : "m-mark-dark"}
-                variant={useLightLogo ? "mark-light" : "mark"}
-                size={34}
-                className="transition-transform duration-300 group-hover:scale-105"
-                priority
-              />
-            </Link>
-            <div className="hidden w-10 md:block" aria-hidden />
-          </>
-        ) : (
-          <Link href="/" className="group inline-flex items-center" aria-label="ATRIX Technologies">
+      <div className="relative z-50 mx-auto flex max-w-6xl items-center justify-between gap-3 px-5 py-3.5 md:px-8 md:py-5">
+        <Link
+          href="/"
+          className="group relative z-[60] inline-flex min-w-0 shrink items-center"
+          aria-label="ATRIX Technologies"
+          onClick={closeMobileMenu}
+        >
+          {/* Móvil: lockup compacto siempre visible a la izquierda */}
+          <Logo
+            key={useLightLogo ? "nav-lockup-light-sm" : "nav-lockup-dark-sm"}
+            variant={useLightLogo ? "lockup-light" : "lockup"}
+            size={152}
+            className={`transition-transform duration-300 group-hover:scale-[1.02] lg:hidden ${
+              hideBrand && !mobileOpen ? "header-mobile-brand" : ""
+            }`}
+            priority
+          />
+          {/* Desktop landing: spacer (el logo grande del hero hace de marca) */}
+          {hideBrand ? (
+            <span className="hidden w-10 lg:block" aria-hidden />
+          ) : (
             <Logo
-              key={useLightLogo ? "lockup-light" : "lockup-dark"}
-              variant={useLightLogo ? "lockup-light" : "lockup"}
-              size={168}
-              className="transition-transform duration-300 group-hover:scale-[1.02] sm:hidden"
-              priority
-            />
-            <Logo
-              key={useLightLogo ? "lockup-light-md" : "lockup-dark-md"}
+              key={useLightLogo ? "nav-lockup-light-lg" : "nav-lockup-dark-lg"}
               variant={useLightLogo ? "lockup-light" : "lockup"}
               size={196}
-              className="hidden transition-transform duration-300 group-hover:scale-[1.02] sm:block"
+              className="hidden transition-transform duration-300 group-hover:scale-[1.02] lg:block"
               priority
             />
-          </Link>
-        )}
+          )}
+        </Link>
 
         <nav className="hidden items-center gap-1 lg:flex" aria-label="Principal">
           {links.slice(0, 3).map((link) => (
@@ -279,7 +273,7 @@ export function Header({
           </div>
         </nav>
 
-        <div className="flex items-center gap-2 lg:hidden">
+        <div className="relative z-[60] flex items-center gap-2 lg:hidden">
           <ThemeToggle />
           <button
             type="button"
@@ -291,7 +285,7 @@ export function Header({
                 return !v;
               })
             }
-            className="inline-flex h-10 w-10 items-center justify-center border border-line bg-bg-elevated/70 text-fg backdrop-blur"
+            className="inline-flex h-10 w-10 items-center justify-center border border-line bg-bg-elevated text-fg"
           >
             <span className="sr-only">Menú</span>
             <span className="relative block h-3.5 w-4">
@@ -320,22 +314,53 @@ export function Header({
           <button
             type="button"
             aria-label="Cerrar menú"
-            className="fixed inset-0 z-40 bg-bg/55 backdrop-blur-[2px] lg:hidden"
+            className="fixed inset-0 z-40 bg-[color-mix(in_srgb,var(--fg)_45%,transparent)] lg:hidden"
             onClick={closeMobileMenu}
           />
           <div
             ref={mobilePanelRef}
-            className="relative z-50 border-t border-line bg-bg/95 backdrop-blur-md lg:hidden"
+            className="fixed inset-x-0 top-0 z-50 flex max-h-[100dvh] flex-col border-b border-line bg-bg shadow-[0_24px_60px_rgba(11,26,36,0.18)] lg:hidden"
           >
+            <div className="flex items-center justify-between gap-3 border-b border-line px-5 py-3.5">
+              <Link
+                href="/"
+                className="inline-flex min-w-0 items-center"
+                aria-label="ATRIX Technologies"
+                onClick={closeMobileMenu}
+              >
+                <Logo
+                  key={useLightLogo ? "drawer-lockup-light" : "drawer-lockup-dark"}
+                  variant={useLightLogo ? "lockup-light" : "lockup"}
+                  size={168}
+                  priority
+                />
+              </Link>
+              <button
+                type="button"
+                aria-label="Cerrar menú"
+                onClick={closeMobileMenu}
+                className="inline-flex h-10 w-10 shrink-0 items-center justify-center border border-line bg-bg-elevated text-fg"
+              >
+                <span className="relative block h-3.5 w-4">
+                  <span className="absolute left-0 top-1.5 block h-0.5 w-4 rotate-45 bg-current" />
+                  <span className="absolute left-0 top-1.5 block h-0.5 w-4 -rotate-45 bg-current" />
+                </span>
+              </button>
+            </div>
+
             <nav
-              className="mx-auto flex max-w-6xl flex-col px-5 py-4 md:px-8"
+              className="flex flex-1 flex-col overflow-y-auto overscroll-contain px-5 pb-6 pt-2"
               aria-label="Móvil"
             >
+              <p className="mb-1 pt-3 text-[10px] font-semibold tracking-[0.22em] text-accent uppercase">
+                Menú
+              </p>
+
               {links.slice(0, 3).map((link) => (
                 <SectionLink
                   key={link.hash}
                   hash={link.hash}
-                  className="border-b border-line py-3.5 text-sm font-medium text-fg"
+                  className="border-b border-line py-3.5 text-sm font-semibold text-fg"
                   onClick={closeMobileMenu}
                 >
                   {link.label}
@@ -346,7 +371,7 @@ export function Header({
                 <div className="flex items-center justify-between gap-3 py-3.5">
                   <Link
                     href="/proyectos"
-                    className="text-sm font-medium text-fg"
+                    className="text-sm font-semibold text-fg"
                     onClick={closeMobileMenu}
                   >
                     Software
@@ -356,18 +381,18 @@ export function Header({
                     aria-label="Ver proyectos de software"
                     aria-expanded={mobileSoftwareOpen}
                     onClick={() => setMobileSoftwareOpen((v) => !v)}
-                    className="inline-flex h-8 w-8 items-center justify-center border border-line text-muted"
+                    className="inline-flex h-8 w-8 items-center justify-center border border-line bg-bg-elevated text-muted"
                   >
                     <Chevron open={mobileSoftwareOpen} />
                   </button>
                 </div>
                 {mobileSoftwareOpen && (
-                  <ul className="max-h-[calc(4*2.75rem)] space-y-0 overflow-y-auto overscroll-contain pb-3 pl-1">
+                  <ul className="max-h-[calc(4*2.75rem)] space-y-0 overflow-y-auto overscroll-contain bg-bg-elevated pb-2 pl-1">
                     {projects.map((project) => (
                       <li key={project.slug}>
                         <Link
                           href={`/proyectos/${project.slug}`}
-                          className="flex h-[2.75rem] items-center gap-2.5 text-sm text-muted"
+                          className="flex h-[2.75rem] items-center gap-2.5 px-2 text-sm text-muted"
                           onClick={closeMobileMenu}
                           style={
                             {
@@ -392,7 +417,7 @@ export function Header({
                     <li>
                       <Link
                         href="/proyectos"
-                        className="flex h-[2.75rem] items-center text-sm font-semibold text-accent"
+                        className="flex h-[2.75rem] items-center px-2 text-sm font-semibold text-accent"
                         onClick={closeMobileMenu}
                       >
                         Ver todos →
@@ -404,7 +429,7 @@ export function Header({
 
               <SectionLink
                 hash="contacto"
-                className="border-b border-line py-3.5 text-sm font-medium text-fg"
+                className="border-b border-line py-3.5 text-sm font-semibold text-fg"
                 onClick={closeMobileMenu}
               >
                 Contacto
@@ -414,7 +439,7 @@ export function Header({
                 href={whatsappUrl()}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mt-4 inline-flex items-center justify-center rounded-full bg-accent px-4 py-3 text-sm font-semibold text-accent-ink"
+                className="mt-5 inline-flex items-center justify-center rounded-full bg-accent px-4 py-3.5 text-sm font-semibold text-accent-ink"
                 onClick={closeMobileMenu}
               >
                 WhatsApp · {site.phoneDisplay}
