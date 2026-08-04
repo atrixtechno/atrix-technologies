@@ -17,7 +17,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const project = getProject(slug);
   if (!project) return {};
-  const ogImage = project.previewImage ?? "/brand/atrix-logo.png";
+  const ogImage = project.previewImage
+    ? project.previewImage.startsWith("http")
+      ? project.previewImage
+      : `https://atrixnld.com${project.previewImage}`
+    : "https://atrixnld.com/brand/og-atrix-v2.png";
+  const ogSize = project.previewImage
+    ? { width: 1200, height: 720 }
+    : { width: 1200, height: 630 };
   return {
     title: project.seoTitle,
     description: project.seoDescription,
@@ -28,7 +35,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       description: project.seoDescription,
       url: `${site.url}/proyectos/${project.slug}`,
       type: "article",
-      images: [{ url: ogImage, width: 1200, height: 720 }],
+      images: [{ url: ogImage, ...ogSize }],
     },
     twitter: {
       card: "summary_large_image",

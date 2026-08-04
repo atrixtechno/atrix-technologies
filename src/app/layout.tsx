@@ -60,13 +60,21 @@ export const metadata: Metadata = {
     siteName: site.legalName,
     locale: "es_MX",
     type: "website",
-    images: [{ url: "/brand/atrix-logo.png", width: 1024, height: 1024 }],
+    images: [
+      {
+        url: "https://atrixnld.com/brand/og-atrix-v2.png",
+        width: 1200,
+        height: 630,
+        alt: `${site.legalName} — ${site.motto}`,
+        type: "image/png",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: site.legalName,
     description: site.description,
-    images: ["/brand/atrix-logo.png"],
+    images: ["https://atrixnld.com/brand/og-atrix-v2.png"],
   },
   alternates: {
     canonical: "/",

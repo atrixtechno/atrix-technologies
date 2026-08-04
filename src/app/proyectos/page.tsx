@@ -16,6 +16,23 @@ export const metadata: Metadata = {
     description:
       "Casos reales de sitios, paneles y apps construidos para negocios de la frontera.",
     url: `${site.url}/proyectos`,
+    type: "website",
+    images: [
+      {
+        url: "https://atrixnld.com/brand/og-atrix-v2.png",
+        width: 1200,
+        height: 630,
+        alt: `${site.legalName} — Proyectos`,
+        type: "image/png",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `Proyectos · ${site.legalName}`,
+    description:
+      "Casos reales de sitios, paneles y apps construidos para negocios de la frontera.",
+    images: ["https://atrixnld.com/brand/og-atrix-v2.png"],
   },
   keywords: [
     "portafolio ATRIX",
