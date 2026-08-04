@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useId, useRef, useState } from "react";
+import { usePathname } from "next/navigation";
+import { useEffect, useId, useRef, useState, type MouseEvent } from "react";
 import { createPortal } from "react-dom";
 import { Logo } from "@/components/Logo";
 import { ProjectLogo } from "@/components/ProjectLogo";
@@ -196,6 +197,7 @@ export function Header({
   hideBrand?: boolean;
 }) {
   const { theme } = useTheme();
+  const pathname = usePathname();
   const useLightLogo = light || theme === "light";
   const [softwareOpen, setSoftwareOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -241,6 +243,18 @@ export function Header({
     });
   }
 
+  /** En `/` hace scroll al inicio; en otras rutas navega a home. */
+  function onBrandClick(e: MouseEvent<HTMLAnchorElement>) {
+    closeMobileMenu();
+    if (pathname !== "/") return;
+    e.preventDefault();
+    // Evita que el unlock del menú móvil restaure la posición previa.
+    scrollLockY.current = 0;
+    window.setTimeout(() => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }, 0);
+  }
+
   /** Cierra al tocar espacio vacío (no links/botones). */
   function onMobileShellPointerDown(e: React.PointerEvent<HTMLDivElement>) {
     const target = e.target as HTMLElement | null;
@@ -256,7 +270,7 @@ export function Header({
       href="/"
       className="group inline-flex min-w-0 shrink items-center"
       aria-label="ATRIX Technologies"
-      onClick={closeMobileMenu}
+      onClick={onBrandClick}
     >
       <Logo
         key={useLightLogo ? "nav-lockup-light-sm" : "nav-lockup-dark-sm"}
@@ -353,7 +367,7 @@ export function Header({
                 href="/"
                 className="inline-flex min-w-0 items-center"
                 aria-label="ATRIX Technologies"
-                onClick={closeMobileMenu}
+                onClick={onBrandClick}
               >
                 <Logo
                   key={useLightLogo ? "drawer-lockup-light" : "drawer-lockup-dark"}
