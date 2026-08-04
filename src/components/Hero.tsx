@@ -48,14 +48,14 @@ export function Hero() {
         <div className="absolute right-6 bottom-10 h-10 w-10 border-r-2 border-b-2 border-signal/35 md:right-10 md:bottom-14" />
       </div>
 
-      <div className="relative mx-auto grid min-h-[78svh] max-w-6xl items-center gap-5 px-5 pb-12 pt-24 sm:gap-6 sm:pt-28 md:grid-cols-[1.15fr_0.95fr] md:gap-6 md:px-8 md:pb-16 md:pt-28 lg:gap-8">
-        <div className="animate-fade-scale relative mx-auto flex w-full max-w-[280px] items-center justify-center sm:max-w-[360px] md:mx-0 md:-ml-6 md:max-w-none md:justify-start lg:-ml-10 xl:-ml-14">
+      <div className="relative mx-auto grid min-h-[78svh] max-w-6xl items-start gap-4 px-5 pb-12 pt-16 sm:gap-5 sm:pt-20 md:grid-cols-[1.15fr_0.95fr] md:items-center md:gap-6 md:px-8 md:pb-16 md:pt-24 lg:gap-8">
+        <div className="animate-fade-scale relative mx-auto -mt-1 flex w-full max-w-[340px] items-center justify-center sm:max-w-[420px] md:mx-0 md:-ml-6 md:mt-0 md:max-w-none md:justify-start lg:-ml-10 xl:-ml-14">
           <div className="animate-glow pointer-events-none absolute inset-0 -m-6 rounded-full bg-[radial-gradient(circle,rgba(26,76,255,0.16),transparent_70%)] blur-2xl sm:-m-10" />
           <Logo
             key={isLight ? "hero-full-light" : "hero-full-dark"}
             variant={isLight ? "full-light" : "full"}
-            size={560}
-            className="relative w-full max-w-[260px] sm:max-w-[340px] md:max-w-[480px] lg:max-w-[540px]"
+            size={640}
+            className="relative w-full max-w-[320px] sm:max-w-[400px] md:max-w-[520px] lg:max-w-[580px]"
             priority
           />
         </div>
