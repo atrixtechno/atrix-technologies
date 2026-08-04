@@ -1,10 +1,13 @@
 import type { Metadata } from "next";
 import { Sora, Space_Grotesk } from "next/font/google";
+import { Analytics } from "@/components/Analytics";
 import { HashGuard } from "@/components/HashGuard";
 import { ScrollReset } from "@/components/ScrollReset";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { site } from "@/content/site";
 import "./globals.css";
+
+const googleVerification = process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION?.trim();
 
 const spaceGrotesk = Space_Grotesk({
   variable: "--font-syne",
@@ -21,7 +24,7 @@ const sora = Sora({
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
   title: {
-    default: `${site.legalName} · ${site.city}`,
+    default: `${site.legalName} · Soporte IT, CCTV y software en ${site.city}`,
     template: `%s · ${site.legalName}`,
   },
   description: site.description,
@@ -41,8 +44,17 @@ export const metadata: Metadata = {
   robots: {
     index: true,
     follow: true,
-    googleBot: { index: true, follow: true, "max-image-preview": "large" },
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
   },
+  ...(googleVerification
+    ? { verification: { google: googleVerification } }
+    : {}),
   icons: {
     icon: [
       { url: "/favicon-32.png", sizes: "32x32", type: "image/png" },
@@ -78,7 +90,7 @@ export const metadata: Metadata = {
   },
   alternates: {
     canonical: "/",
-    languages: { "es-MX": "/" },
+    languages: { "es-MX": site.url },
   },
 };
 
@@ -124,6 +136,7 @@ export default function RootLayout({
         <ThemeProvider>
           <HashGuard />
           <ScrollReset />
+          <Analytics />
           {children}
         </ThemeProvider>
       </body>

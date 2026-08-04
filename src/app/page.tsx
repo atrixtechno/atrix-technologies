@@ -13,17 +13,19 @@ import { site } from "@/content/site";
 import { services } from "@/content/services";
 
 export const metadata: Metadata = {
-  title: `${site.legalName} · Tecnología para hogares y empresas`,
+  title: `${site.legalName} · Soporte IT, CCTV y software en Nuevo Laredo`,
   description: site.description,
   alternates: { canonical: "/" },
   keywords: [
     "ATRIX Technologies",
     "soporte técnico Nuevo Laredo",
     "CCTV Laredo",
+    "CCTV Nuevo Laredo",
     "redes e infraestructura",
     "desarrollo de software frontera",
     "soporte IT empresarial",
     "cámaras de seguridad Nuevo Laredo",
+    "tecnología Laredo TX",
   ],
   openGraph: {
     title: `${site.legalName} · ${site.tagline}`,
@@ -60,7 +62,10 @@ export default function HomePage() {
         name: site.legalName,
         url: site.url,
         logo: `${site.url}/brand/atrix-logo.png`,
+        image: `${site.url}/brand/og-atrix-v2.png`,
+        email: site.email,
         slogan: site.motto,
+        sameAs: [site.facebook],
         address: {
           "@type": "PostalAddress",
           addressLocality: "Nuevo Laredo",
@@ -71,8 +76,9 @@ export default function HomePage() {
           "@type": "ContactPoint",
           contactType: "customer service",
           telephone: "+52-867-179-3155",
-          availableLanguage: ["es", "en"],
-          areaServed: ["Nuevo Laredo", "Laredo"],
+          email: site.email,
+          availableLanguage: ["Spanish", "English"],
+          areaServed: ["MX", "US"],
         },
       },
       {
@@ -85,17 +91,44 @@ export default function HomePage() {
         inLanguage: "es-MX",
       },
       {
-        "@type": "LocalBusiness",
+        "@type": ["LocalBusiness", "ProfessionalService"],
         "@id": `${site.url}/#localbusiness`,
         name: site.legalName,
-        image: `${site.url}/brand/atrix-logo.png`,
+        image: [
+          `${site.url}/brand/atrix-logo.png`,
+          `${site.url}/brand/og-atrix-v2.png`,
+        ],
         url: site.url,
         telephone: "+52-867-179-3155",
+        email: site.email,
         priceRange: "$$",
+        description: site.description,
+        address: {
+          "@type": "PostalAddress",
+          addressLocality: "Nuevo Laredo",
+          addressRegion: "Tamaulipas",
+          addressCountry: "MX",
+        },
         areaServed: [
-          { "@type": "City", name: "Nuevo Laredo" },
-          { "@type": "City", name: "Laredo" },
+          {
+            "@type": "City",
+            name: "Nuevo Laredo",
+            containedInPlace: {
+              "@type": "State",
+              name: "Tamaulipas",
+            },
+          },
+          {
+            "@type": "City",
+            name: "Laredo",
+            containedInPlace: {
+              "@type": "State",
+              name: "Texas",
+            },
+          },
         ],
+        sameAs: [site.facebook],
+        parentOrganization: { "@id": `${site.url}/#organization` },
         hasOfferCatalog: {
           "@type": "OfferCatalog",
           name: "Servicios ATRIX",
@@ -105,6 +138,8 @@ export default function HomePage() {
               "@type": "Service",
               name: s.title,
               description: s.copy,
+              areaServed: site.coverage,
+              provider: { "@id": `${site.url}/#localbusiness` },
             },
           })),
         },
