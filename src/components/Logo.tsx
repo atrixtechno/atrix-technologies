@@ -16,7 +16,7 @@ type LogoProps = {
 
 const assets = {
   // stacked hero logos
-  full: { src: "/brand/atrix-logo-on-dark-v5.png", w: 1600, h: 1442 },
+  full: { src: "/brand/atrix-logo-on-dark-v6.png", w: 1600, h: 1442 },
   "full-light": { src: "/brand/atrix-logo.png", w: 1600, h: 1442 },
   // isotipo
   mark: { src: "/brand/atrix-mark-on-dark-v5.png", w: 512, h: 512 },
