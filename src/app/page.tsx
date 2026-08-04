@@ -29,6 +29,8 @@ export const metadata: Metadata = {
     title: `${site.legalName} · ${site.tagline}`,
     description: site.description,
     url: site.url,
+    siteName: site.legalName,
+    locale: "es_MX",
     type: "website",
     images: [
       {
