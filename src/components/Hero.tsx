@@ -49,13 +49,13 @@ export function Hero() {
       </div>
 
       <div className="relative mx-auto grid max-w-6xl items-start gap-1 px-4 pb-10 pt-8 sm:gap-2 sm:px-5 sm:pt-10 md:min-h-[78svh] md:grid-cols-[1.15fr_0.95fr] md:items-center md:gap-6 md:px-8 md:pb-16 md:pt-24 lg:gap-8">
-        <div className="animate-fade-scale relative mx-auto -mt-10 flex w-[min(100%,24rem)] items-center justify-center sm:-mt-8 sm:w-[min(100%,28rem)] md:mx-0 md:-ml-6 md:mt-0 md:w-auto md:max-w-none md:justify-start lg:-ml-10 xl:-ml-14">
+        <div className="animate-fade-scale relative mx-auto -mt-10 flex w-[min(100%,20rem)] items-center justify-center sm:-mt-8 sm:w-[min(100%,28rem)] md:mx-0 md:-ml-6 md:mt-0 md:w-auto md:max-w-none md:justify-start lg:-ml-10 xl:-ml-14">
           <div className="animate-glow pointer-events-none absolute inset-0 -m-4 rounded-full bg-[radial-gradient(circle,rgba(26,76,255,0.16),transparent_70%)] blur-2xl sm:-m-8" />
           <Logo
             key={isLight ? "hero-full-light" : "hero-full-dark"}
             variant={isLight ? "full-light" : "full"}
             size={720}
-            className="relative w-full origin-top scale-[1.18] sm:scale-[1.12] md:max-w-[540px] md:scale-100 lg:max-w-[600px]"
+            className="relative w-full origin-top scale-[0.95] sm:scale-[1.12] md:max-w-[540px] md:scale-100 lg:max-w-[600px]"
             priority
           />
         </div>
