@@ -15,9 +15,9 @@ type LogoProps = {
 };
 
 const assets = {
-  // stacked hero logos
-  full: { src: "/brand/atrix-logo-on-dark-v7.png", w: 1600, h: 1442 },
-  "full-light": { src: "/brand/atrix-logo.png", w: 1600, h: 1442 },
+  // stacked hero logos — unoptimized to preserve brand blue (Next palette crush → gray)
+  full: { src: "/brand/atrix-logo-on-dark-v8.png", w: 1600, h: 1442 },
+  "full-light": { src: "/brand/atrix-logo-v8.png", w: 1600, h: 1442 },
   // isotipo
   mark: { src: "/brand/atrix-mark-on-dark-v5.png", w: 512, h: 512 },
   "mark-light": { src: "/brand/atrix-mark-v3.png", w: 512, h: 512 },
@@ -57,6 +57,8 @@ export function Logo({
             : { width, height: "auto", maxWidth: "100%" }
       }
       priority={priority}
+      quality={100}
+      unoptimized
     />
   );
 }

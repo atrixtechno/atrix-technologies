@@ -48,8 +48,8 @@ export function Hero() {
         <div className="absolute right-6 bottom-10 h-10 w-10 border-r-2 border-b-2 border-signal/35 md:right-10 md:bottom-14" />
       </div>
 
-      <div className="relative mx-auto grid max-w-6xl items-start gap-2 px-4 pb-10 pt-12 sm:gap-3 sm:px-5 sm:pt-14 md:min-h-[78svh] md:grid-cols-[1.15fr_0.95fr] md:items-center md:gap-6 md:px-8 md:pb-16 md:pt-24 lg:gap-8">
-        <div className="animate-fade-scale relative mx-auto -mt-5 flex w-[min(100%,24rem)] items-center justify-center sm:-mt-4 sm:w-[min(100%,28rem)] md:mx-0 md:-ml-6 md:mt-0 md:w-auto md:max-w-none md:justify-start lg:-ml-10 xl:-ml-14">
+      <div className="relative mx-auto grid max-w-6xl items-start gap-1 px-4 pb-10 pt-8 sm:gap-2 sm:px-5 sm:pt-10 md:min-h-[78svh] md:grid-cols-[1.15fr_0.95fr] md:items-center md:gap-6 md:px-8 md:pb-16 md:pt-24 lg:gap-8">
+        <div className="animate-fade-scale relative mx-auto -mt-10 flex w-[min(100%,24rem)] items-center justify-center sm:-mt-8 sm:w-[min(100%,28rem)] md:mx-0 md:-ml-6 md:mt-0 md:w-auto md:max-w-none md:justify-start lg:-ml-10 xl:-ml-14">
           <div className="animate-glow pointer-events-none absolute inset-0 -m-4 rounded-full bg-[radial-gradient(circle,rgba(26,76,255,0.16),transparent_70%)] blur-2xl sm:-m-8" />
           <Logo
             key={isLight ? "hero-full-light" : "hero-full-dark"}
