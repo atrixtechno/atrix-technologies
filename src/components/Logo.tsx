@@ -16,13 +16,13 @@ type LogoProps = {
 
 const assets = {
   // stacked hero logos
-  full: { src: "/brand/atrix-logo-on-dark-v4.png", w: 1600, h: 1442 },
+  full: { src: "/brand/atrix-logo-on-dark-v5.png", w: 1600, h: 1442 },
   "full-light": { src: "/brand/atrix-logo.png", w: 1600, h: 1442 },
   // isotipo
-  mark: { src: "/brand/atrix-mark-on-dark-v4.png", w: 512, h: 512 },
+  mark: { src: "/brand/atrix-mark-on-dark-v5.png", w: 512, h: 512 },
   "mark-light": { src: "/brand/atrix-mark-v3.png", w: 512, h: 512 },
   // lockup horizontal
-  lockup: { src: "/brand/atrix-lockup-on-dark-v4.png", w: 1200, h: 264 },
+  lockup: { src: "/brand/atrix-lockup-on-dark-v5.png", w: 1200, h: 264 },
   "lockup-light": { src: "/brand/atrix-lockup-v3.png", w: 1200, h: 264 },
 } as const;
 
