@@ -241,6 +241,16 @@ export function Header({
     });
   }
 
+  /** Cierra al tocar espacio vacío (no links/botones). */
+  function onMobileShellPointerDown(e: React.PointerEvent<HTMLDivElement>) {
+    const target = e.target as HTMLElement | null;
+    if (!target) return;
+    if (target.closest("a, button, input, select, textarea, label, [role='menuitem']")) {
+      return;
+    }
+    closeMobileMenu();
+  }
+
   const brandLink = !hideBrand && (
     <Link
       href="/"
@@ -336,6 +346,7 @@ export function Header({
             role="dialog"
             aria-modal="true"
             aria-label="Menú de navegación"
+            onPointerDown={onMobileShellPointerDown}
           >
             <div className="flex shrink-0 items-center justify-between gap-3 border-b border-line px-5 py-3.5">
               <Link
