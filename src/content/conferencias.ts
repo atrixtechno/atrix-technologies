@@ -258,8 +258,8 @@ export const conferenceSpeaker: ConferenceSpeaker = {
     { value: "NL · TX", label: "Cobertura" },
   ],
   copy: [
-    "Ingeniero y líder de ATRIX: dirige las charlas de inteligencia artificial y tecnología para empresas, escuelas y negocios en la frontera.",
-    "Lleva a la sala lo que el equipo vive en campo — soporte IT, redes, CCTV y software en producción — con un lenguaje claro, serio y orientado a decisiones, no a moda.",
+    "Ingeniero y fundador de ATRIX: imparte las charlas de inteligencia artificial y tecnología para empresas, escuelas y negocios en la frontera.",
+    "Lleva a la sala lo que el equipo vive en campo — soporte IT, redes, CCTV y software en producción — con lenguaje claro, serio y orientado a decisiones.",
   ],
   visuals: [
     {
@@ -292,6 +292,42 @@ export const conferenceSpeaker: ConferenceSpeaker = {
     "Hola ATRIX, quiero agendar una conferencia o charla con el Ing. Néstor J. Resendiz.",
 };
 
+export type ConferenceBackingCapability = {
+  label: string;
+  detail: string;
+};
+
+/** Organización que respalda las conferencias. */
+export const conferenceBacking = {
+  eyebrow: "Quién respalda",
+  name: site.legalName,
+  role: `Tecnología e implementación · ${site.coverage}`,
+  lead:
+    "La misma empresa que opera en campo respalda cada charla: si después quieren implementar, el camino ya está en casa.",
+  copy: [
+    "Detrás del conferencista hay un equipo que instala, repara, configura y construye. Los ejemplos de la sala salen de proyectos reales en la frontera — no de diapositivas genéricas.",
+    `${site.motto}.`,
+  ],
+  capabilities: [
+    {
+      label: "Soporte e IT",
+      detail: "Equipos, continuidad y mantenimiento para hogares y empresas.",
+    },
+    {
+      label: "Redes e infraestructura",
+      detail: "Conectividad ordenada: la base antes de cualquier iniciativa digital.",
+    },
+    {
+      label: "CCTV y seguridad",
+      detail: "Videovigilancia y criterios prácticos de protección física y digital.",
+    },
+    {
+      label: "Software a la medida",
+      detail: "Sistemas y plataformas en producción que alimentan los casos de las charlas.",
+    },
+  ] satisfies ConferenceBackingCapability[],
+} as const;
+
 export const conferenceTeam: ConferenceTeamMember[] = [
   {
     name: conferenceSpeaker.name,
@@ -301,13 +337,10 @@ export const conferenceTeam: ConferenceTeamMember[] = [
     copy: conferenceSpeaker.copy,
   },
   {
-    name: "Equipo ATRIX Technologies",
-    role: "Soporte, infraestructura y entrega en Nuevo Laredo / Laredo, TX",
-    badges: ["Soporte técnico", "CCTV", "Redes", "Software"],
-    copy: [
-      "Detrás de cada charla hay un equipo que instala, repara, configura y construye: la misma práctica que alimenta los ejemplos de las conferencias.",
-      `${site.motto}. Cobertura en ${site.coverage}.`,
-    ],
+    name: conferenceBacking.name,
+    role: conferenceBacking.role,
+    badges: conferenceBacking.capabilities.map((c) => c.label),
+    copy: [...conferenceBacking.copy],
   },
 ];
 

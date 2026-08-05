@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { ConferenceBacking } from "@/components/ConferenceBacking";
 import { ConferenceSpeakerProfile } from "@/components/ConferenceSpeakerProfile";
 import { ConferenciasHeroBrand } from "@/components/ConferenciasHeroBrand";
 import { Header } from "@/components/Header";
@@ -13,7 +14,6 @@ import {
   conferenceServiceLinks,
   conferenceSpeaker,
   conferenceTalks,
-  conferenceTeam,
   conferenciasPage,
 } from "@/content/conferencias";
 import { site, whatsappUrl } from "@/content/site";
@@ -64,9 +64,7 @@ export const metadata: Metadata = {
 
 export default function ConferenciasPage() {
   const speaker = conferenceSpeaker;
-  const supportTeam = conferenceTeam.filter((m) => !m.isSpeaker);
   const wa = whatsappUrl(conferenciasPage.whatsappMessage);
-  const speakerWa = whatsappUrl(conferenceSpeaker.whatsappMessage);
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -474,16 +472,16 @@ export default function ConferenciasPage() {
             </div>
           </section>
 
-          {/* Equipo / conferencista */}
+          {/* Quién imparte / quién respalda */}
           <section
             id="equipo"
-            className="scroll-mt-24 border-b border-line py-20 md:py-24"
+            className="scroll-mt-24 border-b border-line bg-bg-elevated/30 py-20 md:py-24"
             aria-labelledby="equipo-heading"
           >
             <div className="mx-auto max-w-6xl px-5 md:px-8">
               <Reveal>
                 <p className="text-xs font-semibold tracking-[0.28em] text-accent uppercase">
-                  El equipo ATRIX
+                  Credenciales
                 </p>
                 <h2
                   id="equipo-heading"
@@ -493,64 +491,22 @@ export default function ConferenciasPage() {
                 </h2>
                 <div className="animate-line mt-4 h-px w-24 bg-accent/50" />
                 <p className="mt-4 max-w-2xl text-muted">
-                  Un perfil técnico con experiencia de frontera, respaldado por
-                  el equipo que implementa lo que se discute en la charla.
+                  Un conferencista con experiencia de frontera, respaldado por
+                  la empresa que implementa lo que se discute en la sala.
                 </p>
               </Reveal>
 
               <Reveal delay={80}>
-                <div className="mt-12">
+                <div className="mt-14 md:mt-16">
                   <ConferenceSpeakerProfile speaker={conferenceSpeaker} />
                 </div>
               </Reveal>
 
-              <div className="mt-10 grid gap-8 lg:grid-cols-[1fr_auto] lg:items-end">
-                {supportTeam.map((member, index) => (
-                  <Reveal key={member.name} delay={index * 100}>
-                    <article className="border-t border-line pt-6">
-                      <h3 className="font-display text-xl font-bold tracking-tight md:text-2xl">
-                        {member.name}
-                      </h3>
-                      <p className="mt-2 text-xs font-semibold tracking-[0.14em] text-muted uppercase">
-                        {member.role}
-                      </p>
-                      <div className="mt-4 flex flex-wrap gap-2">
-                        {member.badges.map((badge) => (
-                          <span
-                            key={badge}
-                            className="rounded-full border border-line px-3 py-1 text-xs font-semibold text-fg"
-                          >
-                            {badge}
-                          </span>
-                        ))}
-                      </div>
-                      <div className="mt-5 max-w-2xl space-y-3 text-sm leading-relaxed text-muted md:text-base">
-                        {member.copy.map((p) => (
-                          <p key={p}>{p}</p>
-                        ))}
-                      </div>
-                    </article>
-                  </Reveal>
-                ))}
-                <Reveal delay={120}>
-                  <div className="flex flex-wrap gap-3 lg:justify-end">
-                    <a
-                      href={speakerWa}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex rounded-full bg-accent px-5 py-2.5 text-sm font-semibold text-accent-ink transition hover:brightness-110"
-                    >
-                      Contactar por WhatsApp
-                    </a>
-                    <Link
-                      href="/#contacto"
-                      className="inline-flex rounded-full border border-line px-5 py-2.5 text-sm font-semibold text-fg transition hover:border-accent/40 hover:bg-bg-elevated"
-                    >
-                      Ir al formulario
-                    </Link>
-                  </div>
-                </Reveal>
-              </div>
+              <Reveal delay={140}>
+                <div className="mt-4 md:mt-6">
+                  <ConferenceBacking />
+                </div>
+              </Reveal>
             </div>
           </section>
 
