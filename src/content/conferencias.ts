@@ -62,13 +62,22 @@ export type ConferenceSpeaker = {
 };
 
 export const conferenciasPage = {
-  eyebrow: "Conferencias · ATRIX",
-  title: "Conferencias y charlas de inteligencia artificial para quien decide",
+  eyebrow: "ATRIX Technologies · Conferencias",
+  title: "Conferencias y pláticas",
   lead:
-    "Sesiones claras, sin humo: IA aplicada, ciberseguridad y transformación digital para empresas, escuelas y negocios de Nuevo Laredo y Laredo, TX.",
+    "Inteligencia artificial, ciberseguridad y transformación digital — con criterio técnico — para empresas, escuelas y negocios de Nuevo Laredo y Laredo, TX.",
   whatsappMessage:
-    "Hola ATRIX, me interesa agendar una conferencia o charla de inteligencia artificial.",
+    "Hola ATRIX, me interesa agendar una conferencia o plática de inteligencia artificial.",
 } as const;
+
+export const conferenceChapters = [
+  { id: "para-quien", number: "01", label: "Para quién" },
+  { id: "utilidad", number: "02", label: "Utilidad" },
+  { id: "temas", number: "03", label: "Temario" },
+  { id: "servicios-conferencias", number: "04", label: "Servicios" },
+  { id: "equipo", number: "05", label: "Credenciales" },
+  { id: "agendar", number: "06", label: "Agendar" },
+] as const;
 
 export const conferenceAudiences: ConferenceAudience[] = [
   {
@@ -87,26 +96,26 @@ export const conferenceAudiences: ConferenceAudience[] = [
     id: "negocios",
     label: "Negocios",
     title: "PyMEs y comercios que quieren operar mejor",
-    copy: "Dueños y equipos pequeños: herramientas prácticas, presencia digital, redes, CCTV y software que ordenan el día a día sin jerga innecesaria.",
+    copy: "Dueños y equipos pequeños: herramientas prácticas, presencia digital, redes, CCTV y software que ordenan el día a día — sin jerga innecesaria.",
   },
 ];
 
 export const conferenceBenefits: ConferenceBenefit[] = [
   {
     title: "Decisiones con criterio técnico",
-    copy: "Salen con un marco para evaluar herramientas de IA, proveedores y proyectos — qué conviene adoptar, qué posponer y qué evitar.",
+    copy: "Un marco claro para evaluar herramientas de IA, proveedores y proyectos: qué conviene adoptar, qué posponer y qué evitar.",
   },
   {
     title: "Riesgos que sí importan",
     copy: "Phishing, contraseñas, respaldos, acceso remoto y vigilancia: conciencia útil alineada a cómo operan hogares y negocios en la frontera.",
   },
   {
-    title: "De la charla a la acción",
-    copy: "Cada tema conecta con servicios ATRIX (soporte, redes, CCTV, software, IT) para que, si quieren implementar, ya tengan un camino concreto.",
+    title: "De la plática a la acción",
+    copy: "Cada tema conecta con servicios ATRIX — soporte, redes, CCTV, software e IT — para que, si quieren implementar, ya tengan un camino concreto.",
   },
   {
     title: "Formato a la medida",
-    copy: "Presencial o virtual, 45–90 minutos o taller extendido. Adaptamos ejemplos a tu sector: retail, consultorio, escuela, logística o oficina.",
+    copy: "Presencial o virtual, 45–90 minutos o taller extendido. Adaptamos ejemplos a tu sector: retail, consultorio, escuela, logística u oficina.",
   },
 ];
 
@@ -146,7 +155,7 @@ export const conferenceTalks: ConferenceTalk[] = [
     slug: "transformacion-digital-pymes",
     title: "Transformación digital para PyMEs de Nuevo Laredo / Laredo",
     focus:
-      "Ordenar presencia web, WhatsApp, sistemas internos y soporte IT sin “proyectos eternos”. Priorizar lo que mueve ventas y reduce fricción.",
+      "Ordenar presencia web, WhatsApp, sistemas internos y soporte IT sin proyectos eternos. Priorizar lo que mueve ventas y reduce fricción.",
     audience: "Dueños de negocio y gerentes de PyME",
     outcomes: [
       "Hoja de ruta digital en 3 horizontes",
@@ -180,7 +189,7 @@ export const conferenceTalks: ConferenceTalk[] = [
     slug: "software-ia-cuando-conviene",
     title: "Software a la medida e IA: cuándo sí tiene sentido",
     focus:
-      "Diferencia entre chatbots genéricos, integraciones y plataformas propias. Lecciones de proyectos reales ATRIX en salud, deporte y comercio.",
+      "Diferencia entre asistentes genéricos, integraciones y plataformas propias. Lecciones de proyectos reales ATRIX en salud, deporte y comercio.",
     audience: "Empresas y organizaciones en crecimiento",
     outcomes: [
       "Señales de que necesitas software propio",
@@ -218,13 +227,13 @@ export const conferenceServiceLinks: ConferenceServiceLink[] = services.map(
   (s) => {
     const angles: Record<string, string> = {
       "soporte-tecnico":
-        "Las charlas explican por qué equipos lentos o mal configurados limitan cualquier adopción de IA o productividad digital.",
+        "Las pláticas explican por qué equipos lentos o mal configurados limitan cualquier adopción de IA o productividad digital.",
       "impresoras-perifericos":
-        "Incluimos el día a día de oficina: periféricos, drivers y flujos que siguen fallando aunque haya “herramientas nuevas”.",
+        "Incluimos el día a día de oficina: periféricos, drivers y flujos que siguen fallando aunque haya herramientas nuevas.",
       cctv:
         "Conectamos conciencia de seguridad física y digital: videovigilancia, acceso remoto y protección de inventario.",
       "redes-infraestructura":
-        "Sin cobertura WiFi ni red ordenada, no hay cloud ni IA útiles. Habitualmente es el primer diagnóstico.",
+        "Sin cobertura WiFi ni red ordenada, no hay nube ni IA útiles. Habitualmente es el primer diagnóstico.",
       "desarrollo-software":
         "Mostramos cuándo un sitio, panel o sistema a la medida — con o sin IA — resuelve captura de clientes y operación.",
       "soporte-it-empresarial":
@@ -241,7 +250,7 @@ export const conferenceServiceLinks: ConferenceServiceLink[] = services.map(
 
 /** Perfil del conferencista principal — visual + CTAs en la sección Equipo. */
 export const conferenceSpeaker: ConferenceSpeaker = {
-  name: "Ing. Néstor J. Resendiz, MBA",
+  name: "Ing. Néstor J. Reséndiz, MBA",
   role: "Fundador y conferencista · ATRIX Technologies",
   badges: ["Ingeniería", "MBA", "IA aplicada", "Conferencias"],
   themes: [
@@ -258,7 +267,7 @@ export const conferenceSpeaker: ConferenceSpeaker = {
     { value: "NL · TX", label: "Cobertura" },
   ],
   copy: [
-    "Ingeniero y fundador de ATRIX: imparte las charlas de inteligencia artificial y tecnología para empresas, escuelas y negocios en la frontera.",
+    "Ingeniero y fundador de ATRIX: imparte las pláticas de inteligencia artificial y tecnología para empresas, escuelas y negocios en la frontera.",
     "Lleva a la sala lo que el equipo vive en campo — soporte IT, redes, CCTV y software en producción — con lenguaje claro, serio y orientado a decisiones.",
   ],
   visuals: [
@@ -289,7 +298,7 @@ export const conferenceSpeaker: ConferenceSpeaker = {
     },
   ],
   whatsappMessage:
-    "Hola ATRIX, quiero agendar una conferencia o charla con el Ing. Néstor J. Resendiz.",
+    "Hola ATRIX, quiero agendar una conferencia o plática con el Ing. Néstor J. Reséndiz.",
 };
 
 export type ConferenceBackingCapability = {
@@ -303,7 +312,7 @@ export const conferenceBacking = {
   name: site.legalName,
   role: `Tecnología e implementación · ${site.coverage}`,
   lead:
-    "La misma empresa que opera en campo respalda cada charla: si después quieren implementar, el camino ya está en casa.",
+    "La misma empresa que opera en campo respalda cada plática: si después quieren implementar, el camino ya está en casa.",
   copy: [
     "Detrás del conferencista hay un equipo que instala, repara, configura y construye. Los ejemplos de la sala salen de proyectos reales en la frontera — no de diapositivas genéricas.",
     `${site.motto}.`,
@@ -323,7 +332,7 @@ export const conferenceBacking = {
     },
     {
       label: "Software a la medida",
-      detail: "Sistemas y plataformas en producción que alimentan los casos de las charlas.",
+      detail: "Sistemas y plataformas en producción que alimentan los casos de las pláticas.",
     },
   ] satisfies ConferenceBackingCapability[],
 } as const;

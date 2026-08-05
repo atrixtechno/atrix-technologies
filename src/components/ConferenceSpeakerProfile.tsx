@@ -25,15 +25,15 @@ export function ConferenceSpeakerProfile({ speaker }: Props) {
       }, 280);
     }, 3400);
     return () => window.clearInterval(id);
-  }, [speaker.themes.length]);
+  }, [speaker.themes.length, speaker.themes]);
 
   const [hero, ...gallery] = speaker.visuals;
   const mosaic = gallery.slice(0, 4);
 
   return (
     <article className="relative">
-      <div className="grid gap-10 lg:grid-cols-[0.92fr_1.08fr] lg:gap-14 lg:items-start">
-        {/* Visual */}
+      <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:gap-14 lg:items-start">
+        {/* Visual plane — real ATRIX assets, no portrait overlays */}
         <div className="relative">
           <div className="relative aspect-[4/5] overflow-hidden sm:aspect-[5/6] lg:aspect-[4/5]">
             {hero && (
@@ -43,22 +43,21 @@ export function ConferenceSpeakerProfile({ speaker }: Props) {
                 fill
                 className="object-cover"
                 sizes="(max-width: 1024px) 100vw, 42vw"
-                priority={false}
               />
             )}
             <div
-              className="absolute inset-0 bg-gradient-to-t from-[color-mix(in_srgb,var(--bg)_88%,transparent)] via-[color-mix(in_srgb,var(--bg)_25%,transparent)] to-transparent"
+              className="absolute inset-0 bg-gradient-to-t from-[color-mix(in_srgb,var(--bg)_90%,transparent)] via-[color-mix(in_srgb,var(--bg)_28%,transparent)] to-transparent"
               aria-hidden
             />
             <div
-              className="absolute inset-0 bg-[radial-gradient(ellipse_at_70%_15%,rgba(13,159,150,0.22),transparent_50%)]"
+              className="absolute inset-0 bg-[radial-gradient(ellipse_at_70%_12%,rgba(13,159,150,0.2),transparent_52%)]"
               aria-hidden
             />
-            <div className="absolute inset-x-0 bottom-0 p-5 sm:p-6">
+            <div className="absolute inset-x-0 bottom-0 p-5 sm:p-7">
               <p className="text-[11px] font-semibold tracking-[0.22em] text-accent uppercase">
                 01 · Quién imparte
               </p>
-              <p className="mt-2 max-w-[16rem] text-sm leading-snug text-muted">
+              <p className="mt-2 max-w-[17rem] text-sm leading-snug text-muted">
                 Experiencia de campo en la frontera — la misma que nutre cada
                 ejemplo en la sala.
               </p>
@@ -76,8 +75,8 @@ export function ConferenceSpeakerProfile({ speaker }: Props) {
                     src={visual.src}
                     alt={visual.alt}
                     fill
-                    className="object-cover transition duration-500 hover:scale-[1.05]"
-                    sizes="10vw"
+                    className="object-cover transition duration-500 hover:scale-[1.04]"
+                    sizes="12vw"
                   />
                   <span className="sr-only">{visual.caption ?? visual.alt}</span>
                 </li>
@@ -86,19 +85,19 @@ export function ConferenceSpeakerProfile({ speaker }: Props) {
           )}
         </div>
 
-        {/* Copy */}
-        <div className="min-w-0 lg:pt-2">
+        {/* Narrative */}
+        <div className="min-w-0 lg:pt-1">
           <p className="text-[11px] font-semibold tracking-[0.22em] text-accent uppercase lg:hidden">
             01 · Quién imparte
           </p>
-          <h3 className="font-display mt-3 text-3xl font-bold tracking-tight sm:text-4xl lg:mt-0">
+          <h3 className="font-display mt-3 text-3xl font-bold tracking-tight sm:text-4xl lg:mt-0 lg:text-[2.65rem]">
             {speaker.name}
           </h3>
           <p className="mt-3 text-sm font-medium text-muted sm:text-base">
             {speaker.role}
           </p>
 
-          <div className="mt-5 flex flex-wrap gap-x-4 gap-y-2 border-y border-line py-4">
+          <div className="mt-6 flex flex-wrap gap-x-5 gap-y-2 border-y border-line py-4">
             {speaker.badges.map((badge) => (
               <span
                 key={badge}
@@ -109,19 +108,19 @@ export function ConferenceSpeakerProfile({ speaker }: Props) {
             ))}
           </div>
 
-          <div className="mt-6 space-y-3 text-sm leading-relaxed text-muted md:text-base">
+          <div className="mt-6 space-y-3.5 text-sm leading-relaxed text-muted md:text-base md:leading-relaxed">
             {speaker.copy.map((p) => (
               <p key={p}>{p}</p>
             ))}
           </div>
 
-          {/* Rotating talk theme — intentional motion */}
-          <div className="mt-8">
+          {/* Rotating theme — intentional motion */}
+          <div className="mt-9">
             <p className="text-[11px] font-semibold tracking-[0.18em] text-signal uppercase">
               Temas que imparte
             </p>
             <div
-              className={`mt-3 min-h-[2.75rem] transition-all duration-300 ease-out ${
+              className={`mt-3 min-h-[2.85rem] transition-all duration-300 ease-out ${
                 chipVisible
                   ? "translate-y-0 opacity-100"
                   : "translate-y-1.5 opacity-0"
@@ -144,31 +143,31 @@ export function ConferenceSpeakerProfile({ speaker }: Props) {
             </div>
           </div>
 
-          <dl className="mt-8 grid grid-cols-2 gap-x-6 gap-y-5 border-t border-line pt-7 sm:grid-cols-4">
+          <dl className="mt-9 grid grid-cols-2 gap-x-6 gap-y-5 border-t border-line pt-8 sm:grid-cols-4">
             {speaker.stats.map((stat) => (
               <div key={stat.label}>
                 <dt className="text-[10px] font-semibold tracking-[0.14em] text-muted uppercase">
                   {stat.label}
                 </dt>
-                <dd className="font-display mt-1.5 text-xl font-bold tracking-tight text-fg">
+                <dd className="font-display mt-1.5 text-xl font-bold tracking-tight text-fg sm:text-2xl">
                   {stat.value}
                 </dd>
               </div>
             ))}
           </dl>
 
-          <div className="mt-9 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
+          <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
             <a
               href={wa}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center rounded-full bg-accent px-6 py-3 text-sm font-semibold text-accent-ink shadow-[0_12px_32px_rgba(13,159,150,0.28)] transition hover:brightness-110"
+              className="inline-flex items-center justify-center rounded-full bg-accent px-6 py-3.5 text-sm font-semibold text-accent-ink shadow-[0_12px_32px_rgba(13,159,150,0.28)] transition hover:brightness-110"
             >
               WhatsApp · Agendar plática
             </a>
             <Link
               href="/#contacto"
-              className="inline-flex items-center justify-center rounded-full border border-line px-6 py-3 text-sm font-semibold text-fg transition hover:border-accent/40 hover:bg-bg-elevated"
+              className="inline-flex items-center justify-center rounded-full border border-line px-6 py-3.5 text-sm font-semibold text-fg transition hover:border-accent/40 hover:bg-bg-elevated"
             >
               Formulario de contacto
             </Link>
