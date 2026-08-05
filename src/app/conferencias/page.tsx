@@ -217,7 +217,7 @@ export default function ConferenciasPage() {
             aria-label="Secciones de la página"
             className="border-b border-line bg-bg-elevated/35"
           >
-            <div className="mx-auto flex max-w-6xl gap-1 overflow-x-auto px-5 py-3.5 md:px-8 md:py-4">
+            <div className="mx-auto flex max-w-6xl justify-center gap-1 overflow-x-auto px-5 py-3.5 md:px-8 md:py-4">
               {conferenceChapters.map((ch) => (
                 <a
                   key={ch.id}

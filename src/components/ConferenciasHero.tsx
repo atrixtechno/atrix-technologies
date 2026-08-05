@@ -51,9 +51,6 @@ export function ConferenciasHero({ whatsappHref }: Props) {
               className="relative w-full origin-center scale-[0.92] sm:scale-100 md:max-w-[420px] lg:max-w-[480px]"
               priority
             />
-            <p className="relative mt-4 text-center text-[11px] font-semibold tracking-[0.22em] text-muted uppercase md:text-left">
-              {site.motto}
-            </p>
           </div>
 
           {/* Copy — one H1, one support, one CTA group */}
