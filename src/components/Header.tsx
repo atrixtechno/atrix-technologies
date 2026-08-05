@@ -316,13 +316,6 @@ export function Header({
           />
 
           <Link
-            href="/soporte-remoto"
-            className="rounded-full px-3.5 py-2 text-[13px] font-medium tracking-wide text-muted transition-colors hover:bg-bg-elevated/70 hover:text-fg"
-          >
-            Soporte remoto
-          </Link>
-
-          <Link
             href="/conferencias"
             className="rounded-full px-3.5 py-2 text-[13px] font-medium tracking-wide text-muted transition-colors hover:bg-bg-elevated/70 hover:text-fg"
           >
@@ -481,14 +474,6 @@ export function Header({
                   </ul>
                 )}
               </div>
-
-              <Link
-                href="/soporte-remoto"
-                className="border-b border-line py-3.5 text-sm font-semibold text-fg"
-                onClick={closeMobileMenu}
-              >
-                Soporte remoto
-              </Link>
 
               <Link
                 href="/conferencias"

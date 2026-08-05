@@ -73,14 +73,6 @@ export function Footer({ light = false }: { light?: boolean }) {
               </li>
               <li>
                 <Link
-                  href="/soporte-remoto"
-                  className="text-sm text-muted transition hover:text-fg"
-                >
-                  Soporte remoto
-                </Link>
-              </li>
-              <li>
-                <Link
                   href="/conferencias"
                   className="text-sm text-muted transition hover:text-fg"
                 >
