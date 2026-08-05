@@ -19,6 +19,15 @@ const links = [
   { hash: "contacto", label: "Contacto" },
 ] as const;
 
+const pageLinks = [
+  { href: "/soporte-remoto", label: "Soporte remoto" },
+  { href: "/conferencias", label: "Conferencias" },
+] as const;
+
+/** Compact at `lg` so many items fit; relax spacing at `xl`. */
+const navLinkClass =
+  "shrink-0 whitespace-nowrap rounded-full px-2 py-1.5 text-xs font-medium tracking-wide text-muted transition-colors hover:bg-bg-elevated/70 hover:text-fg xl:px-3 xl:py-2 xl:text-[13px]";
+
 function Chevron({ open }: { open?: boolean }) {
   return (
     <svg
@@ -84,7 +93,7 @@ function SoftwareDropdown({
     >
       <Link
         href="/proyectos"
-        className="inline-flex items-center gap-1.5 text-[13px] font-medium tracking-wide text-muted transition-colors hover:text-fg"
+        className={`inline-flex items-center gap-1 ${navLinkClass} xl:gap-1.5`}
         aria-expanded={open}
         aria-haspopup="menu"
         aria-controls={panelId}
@@ -282,8 +291,15 @@ export function Header({
       <Logo
         key={useLightLogo ? "nav-lockup-light-lg" : "nav-lockup-dark-lg"}
         variant={useLightLogo ? "lockup-light" : "lockup"}
+        size={168}
+        className="hidden transition-transform duration-300 group-hover:scale-[1.02] lg:block xl:hidden"
+        priority
+      />
+      <Logo
+        key={useLightLogo ? "nav-lockup-light-xl" : "nav-lockup-dark-xl"}
+        variant={useLightLogo ? "lockup-light" : "lockup"}
         size={196}
-        className="hidden transition-transform duration-300 group-hover:scale-[1.02] lg:block"
+        className="hidden transition-transform duration-300 group-hover:scale-[1.02] xl:block"
         priority
       />
     </Link>
@@ -292,19 +308,18 @@ export function Header({
   return (
     <header className="sticky top-0 z-40 border-b border-line bg-bg/95 backdrop-blur-md">
       <div
-        className={`mx-auto flex max-w-6xl items-center gap-3 px-5 py-3.5 md:px-8 md:py-5 ${
+        className={`mx-auto flex max-w-6xl items-center gap-2 px-5 py-3.5 md:gap-3 md:px-8 md:py-5 ${
           hideBrand ? "justify-end" : "justify-between"
         }`}
       >
         {brandLink}
 
-        <nav className="hidden items-center gap-1 lg:flex" aria-label="Principal">
+        <nav
+          className="hidden min-w-0 items-center gap-0.5 lg:flex xl:gap-1"
+          aria-label="Principal"
+        >
           {links.slice(0, 3).map((link) => (
-            <SectionLink
-              key={link.hash}
-              hash={link.hash}
-              className="rounded-full px-3.5 py-2 text-[13px] font-medium tracking-wide text-muted transition-colors hover:bg-bg-elevated/70 hover:text-fg"
-            >
+            <SectionLink key={link.hash} hash={link.hash} className={navLinkClass}>
               {link.label}
             </SectionLink>
           ))}
@@ -315,27 +330,23 @@ export function Header({
             onClose={() => setSoftwareOpen(false)}
           />
 
-          <Link
-            href="/conferencias"
-            className="rounded-full px-3.5 py-2 text-[13px] font-medium tracking-wide text-muted transition-colors hover:bg-bg-elevated/70 hover:text-fg"
-          >
-            Conferencias
-          </Link>
+          {pageLinks.map((link) => (
+            <Link key={link.href} href={link.href} className={navLinkClass}>
+              {link.label}
+            </Link>
+          ))}
 
-          <SectionLink
-            hash="contacto"
-            className="rounded-full px-3.5 py-2 text-[13px] font-medium tracking-wide text-muted transition-colors hover:bg-bg-elevated/70 hover:text-fg"
-          >
+          <SectionLink hash="contacto" className={navLinkClass}>
             Contacto
           </SectionLink>
 
-          <div className="ml-2 flex items-center gap-2 border-l border-line pl-4">
+          <div className="ml-1.5 flex shrink-0 items-center gap-1.5 border-l border-line pl-2.5 xl:ml-2 xl:gap-2 xl:pl-4">
             <ThemeToggle />
             <a
               href={whatsappUrl()}
               target="_blank"
               rel="noopener noreferrer"
-              className="rounded-full bg-accent px-4 py-2 text-sm font-semibold text-accent-ink transition hover:brightness-110"
+              className="rounded-full bg-accent px-3 py-1.5 text-xs font-semibold text-accent-ink transition hover:brightness-110 xl:px-4 xl:py-2 xl:text-sm"
             >
               WhatsApp
             </a>
@@ -408,7 +419,7 @@ export function Header({
                 <SectionLink
                   key={link.hash}
                   hash={link.hash}
-                  className="border-b border-line py-3.5 text-sm font-semibold text-fg"
+                  className="border-b border-line py-4 text-[15px] font-semibold text-fg"
                   onClick={closeMobileMenu}
                 >
                   {link.label}
@@ -416,10 +427,10 @@ export function Header({
               ))}
 
               <div className="border-b border-line">
-                <div className="flex items-center justify-between gap-3 py-3.5">
+                <div className="flex items-center justify-between gap-3 py-4">
                   <Link
                     href="/proyectos"
-                    className="text-sm font-semibold text-fg"
+                    className="text-[15px] font-semibold text-fg"
                     onClick={closeMobileMenu}
                   >
                     Software
@@ -475,17 +486,20 @@ export function Header({
                 )}
               </div>
 
-              <Link
-                href="/conferencias"
-                className="border-b border-line py-3.5 text-sm font-semibold text-fg"
-                onClick={closeMobileMenu}
-              >
-                Conferencias
-              </Link>
+              {pageLinks.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className="border-b border-line py-4 text-[15px] font-semibold text-fg"
+                  onClick={closeMobileMenu}
+                >
+                  {link.label}
+                </Link>
+              ))}
 
               <SectionLink
                 hash="contacto"
-                className="border-b border-line py-3.5 text-sm font-semibold text-fg"
+                className="border-b border-line py-4 text-[15px] font-semibold text-fg"
                 onClick={closeMobileMenu}
               >
                 Contacto
