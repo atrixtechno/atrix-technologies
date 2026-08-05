@@ -1,6 +1,12 @@
+import Link from "next/link";
 import { Reveal } from "@/components/Reveal";
 import { services } from "@/content/services";
 import { whatsappUrl } from "@/content/site";
+
+const remoteSupportSlugs = new Set([
+  "soporte-tecnico",
+  "soporte-it-empresarial",
+]);
 
 function Icon({ name }: { name: string }) {
   const common = "h-6 w-6";
@@ -114,16 +120,26 @@ export function Services() {
                     </li>
                   ))}
                 </ul>
-                <a
-                  href={whatsappUrl(
-                    `Hola ATRIX, me interesa el servicio de ${service.title}.`,
+                <div className="mt-5 flex flex-wrap items-center gap-x-4 gap-y-2">
+                  <a
+                    href={whatsappUrl(
+                      `Hola ATRIX, me interesa el servicio de ${service.title}.`,
+                    )}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex text-sm font-semibold text-accent transition hover:text-fg"
+                  >
+                    Cotizar →
+                  </a>
+                  {remoteSupportSlugs.has(service.slug) && (
+                    <Link
+                      href="/soporte-remoto"
+                      className="inline-flex text-sm font-semibold text-muted transition hover:text-accent"
+                    >
+                      Ver soporte remoto →
+                    </Link>
                   )}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="mt-5 inline-flex text-sm font-semibold text-accent transition hover:text-fg"
-                >
-                  Cotizar →
-                </a>
+                </div>
               </li>
             </Reveal>
           ))}
