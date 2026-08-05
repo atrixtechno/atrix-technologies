@@ -326,7 +326,7 @@ export const projects: Project[] = [
     lead: {
       name: "Ing. Néstor J. Resendiz",
       role: "Dirección técnica · Ingeniero de Tecnologías de la Información · ATRIX Technologies",
-      badges: ["Ingeniería", "Full-stack"],
+      badges: ["Ingeniería", "Arquitectura"],
       copy: [
         "Diseño, arquitectura y desarrollo de la plataforma Grupo GI: capa web React, cloud Supabase y checador Windows con biometría ZKTeco.",
         "Enfoque: sistemas reales en producción, sincronizados entre sucursal y nube, con documentación y empaquetado listos para operar.",
@@ -719,7 +719,7 @@ export const projects: Project[] = [
     lead: {
       name: "Ing. Néstor J. Resendiz, MBA",
       role: "Diseñador · Programador · Líder técnico · ATRIX Technologies",
-      badges: ["Ingeniería", "MBA", "Full stack"],
+      badges: ["Ingeniería", "MBA", "Líder técnico"],
       copy: [
         "Encargado del diseño visual, la arquitectura y la programación de Tecos Elite VOLLEYBALL: UX, panel admin, tienda, formularios de interesados y conexión con la base de datos en la nube.",
         "Enfoque: código limpio, interfaces claras y comunicación directa con el cliente hasta que cada requisito quede en funcionalidad real.",
@@ -924,7 +924,7 @@ export const projects: Project[] = [
     lead: {
       name: "Ing. Néstor J. Resendiz, MBA",
       role: "Diseñador · Programador · Líder técnico · ATRIX Technologies",
-      badges: ["Ingeniería", "MBA", "Full stack"],
+      badges: ["Ingeniería", "MBA", "Líder técnico"],
       copy: [
         "Encargado del diseño visual, la arquitectura y la programación de Tecos Taekwondo MBT: UX, panel admin, tienda, formularios de interesados y conexión con la base de datos en la nube.",
         "Enfoque: código limpio, interfaces claras y comunicación directa con el cliente hasta que cada requisito quede en funcionalidad real.",

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { ConferenceSpeakerProfile } from "@/components/ConferenceSpeakerProfile";
 import { ConferenciasHeroBrand } from "@/components/ConferenciasHeroBrand";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
@@ -10,6 +11,7 @@ import {
   conferenceBenefits,
   conferenceFormats,
   conferenceServiceLinks,
+  conferenceSpeaker,
   conferenceTalks,
   conferenceTeam,
   conferenciasPage,
@@ -61,8 +63,10 @@ export const metadata: Metadata = {
 };
 
 export default function ConferenciasPage() {
-  const speaker = conferenceTeam.find((m) => m.isSpeaker)!;
+  const speaker = conferenceSpeaker;
+  const supportTeam = conferenceTeam.filter((m) => !m.isSpeaker);
   const wa = whatsappUrl(conferenciasPage.whatsappMessage);
+  const speakerWa = whatsappUrl(conferenceSpeaker.whatsappMessage);
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -470,7 +474,7 @@ export default function ConferenciasPage() {
             </div>
           </section>
 
-          {/* Equipo */}
+          {/* Equipo / conferencista */}
           <section
             id="equipo"
             className="scroll-mt-24 border-b border-line py-20 md:py-24"
@@ -488,42 +492,29 @@ export default function ConferenciasPage() {
                   Quién imparte y quién respalda
                 </h2>
                 <div className="animate-line mt-4 h-px w-24 bg-accent/50" />
+                <p className="mt-4 max-w-2xl text-muted">
+                  Un perfil técnico con experiencia de frontera, respaldado por
+                  el equipo que implementa lo que se discute en la charla.
+                </p>
               </Reveal>
 
-              <div className="mt-12 grid gap-10 lg:grid-cols-[1.1fr_0.9fr]">
-                {conferenceTeam.map((member, index) => (
+              <Reveal delay={80}>
+                <div className="mt-12">
+                  <ConferenceSpeakerProfile speaker={conferenceSpeaker} />
+                </div>
+              </Reveal>
+
+              <div className="mt-10 grid gap-8 lg:grid-cols-[1fr_auto] lg:items-end">
+                {supportTeam.map((member, index) => (
                   <Reveal key={member.name} delay={index * 100}>
-                    <article
-                      className={
-                        member.isSpeaker
-                          ? "relative overflow-hidden border border-line bg-bg-elevated/60 p-6 sm:p-8"
-                          : "border-t border-line pt-6 lg:border-t-0 lg:pt-0"
-                      }
-                    >
-                      {member.isSpeaker && (
-                        <div
-                          className="pointer-events-none absolute -right-16 -top-16 h-40 w-40 rounded-full bg-accent/10 blur-3xl"
-                          aria-hidden
-                        />
-                      )}
-                      {member.isSpeaker && (
-                        <p className="relative text-[11px] font-semibold tracking-[0.2em] text-accent uppercase">
-                          Conferencista principal
-                        </p>
-                      )}
-                      <h3
-                        className={`font-display relative font-bold tracking-tight ${
-                          member.isSpeaker
-                            ? "mt-3 text-2xl md:text-3xl"
-                            : "text-xl md:text-2xl"
-                        }`}
-                      >
+                    <article className="border-t border-line pt-6">
+                      <h3 className="font-display text-xl font-bold tracking-tight md:text-2xl">
                         {member.name}
                       </h3>
-                      <p className="relative mt-2 text-xs font-semibold tracking-[0.14em] text-muted uppercase">
+                      <p className="mt-2 text-xs font-semibold tracking-[0.14em] text-muted uppercase">
                         {member.role}
                       </p>
-                      <div className="relative mt-4 flex flex-wrap gap-2">
+                      <div className="mt-4 flex flex-wrap gap-2">
                         {member.badges.map((badge) => (
                           <span
                             key={badge}
@@ -533,7 +524,7 @@ export default function ConferenciasPage() {
                           </span>
                         ))}
                       </div>
-                      <div className="relative mt-5 space-y-3 text-sm leading-relaxed text-muted md:text-base">
+                      <div className="mt-5 max-w-2xl space-y-3 text-sm leading-relaxed text-muted md:text-base">
                         {member.copy.map((p) => (
                           <p key={p}>{p}</p>
                         ))}
@@ -541,6 +532,24 @@ export default function ConferenciasPage() {
                     </article>
                   </Reveal>
                 ))}
+                <Reveal delay={120}>
+                  <div className="flex flex-wrap gap-3 lg:justify-end">
+                    <a
+                      href={speakerWa}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex rounded-full bg-accent px-5 py-2.5 text-sm font-semibold text-accent-ink transition hover:brightness-110"
+                    >
+                      Contactar por WhatsApp
+                    </a>
+                    <Link
+                      href="/#contacto"
+                      className="inline-flex rounded-full border border-line px-5 py-2.5 text-sm font-semibold text-fg transition hover:border-accent/40 hover:bg-bg-elevated"
+                    >
+                      Ir al formulario
+                    </Link>
+                  </div>
+                </Reveal>
               </div>
             </div>
           </section>

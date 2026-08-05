@@ -39,6 +39,28 @@ export type ConferenceTeamMember = {
   isSpeaker?: boolean;
 };
 
+export type ConferenceSpeakerVisual = {
+  src: string;
+  alt: string;
+  caption?: string;
+};
+
+export type ConferenceSpeakerStat = {
+  value: string;
+  label: string;
+};
+
+export type ConferenceSpeaker = {
+  name: string;
+  role: string;
+  badges: string[];
+  themes: string[];
+  stats: ConferenceSpeakerStat[];
+  copy: string[];
+  visuals: ConferenceSpeakerVisual[];
+  whatsappMessage: string;
+};
+
 export const conferenciasPage = {
   eyebrow: "Conferencias · ATRIX",
   title: "Conferencias y charlas de inteligencia artificial para quien decide",
@@ -217,16 +239,66 @@ export const conferenceServiceLinks: ConferenceServiceLink[] = services.map(
   },
 );
 
+/** Perfil del conferencista principal — visual + CTAs en la sección Equipo. */
+export const conferenceSpeaker: ConferenceSpeaker = {
+  name: "Ing. Néstor J. Resendiz, MBA",
+  role: "Fundador y conferencista · ATRIX Technologies",
+  badges: ["Ingeniería", "MBA", "IA aplicada", "Conferencias"],
+  themes: [
+    "IA práctica para empresas",
+    "Ciberseguridad en la frontera",
+    "Transformación digital para PyMEs",
+    "IA responsable en educación",
+    "Software e infraestructura que sí opera",
+  ],
+  stats: [
+    { value: "6+", label: "Temas listos" },
+    { value: "3", label: "Públicos" },
+    { value: "45–90'", label: "Duración" },
+    { value: "NL · TX", label: "Cobertura" },
+  ],
+  copy: [
+    "Ingeniero y líder de ATRIX: dirige las charlas de inteligencia artificial y tecnología para empresas, escuelas y negocios en la frontera.",
+    "Lleva a la sala lo que el equipo vive en campo — soporte IT, redes, CCTV y software en producción — con un lenguaje claro, serio y orientado a decisiones, no a moda.",
+  ],
+  visuals: [
+    {
+      src: "/brand/hero-poster.jpg",
+      alt: "Atmósfera tecnológica ATRIX",
+      caption: "ATRIX",
+    },
+    {
+      src: "/projects/grupo-gi-preview.jpg",
+      alt: "Plataforma Grupo GI",
+      caption: "Grupo GI",
+    },
+    {
+      src: "/projects/tecos-elite-preview.jpg",
+      alt: "Plataforma Tecos Elite Voleibol",
+      caption: "Tecos Elite",
+    },
+    {
+      src: "/projects/dojangspace-preview.jpg",
+      alt: "Producto DojangSpace",
+      caption: "DojangSpace",
+    },
+    {
+      src: "/projects/dentalmate-preview.jpg",
+      alt: "Plataforma DentalMate",
+      caption: "DentalMate",
+    },
+  ],
+  whatsappMessage:
+    "Hola ATRIX, quiero agendar una conferencia o charla con el Ing. Néstor J. Resendiz.",
+};
+
 export const conferenceTeam: ConferenceTeamMember[] = [
   {
-    name: "Ing. Néstor J. Resendiz, MBA",
-    role: "Fundador · Ingeniero líder · Conferencista · ATRIX Technologies",
-    badges: ["Ingeniería", "MBA", "Full stack", "Conferencias"],
+    name: conferenceSpeaker.name,
+    role: conferenceSpeaker.role,
+    badges: conferenceSpeaker.badges,
     isSpeaker: true,
-    copy: [
-      "Lidera el diseño, la arquitectura y el desarrollo de las plataformas ATRIX: desde sitios y paneles hasta sistemas operativos para negocios de la frontera.",
-      "En conferencia traduce experiencia de campo — soporte IT, redes, CCTV y software — a lenguaje claro para directivos, docentes y dueños de negocio. Enfoque: decisiones accionables, no slides vacíos.",
-    ],
+    copy: conferenceSpeaker.copy,
   },
   {
     name: "Equipo ATRIX Technologies",
