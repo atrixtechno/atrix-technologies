@@ -315,6 +315,13 @@ export function Header({
             onClose={() => setSoftwareOpen(false)}
           />
 
+          <Link
+            href="/conferencias"
+            className="rounded-full px-3.5 py-2 text-[13px] font-medium tracking-wide text-muted transition-colors hover:bg-bg-elevated/70 hover:text-fg"
+          >
+            Conferencias
+          </Link>
+
           <SectionLink
             hash="contacto"
             className="rounded-full px-3.5 py-2 text-[13px] font-medium tracking-wide text-muted transition-colors hover:bg-bg-elevated/70 hover:text-fg"
@@ -467,6 +474,14 @@ export function Header({
                   </ul>
                 )}
               </div>
+
+              <Link
+                href="/conferencias"
+                className="border-b border-line py-3.5 text-sm font-semibold text-fg"
+                onClick={closeMobileMenu}
+              >
+                Conferencias
+              </Link>
 
               <SectionLink
                 hash="contacto"

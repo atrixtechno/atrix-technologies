@@ -71,6 +71,14 @@ export function Footer({ light = false }: { light?: boolean }) {
                   Software
                 </Link>
               </li>
+              <li>
+                <Link
+                  href="/conferencias"
+                  className="text-sm text-muted transition hover:text-fg"
+                >
+                  Conferencias
+                </Link>
+              </li>
             </ul>
           </div>
 
