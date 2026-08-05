@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ConferenceBacking } from "@/components/ConferenceBacking";
-import { ConferenceSpeakerProfile } from "@/components/ConferenceSpeakerProfile";
 import { ConferenciasHero } from "@/components/ConferenciasHero";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
@@ -520,43 +518,7 @@ export default function ConferenciasPage() {
             </div>
           </section>
 
-          {/* 05 · Credenciales */}
-          <section
-            id="equipo"
-            className="scroll-mt-24 border-b border-line py-20 md:py-28"
-            aria-labelledby="equipo-heading"
-          >
-            <div className="mx-auto max-w-6xl px-5 md:px-8">
-              <Reveal>
-                <ChapterEyebrow number="05" label="Credenciales" />
-                <h2
-                  id="equipo-heading"
-                  className="font-display mt-4 max-w-2xl text-3xl font-bold tracking-tight md:text-5xl"
-                >
-                  Quién imparte y quién respalda
-                </h2>
-                <div className="animate-line mt-5 h-px w-24 bg-accent/50" />
-                <p className="mt-5 max-w-2xl text-base leading-relaxed text-muted md:text-lg">
-                  Un conferencista con experiencia de frontera, respaldado por
-                  la empresa que implementa lo que se discute en la sala.
-                </p>
-              </Reveal>
-
-              <Reveal delay={80}>
-                <div className="mt-14 md:mt-16">
-                  <ConferenceSpeakerProfile speaker={conferenceSpeaker} />
-                </div>
-              </Reveal>
-
-              <Reveal delay={140}>
-                <div className="mt-4 md:mt-6">
-                  <ConferenceBacking />
-                </div>
-              </Reveal>
-            </div>
-          </section>
-
-          {/* 06 · Agendar */}
+          {/* 05 · Agendar */}
           <section
             id="agendar"
             className="scroll-mt-24 py-20 md:py-28"
@@ -571,7 +533,7 @@ export default function ConferenciasPage() {
                     <div className="animate-orb-delayed absolute -right-10 bottom-0 h-52 w-52 rounded-full bg-signal/12 blur-3xl" />
                   </div>
                   <div className="relative max-w-2xl">
-                    <ChapterEyebrow number="06" label="Agenda tu sesión" />
+                    <ChapterEyebrow number="05" label="Agenda tu sesión" />
                     <h2
                       id="agendar-heading"
                       className="font-display mt-4 text-3xl font-bold tracking-tight md:text-5xl"

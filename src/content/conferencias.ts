@@ -75,8 +75,7 @@ export const conferenceChapters = [
   { id: "utilidad", number: "02", label: "Utilidad" },
   { id: "temas", number: "03", label: "Temario" },
   { id: "servicios-conferencias", number: "04", label: "Servicios" },
-  { id: "equipo", number: "05", label: "Credenciales" },
-  { id: "agendar", number: "06", label: "Agendar" },
+  { id: "agendar", number: "05", label: "Agendar" },
 ] as const;
 
 export const conferenceAudiences: ConferenceAudience[] = [
