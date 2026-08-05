@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { Logo } from "@/components/Logo";
 import { useTheme } from "@/components/ThemeProvider";
@@ -11,78 +10,126 @@ type Props = {
   whatsappHref: string;
 };
 
+const statusItems = [
+  { label: "Canal", value: "Remoto prioritario" },
+  { label: "Sistemas", value: "Windows · macOS" },
+  { label: "Cobertura", value: site.coverage },
+  { label: "Modelo", value: "Plan a medida" },
+] as const;
+
 export function SoporteRemotoHero({ whatsappHref }: Props) {
   const { theme } = useTheme();
   const isLight = theme === "light";
 
   return (
-    <section className="relative min-h-[min(100svh,52rem)] overflow-hidden border-b border-line md:min-h-[min(92svh,56rem)]">
-      <Image
-        src="/brand/hero-poster.jpg"
-        alt=""
-        fill
-        priority
-        className={`object-cover transition duration-300 ${
-          isLight ? "opacity-35 saturate-75" : "opacity-55 saturate-90"
-        }`}
-        sizes="100vw"
-        aria-hidden
-      />
-      <div className="hero-overlay absolute inset-0" />
-      <div className="hero-glow absolute inset-0" />
-      <div className="grid-tech pointer-events-none absolute inset-0 opacity-35" />
+    <section className="relative overflow-hidden border-b border-line">
       <div className="pointer-events-none absolute inset-0" aria-hidden>
-        <div className="animate-orb absolute left-[8%] top-[20%] h-48 w-48 rounded-full bg-accent/18 blur-3xl" />
-        <div className="animate-orb-delayed absolute right-[10%] bottom-[16%] h-56 w-56 rounded-full bg-signal/14 blur-3xl" />
-        <div className="absolute left-5 top-20 h-10 w-10 border-l-2 border-t-2 border-accent/40 md:left-10 md:top-28" />
-        <div className="absolute right-5 bottom-10 h-10 w-10 border-r-2 border-b-2 border-signal/35 md:right-10 md:bottom-14" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_100%_0%,rgba(26,76,255,0.14),transparent_55%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_55%_45%_at_0%_100%,rgba(13,159,150,0.12),transparent_50%)]" />
+        <div className="grid-tech absolute inset-0 opacity-45" />
+        <div className="animate-orb absolute right-[12%] top-[22%] h-44 w-44 rounded-full bg-signal/18 blur-3xl" />
+        <div className="animate-orb-delayed absolute left-[8%] bottom-[10%] h-52 w-52 rounded-full bg-accent/14 blur-3xl" />
+        <div className="scanline absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-signal/40 to-transparent" />
       </div>
 
-      <div className="relative mx-auto flex max-w-6xl flex-col justify-end px-5 pb-14 pt-16 sm:pb-16 sm:pt-20 md:min-h-[min(92svh,56rem)] md:justify-center md:px-8 md:pb-20 md:pt-24">
-        <div className="grid items-end gap-10 md:grid-cols-[1.05fr_0.95fr] md:items-center md:gap-12 lg:gap-16">
-          <div className="animate-fade-scale relative mx-auto w-full max-w-[16rem] sm:max-w-[20rem] md:mx-0 md:max-w-none">
-            <div className="animate-glow pointer-events-none absolute inset-0 -m-6 rounded-full bg-[radial-gradient(circle,rgba(13,159,150,0.2),transparent_68%)] blur-2xl" />
+      <div className="relative mx-auto grid max-w-6xl gap-10 px-5 pt-24 pb-14 sm:pt-28 sm:pb-16 md:px-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-center lg:gap-14 lg:pb-20 lg:pt-32">
+        <div className="animate-rise min-w-0">
+          <div className="animate-fade-scale mb-7 w-full max-w-[11rem] sm:max-w-[13rem]">
             <Logo
               key={isLight ? "soporte-hero-light" : "soporte-hero-dark"}
               variant={isLight ? "full-light" : "full"}
-              size={560}
-              className="relative w-full origin-center scale-[0.92] sm:scale-100 md:max-w-[420px] lg:max-w-[480px]"
+              size={360}
+              className="w-full"
               priority
             />
           </div>
 
-          <div className="animate-rise min-w-0 text-center md:text-left">
-            <p className="text-[11px] font-semibold tracking-[0.2em] text-accent uppercase sm:text-xs sm:tracking-[0.24em]">
-              {soporteRemotoPage.eyebrow}
-            </p>
-            <h1 className="font-display mt-3 text-balance text-4xl font-extrabold tracking-tight sm:mt-4 sm:text-5xl md:text-6xl lg:text-[3.75rem] lg:leading-[0.98]">
-              {soporteRemotoPage.title}
-            </h1>
-            <div className="animate-line mx-auto mt-5 h-px w-24 bg-accent/55 md:mx-0" />
-            <p className="mx-auto mt-5 max-w-lg text-pretty text-base leading-relaxed text-muted sm:text-lg md:mx-0">
-              {soporteRemotoPage.lead}
-            </p>
-            <div className="mt-8 flex flex-col items-stretch gap-3 sm:mt-10 sm:flex-row sm:flex-wrap sm:items-center sm:justify-center md:justify-start">
-              <a
-                href={whatsappHref}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center justify-center rounded-full bg-accent px-6 py-3.5 text-sm font-semibold text-accent-ink shadow-[0_12px_32px_rgba(13,159,150,0.28)] transition hover:brightness-110"
-              >
-                Solicitar por WhatsApp
-              </a>
-              <Link
-                href="#servicios"
-                className="inline-flex items-center justify-center rounded-full border border-line bg-bg-elevated/55 px-6 py-3.5 text-sm font-semibold text-fg backdrop-blur transition hover:border-accent/40 hover:bg-bg-elevated"
-              >
-                Ver servicios
-              </Link>
-            </div>
-            <p className="mt-5 text-sm text-muted">
-              {site.coverage} · Windows y macOS
-            </p>
+          <div className="inline-flex items-center gap-2 border border-signal/30 bg-signal/8 px-3 py-1.5 text-[10px] font-semibold tracking-[0.18em] text-signal uppercase">
+            <span
+              className="h-1.5 w-1.5 animate-pulse rounded-full bg-signal"
+              aria-hidden
+            />
+            TI remoto · Operación continua
+          </div>
+
+          <h1 className="font-display mt-5 text-balance text-4xl font-extrabold tracking-tight sm:text-5xl md:text-[3.35rem] md:leading-[1.02]">
+            {soporteRemotoPage.title}
+          </h1>
+          <p className="mt-5 max-w-lg text-pretty text-base leading-relaxed text-muted sm:text-lg">
+            {soporteRemotoPage.lead}
+          </p>
+
+          <div className="mt-9 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
+            <a
+              href={whatsappHref}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center rounded-full bg-accent px-6 py-3.5 text-sm font-semibold text-accent-ink shadow-[0_12px_32px_rgba(13,159,150,0.28)] transition hover:brightness-110"
+            >
+              Solicitar por WhatsApp
+            </a>
+            <Link
+              href="#servicios"
+              className="inline-flex items-center justify-center rounded-full border border-line bg-bg-elevated/70 px-6 py-3.5 text-sm font-semibold text-fg transition hover:border-signal/40 hover:bg-bg-elevated"
+            >
+              Ver cobertura
+            </Link>
           </div>
         </div>
+
+        <aside className="animate-rise-delay relative">
+          <div className="tech-frame border border-line bg-bg-elevated/80 p-5 backdrop-blur-sm sm:p-6">
+            <div className="flex items-center justify-between gap-3 border-b border-line pb-4">
+              <div>
+                <p className="text-[10px] font-semibold tracking-[0.2em] text-muted uppercase">
+                  Panel de servicio
+                </p>
+                <p className="font-display mt-1 text-lg font-bold">
+                  Estado operativo
+                </p>
+              </div>
+              <span className="inline-flex items-center gap-1.5 border border-accent/35 bg-accent/10 px-2.5 py-1 text-[10px] font-bold tracking-wide text-accent uppercase">
+                <span className="h-1.5 w-1.5 rounded-full bg-accent" aria-hidden />
+                Activo
+              </span>
+            </div>
+
+            <ul className="mt-1 divide-y divide-line">
+              {statusItems.map((item) => (
+                <li
+                  key={item.label}
+                  className="flex items-baseline justify-between gap-4 py-3.5"
+                >
+                  <span className="text-[11px] font-semibold tracking-[0.14em] text-muted uppercase">
+                    {item.label}
+                  </span>
+                  <span className="text-right text-sm font-semibold text-fg">
+                    {item.value}
+                  </span>
+                </li>
+              ))}
+            </ul>
+
+            <div className="mt-4 grid grid-cols-2 gap-3">
+              <div className="border border-line bg-bg/60 px-3 py-3 text-center">
+                <p className="font-display text-sm font-bold tracking-wide">
+                  Windows
+                </p>
+                <p className="mt-1 text-[10px] font-medium tracking-[0.12em] text-muted uppercase">
+                  Compatible
+                </p>
+              </div>
+              <div className="border border-line bg-bg/60 px-3 py-3 text-center">
+                <p className="font-display text-sm font-bold tracking-wide">
+                  macOS
+                </p>
+                <p className="mt-1 text-[10px] font-medium tracking-[0.12em] text-muted uppercase">
+                  Compatible
+                </p>
+              </div>
+            </div>
+          </div>
+        </aside>
       </div>
     </section>
   );

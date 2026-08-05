@@ -61,19 +61,21 @@ export const metadata: Metadata = {
   },
 };
 
-function ChapterEyebrow({
-  number,
-  label,
-}: {
-  number: string;
-  label: string;
-}) {
+function ChapterMark({ number, label }: { number: string; label: string }) {
   return (
-    <p className="text-xs font-semibold tracking-[0.28em] text-accent uppercase">
-      <span className="tabular-nums text-signal">{number}</span>
-      <span className="mx-2 text-line">·</span>
-      {label}
-    </p>
+    <div className="flex items-center gap-4">
+      <span className="font-display text-5xl font-extrabold leading-none text-accent/20 tabular-nums md:text-6xl">
+        {number}
+      </span>
+      <div>
+        <p className="text-[10px] font-semibold tracking-[0.28em] text-signal uppercase">
+          Capítulo
+        </p>
+        <p className="mt-1 text-xs font-semibold tracking-[0.2em] text-accent uppercase">
+          {label}
+        </p>
+      </div>
+    </div>
   );
 }
 
@@ -210,27 +212,35 @@ export default function ConferenciasPage() {
         <main className="atmosphere relative z-10 min-h-screen">
           <ConferenciasHero whatsappHref={wa} />
 
-          {/* Chapter index */}
+          {/* Editorial chapter index */}
           <nav
-            aria-label="Secciones de la página"
-            className="border-b border-line bg-bg-elevated/35"
+            aria-label="Índice de capítulos"
+            className="border-b border-line bg-bg-elevated/50"
           >
-            <div className="mx-auto flex max-w-6xl justify-center gap-1 overflow-x-auto px-5 py-3.5 md:px-8 md:py-4">
-              {conferenceChapters.map((ch) => (
-                <a
-                  key={ch.id}
-                  href={`#${ch.id}`}
-                  className="shrink-0 px-3 py-1.5 text-[11px] font-semibold tracking-[0.14em] text-muted uppercase transition hover:text-accent sm:text-xs sm:tracking-[0.16em]"
-                >
-                  <span className="tabular-nums text-signal/80">{ch.number}</span>
-                  <span className="mx-1.5 text-line">·</span>
-                  {ch.label}
-                </a>
-              ))}
+            <div className="mx-auto flex max-w-6xl flex-col gap-4 px-5 py-5 md:flex-row md:items-center md:gap-8 md:px-8 md:py-6">
+              <p className="shrink-0 text-[10px] font-semibold tracking-[0.28em] text-muted uppercase">
+                Índice
+              </p>
+              <div className="flex gap-1 overflow-x-auto pb-1 md:pb-0">
+                {conferenceChapters.map((ch) => (
+                  <a
+                    key={ch.id}
+                    href={`#${ch.id}`}
+                    className="group flex shrink-0 items-baseline gap-2 border-b-2 border-transparent px-3 py-2 transition hover:border-accent/50"
+                  >
+                    <span className="font-display text-lg font-extrabold text-accent/35 tabular-nums transition group-hover:text-accent/70">
+                      {ch.number}
+                    </span>
+                    <span className="text-[11px] font-semibold tracking-[0.14em] text-muted uppercase transition group-hover:text-fg sm:text-xs">
+                      {ch.label}
+                    </span>
+                  </a>
+                ))}
+              </div>
             </div>
           </nav>
 
-          {/* 01 · Para quién */}
+          {/* 01 · Para quién — magazine columns */}
           <section
             id="para-quien"
             className="scroll-mt-24 border-b border-line py-20 md:py-28"
@@ -238,14 +248,13 @@ export default function ConferenciasPage() {
           >
             <div className="mx-auto max-w-6xl px-5 md:px-8">
               <Reveal>
-                <ChapterEyebrow number="01" label="Para quién" />
+                <ChapterMark number="01" label="Para quién" />
                 <h2
                   id="para-quien-heading"
-                  className="font-display mt-4 max-w-2xl text-3xl font-bold tracking-tight md:text-5xl"
+                  className="font-display mt-6 max-w-2xl text-3xl font-bold tracking-tight md:text-5xl"
                 >
                   Empresas, escuelas y negocios
                 </h2>
-                <div className="animate-line mt-5 h-px w-24 bg-accent/50" />
                 <p className="mt-5 max-w-2xl text-base leading-relaxed text-muted md:text-lg">
                   Contenido orientado a quien toma decisiones o forma a otros —
                   con ejemplos del contexto fronterizo, no de plantillas
@@ -253,82 +262,87 @@ export default function ConferenciasPage() {
                 </p>
               </Reveal>
 
-              <ul className="mt-14 grid gap-10 md:grid-cols-3 md:gap-8">
+              <div className="mt-16 grid gap-0 border-y border-line md:grid-cols-3">
                 {conferenceAudiences.map((item, index) => (
                   <Reveal key={item.id} delay={index * 90}>
-                    <li className="relative border-t border-line pt-7 transition hover:border-accent/45">
-                      <span
-                        className="font-display pointer-events-none absolute -top-1 right-0 text-6xl font-extrabold text-accent/[0.08] tabular-nums md:text-7xl"
-                        aria-hidden
-                      >
+                    <article
+                      className={`h-full px-0 py-10 md:px-8 md:py-12 ${
+                        index > 0 ? "border-t border-line md:border-t-0 md:border-l" : ""
+                      }`}
+                    >
+                      <p className="font-display text-6xl font-extrabold text-signal/[0.12] tabular-nums">
                         {String(index + 1).padStart(2, "0")}
-                      </span>
-                      <p className="text-[11px] font-semibold tracking-[0.2em] text-signal uppercase">
+                      </p>
+                      <p className="-mt-8 text-[11px] font-semibold tracking-[0.22em] text-signal uppercase">
                         {item.label}
                       </p>
-                      <h3 className="font-display mt-3 text-xl font-semibold md:text-2xl">
+                      <h3 className="font-display mt-4 text-xl font-semibold md:text-2xl">
                         {item.title}
                       </h3>
-                      <p className="mt-3 text-sm leading-relaxed text-muted md:text-base">
+                      <p className="mt-4 text-sm leading-relaxed text-muted md:text-base">
                         {item.copy}
                       </p>
-                    </li>
+                    </article>
                   </Reveal>
                 ))}
-              </ul>
+              </div>
             </div>
           </section>
 
-          {/* 02 · Utilidad */}
+          {/* 02 · Utilidad — manifesto + formats */}
           <section
             id="utilidad"
             className="scroll-mt-24 border-b border-line bg-bg-elevated/40 py-20 md:py-28"
             aria-labelledby="utilidad-heading"
           >
             <div className="mx-auto max-w-6xl px-5 md:px-8">
-              <div className="grid gap-12 lg:grid-cols-[0.95fr_1.05fr] lg:gap-16 lg:items-start">
+              <div className="grid gap-14 lg:grid-cols-[0.85fr_1.15fr] lg:gap-20">
                 <Reveal>
-                  <ChapterEyebrow number="02" label="Utilidad" />
+                  <ChapterMark number="02" label="Utilidad" />
                   <h2
                     id="utilidad-heading"
-                    className="font-display mt-4 max-w-xl text-3xl font-bold tracking-tight md:text-5xl"
+                    className="font-display mt-6 max-w-md text-3xl font-bold tracking-tight md:text-5xl"
                   >
                     Qué se llevan tus asistentes
                   </h2>
-                  <div className="animate-line mt-5 h-px w-24 bg-accent/50" />
-                  <p className="mt-5 max-w-md text-base leading-relaxed text-muted">
+                  <p className="mt-5 max-w-sm text-base leading-relaxed text-muted">
                     Claridad técnica, riesgos reales y un puente hacia la
                     implementación — en el formato que tu organización necesita.
                   </p>
                 </Reveal>
 
-                <ul className="grid gap-8 sm:grid-cols-2">
+                <ol className="space-y-0">
                   {conferenceBenefits.map((item, index) => (
                     <Reveal key={item.title} delay={index * 70}>
-                      <li className="border-t border-line pt-6">
-                        <p className="text-[10px] font-semibold tracking-[0.18em] text-signal uppercase tabular-nums">
+                      <li className="grid grid-cols-[auto_1fr] gap-5 border-t border-line py-7 first:border-t-0 first:pt-0 md:gap-8 md:py-8">
+                        <span className="font-display pt-0.5 text-2xl font-extrabold text-accent tabular-nums md:text-3xl">
                           {String(index + 1).padStart(2, "0")}
-                        </p>
-                        <h3 className="font-display mt-2 text-lg font-semibold md:text-xl">
-                          {item.title}
-                        </h3>
-                        <p className="mt-3 text-sm leading-relaxed text-muted md:text-[15px]">
-                          {item.copy}
-                        </p>
+                        </span>
+                        <div>
+                          <h3 className="font-display text-lg font-semibold md:text-xl">
+                            {item.title}
+                          </h3>
+                          <p className="mt-2 text-sm leading-relaxed text-muted md:text-[15px]">
+                            {item.copy}
+                          </p>
+                        </div>
                       </li>
                     </Reveal>
                   ))}
-                </ul>
+                </ol>
               </div>
 
               <Reveal delay={120}>
-                <div className="mt-16 grid gap-8 border-t border-line pt-12 sm:grid-cols-3">
+                <div className="mt-16 grid gap-6 border-t border-line pt-12 sm:grid-cols-3">
                   {conferenceFormats.map((fmt, index) => (
-                    <div key={fmt.title}>
+                    <div
+                      key={fmt.title}
+                      className="relative overflow-hidden border border-line bg-bg/40 px-5 py-6"
+                    >
                       <p className="text-[10px] font-semibold tracking-[0.18em] text-muted uppercase tabular-nums">
                         Formato {String(index + 1).padStart(2, "0")}
                       </p>
-                      <h3 className="font-display mt-2 text-base font-semibold md:text-lg">
+                      <h3 className="font-display mt-3 text-base font-semibold md:text-lg">
                         {fmt.title}
                       </h3>
                       <p className="mt-2 text-sm leading-relaxed text-muted">
@@ -341,7 +355,7 @@ export default function ConferenciasPage() {
             </div>
           </section>
 
-          {/* 03 · Temario */}
+          {/* 03 · Temario — agenda program */}
           <section
             id="temas"
             className="scroll-mt-24 border-b border-line py-20 md:py-28"
@@ -349,91 +363,96 @@ export default function ConferenciasPage() {
           >
             <div className="mx-auto max-w-6xl px-5 md:px-8">
               <Reveal>
-                <ChapterEyebrow number="03" label="Temario" />
-                <h2
-                  id="temas-heading"
-                  className="font-display mt-4 max-w-3xl text-3xl font-bold tracking-tight md:text-5xl"
-                >
-                  Charlas centradas en inteligencia artificial y tecnología
-                  aplicada
-                </h2>
-                <div className="animate-line mt-5 h-px w-24 bg-accent/50" />
-                <p className="mt-5 max-w-2xl text-base leading-relaxed text-muted md:text-lg">
-                  Cada tema tiene audiencia, resultados esperados y formato.
-                  Podemos combinar o adaptar el contenido a tu evento.
-                </p>
+                <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+                  <div>
+                    <ChapterMark number="03" label="Temario" />
+                    <h2
+                      id="temas-heading"
+                      className="font-display mt-6 max-w-3xl text-3xl font-bold tracking-tight md:text-5xl"
+                    >
+                      Agenda de charlas
+                    </h2>
+                  </div>
+                  <p className="max-w-md text-base leading-relaxed text-muted lg:pb-1">
+                    Cada tema tiene audiencia, resultados esperados y formato.
+                    Podemos combinar o adaptar el contenido a tu evento.
+                  </p>
+                </div>
               </Reveal>
 
-              <ul className="mt-14 divide-y divide-line border-y border-line">
+              <div className="mt-14 space-y-4">
                 {conferenceTalks.map((talk, index) => (
-                  <Reveal key={talk.slug} delay={Math.min(index * 55, 220)}>
-                    <li className="group py-9 md:py-11">
-                      <div className="flex flex-col gap-5 lg:flex-row lg:items-start lg:justify-between lg:gap-12">
-                        <div className="min-w-0 flex-1">
-                          <div className="flex items-baseline gap-3">
-                            <span className="font-display text-3xl font-extrabold text-accent/25 tabular-nums transition group-hover:text-accent/45 md:text-4xl">
-                              {String(index + 1).padStart(2, "0")}
-                            </span>
-                            <p className="text-[11px] font-semibold tracking-[0.18em] text-signal uppercase">
-                              IA & tecnología
+                  <Reveal key={talk.slug} delay={Math.min(index * 50, 200)}>
+                    <article className="group relative overflow-hidden border border-line bg-bg-elevated/30 transition hover:border-accent/40 hover:bg-bg-elevated/55">
+                      <div className="pointer-events-none absolute inset-y-0 left-0 w-1 bg-accent/0 transition group-hover:bg-accent/70" />
+                      <div className="flex flex-col gap-6 p-6 sm:p-8 lg:flex-row lg:gap-10">
+                        <div className="flex shrink-0 items-start gap-4 lg:w-28 lg:flex-col lg:gap-2">
+                          <span className="font-display text-4xl font-extrabold text-accent/30 tabular-nums transition group-hover:text-accent/55 md:text-5xl">
+                            {String(index + 1).padStart(2, "0")}
+                          </span>
+                          <div className="pt-1 lg:pt-0">
+                            <p className="text-[10px] font-semibold tracking-[0.16em] text-signal uppercase">
+                              Sesión
+                            </p>
+                            <p className="mt-1 text-xs font-semibold text-muted">
+                              {talk.duration}
                             </p>
                           </div>
-                          <h3 className="font-display mt-3 text-xl font-bold tracking-tight md:text-2xl lg:text-[1.65rem]">
+                        </div>
+
+                        <div className="min-w-0 flex-1">
+                          <h3 className="font-display text-xl font-bold tracking-tight md:text-2xl">
                             {talk.title}
                           </h3>
                           <p className="mt-3 max-w-2xl text-pretty text-sm leading-relaxed text-muted md:text-base">
                             {talk.focus}
                           </p>
-                          <p className="mt-5 text-sm text-fg">
-                            <span className="font-semibold">Audiencia:</span>{" "}
+                          <p className="mt-4 text-sm">
+                            <span className="font-semibold text-fg">Audiencia:</span>{" "}
                             <span className="text-muted">{talk.audience}</span>
                           </p>
-                          <div className="mt-5">
-                            <p className="text-xs font-semibold tracking-[0.14em] text-muted uppercase">
-                              Resultados esperados
-                            </p>
-                            <ul className="mt-3 space-y-2.5">
-                              {talk.outcomes.map((outcome) => (
-                                <li
-                                  key={outcome}
-                                  className="flex gap-2.5 text-sm text-muted"
-                                >
-                                  <span
-                                    className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-accent"
-                                    aria-hidden
-                                  />
-                                  {outcome}
-                                </li>
-                              ))}
-                            </ul>
-                          </div>
+                          <ul className="mt-5 grid gap-2 sm:grid-cols-2">
+                            {talk.outcomes.map((outcome) => (
+                              <li
+                                key={outcome}
+                                className="flex gap-2.5 text-sm text-muted"
+                              >
+                                <span
+                                  className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-accent"
+                                  aria-hidden
+                                />
+                                {outcome}
+                              </li>
+                            ))}
+                          </ul>
                         </div>
-                        <div className="shrink-0 border-t border-line pt-5 lg:w-52 lg:border-t-0 lg:border-l lg:pt-1 lg:pl-9">
-                          <p className="text-xs font-semibold tracking-[0.14em] text-muted uppercase">
-                            Formato
-                          </p>
-                          <p className="mt-2 text-sm font-semibold text-fg">
-                            {talk.format}
-                          </p>
-                          <p className="mt-1 text-sm text-muted">{talk.duration}</p>
+
+                        <div className="flex shrink-0 flex-col justify-between gap-4 border-t border-line pt-5 lg:w-44 lg:border-t-0 lg:border-l lg:pt-0 lg:pl-8">
+                          <div>
+                            <p className="text-[10px] font-semibold tracking-[0.16em] text-muted uppercase">
+                              Formato
+                            </p>
+                            <p className="mt-2 text-sm font-semibold text-fg">
+                              {talk.format}
+                            </p>
+                          </div>
                           <a
                             href={wa}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="mt-6 inline-flex text-sm font-semibold text-accent transition hover:brightness-110"
+                            className="inline-flex text-sm font-semibold text-accent transition hover:brightness-110"
                           >
-                            Solicitar este tema →
+                            Solicitar tema →
                           </a>
                         </div>
                       </div>
-                    </li>
+                    </article>
                   </Reveal>
                 ))}
-              </ul>
+              </div>
 
-              {/* Mid-page CTA bridge */}
               <Reveal delay={80}>
-                <div className="relative mt-14 overflow-hidden border border-line px-6 py-8 sm:px-8 sm:py-9">
+                <div className="relative mt-12 overflow-hidden border border-line px-6 py-8 sm:px-8">
                   <div className="pointer-events-none absolute inset-0" aria-hidden>
                     <div className="animate-orb absolute -left-8 top-0 h-32 w-32 rounded-full bg-accent/10 blur-3xl" />
                   </div>
@@ -469,31 +488,30 @@ export default function ConferenciasPage() {
           >
             <div className="mx-auto max-w-6xl px-5 md:px-8">
               <Reveal>
-                <ChapterEyebrow number="04" label="Servicios ATRIX" />
+                <ChapterMark number="04" label="Servicios ATRIX" />
                 <h2
                   id="servicios-conf-heading"
-                  className="font-display mt-4 max-w-3xl text-3xl font-bold tracking-tight md:text-5xl"
+                  className="font-display mt-6 max-w-3xl text-3xl font-bold tracking-tight md:text-5xl"
                 >
                   Lo que cubren las pláticas — y lo que podemos implementar
                 </h2>
-                <div className="animate-line mt-5 h-px w-24 bg-accent/50" />
                 <p className="mt-5 max-w-2xl text-base leading-relaxed text-muted md:text-lg">
                   Las conferencias no viven en el vacío: se apoyan en la misma
                   oferta con la que operamos en {site.coverage}.
                 </p>
               </Reveal>
 
-              <ul className="mt-14 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+              <ul className="mt-14 grid gap-px bg-line sm:grid-cols-2 lg:grid-cols-3">
                 {conferenceServiceLinks.map((svc, index) => (
                   <Reveal key={svc.slug} delay={index * 55}>
-                    <li className="h-full border-t border-line pt-6 transition hover:border-accent/45">
+                    <li className="h-full bg-bg-elevated/80 p-6 transition hover:bg-bg-elevated md:p-7">
                       <p className="text-[10px] font-semibold tracking-[0.16em] text-signal uppercase tabular-nums">
                         {String(index + 1).padStart(2, "0")}
                       </p>
-                      <h3 className="font-display mt-2 text-lg font-semibold">
+                      <h3 className="font-display mt-3 text-lg font-semibold">
                         {svc.title}
                       </h3>
-                      <p className="mt-1 text-xs font-medium tracking-wide text-signal uppercase">
+                      <p className="mt-1 text-xs font-medium tracking-wide text-accent uppercase">
                         {svc.short}
                       </p>
                       <p className="mt-3 text-sm leading-relaxed text-muted">
@@ -526,37 +544,39 @@ export default function ConferenciasPage() {
           >
             <div className="mx-auto max-w-6xl px-5 md:px-8">
               <Reveal>
-                <div className="relative overflow-hidden border border-line px-6 py-14 sm:px-10 sm:py-16 md:px-16 md:py-20">
+                <div className="relative overflow-hidden border border-line">
                   <div className="pointer-events-none absolute inset-0" aria-hidden>
-                    <div className="grid-tech absolute inset-0 opacity-30" />
+                    <div className="grid-tech absolute inset-0 opacity-35" />
                     <div className="animate-orb absolute -left-12 top-0 h-48 w-48 rounded-full bg-accent/14 blur-3xl" />
                     <div className="animate-orb-delayed absolute -right-10 bottom-0 h-52 w-52 rounded-full bg-signal/12 blur-3xl" />
                   </div>
-                  <div className="relative max-w-2xl">
-                    <ChapterEyebrow number="05" label="Agenda tu sesión" />
-                    <h2
-                      id="agendar-heading"
-                      className="font-display mt-4 text-3xl font-bold tracking-tight md:text-5xl"
-                    >
-                      Lleva una conferencia ATRIX a tu organización
-                    </h2>
-                    <p className="mt-5 text-pretty text-base leading-relaxed text-muted md:text-lg">
-                      Cuéntanos el público, la duración y si prefieres presencial
-                      o virtual. Respondemos por WhatsApp al{" "}
-                      {site.phoneDisplay}.
-                    </p>
-                    <div className="mt-9 flex flex-wrap gap-3">
+                  <div className="relative grid gap-10 px-6 py-14 sm:px-10 sm:py-16 md:grid-cols-[1fr_auto] md:items-end md:gap-12 md:px-16 md:py-20">
+                    <div className="max-w-2xl">
+                      <ChapterMark number="05" label="Agenda tu sesión" />
+                      <h2
+                        id="agendar-heading"
+                        className="font-display mt-6 text-3xl font-bold tracking-tight md:text-5xl"
+                      >
+                        Lleva una conferencia ATRIX a tu organización
+                      </h2>
+                      <p className="mt-5 text-pretty text-base leading-relaxed text-muted md:text-lg">
+                        Cuéntanos el público, la duración y si prefieres
+                        presencial o virtual. Respondemos por WhatsApp al{" "}
+                        {site.phoneDisplay}.
+                      </p>
+                    </div>
+                    <div className="flex flex-col gap-3 sm:flex-row md:flex-col">
                       <a
                         href={wa}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex rounded-full bg-accent px-6 py-3.5 text-sm font-semibold text-accent-ink shadow-[0_12px_32px_rgba(13,159,150,0.28)] transition hover:brightness-110"
+                        className="inline-flex items-center justify-center rounded-full bg-accent px-6 py-3.5 text-sm font-semibold text-accent-ink shadow-[0_12px_32px_rgba(13,159,150,0.28)] transition hover:brightness-110"
                       >
                         WhatsApp · {site.phoneDisplay}
                       </a>
                       <Link
                         href="/#contacto"
-                        className="inline-flex rounded-full border border-line px-6 py-3.5 text-sm font-semibold text-fg transition hover:border-accent/40 hover:bg-bg-elevated"
+                        className="inline-flex items-center justify-center rounded-full border border-line px-6 py-3.5 text-sm font-semibold text-fg transition hover:border-accent/40 hover:bg-bg-elevated"
                       >
                         Formulario de contacto
                       </Link>
