@@ -44,18 +44,30 @@ export function SoporteRemotoHero({ whatsappHref }: Props) {
             />
           </div>
 
-          <div className="inline-flex max-w-full flex-wrap items-center gap-2 border border-signal/30 bg-signal/8 px-3 py-1.5 text-[10px] font-semibold tracking-[0.16em] text-signal uppercase sm:tracking-[0.18em]">
-            <span
-              className="h-1.5 w-1.5 shrink-0 animate-pulse rounded-full bg-signal"
-              aria-hidden
-            />
-            {soporteRemotoPage.eyebrow}
-          </div>
-
-          <h1 className="font-display mt-4 text-balance text-[1.85rem] font-extrabold leading-[1.12] tracking-tight sm:mt-5 sm:text-4xl sm:leading-tight md:text-[3.35rem] md:leading-[1.02]">
+          <p className="text-[11px] font-semibold tracking-[0.2em] text-muted uppercase sm:tracking-[0.22em]">
             {soporteRemotoPage.title}
+          </p>
+
+          <h1 className="font-display mt-3 text-balance text-[2.35rem] font-extrabold leading-[1.05] tracking-tight sm:mt-4 sm:text-5xl sm:leading-[1.02] md:text-[3.75rem] md:leading-[0.98] lg:text-[4.15rem]">
+            <span className="text-fg">Tu </span>
+            <span className="relative inline-block text-signal">
+              departamento
+              <span
+                className="absolute inset-x-0 -bottom-1 h-[3px] origin-left bg-signal/70 sm:-bottom-1.5 sm:h-1"
+                aria-hidden
+              />
+            </span>
+            <span className="text-fg"> de </span>
+            <span className="relative inline-block text-accent">
+              sistemas
+              <span
+                className="absolute inset-x-0 -bottom-1 h-[3px] origin-left bg-accent/65 sm:-bottom-1.5 sm:h-1"
+                aria-hidden
+              />
+            </span>
           </h1>
-          <p className="mt-4 max-w-lg text-pretty text-[15px] leading-relaxed text-muted sm:mt-5 sm:text-base md:text-lg">
+
+          <p className="mt-5 max-w-lg text-pretty text-[15px] leading-relaxed text-muted sm:mt-6 sm:text-base md:text-lg">
             {soporteRemotoPage.lead}
           </p>
 

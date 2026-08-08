@@ -1,8 +1,9 @@
 export const soporteRemotoPage = {
-  eyebrow: "Tu departamento de sistemas",
+  /** Hero-level positioning phrase — keep prominent in UI */
+  headline: "Tu departamento de sistemas",
   title: "Soporte técnico remoto para empresas",
   lead:
-    "Tu departamento de TI, sin contratar personal de planta: mantenimiento, seguridad y atención prioritaria cuando lo necesitas.",
+    "Sin contratar personal de planta: mantenimiento, seguridad y atención prioritaria cuando lo necesitas.",
   intro: [
     "ATRIX actúa como tu departamento de sistemas remoto: el respaldo de un área de Tecnologías de la Información, sin necesidad de contratar personal técnico de tiempo completo.",
     "El servicio está enfocado en mantener los equipos, programas y sistemas de la empresa funcionando de manera rápida, segura y estable, permitiendo que el personal se concentre en sus actividades y en el crecimiento del negocio.",

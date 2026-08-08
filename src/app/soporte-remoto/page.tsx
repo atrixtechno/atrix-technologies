@@ -13,7 +13,7 @@ import {
 } from "@/content/soporte-remoto";
 import { site, whatsappUrl } from "@/content/site";
 
-const pageTitle = "Soporte técnico remoto para empresas";
+const pageTitle = "Tu departamento de sistemas · Soporte remoto";
 const pageDescription =
   "Tu departamento de sistemas remoto para empresas en Nuevo Laredo y Laredo, TX: mantenimiento, optimización, seguridad y atención prioritaria sin contratar personal de TI de planta.";
 
@@ -42,7 +42,7 @@ export const metadata: Metadata = {
         url: "https://atrixnld.com/brand/og-atrix-v2.png",
         width: 1200,
         height: 630,
-        alt: `${site.legalName} — Soporte técnico remoto para empresas`,
+        alt: `${site.legalName} — Tu departamento de sistemas remoto`,
         type: "image/png",
       },
     ],
@@ -190,13 +190,28 @@ export default function SoporteRemotoPage() {
             </div>
           </nav>
 
-          {/* Enfoque — narrative intro */}
+          {/* Enfoque — narrative intro + one mid-page reinforcement */}
           <section
             id="enfoque"
             className="scroll-mt-24 border-b border-line py-16 md:py-24"
             aria-labelledby="enfoque-heading"
           >
             <div className="mx-auto max-w-6xl px-4 sm:px-5 md:px-8">
+              <Reveal>
+                <blockquote className="mb-12 border-l-[3px] border-signal pl-5 sm:mb-14 sm:pl-7 md:mb-16">
+                  <p className="font-display text-[1.45rem] font-bold leading-snug tracking-tight text-fg sm:text-2xl md:text-[2rem] md:leading-[1.2]">
+                    <span className="text-signal">
+                      {soporteRemotoPage.headline}
+                    </span>
+                    <span className="text-muted">
+                      {" "}
+                      — el respaldo de TI que tu operación necesita, sin
+                      headcount interno.
+                    </span>
+                  </p>
+                </blockquote>
+              </Reveal>
+
               <div className="grid gap-8 lg:grid-cols-[0.4fr_0.6fr] lg:gap-16">
                 <Reveal>
                   <p className="text-[11px] font-semibold tracking-[0.22em] text-signal uppercase">
@@ -206,7 +221,7 @@ export default function SoporteRemotoPage() {
                     id="enfoque-heading"
                     className="font-display mt-4 text-[1.65rem] font-bold tracking-tight sm:text-3xl md:text-4xl"
                   >
-                    Tu departamento de sistemas, al servicio de tu operación
+                    Al servicio de tu operación
                   </h2>
                   <div className="animate-line mt-5 h-px w-16 bg-signal/55" />
                 </Reveal>
