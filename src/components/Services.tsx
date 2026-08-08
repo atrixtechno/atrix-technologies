@@ -136,7 +136,7 @@ export function Services() {
                       href="/soporte-remoto"
                       className="inline-flex text-sm font-semibold text-muted transition hover:text-accent"
                     >
-                      Ver soporte remoto →
+                      Ver departamento de sistemas →
                     </Link>
                   )}
                 </div>

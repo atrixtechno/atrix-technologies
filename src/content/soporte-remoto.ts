@@ -1,22 +1,21 @@
 export const soporteRemotoPage = {
-  eyebrow: "ATRIX Technologies · Soporte remoto",
+  eyebrow: "Tu departamento de sistemas",
   title: "Soporte técnico remoto para empresas",
   lead:
-    "El respaldo de un departamento de TI, sin contratar personal técnico de tiempo completo.",
+    "Tu departamento de TI, sin contratar personal de planta: mantenimiento, seguridad y atención prioritaria cuando lo necesitas.",
   intro: [
-    "Tu empresa puede contar con el respaldo de un departamento de Tecnologías de la Información, sin necesidad de contratar personal técnico de tiempo completo.",
+    "ATRIX actúa como tu departamento de sistemas remoto: el respaldo de un área de Tecnologías de la Información, sin necesidad de contratar personal técnico de tiempo completo.",
     "El servicio está enfocado en mantener los equipos, programas y sistemas de la empresa funcionando de manera rápida, segura y estable, permitiendo que el personal se concentre en sus actividades y en el crecimiento del negocio.",
   ],
   planPersonalizado:
     "Cada empresa tiene necesidades diferentes, por lo que se ofrece un plan personalizado, adaptado a la cantidad de equipos, programas utilizados, frecuencia de soporte y requerimientos específicos de cada negocio.",
-  sistemas:
-    "Soporte para equipos con Windows y macOS.",
+  sistemas: "Soporte para equipos con Windows y macOS.",
   idealPara:
-    "Oficinas, despachos profesionales, agencias de diseño, arquitectos, ingenieros, comercios y empresas que necesitan asistencia tecnológica constante sin mantener un departamento interno de sistemas.",
+    "Oficinas, despachos profesionales, agencias de diseño, arquitectos, ingenieros, comercios y empresas que necesitan un departamento de sistemas constante sin mantener personal interno de TI.",
   closing:
     "Menos problemas técnicos, mayor productividad, seguridad y crecimiento para tu empresa.",
   whatsappMessage:
-    "Hola ATRIX, me interesa el soporte técnico remoto para empresas.",
+    "Hola ATRIX, me interesa el soporte técnico remoto — quiero que sean nuestro departamento de sistemas.",
 } as const;
 
 export const soporteRemotoChapters = [

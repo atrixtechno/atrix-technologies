@@ -15,7 +15,7 @@ import { site, whatsappUrl } from "@/content/site";
 
 const pageTitle = "Soporte técnico remoto para empresas";
 const pageDescription =
-  "Respaldo de un departamento de TI remoto para empresas en Nuevo Laredo y Laredo, TX: mantenimiento, optimización, seguridad y atención prioritaria sin contratar personal de tiempo completo.";
+  "Tu departamento de sistemas remoto para empresas en Nuevo Laredo y Laredo, TX: mantenimiento, optimización, seguridad y atención prioritaria sin contratar personal de TI de planta.";
 
 export const metadata: Metadata = {
   title: pageTitle,
@@ -67,12 +67,12 @@ function FlowStep({
   return (
     <a
       href={href}
-      className="group flex min-w-0 flex-1 items-center gap-3 px-1 py-1 transition hover:opacity-90"
+      className="group flex shrink-0 items-center gap-2.5 px-1 py-1 transition hover:opacity-90 sm:min-w-0 sm:flex-1 sm:gap-3"
     >
       <span className="flex h-8 w-8 shrink-0 items-center justify-center border border-signal/35 bg-signal/10 text-[11px] font-bold text-signal tabular-nums transition group-hover:border-signal/60 group-hover:bg-signal/15">
         {step}
       </span>
-      <span className="truncate text-xs font-semibold tracking-wide text-muted transition group-hover:text-fg sm:text-sm">
+      <span className="whitespace-nowrap text-xs font-semibold tracking-wide text-muted transition group-hover:text-fg sm:truncate sm:text-sm">
         {label}
       </span>
     </a>
@@ -102,7 +102,7 @@ export default function SoporteRemotoPage() {
       {
         "@type": "ProfessionalService",
         "@id": `${site.url}/soporte-remoto#service`,
-        name: `Soporte técnico remoto · ${site.legalName}`,
+        name: `Soporte técnico remoto · Tu departamento de sistemas · ${site.legalName}`,
         description: pageDescription,
         url: `${site.url}/soporte-remoto`,
         provider: { "@id": `${site.url}/#organization` },
@@ -165,25 +165,25 @@ export default function SoporteRemotoPage() {
             aria-label="Flujo del servicio"
             className="border-b border-line bg-bg/70 backdrop-blur-sm"
           >
-            <div className="mx-auto flex max-w-6xl items-stretch gap-0 overflow-x-auto px-5 py-3 md:px-8">
+            <div className="mx-auto flex max-w-6xl items-stretch gap-0 overflow-x-auto overscroll-x-contain px-4 py-3 [-ms-overflow-style:none] [scrollbar-width:none] sm:px-5 md:px-8 [&::-webkit-scrollbar]:hidden">
               <FlowStep step="01" label="Enfoque" href="#enfoque" />
               <span
-                className="hidden w-8 shrink-0 self-center border-t border-dashed border-line sm:block"
+                className="mx-1 w-6 shrink-0 self-center border-t border-dashed border-line sm:mx-0 sm:w-8"
                 aria-hidden
               />
               <FlowStep step="02" label="Problemas" href="#problemas" />
               <span
-                className="hidden w-8 shrink-0 self-center border-t border-dashed border-line sm:block"
+                className="mx-1 w-6 shrink-0 self-center border-t border-dashed border-line sm:mx-0 sm:w-8"
                 aria-hidden
               />
               <FlowStep step="03" label="Cobertura" href="#servicios" />
               <span
-                className="hidden w-8 shrink-0 self-center border-t border-dashed border-line sm:block"
+                className="mx-1 w-6 shrink-0 self-center border-t border-dashed border-line sm:mx-0 sm:w-8"
                 aria-hidden
               />
               <FlowStep step="04" label="Plan" href="#plan" />
               <span
-                className="hidden w-8 shrink-0 self-center border-t border-dashed border-line sm:block"
+                className="mx-1 w-6 shrink-0 self-center border-t border-dashed border-line sm:mx-0 sm:w-8"
                 aria-hidden
               />
               <FlowStep step="05" label="Cotizar" href="#cotizar" />
@@ -193,27 +193,27 @@ export default function SoporteRemotoPage() {
           {/* Enfoque — narrative intro */}
           <section
             id="enfoque"
-            className="scroll-mt-24 border-b border-line py-20 md:py-24"
+            className="scroll-mt-24 border-b border-line py-16 md:py-24"
             aria-labelledby="enfoque-heading"
           >
-            <div className="mx-auto max-w-6xl px-5 md:px-8">
-              <div className="grid gap-10 lg:grid-cols-[0.4fr_0.6fr] lg:gap-16">
+            <div className="mx-auto max-w-6xl px-4 sm:px-5 md:px-8">
+              <div className="grid gap-8 lg:grid-cols-[0.4fr_0.6fr] lg:gap-16">
                 <Reveal>
                   <p className="text-[11px] font-semibold tracking-[0.22em] text-signal uppercase">
                     Enfoque operativo
                   </p>
                   <h2
                     id="enfoque-heading"
-                    className="font-display mt-4 text-3xl font-bold tracking-tight md:text-4xl"
+                    className="font-display mt-4 text-[1.65rem] font-bold tracking-tight sm:text-3xl md:text-4xl"
                   >
-                    TI al servicio de tu operación
+                    Tu departamento de sistemas, al servicio de tu operación
                   </h2>
                   <div className="animate-line mt-5 h-px w-16 bg-signal/55" />
                 </Reveal>
-                <div className="space-y-5 border-l-2 border-signal/25 pl-6 md:pl-8">
+                <div className="space-y-5 border-l-2 border-signal/25 pl-5 sm:pl-6 md:pl-8">
                   {soporteRemotoPage.intro.map((paragraph, index) => (
                     <Reveal key={paragraph.slice(0, 24)} delay={index * 80}>
-                      <p className="text-base leading-relaxed text-muted md:text-lg">
+                      <p className="text-[15px] leading-relaxed text-muted sm:text-base md:text-lg">
                         {paragraph}
                       </p>
                     </Reveal>
@@ -226,33 +226,33 @@ export default function SoporteRemotoPage() {
           {/* Problema → Solución */}
           <section
             id="problemas"
-            className="scroll-mt-24 border-b border-line py-20 md:py-28"
+            className="scroll-mt-24 border-b border-line py-16 md:py-28"
             aria-labelledby="problemas-heading"
           >
-            <div className="mx-auto max-w-6xl px-5 md:px-8">
+            <div className="mx-auto max-w-6xl px-4 sm:px-5 md:px-8">
               <Reveal>
-                <div className="mb-12 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+                <div className="mb-10 flex flex-col gap-4 sm:mb-12 sm:flex-row sm:items-end sm:justify-between">
                   <div>
                     <p className="text-[11px] font-semibold tracking-[0.22em] text-signal uppercase">
                       Diagnóstico
                     </p>
                     <h2
                       id="problemas-heading"
-                      className="font-display mt-3 text-3xl font-bold tracking-tight md:text-4xl"
+                      className="font-display mt-3 text-[1.65rem] font-bold tracking-tight sm:text-3xl md:text-4xl"
                     >
                       Del problema a la solución
                     </h2>
                   </div>
                   <p className="max-w-sm text-sm leading-relaxed text-muted md:text-base">
-                    Incidencias que frenan al equipo — y cobertura remota que las
-                    resuelve sin personal de TI interno.
+                    Incidencias que frenan al equipo — y tu departamento de
+                    sistemas remoto que las resuelve sin personal de TI interno.
                   </p>
                 </div>
               </Reveal>
 
               <div className="grid gap-6 lg:grid-cols-2 lg:gap-8">
                 <Reveal>
-                  <div className="h-full border border-line bg-bg-elevated/40 p-6 sm:p-8">
+                  <div className="h-full border border-line bg-bg-elevated/40 p-5 sm:p-8">
                     <div className="flex items-center gap-3">
                       <span className="flex h-9 w-9 items-center justify-center border border-line text-muted">
                         <svg
@@ -294,7 +294,7 @@ export default function SoporteRemotoPage() {
                 </Reveal>
 
                 <Reveal delay={100}>
-                  <div className="relative h-full overflow-hidden border border-accent/35 bg-accent/[0.06] p-6 sm:p-8">
+                  <div className="relative h-full overflow-hidden border border-accent/35 bg-accent/[0.06] p-5 sm:p-8">
                     <div
                       className="pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full bg-accent/15 blur-3xl"
                       aria-hidden
@@ -315,7 +315,7 @@ export default function SoporteRemotoPage() {
                         </span>
                         <div>
                           <p className="text-[10px] font-semibold tracking-[0.18em] text-accent uppercase">
-                            Con ATRIX remoto
+                            Tu departamento de TI
                           </p>
                           <p className="font-display text-lg font-bold">
                             Continuidad operativa
@@ -364,37 +364,37 @@ export default function SoporteRemotoPage() {
           {/* Servicios incluidos — checklist */}
           <section
             id="servicios"
-            className="scroll-mt-24 border-b border-line bg-bg-elevated/35 py-20 md:py-28"
+            className="scroll-mt-24 border-b border-line bg-bg-elevated/35 py-16 md:py-28"
             aria-labelledby="servicios-heading"
           >
-            <div className="mx-auto max-w-6xl px-5 md:px-8">
+            <div className="mx-auto max-w-6xl px-4 sm:px-5 md:px-8">
               <Reveal>
                 <p className="text-[11px] font-semibold tracking-[0.22em] text-signal uppercase">
                   Cobertura incluida
                 </p>
                 <h2
                   id="servicios-heading"
-                  className="font-display mt-3 max-w-2xl text-3xl font-bold tracking-tight md:text-4xl"
+                  className="font-display mt-3 max-w-2xl text-[1.65rem] font-bold tracking-tight sm:text-3xl md:text-4xl"
                 >
                   Servicios incluidos
                 </h2>
-                <p className="mt-4 max-w-2xl text-base leading-relaxed text-muted md:text-lg">
+                <p className="mt-4 max-w-2xl text-[15px] leading-relaxed text-muted sm:text-base md:text-lg">
                   Cobertura remota continua para mantener equipos y sistemas
                   estables, seguros y listos para trabajar.
                 </p>
               </Reveal>
 
-              <ul className="mt-12 grid gap-3 sm:grid-cols-2">
+              <ul className="mt-10 grid grid-cols-1 gap-3 sm:mt-12 sm:grid-cols-2">
                 {soporteServiciosIncluidos.map((item, index) => (
                   <Reveal key={item} delay={Math.min(index * 40, 180)}>
-                    <li className="flex items-start gap-4 border border-line bg-bg/50 px-4 py-4 transition hover:border-accent/35 hover:bg-bg-elevated sm:px-5">
+                    <li className="flex items-start gap-3 border border-line bg-bg/50 px-4 py-4 transition hover:border-accent/35 hover:bg-bg-elevated sm:gap-4 sm:px-5">
                       <span
                         className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center border border-accent/40 bg-accent/10 text-xs font-bold text-accent"
                         aria-hidden
                       >
                         ✓
                       </span>
-                      <p className="text-sm leading-relaxed text-fg md:text-[15px]">
+                      <p className="min-w-0 text-sm leading-relaxed text-fg md:text-[15px]">
                         {item}
                       </p>
                     </li>
@@ -403,8 +403,8 @@ export default function SoporteRemotoPage() {
               </ul>
 
               <Reveal delay={80}>
-                <div className="mt-12 grid gap-4 sm:grid-cols-[1fr_auto] sm:items-center">
-                  <div className="tech-frame border border-line bg-bg/60 px-5 py-5 sm:px-6">
+                <div className="mt-10 grid gap-4 sm:mt-12 sm:grid-cols-[1fr_auto] sm:items-center">
+                  <div className="tech-frame border border-line bg-bg/60 px-4 py-5 sm:px-6">
                     <p className="text-[10px] font-semibold tracking-[0.18em] text-signal uppercase">
                       Sistemas compatibles
                     </p>
@@ -424,7 +424,7 @@ export default function SoporteRemotoPage() {
                     href={wa}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center rounded-full bg-accent px-6 py-3.5 text-sm font-semibold text-accent-ink shadow-[0_12px_32px_rgba(13,159,150,0.28)] transition hover:brightness-110"
+                    className="inline-flex w-full items-center justify-center rounded-full bg-accent px-6 py-3.5 text-sm font-semibold text-accent-ink shadow-[0_12px_32px_rgba(13,159,150,0.28)] transition hover:brightness-110 sm:w-auto"
                   >
                     Consultar por WhatsApp
                   </a>
@@ -436,30 +436,30 @@ export default function SoporteRemotoPage() {
           {/* Plan personalizado */}
           <section
             id="plan"
-            className="scroll-mt-24 border-b border-line py-20 md:py-28"
+            className="scroll-mt-24 border-b border-line py-16 md:py-28"
             aria-labelledby="plan-heading"
           >
-            <div className="mx-auto max-w-6xl px-5 md:px-8">
+            <div className="mx-auto max-w-6xl px-4 sm:px-5 md:px-8">
               <div className="relative overflow-hidden border border-line">
                 <div className="pointer-events-none absolute inset-0" aria-hidden>
                   <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_100%_0%,rgba(26,76,255,0.1),transparent_60%)]" />
                   <div className="grid-tech absolute inset-0 opacity-25" />
                 </div>
-                <div className="relative grid gap-10 p-6 sm:p-8 md:grid-cols-[1.1fr_0.9fr] md:gap-12 md:p-12 lg:p-14">
+                <div className="relative grid gap-8 p-5 sm:gap-10 sm:p-8 md:grid-cols-[1.1fr_0.9fr] md:gap-12 md:p-12 lg:p-14">
                   <Reveal>
                     <p className="text-[11px] font-semibold tracking-[0.22em] text-signal uppercase">
                       Plan a medida
                     </p>
                     <h2
                       id="plan-heading"
-                      className="font-display mt-3 text-3xl font-bold tracking-tight md:text-4xl"
+                      className="font-display mt-3 text-[1.65rem] font-bold tracking-tight sm:text-3xl md:text-4xl"
                     >
                       Plan personalizado
                     </h2>
-                    <p className="mt-5 text-base leading-relaxed text-muted md:text-lg">
+                    <p className="mt-5 text-[15px] leading-relaxed text-muted sm:text-base md:text-lg">
                       {soporteRemotoPage.planPersonalizado}
                     </p>
-                    <div className="mt-8 flex flex-wrap gap-6 border-t border-line pt-8">
+                    <div className="mt-8 flex flex-wrap gap-x-6 gap-y-4 border-t border-line pt-8">
                       {[
                         { label: "Equipos", detail: "Según inventario" },
                         { label: "Frecuencia", detail: "A tu ritmo" },
@@ -478,7 +478,7 @@ export default function SoporteRemotoPage() {
                   </Reveal>
 
                   <Reveal delay={90}>
-                    <div className="border border-line bg-bg-elevated/70 p-6 sm:p-7">
+                    <div className="border border-line bg-bg-elevated/70 p-5 sm:p-7">
                       <p className="text-[10px] font-semibold tracking-[0.2em] text-accent uppercase">
                         Ideal para
                       </p>
@@ -505,46 +505,46 @@ export default function SoporteRemotoPage() {
           {/* Cotizar */}
           <section
             id="cotizar"
-            className="scroll-mt-24 py-20 md:py-28"
+            className="scroll-mt-24 py-16 md:py-28"
             aria-labelledby="cotizar-heading"
           >
-            <div className="mx-auto max-w-6xl px-5 md:px-8">
+            <div className="mx-auto max-w-6xl px-4 sm:px-5 md:px-8">
               <Reveal>
                 <div className="relative overflow-hidden border border-signal/25 bg-signal/[0.04]">
                   <div className="pointer-events-none absolute inset-0" aria-hidden>
                     <div className="animate-orb absolute -right-8 top-0 h-40 w-40 rounded-full bg-signal/12 blur-3xl" />
                     <div className="scanline absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-signal/35 to-transparent" />
                   </div>
-                  <div className="relative px-6 py-12 sm:px-10 sm:py-14 md:px-14 md:py-16">
+                  <div className="relative px-5 py-10 sm:px-10 sm:py-14 md:px-14 md:py-16">
                     <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
-                      <div className="max-w-xl">
+                      <div className="max-w-xl min-w-0">
                         <p className="text-[11px] font-semibold tracking-[0.22em] text-signal uppercase">
                           Siguiente paso
                         </p>
                         <h2
                           id="cotizar-heading"
-                          className="font-display mt-3 text-3xl font-bold tracking-tight md:text-4xl"
+                          className="font-display mt-3 text-[1.65rem] font-bold tracking-tight sm:text-3xl md:text-4xl"
                         >
                           {soporteRemotoPage.closing}
                         </h2>
-                        <p className="mt-4 text-pretty text-base leading-relaxed text-muted md:text-lg">
+                        <p className="mt-4 text-pretty text-[15px] leading-relaxed text-muted sm:text-base md:text-lg">
                           Cuéntanos cuántos equipos tienes y con qué frecuencia
                           necesitas soporte. Respondemos por WhatsApp al{" "}
                           {site.phoneDisplay}.
                         </p>
                       </div>
-                      <div className="flex flex-col gap-3 sm:flex-row lg:flex-col">
+                      <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row lg:flex-col">
                         <a
                           href={wa}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="inline-flex items-center justify-center rounded-full bg-accent px-6 py-3.5 text-sm font-semibold text-accent-ink shadow-[0_12px_32px_rgba(13,159,150,0.28)] transition hover:brightness-110"
+                          className="inline-flex w-full items-center justify-center rounded-full bg-accent px-6 py-3.5 text-sm font-semibold text-accent-ink shadow-[0_12px_32px_rgba(13,159,150,0.28)] transition hover:brightness-110 sm:w-auto"
                         >
                           WhatsApp · {site.phoneDisplay}
                         </a>
                         <Link
                           href="/#contacto"
-                          className="inline-flex items-center justify-center rounded-full border border-line px-6 py-3.5 text-sm font-semibold text-fg transition hover:border-signal/40 hover:bg-bg-elevated"
+                          className="inline-flex w-full items-center justify-center rounded-full border border-line px-6 py-3.5 text-sm font-semibold text-fg transition hover:border-signal/40 hover:bg-bg-elevated sm:w-auto"
                         >
                           Formulario de contacto
                         </Link>

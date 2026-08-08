@@ -71,8 +71,8 @@ export const services: Service[] = [
   {
     slug: "soporte-it-empresarial",
     title: "Soporte IT empresarial",
-    short: "Mantenimiento, respaldo y optimización",
-    copy: "Acompañamiento continuo para empresas: menos fallas, más productividad y tecnología bajo control.",
+    short: "Tu departamento de sistemas",
+    copy: "ATRIX como tu departamento de TI remoto: menos fallas, más productividad y tecnología bajo control, sin personal de planta.",
     bullets: [
       "Mantenimiento preventivo",
       "Respaldos y seguridad básica",
