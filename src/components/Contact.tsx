@@ -27,6 +27,54 @@ function GmailIcon({ className }: { className?: string }) {
   );
 }
 
+function CardIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" aria-hidden>
+      <rect
+        x="2.5"
+        y="5"
+        width="19"
+        height="14"
+        rx="1.5"
+        stroke="currentColor"
+        strokeWidth="1.6"
+      />
+      <path d="M2.5 9.5h19" stroke="currentColor" strokeWidth="1.6" />
+      <path
+        d="M6 13.5h5M6 16h3"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
+
+const BUSINESS_CARD_FILES = [
+  {
+    href: "/brand/tarjeta-atrix-frente.png",
+    filename: "ATRIX-tarjeta-frente.png",
+  },
+  {
+    href: "/brand/tarjeta-atrix-reverso.png",
+    filename: "ATRIX-tarjeta-reverso.png",
+  },
+] as const;
+
+function downloadBusinessCards() {
+  BUSINESS_CARD_FILES.forEach((file, index) => {
+    window.setTimeout(() => {
+      const a = document.createElement("a");
+      a.href = file.href;
+      a.download = file.filename;
+      a.rel = "noopener";
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+    }, index * 250);
+  });
+}
+
 export function Contact() {
   const [phase, setPhase] = useState<Phase>("idle");
   const [progress, setProgress] = useState(0);
@@ -152,6 +200,25 @@ export function Contact() {
                   </span>
                 </span>
               </a>
+            </li>
+            <li>
+              <button
+                type="button"
+                onClick={downloadBusinessCards}
+                className="group inline-flex items-center gap-3 text-left text-sm text-muted transition hover:text-fg"
+              >
+                <span className="inline-flex h-10 w-10 items-center justify-center border border-line bg-bg-elevated text-accent transition group-hover:border-accent/40">
+                  <CardIcon className="h-5 w-5" />
+                </span>
+                <span>
+                  <span className="block text-[11px] font-semibold tracking-[0.16em] uppercase">
+                    Tarjeta de presentación
+                  </span>
+                  <span className="mt-0.5 block text-fg transition group-hover:text-accent">
+                    Descargar frente y reverso (HD)
+                  </span>
+                </span>
+              </button>
             </li>
           </ul>
         </div>
