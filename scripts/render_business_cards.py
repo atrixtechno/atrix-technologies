@@ -16,8 +16,8 @@ SRC_LOGO = ROOT / "assets" / "source-cards" / "atrix-technologies-logo.png"
 DPI = 600
 W = round(8.5 / 2.54 * DPI)  # 2008
 H = round(5.4 / 2.54 * DPI)  # 1276
-# ~3.6 mm safe margin from PVC trim
-SAFE = round(3.6 / 25.4 * DPI)  # ~85 px
+# ~2.8 mm safe margin from PVC trim (slightly tighter so content can grow)
+SAFE = round(2.8 / 25.4 * DPI)  # ~66 px
 
 BLUE = (0, 90, 231)  # #005AE7
 NAVY = (0, 28, 72)  # #001C48
@@ -295,45 +295,54 @@ def render_front() -> Image.Image:
     img = Image.new("RGB", (W, H), WHITE)
     draw = ImageDraw.Draw(img)
 
-    wm = load_mark_watermark(720, opacity=20)
-    img.paste(wm, (W - wm.width - SAFE - 20, (H - wm.height) // 2 - 20), wm)
+    wm = load_mark_watermark(860, opacity=15)
+    img.paste(wm, (W - wm.width - SAFE, (H - wm.height) // 2), wm)
 
-    paint_corner(draw, "tl", size=320, band=52)
-    paint_corner(draw, "br", size=360, band=56)
+    paint_corner(draw, "tl", size=380, band=58)
+    paint_corner(draw, "br", size=420, band=62)
 
-    # Left stacked logo — keep inside safe area, leave room for motto
-    logo = load_stacked_logo(580, 780)
-    logo_x = SAFE + 25
-    logo_y = SAFE + 28
+    # Motto first so logo can sit above it
+    parts = ["TECNOLOGÍA", "INNOVACIÓN", "RENDIMIENTO"]
+    motto_f = font(FONT_BOLD, 24)
+    motto_h = text_size(draw, parts[0], motto_f)[1]
+    my = H - SAFE - motto_h - 6
+
+    # Vertical divider — ~38% logo / 62% contact
+    div_x = 760
+    draw.line([(div_x, SAFE + 24), (div_x, H - SAFE - 24)], fill=BLUE, width=4)
+
+    # Left stacked logo — top-aligned, as wide as the left column allows
+    logo_max_w = div_x - SAFE - 24
+    logo_max_h = my - SAFE - 24
+    logo = load_stacked_logo(logo_max_w, logo_max_h)
+    logo_x = SAFE + (div_x - SAFE - logo.width) // 2
+    logo_y = SAFE + 10
     img.paste(logo, (logo_x, logo_y), logo)
 
-    # Motto bottom-left (above safe / corner)
-    parts = ["TECNOLOGÍA", "INNOVACIÓN", "RENDIMIENTO"]
-    mx, my = SAFE + 25, H - SAFE - 36
-    bf = font(FONT_BOLD, 16)
+    mx = SAFE + 8
     x = mx
     for i, part in enumerate(parts):
-        draw.text((x, my), part, fill=BLACK, font=bf)
-        tw, _ = text_size(draw, part, bf)
+        draw.text((x, my), part, fill=BLACK, font=motto_f)
+        tw, _ = text_size(draw, part, motto_f)
         x += tw
         if i < len(parts) - 1:
-            draw.text((x, my), "  •  ", fill=BLUE, font=bf)
-            bw, _ = text_size(draw, "  •  ", bf)
+            draw.text((x, my), "  •  ", fill=BLUE, font=motto_f)
+            bw, _ = text_size(draw, "  •  ", motto_f)
             x += bw
 
-    # Vertical divider — split ~40% logo / 60% contact for 8.5×5.4
-    div_x = 790
-    draw.line([(div_x, SAFE + 50), (div_x, H - SAFE - 50)], fill=BLUE, width=3)
+    # Right contact block — print-readable (~10–13 pt name, ~7–8 pt contact @ 600 DPI)
+    rx = div_x + 24
+    name_f = font(FONT_BOLD, 82)
+    title_f = font(FONT_REG, 48)
+    info_f = font(FONT_REG, 52)
+    info_sm = font(FONT_REG, 46)
 
-    # Right contact block — print-sized type (~6–8 pt at 600 DPI)
-    rx = div_x + 48
-    name_f = font(FONT_BOLD, 44)
-    title_f = font(FONT_REG, 26)
-    info_f = font(FONT_REG, 28)
-    info_sm = font(FONT_REG, 24)
-
-    draw.text((rx, SAFE + 72), "Ing. Néstor J. Resendiz, MBA", fill=BLACK, font=name_f)
-    draw.text((rx, SAFE + 132), "Ingeniero en sistemas", fill=BLUE, font=title_f)
+    name_y = SAFE + 16
+    draw.text((rx, name_y), "Ing. Néstor J. Resendiz, MBA", fill=BLACK, font=name_f)
+    _, name_h = text_size(draw, "Ing. Néstor J. Resendiz, MBA", name_f)
+    title_y = name_y + name_h + 8
+    draw.text((rx, title_y), "Ingeniero en sistemas", fill=BLUE, font=title_f)
+    _, title_h = text_size(draw, "Ingeniero en sistemas", title_f)
 
     rows = [
         ("phone", "+52 867 179 3155", None),
@@ -341,18 +350,24 @@ def render_front() -> Image.Image:
         ("web", "atrixnld.com", None),
         ("pin", "Nuevo Laredo, Tamps.", "Laredo, TX"),
     ]
-    y = SAFE + 210
-    icon_r = 26
-    for kind, line1, line2 in rows:
-        circle_icon(draw, rx + icon_r, y + icon_r, icon_r, kind)
+    icon_r = 52
+    contacts_top = title_y + title_h + 22
+    contacts_bottom = H - SAFE - 12
+    # Weighted slots: single-line rows vs two-line location row
+    weights = [1.0, 1.0, 1.0, 1.35]
+    total_w = sum(weights)
+    usable_h = contacts_bottom - contacts_top
+    y = contacts_top
+    for i, (kind, line1, line2) in enumerate(rows):
+        slot = usable_h * (weights[i] / total_w)
+        circle_icon(draw, rx + icon_r, int(y + icon_r), icon_r, kind)
         tx = rx + icon_r * 2 + 22
         if line2:
-            draw.text((tx, y - 2), line1, fill=BLACK, font=info_f)
-            draw.text((tx, y + 34), line2, fill=BLACK, font=info_sm)
-            y += 98
+            draw.text((tx, int(y + 2)), line1, fill=BLACK, font=info_f)
+            draw.text((tx, int(y + 62)), line2, fill=BLACK, font=info_sm)
         else:
-            draw.text((tx, y + 6), line1, fill=BLACK, font=info_f)
-            y += 82
+            draw.text((tx, int(y + icon_r - text_size(draw, line1, info_f)[1] // 2)), line1, fill=BLACK, font=info_f)
+        y += slot
 
     return img
 
@@ -361,23 +376,25 @@ def render_back() -> Image.Image:
     img = Image.new("RGB", (W, H), WHITE)
     draw = ImageDraw.Draw(img)
 
-    wm = load_mark_watermark(640, opacity=14)
-    img.paste(wm, (W - wm.width - 40, 20), wm)
+    wm = load_mark_watermark(780, opacity=11)
+    img.paste(wm, (W - wm.width - 20, 6), wm)
 
-    paint_corner(draw, "tl", size=260, band=44)
-    paint_corner(draw, "bl", size=240, band=42)
-    paint_corner(draw, "br", size=280, band=46)
+    paint_corner(draw, "tl", size=300, band=50)
+    paint_corner(draw, "bl", size=280, band=48)
+    paint_corner(draw, "br", size=320, band=52)
 
-    # Title — centered in safe zone
-    title_f = font(FONT_BLACK, 42)
-    sub_f = font(FONT_BOLD, 22)
+    # Title — ~11–12 pt @ 600 DPI
+    title_f = font(FONT_BLACK, 72)
+    sub_f = font(FONT_BOLD, 36)
     t1 = "SOLUCIONES TECNOLÓGICAS"
     t2 = "PARA HOGARES Y EMPRESAS"
-    tw, _ = text_size(draw, t1, title_f)
-    draw.text(((W - tw) // 2, SAFE + 20), t1, fill=NAVY, font=title_f)
-    tw2, _ = text_size(draw, t2, sub_f)
-    draw.text(((W - tw2) // 2, SAFE + 74), t2, fill=MUTED, font=sub_f)
-    draw.line([(W // 2 - 48, SAFE + 114), (W // 2 + 48, SAFE + 114)], fill=BLUE, width=3)
+    tw, th1 = text_size(draw, t1, title_f)
+    draw.text(((W - tw) // 2, SAFE + 4), t1, fill=NAVY, font=title_f)
+    tw2, th2 = text_size(draw, t2, sub_f)
+    sub_y = SAFE + 4 + th1 + 10
+    draw.text(((W - tw2) // 2, sub_y), t2, fill=MUTED, font=sub_f)
+    rule_y = sub_y + th2 + 14
+    draw.line([(W // 2 - 72, rule_y), (W // 2 + 72, rule_y)], fill=BLUE, width=4)
 
     services = [
         ("monitor", C_SOPORTE, "SOPORTE TÉCNICO", "Computadoras, Laptops Mantenimiento y Reparación"),
@@ -388,32 +405,38 @@ def render_back() -> Image.Image:
         ("printer", C_PRINT, "IMPRESORAS Y PERIFÉRICOS", "Instalación, Configuración y Soporte"),
     ]
 
-    margin_x = SAFE
+    # Footer — taller, raised so services sit denser above it
+    bar_m = SAFE + 10
+    bar_y0, bar_y1 = H - SAFE - 210, H - SAFE - 4
+    col_bottom = bar_y0 - 12
+
+    margin_x = SAFE - 6
     usable = W - margin_x * 2
     col_w = usable // 6
-    title_font = font(FONT_BOLD, 15)
-    desc_font = font(FONT_REG, 13)
-    icon_y = SAFE + 200
-    text_top = SAFE + 278
-    col_bottom = H - SAFE - 168
+    title_font = font(FONT_BOLD, 30)
+    desc_font = font(FONT_REG, 24)
+    icon_s = 78
+
+    # Dense service band between header and raised footer
+    band_top = rule_y + 8
+    band_h = col_bottom - band_top
+    icon_y = band_top + int(band_h * 0.26)
+    text_top = band_top + int(band_h * 0.50)
 
     for i, (kind, color, title, desc) in enumerate(services):
         cx = margin_x + col_w * i + col_w // 2
-        service_icon(draw, cx, icon_y, kind, color, s=34)
+        service_icon(draw, cx, icon_y, kind, color, s=icon_s)
         if i > 0:
             sx = margin_x + col_w * i
-            draw.line([(sx, SAFE + 140), (sx, col_bottom)], fill=LIGHT_GRAY, width=2)
+            draw.line([(sx, band_top + 4), (sx, col_bottom)], fill=LIGHT_GRAY, width=2)
 
-        ty = wrap_center(draw, title, cx, text_top, title_font, color, col_w - 16, line_gap=2)
-        dy = ty + 14
-        draw.line([(cx - col_w * 0.26, dy), (cx + col_w * 0.26, dy)], fill=color, width=2)
-        draw.ellipse((cx - 4, dy - 4, cx + 4, dy + 4), fill=color)
-        wrap_center(draw, desc, cx, dy + 14, desc_font, GRAY, col_w - 18, line_gap=2)
+        ty = wrap_center(draw, title, cx, text_top, title_font, color, col_w - 4, line_gap=3)
+        dy = ty + 10
+        draw.line([(cx - col_w * 0.34, dy), (cx + col_w * 0.34, dy)], fill=color, width=3)
+        draw.ellipse((cx - 7, dy - 7, cx + 7, dy + 7), fill=color)
+        wrap_center(draw, desc, cx, dy + 10, desc_font, GRAY, col_w - 4, line_gap=4)
 
-    # Footer bar
-    bar_m = SAFE + 50
-    bar_y0, bar_y1 = H - SAFE - 110, H - SAFE - 18
-    draw.rounded_rectangle((bar_m, bar_y0, W - bar_m, bar_y1), radius=12, outline=BLUE, width=3)
+    draw.rounded_rectangle((bar_m, bar_y0, W - bar_m, bar_y1), radius=14, outline=BLUE, width=4)
 
     footer_items = [
         ("home", "SOPORTE A DOMICILIO\nY REMOTO"),
@@ -421,34 +444,34 @@ def render_back() -> Image.Image:
         ("web", "atrixnld.com"),
     ]
     seg_w = (W - 2 * bar_m) // 3
-    foot_f = font(FONT_BOLD, 15)
-    url_f = font(FONT_BOLD, 20)
+    foot_f = font(FONT_BOLD, 26)
+    url_f = font(FONT_BOLD, 34)
     for i, (kind, label) in enumerate(footer_items):
         cx = bar_m + seg_w * i + seg_w // 2
         if i > 0:
             sx = bar_m + seg_w * i
-            draw.line([(sx, bar_y0 + 18), (sx, bar_y1 - 18)], fill=LIGHT_GRAY, width=2)
+            draw.line([(sx, bar_y0 + 22), (sx, bar_y1 - 22)], fill=LIGHT_GRAY, width=2)
         mid_y = (bar_y0 + bar_y1) // 2
-        icon_r = 18
+        icon_r = 34
         if label == "atrixnld.com":
-            block_w = icon_r * 2 + 16 + text_size(draw, label, url_f)[0]
+            block_w = icon_r * 2 + 18 + text_size(draw, label, url_f)[0]
             icon_cx = cx - block_w // 2 + icon_r
             circle_icon(draw, icon_cx, mid_y, icon_r, kind)
             tw, th = text_size(draw, label, url_f)
-            draw.text((icon_cx + icon_r + 16, mid_y - th // 2), label, fill=BLACK, font=url_f)
+            draw.text((icon_cx + icon_r + 18, mid_y - th // 2), label, fill=BLACK, font=url_f)
         else:
             lines = label.split("\n")
             heights = [text_size(draw, ln, foot_f)[1] for ln in lines]
-            total_h = sum(heights) + 3 * (len(lines) - 1)
+            total_h = sum(heights) + 4 * (len(lines) - 1)
             max_line_w = max(text_size(draw, ln, foot_f)[0] for ln in lines)
-            block_w = icon_r * 2 + 14 + max_line_w
+            block_w = icon_r * 2 + 16 + max_line_w
             icon_cx = cx - block_w // 2 + icon_r
             circle_icon(draw, icon_cx, mid_y, icon_r, kind)
-            tx = icon_cx + icon_r + 14
+            tx = icon_cx + icon_r + 16
             yy = mid_y - total_h // 2
             for ln in lines:
                 draw.text((tx, yy), ln, fill=BLACK, font=foot_f)
-                yy += text_size(draw, ln, foot_f)[1] + 3
+                yy += text_size(draw, ln, foot_f)[1] + 4
 
     return img
 
