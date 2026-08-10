@@ -16,8 +16,8 @@ SRC_LOGO = ROOT / "assets" / "source-cards" / "atrix-technologies-logo.png"
 DPI = 600
 W = round(8.5 / 2.54 * DPI)  # 2008
 H = round(5.4 / 2.54 * DPI)  # 1276
-# ~2.8 mm safe margin from PVC trim (slightly tighter so content can grow)
-SAFE = round(2.8 / 25.4 * DPI)  # ~66 px
+# ~2.7 mm safe margin from PVC trim
+SAFE = round(2.7 / 25.4 * DPI)  # ~64 px
 
 BLUE = (0, 90, 231)  # #005AE7
 NAVY = (0, 28, 72)  # #001C48
@@ -60,6 +60,41 @@ def paint_corner(draw: ImageDraw.ImageDraw, corner: str, size: int = 310, band: 
             draw.polygon([(0, H), (extent, H), (0, H - extent)], fill=color)
         elif corner == "tr":
             draw.polygon([(W, 0), (W - extent, 0), (W, extent)], fill=color)
+
+
+def chevron_x_at(y: float) -> float:
+    """Right-pointing chevron centerline from reference (normalized → px)."""
+    # Tip slightly above mid: ~52.7% W at ~44.6% H
+    tip_y = 0.446 * H
+    tip_x = 0.527 * W
+    top_x = 0.434 * W
+    bot_x = 0.433 * W
+    if y <= tip_y:
+        t = y / tip_y if tip_y else 0.0
+        return top_x + (tip_x - top_x) * t
+    t = (y - tip_y) / (H - tip_y) if H != tip_y else 1.0
+    return tip_x + (bot_x - tip_x) * t
+
+
+def paint_front_chevron(draw: ImageDraw.ImageDraw) -> None:
+    """Navy outer + blue inner right-pointing chevron divider (reference match)."""
+    # Draw as thick polylines so the tip stays sharp (no polygon self-fill artifacts)
+    navy_w = 44
+    blue_w = 15
+    step = 2
+    ys = list(range(0, H + 1, step))
+    if ys[-1] != H:
+        ys.append(H)
+
+    # Centerline of blue (rightmost edge of divider stack)
+    blue_line = [(int(round(chevron_x_at(y))), y) for y in ys]
+    # Navy sits left of blue with a tiny white gap
+    navy_line = [(int(round(chevron_x_at(y) - blue_w - 4 - navy_w // 2)), y) for y in ys]
+    draw.line(navy_line, fill=NAVY, width=navy_w, joint="curve")
+    # Midnight accent along outer (left) edge of navy
+    midnight_line = [(p[0] - navy_w // 2 + 4, p[1]) for p in navy_line]
+    draw.line(midnight_line, fill=MIDNIGHT, width=10, joint="curve")
+    draw.line(blue_line, fill=BLUE, width=blue_w, joint="curve")
 
 
 def load_stacked_logo(max_w: int, max_h: int) -> Image.Image:
@@ -291,35 +326,44 @@ def wrap_center(
     return yy
 
 
+def left_panel_right_bound(y: int) -> int:
+    """Usable right edge of left branding panel (inside chevron navy)."""
+    return int(chevron_x_at(y) - 78)
+
+
 def render_front() -> Image.Image:
     img = Image.new("RGB", (W, H), WHITE)
     draw = ImageDraw.Draw(img)
 
-    wm = load_mark_watermark(860, opacity=15)
-    img.paste(wm, (W - wm.width - SAFE, (H - wm.height) // 2), wm)
+    # Watermark on right panel first
+    tip_x = int(0.527 * W)
+    wm = load_mark_watermark(880, opacity=13)
+    img.paste(wm, (tip_x + 60, (H - wm.height) // 2 - 10), wm)
 
-    paint_corner(draw, "tl", size=380, band=58)
-    paint_corner(draw, "br", size=420, band=62)
+    paint_corner(draw, "tl", size=390, band=58)
+    paint_corner(draw, "br", size=430, band=62)
+    paint_front_chevron(draw)
 
-    # Motto first so logo can sit above it
+    # Motto along bottom of left panel
     parts = ["TECNOLOGÍA", "INNOVACIÓN", "RENDIMIENTO"]
-    motto_f = font(FONT_BOLD, 24)
+    motto_f = font(FONT_BOLD, 25)
     motto_h = text_size(draw, parts[0], motto_f)[1]
     my = H - SAFE - motto_h - 6
 
-    # Vertical divider — ~38% logo / 62% contact
-    div_x = 760
-    draw.line([(div_x, SAFE + 24), (div_x, H - SAFE - 24)], fill=BLUE, width=4)
-
-    # Left stacked logo — top-aligned, as wide as the left column allows
-    logo_max_w = div_x - SAFE - 24
-    logo_max_h = my - SAFE - 24
+    # Left stacked logo — fill the chevron pocket without colliding with divider
+    pocket_right = left_panel_right_bound(int(0.40 * H))
+    logo_max_w = pocket_right - SAFE - 20
+    logo_max_h = my - SAFE - 36
     logo = load_stacked_logo(logo_max_w, logo_max_h)
-    logo_x = SAFE + (div_x - SAFE - logo.width) // 2
-    logo_y = SAFE + 10
+    logo_x = SAFE + max(0, (pocket_right - SAFE - logo.width) // 2)
+    logo_y = SAFE + max(0, (my - SAFE - 28 - logo.height) // 2)
     img.paste(logo, (logo_x, logo_y), logo)
 
-    mx = SAFE + 8
+    # Motto centered under logo within left pocket
+    motto_w = sum(text_size(draw, p, motto_f)[0] for p in parts)
+    motto_w += 2 * text_size(draw, "  •  ", motto_f)[0]
+    pocket_r_bot = left_panel_right_bound(my)
+    mx = SAFE + max(0, (min(pocket_r_bot, pocket_right) - SAFE - motto_w) // 2)
     x = mx
     for i, part in enumerate(parts):
         draw.text((x, my), part, fill=BLACK, font=motto_f)
@@ -330,19 +374,27 @@ def render_front() -> Image.Image:
             bw, _ = text_size(draw, "  •  ", motto_f)
             x += bw
 
-    # Right contact block — print-readable (~10–13 pt name, ~7–8 pt contact @ 600 DPI)
-    rx = div_x + 24
-    name_f = font(FONT_BOLD, 82)
+    # Right contact block — large print-readable type
+    rx = tip_x + 48
+    name_f = font(FONT_BOLD, 76)
     title_f = font(FONT_REG, 48)
     info_f = font(FONT_REG, 52)
-    info_sm = font(FONT_REG, 46)
+    info_sm = font(FONT_REG, 48)
 
-    name_y = SAFE + 16
-    draw.text((rx, name_y), "Ing. Néstor J. Resendiz, MBA", fill=BLACK, font=name_f)
-    _, name_h = text_size(draw, "Ing. Néstor J. Resendiz, MBA", name_f)
-    title_y = name_y + name_h + 8
-    draw.text((rx, title_y), "Ingeniero en sistemas", fill=BLUE, font=title_f)
-    _, title_h = text_size(draw, "Ingeniero en sistemas", title_f)
+    name = "Ing. Néstor J. Resendiz, MBA"
+    while text_size(draw, name, name_f)[0] > W - SAFE - 12 - rx and name_f.size > 56:
+        name_f = font(FONT_BOLD, name_f.size - 2)
+
+    name_y = SAFE + 20
+    draw.text((rx, name_y), name, fill=BLACK, font=name_f)
+    _, name_h = text_size(draw, name, name_f)
+
+    title = "Ingeniero en sistemas"
+    title_y = name_y + name_h + 12
+    draw.text((rx, title_y), title, fill=BLUE, font=title_f)
+    tw, title_h = text_size(draw, title, title_f)
+    ul_y = title_y + title_h + 10
+    draw.line([(rx, ul_y), (rx + max(tw, 280), ul_y)], fill=BLUE, width=4)
 
     rows = [
         ("phone", "+52 867 179 3155", None),
@@ -350,23 +402,24 @@ def render_front() -> Image.Image:
         ("web", "atrixnld.com", None),
         ("pin", "Nuevo Laredo, Tamps.", "Laredo, TX"),
     ]
-    icon_r = 52
-    contacts_top = title_y + title_h + 22
-    contacts_bottom = H - SAFE - 12
-    # Weighted slots: single-line rows vs two-line location row
+    icon_r = 50
+    contacts_top = ul_y + 30
+    contacts_bottom = H - SAFE - 14
     weights = [1.0, 1.0, 1.0, 1.35]
     total_w = sum(weights)
     usable_h = contacts_bottom - contacts_top
     y = contacts_top
     for i, (kind, line1, line2) in enumerate(rows):
         slot = usable_h * (weights[i] / total_w)
-        circle_icon(draw, rx + icon_r, int(y + icon_r), icon_r, kind)
+        cy = int(y + icon_r + 2)
+        circle_icon(draw, rx + icon_r, cy, icon_r, kind)
         tx = rx + icon_r * 2 + 22
         if line2:
-            draw.text((tx, int(y + 2)), line1, fill=BLACK, font=info_f)
-            draw.text((tx, int(y + 62)), line2, fill=BLACK, font=info_sm)
+            draw.text((tx, int(y + 6)), line1, fill=BLACK, font=info_f)
+            draw.text((tx, int(y + 64)), line2, fill=BLACK, font=info_sm)
         else:
-            draw.text((tx, int(y + icon_r - text_size(draw, line1, info_f)[1] // 2)), line1, fill=BLACK, font=info_f)
+            th = text_size(draw, line1, info_f)[1]
+            draw.text((tx, cy - th // 2), line1, fill=BLACK, font=info_f)
         y += slot
 
     return img
@@ -376,25 +429,24 @@ def render_back() -> Image.Image:
     img = Image.new("RGB", (W, H), WHITE)
     draw = ImageDraw.Draw(img)
 
-    wm = load_mark_watermark(780, opacity=11)
-    img.paste(wm, (W - wm.width - 20, 6), wm)
+    wm = load_mark_watermark(820, opacity=12)
+    img.paste(wm, (W - wm.width - 10, 20), wm)
 
-    paint_corner(draw, "tl", size=300, band=50)
-    paint_corner(draw, "bl", size=280, band=48)
-    paint_corner(draw, "br", size=320, band=52)
+    # Match reference: TL + BR corners (no BL)
+    paint_corner(draw, "tl", size=320, band=52)
+    paint_corner(draw, "br", size=340, band=54)
 
-    # Title — ~11–12 pt @ 600 DPI
-    title_f = font(FONT_BLACK, 72)
-    sub_f = font(FONT_BOLD, 36)
+    title_f = font(FONT_BLACK, 70)
+    sub_f = font(FONT_BOLD, 38)
     t1 = "SOLUCIONES TECNOLÓGICAS"
     t2 = "PARA HOGARES Y EMPRESAS"
     tw, th1 = text_size(draw, t1, title_f)
-    draw.text(((W - tw) // 2, SAFE + 4), t1, fill=NAVY, font=title_f)
+    draw.text(((W - tw) // 2, SAFE + 2), t1, fill=NAVY, font=title_f)
     tw2, th2 = text_size(draw, t2, sub_f)
-    sub_y = SAFE + 4 + th1 + 10
+    sub_y = SAFE + 2 + th1 + 8
     draw.text(((W - tw2) // 2, sub_y), t2, fill=MUTED, font=sub_f)
-    rule_y = sub_y + th2 + 14
-    draw.line([(W // 2 - 72, rule_y), (W // 2 + 72, rule_y)], fill=BLUE, width=4)
+    rule_y = sub_y + th2 + 12
+    draw.line([(W // 2 - 80, rule_y), (W // 2 + 80, rule_y)], fill=BLUE, width=4)
 
     services = [
         ("monitor", C_SOPORTE, "SOPORTE TÉCNICO", "Computadoras, Laptops Mantenimiento y Reparación"),
@@ -405,36 +457,35 @@ def render_back() -> Image.Image:
         ("printer", C_PRINT, "IMPRESORAS Y PERIFÉRICOS", "Instalación, Configuración y Soporte"),
     ]
 
-    # Footer — taller, raised so services sit denser above it
-    bar_m = SAFE + 10
-    bar_y0, bar_y1 = H - SAFE - 210, H - SAFE - 4
-    col_bottom = bar_y0 - 12
+    bar_m = SAFE + 8
+    bar_y0, bar_y1 = H - SAFE - 200, H - SAFE - 2
+    col_bottom = bar_y0 - 10
 
-    margin_x = SAFE - 6
+    margin_x = SAFE - 4
     usable = W - margin_x * 2
     col_w = usable // 6
-    title_font = font(FONT_BOLD, 30)
-    desc_font = font(FONT_REG, 24)
-    icon_s = 78
+    title_font = font(FONT_BOLD, 28)
+    desc_font = font(FONT_REG, 23)
+    icon_s = 72
 
-    # Dense service band between header and raised footer
-    band_top = rule_y + 8
+    band_top = rule_y + 10
     band_h = col_bottom - band_top
-    icon_y = band_top + int(band_h * 0.26)
-    text_top = band_top + int(band_h * 0.50)
+    icon_y = band_top + int(band_h * 0.20)
+    text_top = band_top + int(band_h * 0.42)
 
     for i, (kind, color, title, desc) in enumerate(services):
         cx = margin_x + col_w * i + col_w // 2
         service_icon(draw, cx, icon_y, kind, color, s=icon_s)
         if i > 0:
             sx = margin_x + col_w * i
-            draw.line([(sx, band_top + 4), (sx, col_bottom)], fill=LIGHT_GRAY, width=2)
+            draw.line([(sx, band_top + 2), (sx, col_bottom - 4)], fill=LIGHT_GRAY, width=2)
 
-        ty = wrap_center(draw, title, cx, text_top, title_font, color, col_w - 4, line_gap=3)
-        dy = ty + 10
-        draw.line([(cx - col_w * 0.34, dy), (cx + col_w * 0.34, dy)], fill=color, width=3)
-        draw.ellipse((cx - 7, dy - 7, cx + 7, dy + 7), fill=color)
-        wrap_center(draw, desc, cx, dy + 10, desc_font, GRAY, col_w - 4, line_gap=4)
+        # Title → description → accent line (reference order)
+        ty = wrap_center(draw, title, cx, text_top, title_font, color, col_w - 8, line_gap=2)
+        dy = wrap_center(draw, desc, cx, ty + 8, desc_font, GRAY, col_w - 8, line_gap=3)
+        line_y = min(dy + 14, col_bottom - 18)
+        draw.line([(cx - col_w * 0.32, line_y), (cx + col_w * 0.32, line_y)], fill=color, width=3)
+        draw.ellipse((cx - 6, line_y - 6, cx + 6, line_y + 6), fill=color)
 
     draw.rounded_rectangle((bar_m, bar_y0, W - bar_m, bar_y1), radius=14, outline=BLUE, width=4)
 
@@ -444,15 +495,15 @@ def render_back() -> Image.Image:
         ("web", "atrixnld.com"),
     ]
     seg_w = (W - 2 * bar_m) // 3
-    foot_f = font(FONT_BOLD, 26)
-    url_f = font(FONT_BOLD, 34)
+    foot_f = font(FONT_BOLD, 28)
+    url_f = font(FONT_BOLD, 36)
     for i, (kind, label) in enumerate(footer_items):
         cx = bar_m + seg_w * i + seg_w // 2
         if i > 0:
             sx = bar_m + seg_w * i
-            draw.line([(sx, bar_y0 + 22), (sx, bar_y1 - 22)], fill=LIGHT_GRAY, width=2)
+            draw.line([(sx, bar_y0 + 20), (sx, bar_y1 - 20)], fill=LIGHT_GRAY, width=2)
         mid_y = (bar_y0 + bar_y1) // 2
-        icon_r = 34
+        icon_r = 36
         if label == "atrixnld.com":
             block_w = icon_r * 2 + 18 + text_size(draw, label, url_f)[0]
             icon_cx = cx - block_w // 2 + icon_r
@@ -482,13 +533,11 @@ def main() -> None:
     back = render_back()
     front_path = OUT_DIR / "tarjeta-atrix-frente.png"
     back_path = OUT_DIR / "tarjeta-atrix-reverso.png"
-    # Primary: sharp 600 DPI PNGs for PVC print
     front.save(front_path, "PNG", optimize=True, dpi=(DPI, DPI))
     back.save(back_path, "PNG", optimize=True, dpi=(DPI, DPI))
     print(f"Wrote {front_path} {front.size} @ {DPI} DPI ({8.5}×{5.4} cm)")
     print(f"Wrote {back_path} {back.size} @ {DPI} DPI ({8.5}×{5.4} cm)")
 
-    # Optional 300 DPI exports alongside (not used by site download links)
     dpi300_w = round(8.5 / 2.54 * 300)
     dpi300_h = round(5.4 / 2.54 * 300)
     for src, name in ((front, "tarjeta-atrix-frente-300dpi.png"), (back, "tarjeta-atrix-reverso-300dpi.png")):
