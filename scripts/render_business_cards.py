@@ -3,7 +3,6 @@
 
 from __future__ import annotations
 
-import math
 from pathlib import Path
 
 from PIL import Image, ImageDraw, ImageFont
@@ -199,99 +198,124 @@ def service_icon(
     color: tuple[int, int, int],
     s: int = 38,
 ) -> None:
-    """Line-art service icons sized for the PVC card."""
-    w = max(3, s // 12)
+    """Clean geometric line icons for the PVC reverse grid."""
+    w = max(3, s // 11)
     if kind == "monitor":
-        draw.rounded_rectangle((cx - s, cy - s * 0.7, cx + s, cy + s * 0.45), radius=6, outline=color, width=w)
-        draw.line([(cx - s * 0.35, cy + s * 0.55), (cx + s * 0.35, cy + s * 0.55)], fill=color, width=w)
-        draw.line([(cx, cy + s * 0.45), (cx, cy + s * 0.55)], fill=color, width=w)
-        gx, gy, gr = cx + s * 0.55, cy + s * 0.35, max(12, s // 2.5)
-        draw.ellipse((gx - gr, gy - gr, gx + gr, gy + gr), outline=color, width=w)
-        ir = max(4, int(gr * 0.35))
-        draw.ellipse((gx - ir, gy - ir, gx + ir, gy + ir), outline=color, width=w)
-        for ang in range(0, 360, 45):
-            rad = math.radians(ang)
-            x1 = gx + math.cos(rad) * (gr - 1)
-            y1 = gy + math.sin(rad) * (gr - 1)
-            x2 = gx + math.cos(rad) * (gr + 5)
-            y2 = gy + math.sin(rad) * (gr + 5)
-            draw.line([(x1, y1), (x2, y2)], fill=color, width=w)
-    elif kind == "cctv":
+        # Laptop / tech support: screen + base
         draw.rounded_rectangle(
-            (cx - s * 0.2, cy - s * 0.35, cx + s * 0.9, cy + s * 0.35),
-            radius=7,
+            (cx - s * 0.72, cy - s * 0.72, cx + s * 0.72, cy + s * 0.28),
+            radius=max(4, s // 10),
             outline=color,
             width=w,
         )
-        draw.ellipse((cx + s * 0.35, cy - s * 0.22, cx + s * 0.8, cy + s * 0.22), outline=color, width=w)
-        draw.line([(cx - s * 0.2, cy), (cx - s * 0.75, cy + s * 0.55)], fill=color, width=w)
-        draw.line([(cx - s * 0.9, cy + s * 0.55), (cx - s * 0.55, cy + s * 0.55)], fill=color, width=w)
-        draw.line([(cx + s * 0.2, cy - s * 0.35), (cx - s * 0.05, cy - s * 0.75)], fill=color, width=w)
+        draw.line([(cx - s * 0.55, cy - s * 0.48), (cx + s * 0.55, cy - s * 0.48)], fill=color, width=max(2, w - 1))
+        draw.line([(cx - s * 0.95, cy + s * 0.42), (cx + s * 0.95, cy + s * 0.42)], fill=color, width=w)
+        draw.line([(cx - s * 0.72, cy + s * 0.28), (cx - s * 0.95, cy + s * 0.42)], fill=color, width=w)
+        draw.line([(cx + s * 0.72, cy + s * 0.28), (cx + s * 0.95, cy + s * 0.42)], fill=color, width=w)
+        # Small wrench accent (geometric)
+        draw.arc(
+            (cx + s * 0.15, cy - s * 0.25, cx + s * 0.55, cy + s * 0.15),
+            start=200,
+            end=340,
+            fill=color,
+            width=w,
+        )
+        draw.line(
+            [(cx + s * 0.35, cy - s * 0.05), (cx + s * 0.55, cy + s * 0.18)],
+            fill=color,
+            width=w,
+        )
+    elif kind == "cctv":
+        # Dome / bullet camera — simple silhouette
+        draw.ellipse((cx - s * 0.35, cy - s * 0.55, cx + s * 0.35, cy + s * 0.15), outline=color, width=w)
+        draw.rounded_rectangle(
+            (cx - s * 0.55, cy - s * 0.05, cx + s * 0.55, cy + s * 0.45),
+            radius=max(4, s // 9),
+            outline=color,
+            width=w,
+        )
+        draw.ellipse((cx - s * 0.18, cy + s * 0.05, cx + s * 0.18, cy + s * 0.35), outline=color, width=w)
+        draw.ellipse((cx - s * 0.07, cy + s * 0.14, cx + s * 0.07, cy + s * 0.26), fill=color)
+        draw.line([(cx, cy + s * 0.45), (cx, cy + s * 0.72)], fill=color, width=w)
+        draw.line([(cx - s * 0.35, cy + s * 0.72), (cx + s * 0.35, cy + s * 0.72)], fill=color, width=w)
     elif kind == "network":
-        draw.ellipse((cx - s, cy - s, cx + s, cy + s), outline=color, width=w)
-        draw.ellipse((cx - s * 0.4, cy - s, cx + s * 0.4, cy + s), outline=color, width=max(2, w - 1))
-        draw.line([(cx - s, cy), (cx + s, cy)], fill=color, width=w)
-        nr = max(5, s // 8)
-        for dx, dy in [(-0.55, -0.55), (0.55, -0.55), (-0.55, 0.55), (0.55, 0.55), (0, 0)]:
-            nx, ny = cx + dx * s * 0.85, cy + dy * s * 0.85
-            draw.ellipse((nx - nr, ny - nr, nx + nr, ny + nr), fill=color)
+        # Hub-and-spoke nodes (no globe clutter)
+        nodes = [
+            (cx, cy - s * 0.72),
+            (cx - s * 0.78, cy + s * 0.12),
+            (cx + s * 0.78, cy + s * 0.12),
+            (cx - s * 0.42, cy + s * 0.78),
+            (cx + s * 0.42, cy + s * 0.78),
+        ]
+        hub_r = max(7, s // 7)
+        for nx, ny in nodes:
+            draw.line([(cx, cy), (nx, ny)], fill=color, width=w)
+        draw.ellipse((cx - hub_r, cy - hub_r, cx + hub_r, cy + hub_r), outline=color, width=w)
+        draw.ellipse((cx - hub_r // 2, cy - hub_r // 2, cx + hub_r // 2, cy + hub_r // 2), fill=color)
+        nr = max(5, s // 9)
+        for nx, ny in nodes:
+            draw.ellipse((nx - nr, ny - nr, nx + nr, ny + nr), outline=color, width=w)
+            draw.ellipse((nx - nr // 2, ny - nr // 2, nx + nr // 2, ny + nr // 2), fill=color)
     elif kind == "code":
-        draw.rounded_rectangle((cx - s, cy - s * 0.75, cx + s, cy + s * 0.75), radius=7, outline=color, width=w)
-        draw.rectangle((cx - s, cy - s * 0.75, cx + s, cy - s * 0.4), outline=color, width=w)
-        for dx in (-0.45, 0, 0.45):
-            draw.ellipse(
-                (cx + dx * s - 4, cy - s * 0.6 - 4, cx + dx * s + 4, cy - s * 0.6 + 4),
-                fill=color,
-            )
-        fnt = font(FONT_BOLD, max(22, int(s * 0.7)))
-        tw, th = text_size(draw, "</>", fnt)
-        draw.text((cx - tw // 2, cy - th // 2 + 4), "</>", fill=color, font=fnt)
+        # Soft brackets + slash (no window chrome / text glyph)
+        bw = max(3, w)
+        # Left chevron <
+        draw.line(
+            [(cx - s * 0.15, cy - s * 0.72), (cx - s * 0.72, cy), (cx - s * 0.15, cy + s * 0.72)],
+            fill=color,
+            width=bw,
+            joint="curve",
+        )
+        # Right chevron >
+        draw.line(
+            [(cx + s * 0.15, cy - s * 0.72), (cx + s * 0.72, cy), (cx + s * 0.15, cy + s * 0.72)],
+            fill=color,
+            width=bw,
+            joint="curve",
+        )
+        # Center slash
+        draw.line([(cx + s * 0.12, cy - s * 0.55), (cx - s * 0.12, cy + s * 0.55)], fill=color, width=bw)
     elif kind == "server":
-        for oy in (-0.55, 0, 0.55):
-            y0 = cy + oy * s
-            hh = max(12, s // 3)
+        # Three clean rack units
+        unit_h = s * 0.42
+        gap = s * 0.12
+        top = cy - (1.5 * unit_h + gap)
+        for i in range(3):
+            y0 = top + i * (unit_h + gap)
+            y1 = y0 + unit_h
             draw.rounded_rectangle(
-                (cx - s * 0.7, y0 - hh, cx + s * 0.7, y0 + hh),
-                radius=4,
+                (cx - s * 0.78, y0, cx + s * 0.78, y1),
+                radius=max(3, s // 14),
                 outline=color,
                 width=w,
             )
-            draw.ellipse((cx - s * 0.45, y0 - 5, cx - s * 0.45 + 10, y0 + 5), fill=color)
-            draw.line([(cx - s * 0.15, y0), (cx + s * 0.45, y0)], fill=color, width=w)
-        sx, sy = cx + s * 0.75, cy + s * 0.55
-        draw.polygon(
-            [
-                (sx, sy - 18),
-                (sx + 16, sy - 12),
-                (sx + 16, sy + 5),
-                (sx, sy + 18),
-                (sx - 16, sy + 5),
-                (sx - 16, sy - 12),
-            ],
-            outline=color,
-            width=w,
-        )
-        draw.line([(sx - 5, sy + 1), (sx - 1, sy + 7), (sx + 8, sy - 5)], fill=color, width=w)
+            led = max(4, s // 12)
+            my = (y0 + y1) / 2
+            draw.ellipse((cx - s * 0.55 - led, my - led, cx - s * 0.55 + led, my + led), fill=color)
+            draw.line([(cx - s * 0.28, my), (cx + s * 0.52, my)], fill=color, width=max(2, w - 1))
     elif kind == "printer":
+        # Paper + body + tray (balanced silhouette)
         draw.rounded_rectangle(
-            (cx - s * 0.55, cy - s * 0.85, cx + s * 0.55, cy - s * 0.15),
-            radius=4,
+            (cx - s * 0.48, cy - s * 0.88, cx + s * 0.48, cy - s * 0.22),
+            radius=max(3, s // 16),
+            outline=color,
+            width=w,
+        )
+        draw.line([(cx - s * 0.28, cy - s * 0.68), (cx + s * 0.28, cy - s * 0.68)], fill=color, width=max(2, w - 1))
+        draw.line([(cx - s * 0.28, cy - s * 0.52), (cx + s * 0.18, cy - s * 0.52)], fill=color, width=max(2, w - 1))
+        draw.rounded_rectangle(
+            (cx - s * 0.82, cy - s * 0.32, cx + s * 0.82, cy + s * 0.38),
+            radius=max(5, s // 10),
             outline=color,
             width=w,
         )
         draw.rounded_rectangle(
-            (cx - s * 0.85, cy - s * 0.25, cx + s * 0.85, cy + s * 0.45),
-            radius=6,
+            (cx - s * 0.42, cy + s * 0.12, cx + s * 0.42, cy + s * 0.82),
+            radius=max(3, s // 16),
             outline=color,
             width=w,
         )
-        draw.rounded_rectangle(
-            (cx - s * 0.5, cy + s * 0.15, cx + s * 0.5, cy + s * 0.85),
-            radius=3,
-            outline=color,
-            width=w,
-        )
-        draw.ellipse((cx + s * 0.5, cy - s * 0.05, cx + s * 0.7, cy + s * 0.15), fill=color)
+        draw.ellipse((cx + s * 0.48, cy - s * 0.08, cx + s * 0.66, cy + s * 0.1), fill=color)
 
 
 def wrap_center(
@@ -433,19 +457,11 @@ def draw_footer_frame(
     y1: int,
     radius: int = 28,
 ) -> None:
-    """Professional dual-stroke footer frame with soft fill (ATRIX corner aesthetic)."""
+    """Delicate single-stroke footer frame with soft fill."""
     fill = (244, 247, 252)
     draw.rounded_rectangle((x0, y0, x1, y1), radius=radius, fill=fill)
-    # Outer navy — solid architectural edge
-    draw.rounded_rectangle((x0, y0, x1, y1), radius=radius, outline=NAVY, width=6)
-    # Clear gap + inner blue track (readable dual-line at print scale)
-    inset = 13
-    draw.rounded_rectangle(
-        (x0 + inset, y0 + inset, x1 - inset, y1 - inset),
-        radius=max(12, radius - 10),
-        outline=BLUE,
-        width=4,
-    )
+    # Thin navy hairline — no dual remarcado
+    draw.rounded_rectangle((x0, y0, x1, y1), radius=radius, outline=NAVY, width=2)
 
 
 def measure_wrapped(
@@ -497,12 +513,10 @@ def render_back() -> Image.Image:
     tw, th1 = text_size(draw, t1, title_f)
     draw.text(((W - tw) // 2, header_top), t1, fill=NAVY, font=title_f)
     tw2, th2 = text_size(draw, t2, sub_f)
-    sub_y = header_top + th1 + 12
+    # Extra air between title and subtitle; no underline / dual accent rule
+    sub_y = header_top + th1 + 40
     draw.text(((W - tw2) // 2, sub_y), t2, fill=MUTED, font=sub_f)
-    rule_y = sub_y + th2 + 14
-    # Dual accent rule under header
-    draw.line([(W // 2 - 110, rule_y), (W // 2 + 110, rule_y)], fill=BLUE, width=5)
-    draw.line([(W // 2 - 48, rule_y + 8), (W // 2 + 48, rule_y + 8)], fill=NAVY, width=2)
+    header_bottom = sub_y + th2
 
     services = [
         ("monitor", C_SOPORTE, "SOPORTE TÉCNICO", "Computadoras, Laptops Mantenimiento y Reparación"),
@@ -519,7 +533,7 @@ def render_back() -> Image.Image:
     bar_y1 = H - SAFE + 2
     bar_y0 = bar_y1 - bar_h
 
-    grid_top = rule_y + 22
+    grid_top = header_bottom + 26
     grid_bottom = bar_y0 - 18
     margin_x = SAFE + 14
     usable_w = W - margin_x * 2
@@ -531,15 +545,7 @@ def render_back() -> Image.Image:
     desc_font = font(FONT_REG, 26)
     icon_s = 72
 
-    # Soft grid separators (inset so they don't collide with corners)
-    sep = (220, 226, 236)
-    for c in range(1, cols):
-        sx = margin_x + cell_w * c
-        draw.line([(sx, grid_top + 14), (sx, grid_bottom - 14)], fill=sep, width=2)
-    mid_x0 = margin_x + 36
-    mid_x1 = margin_x + usable_w - 36
-    mid_sep_y = grid_top + cell_h
-    draw.line([(mid_x0, mid_sep_y), (mid_x1, mid_sep_y)], fill=sep, width=2)
+    # No gray cell separators — open 2×3 grid
 
     for i, (kind, color, title, desc) in enumerate(services):
         row, col = divmod(i, cols)
@@ -567,8 +573,8 @@ def render_back() -> Image.Image:
     # —— Footer frame + equal-column content ——
     draw_footer_frame(draw, bar_m, bar_y0, W - bar_m, bar_y1, radius=26)
 
-    # Content box inside dual stroke
-    stroke_inset = 22
+    # Content box inside thin frame
+    stroke_inset = 14
     content_y0 = bar_y0 + stroke_inset
     content_y1 = bar_y1 - stroke_inset
     mid_y = (content_y0 + content_y1) // 2
@@ -581,7 +587,7 @@ def render_back() -> Image.Image:
     inner_m = bar_m + stroke_inset
     inner_w = W - 2 * inner_m
     seg_w = inner_w // 3
-    foot_f = font(FONT_BOLD, 27)
+    foot_f = font(FONT_BOLD, 26)
     url_f = font(FONT_BOLD, 34)
     icon_r = 38
     icon_text_gap = 20
@@ -599,10 +605,27 @@ def render_back() -> Image.Image:
 
         fnt = url_f if is_url else foot_f
         lines = label.split("\n")
+        # Generous line air so stacked footer labels aren't cramped
+        line_gap = 18 if not is_url else 4
+        tracking = 1.6 if not is_url else 0.0
+
+        def tracked_width(text: str) -> int:
+            if tracking <= 0 or len(text) <= 1:
+                return text_size(draw, text, fnt)[0]
+            return sum(text_size(draw, ch, fnt)[0] for ch in text) + int(tracking * (len(text) - 1))
+
+        def draw_tracked(x: int, y: int, text: str) -> None:
+            if tracking <= 0:
+                draw.text((x, y), text, fill=BLACK, font=fnt)
+                return
+            cx = x
+            for ch in text:
+                draw.text((cx, y), ch, fill=BLACK, font=fnt)
+                cx += text_size(draw, ch, fnt)[0] + tracking
+
         heights = [text_size(draw, ln, fnt)[1] for ln in lines]
-        line_gap = 3
         total_h = sum(heights) + line_gap * (len(lines) - 1)
-        max_line_w = max(text_size(draw, ln, fnt)[0] for ln in lines)
+        max_line_w = max(tracked_width(ln) for ln in lines)
 
         # Icon + text as one unit, centered in the column (balanced band)
         block_w = icon_r * 2 + icon_text_gap + max_line_w
@@ -613,10 +636,15 @@ def render_back() -> Image.Image:
         icon_cx = block_left + icon_r
         circle_icon(draw, icon_cx, mid_y, icon_r, kind)
         tx = icon_cx + icon_r + icon_text_gap
-        yy = mid_y - total_h // 2
-        for ln in lines:
-            draw.text((tx, yy), ln, fill=BLACK, font=fnt)
-            yy += text_size(draw, ln, fnt)[1] + line_gap
+
+        if is_url:
+            # Left-middle anchor: vertical midline of text matches icon center
+            draw.text((tx, mid_y), lines[0], fill=BLACK, font=fnt, anchor="lm")
+        else:
+            yy = mid_y - total_h // 2
+            for ln in lines:
+                draw_tracked(tx, yy, ln)
+                yy += text_size(draw, ln, fnt)[1] + line_gap
 
     # Brand corner sits over the footer frame (reference look)
     paint_corner(draw, "br", size=310, band=50)
