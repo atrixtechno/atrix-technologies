@@ -505,18 +505,19 @@ def render_back() -> Image.Image:
     paint_corner(draw, "tl", size=292, band=48)
 
     # —— Header ——
-    title_f = font(FONT_BLACK, 60)
-    sub_f = font(FONT_BOLD, 32)
+    # Generous air around the main title (top pad + title→subtitle separation)
+    title_f = font(FONT_BLACK, 70)
+    sub_f = font(FONT_BOLD, 34)
     t1 = "SOLUCIONES TECNOLÓGICAS"
     t2 = "PARA HOGARES Y EMPRESAS"
-    header_top = SAFE + 2
+    header_top = SAFE + 26
     tw, th1 = text_size(draw, t1, title_f)
     draw.text(((W - tw) // 2, header_top), t1, fill=NAVY, font=title_f)
     tw2, th2 = text_size(draw, t2, sub_f)
-    # Extra air between title and subtitle; no underline / dual accent rule
-    sub_y = header_top + th1 + 40
+    # No underline / dual accent rule — air only
+    sub_y = header_top + th1 + 62
     draw.text(((W - tw2) // 2, sub_y), t2, fill=MUTED, font=sub_f)
-    header_bottom = sub_y + th2
+    header_bottom = sub_y + th2 + 8  # extra air under subtitle before grid
 
     services = [
         ("monitor", C_SOPORTE, "SOPORTE TÉCNICO", "Computadoras, Laptops Mantenimiento y Reparación"),
@@ -527,54 +528,93 @@ def render_back() -> Image.Image:
         ("printer", C_PRINT, "IMPRESORAS Y PERIFÉRICOS", "Instalación, Configuración y Soporte"),
     ]
 
-    # —— Footer band: equal thirds, circular marks + text as one aligned row ——
+    # —— Footer band: compact marco, clear air above from service accents ——
     bar_m = SAFE + 12
-    bar_h = 198
+    bar_h = 156
     bar_y1 = H - SAFE + 2
     bar_y0 = bar_y1 - bar_h
 
-    grid_top = header_bottom + 26
-    grid_bottom = bar_y0 - 18
-    margin_x = SAFE + 14
+    # Gap between bottom accent row and footer frame (was too tight)
+    grid_top = header_bottom + 22
+    grid_bottom = bar_y0 - 48
+    margin_x = SAFE + 8
     usable_w = W - margin_x * 2
     cols, rows = 3, 2
     cell_w = usable_w // cols
     cell_h = (grid_bottom - grid_top) // rows
 
-    title_font = font(FONT_BOLD, 34)
-    desc_font = font(FONT_REG, 26)
-    icon_s = 72
+    # Enlarged type + icons; per-row free space stretches title/caption gaps uniformly
+    title_font = font(FONT_BOLD, 40)
+    desc_font = font(FONT_REG, 30)
+    icon_s = 90
+    title_line_gap = 8
+    desc_line_gap = 10
+    min_icon_title = 20
+    min_title_desc = 20
+    min_desc_accent = 16
+    cell_pad = 10
+    text_max_w = cell_w - 32
+
+    # Measure every cell once
+    measured: list[tuple[str, tuple[int, int, int], str, str, int, int]] = []
+    for kind, color, title, desc in services:
+        _, _, title_h = measure_wrapped(draw, title, title_font, text_max_w, line_gap=title_line_gap)
+        _, _, desc_h = measure_wrapped(draw, desc, desc_font, text_max_w, line_gap=desc_line_gap)
+        measured.append((kind, color, title, desc, title_h, desc_h))
 
     # No gray cell separators — open 2×3 grid
+    w_it, w_td, w_da = 1.2, 1.6, 1.0
+    w_sum = w_it + w_td + w_da
+    base_min = min_icon_title + min_title_desc + min_desc_accent
 
-    for i, (kind, color, title, desc) in enumerate(services):
-        row, col = divmod(i, cols)
-        x0 = margin_x + col * cell_w
+    for row in range(rows):
+        row_items = measured[row * cols : (row + 1) * cols]
         y0 = grid_top + row * cell_h
-        cx = x0 + cell_w // 2
-        text_max_w = cell_w - 44
+        # Top-anchored icons + bottom-anchored accents fill the cell; gaps separate text
+        icon_y = y0 + cell_pad + icon_s
+        accent_y = y0 + cell_h - cell_pad
+        span = accent_y - (icon_y + icon_s)  # room for gaps + title + caption
+        max_text = max(th + dh for *_, th, dh in row_items)
+        free = max(0, span - max_text)
+        if free >= base_min:
+            extra = free - base_min
+            icon_title_gap = min_icon_title + int(extra * (w_it / w_sum))
+            title_desc_gap = min_title_desc + int(extra * (w_td / w_sum))
+            desc_accent_gap = min_desc_accent + int(extra * (w_da / w_sum))
+        else:
+            title_desc_gap = min(min_title_desc, max(14, free // 2))
+            remain = max(0, free - title_desc_gap)
+            icon_title_gap = min(min_icon_title, max(12, remain // 2))
+            desc_accent_gap = max(10, remain - icon_title_gap)
 
-        # Measure stack then center vertically in cell
-        _, _, title_h = measure_wrapped(draw, title, title_font, text_max_w, line_gap=2)
-        _, _, desc_h = measure_wrapped(draw, desc, desc_font, text_max_w, line_gap=3)
-        stack_h = icon_s * 2 + 14 + title_h + 8 + desc_h + 18
-        stack_top = y0 + max(16, (cell_h - stack_h) // 2)
-        icon_y = stack_top + icon_s
-        text_top = icon_y + icon_s + 14
+        for col, (kind, color, title, desc, _th, _dh) in enumerate(row_items):
+            cx = margin_x + col * cell_w + cell_w // 2
+            service_icon(draw, cx, icon_y, kind, color, s=icon_s)
+            text_top = icon_y + icon_s + icon_title_gap
+            ty = wrap_center(
+                draw, title, cx, text_top, title_font, color, text_max_w, line_gap=title_line_gap
+            )
+            dy = wrap_center(
+                draw,
+                desc,
+                cx,
+                ty + title_desc_gap,
+                desc_font,
+                GRAY,
+                text_max_w,
+                line_gap=desc_line_gap,
+            )
+            # Shared accent baseline across the row
+            line_y = accent_y if dy + 8 <= accent_y else min(dy + 8, y0 + cell_h - 6)
+            accent_w = min(int(cell_w * 0.36), 148)
+            draw.line([(cx - accent_w, line_y), (cx + accent_w, line_y)], fill=color, width=4)
+            draw.ellipse((cx - 6, line_y - 6, cx + 6, line_y + 6), fill=color)
 
-        service_icon(draw, cx, icon_y, kind, color, s=icon_s)
-        ty = wrap_center(draw, title, cx, text_top, title_font, color, text_max_w, line_gap=2)
-        dy = wrap_center(draw, desc, cx, ty + 8, desc_font, GRAY, text_max_w, line_gap=3)
-        line_y = min(dy + 14, y0 + cell_h - 22)
-        accent_w = min(int(cell_w * 0.32), 128)
-        draw.line([(cx - accent_w, line_y), (cx + accent_w, line_y)], fill=color, width=4)
-        draw.ellipse((cx - 6, line_y - 6, cx + 6, line_y + 6), fill=color)
+    # —— Footer frame + equal-column content (compact marco) ——
+    draw_footer_frame(draw, bar_m, bar_y0, W - bar_m, bar_y1, radius=20)
 
-    # —— Footer frame + equal-column content ——
-    draw_footer_frame(draw, bar_m, bar_y0, W - bar_m, bar_y1, radius=26)
-
-    # Content box inside thin frame
-    stroke_inset = 14
+    # Padding inside thin frame so icons/text clear the edge
+    stroke_inset = 24
     content_y0 = bar_y0 + stroke_inset
     content_y1 = bar_y1 - stroke_inset
     mid_y = (content_y0 + content_y1) // 2
@@ -587,27 +627,27 @@ def render_back() -> Image.Image:
     inner_m = bar_m + stroke_inset
     inner_w = W - 2 * inner_m
     seg_w = inner_w // 3
-    foot_f = font(FONT_BOLD, 26)
-    url_f = font(FONT_BOLD, 34)
-    icon_r = 38
-    icon_text_gap = 20
-    col_pad = 18
+    foot_f = font(FONT_BOLD, 22)
+    url_f = font(FONT_BOLD, 28)
+    icon_r = 28
+    icon_text_gap = 16
+    col_pad = 12
 
     for i, (kind, label, is_url) in enumerate(footer_items):
         seg_x0 = inner_m + seg_w * i
         if i > 0:
             sx = seg_x0
             draw.line(
-                [(sx, content_y0 + 12), (sx, content_y1 - 12)],
+                [(sx, content_y0 + 8), (sx, content_y1 - 8)],
                 fill=(198, 208, 224),
                 width=2,
             )
 
         fnt = url_f if is_url else foot_f
         lines = label.split("\n")
-        # Generous line air so stacked footer labels aren't cramped
-        line_gap = 18 if not is_url else 4
-        tracking = 1.6 if not is_url else 0.0
+        # Line air inside compact marco (still separated, not piled)
+        line_gap = 12 if not is_url else 4
+        tracking = 1.3 if not is_url else 0.0
 
         def tracked_width(text: str) -> int:
             if tracking <= 0 or len(text) <= 1:
