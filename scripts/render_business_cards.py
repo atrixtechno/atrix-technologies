@@ -444,7 +444,7 @@ def render_back() -> Image.Image:
     tw, th1 = text_size(draw, t1, title_f)
     draw.text(((W - tw) // 2, SAFE - 4), t1, fill=NAVY, font=title_f)
     tw2, th2 = text_size(draw, t2, sub_f)
-    sub_y = SAFE - 4 + th1 + 6
+    sub_y = SAFE - 4 + th1 + 14
     draw.text(((W - tw2) // 2, sub_y), t2, fill=MUTED, font=sub_f)
     rule_y = sub_y + th2 + 10
     draw.line([(W // 2 - 90, rule_y), (W // 2 + 90, rule_y)], fill=BLUE, width=4)
