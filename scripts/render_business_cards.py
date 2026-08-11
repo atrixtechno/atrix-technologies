@@ -426,27 +426,28 @@ def render_front() -> Image.Image:
 
 
 def render_back() -> Image.Image:
+    """Reverse: 2×3 service grid fills height between header and footer (print-readable)."""
     img = Image.new("RGB", (W, H), WHITE)
     draw = ImageDraw.Draw(img)
 
-    wm = load_mark_watermark(820, opacity=12)
-    img.paste(wm, (W - wm.width - 10, 20), wm)
+    wm = load_mark_watermark(780, opacity=11)
+    img.paste(wm, (W - wm.width - 8, (H - wm.height) // 2 - 40), wm)
 
     # Match reference: TL + BR corners (no BL)
-    paint_corner(draw, "tl", size=320, band=52)
-    paint_corner(draw, "br", size=340, band=54)
+    paint_corner(draw, "tl", size=300, band=50)
+    paint_corner(draw, "br", size=320, band=52)
 
-    title_f = font(FONT_BLACK, 70)
-    sub_f = font(FONT_BOLD, 38)
+    title_f = font(FONT_BLACK, 64)
+    sub_f = font(FONT_BOLD, 34)
     t1 = "SOLUCIONES TECNOLÓGICAS"
     t2 = "PARA HOGARES Y EMPRESAS"
     tw, th1 = text_size(draw, t1, title_f)
-    draw.text(((W - tw) // 2, SAFE + 2), t1, fill=NAVY, font=title_f)
+    draw.text(((W - tw) // 2, SAFE - 4), t1, fill=NAVY, font=title_f)
     tw2, th2 = text_size(draw, t2, sub_f)
-    sub_y = SAFE + 2 + th1 + 8
+    sub_y = SAFE - 4 + th1 + 6
     draw.text(((W - tw2) // 2, sub_y), t2, fill=MUTED, font=sub_f)
-    rule_y = sub_y + th2 + 12
-    draw.line([(W // 2 - 80, rule_y), (W // 2 + 80, rule_y)], fill=BLUE, width=4)
+    rule_y = sub_y + th2 + 10
+    draw.line([(W // 2 - 90, rule_y), (W // 2 + 90, rule_y)], fill=BLUE, width=4)
 
     services = [
         ("monitor", C_SOPORTE, "SOPORTE TÉCNICO", "Computadoras, Laptops Mantenimiento y Reparación"),
@@ -457,35 +458,49 @@ def render_back() -> Image.Image:
         ("printer", C_PRINT, "IMPRESORAS Y PERIFÉRICOS", "Instalación, Configuración y Soporte"),
     ]
 
-    bar_m = SAFE + 8
-    bar_y0, bar_y1 = H - SAFE - 200, H - SAFE - 2
-    col_bottom = bar_y0 - 10
+    # Compact footer — sits close under the 2×3 grid (no empty mid band)
+    bar_m = SAFE + 6
+    bar_h = 168
+    bar_y1 = H - SAFE + 4
+    bar_y0 = bar_y1 - bar_h
+    grid_top = rule_y + 18
+    grid_bottom = bar_y0 - 18
+    margin_x = SAFE + 10
+    usable_w = W - margin_x * 2
+    cols, rows = 3, 2
+    cell_w = usable_w // cols
+    cell_h = (grid_bottom - grid_top) // rows
 
-    margin_x = SAFE - 4
-    usable = W - margin_x * 2
-    col_w = usable // 6
-    title_font = font(FONT_BOLD, 28)
-    desc_font = font(FONT_REG, 23)
-    icon_s = 72
+    title_font = font(FONT_BOLD, 36)
+    desc_font = font(FONT_REG, 28)
+    icon_s = 78
 
-    band_top = rule_y + 10
-    band_h = col_bottom - band_top
-    icon_y = band_top + int(band_h * 0.20)
-    text_top = band_top + int(band_h * 0.42)
+    # Grid separators
+    for c in range(1, cols):
+        sx = margin_x + cell_w * c
+        draw.line([(sx, grid_top + 6), (sx, grid_bottom - 6)], fill=LIGHT_GRAY, width=2)
+    mid_x0 = margin_x + 28
+    mid_x1 = margin_x + usable_w - 28
+    mid_y = grid_top + cell_h
+    draw.line([(mid_x0, mid_y), (mid_x1, mid_y)], fill=LIGHT_GRAY, width=2)
 
     for i, (kind, color, title, desc) in enumerate(services):
-        cx = margin_x + col_w * i + col_w // 2
+        row, col = divmod(i, cols)
+        x0 = margin_x + col * cell_w
+        y0 = grid_top + row * cell_h
+        cx = x0 + cell_w // 2
+        # Vertical stack centered in cell: icon → title → desc → accent
+        pad_y = 22
+        icon_y = y0 + pad_y + icon_s
+        text_max_w = cell_w - 36
+        text_top = icon_y + icon_s + 18
         service_icon(draw, cx, icon_y, kind, color, s=icon_s)
-        if i > 0:
-            sx = margin_x + col_w * i
-            draw.line([(sx, band_top + 2), (sx, col_bottom - 4)], fill=LIGHT_GRAY, width=2)
-
-        # Title → description → accent line (reference order)
-        ty = wrap_center(draw, title, cx, text_top, title_font, color, col_w - 8, line_gap=2)
-        dy = wrap_center(draw, desc, cx, ty + 8, desc_font, GRAY, col_w - 8, line_gap=3)
-        line_y = min(dy + 14, col_bottom - 18)
-        draw.line([(cx - col_w * 0.32, line_y), (cx + col_w * 0.32, line_y)], fill=color, width=3)
-        draw.ellipse((cx - 6, line_y - 6, cx + 6, line_y + 6), fill=color)
+        ty = wrap_center(draw, title, cx, text_top, title_font, color, text_max_w, line_gap=3)
+        dy = wrap_center(draw, desc, cx, ty + 10, desc_font, GRAY, text_max_w, line_gap=4)
+        line_y = min(dy + 16, y0 + cell_h - 28)
+        accent_w = min(int(cell_w * 0.38), 150)
+        draw.line([(cx - accent_w, line_y), (cx + accent_w, line_y)], fill=color, width=4)
+        draw.ellipse((cx - 7, line_y - 7, cx + 7, line_y + 7), fill=color)
 
     draw.rounded_rectangle((bar_m, bar_y0, W - bar_m, bar_y1), radius=14, outline=BLUE, width=4)
 
@@ -495,30 +510,30 @@ def render_back() -> Image.Image:
         ("web", "atrixnld.com"),
     ]
     seg_w = (W - 2 * bar_m) // 3
-    foot_f = font(FONT_BOLD, 28)
-    url_f = font(FONT_BOLD, 36)
+    foot_f = font(FONT_BOLD, 30)
+    url_f = font(FONT_BOLD, 38)
     for i, (kind, label) in enumerate(footer_items):
         cx = bar_m + seg_w * i + seg_w // 2
         if i > 0:
             sx = bar_m + seg_w * i
-            draw.line([(sx, bar_y0 + 20), (sx, bar_y1 - 20)], fill=LIGHT_GRAY, width=2)
+            draw.line([(sx, bar_y0 + 18), (sx, bar_y1 - 18)], fill=LIGHT_GRAY, width=2)
         mid_y = (bar_y0 + bar_y1) // 2
-        icon_r = 36
+        icon_r = 34
         if label == "atrixnld.com":
-            block_w = icon_r * 2 + 18 + text_size(draw, label, url_f)[0]
+            block_w = icon_r * 2 + 16 + text_size(draw, label, url_f)[0]
             icon_cx = cx - block_w // 2 + icon_r
             circle_icon(draw, icon_cx, mid_y, icon_r, kind)
             tw, th = text_size(draw, label, url_f)
-            draw.text((icon_cx + icon_r + 18, mid_y - th // 2), label, fill=BLACK, font=url_f)
+            draw.text((icon_cx + icon_r + 16, mid_y - th // 2), label, fill=BLACK, font=url_f)
         else:
             lines = label.split("\n")
             heights = [text_size(draw, ln, foot_f)[1] for ln in lines]
             total_h = sum(heights) + 4 * (len(lines) - 1)
             max_line_w = max(text_size(draw, ln, foot_f)[0] for ln in lines)
-            block_w = icon_r * 2 + 16 + max_line_w
+            block_w = icon_r * 2 + 14 + max_line_w
             icon_cx = cx - block_w // 2 + icon_r
             circle_icon(draw, icon_cx, mid_y, icon_r, kind)
-            tx = icon_cx + icon_r + 16
+            tx = icon_cx + icon_r + 14
             yy = mid_y - total_h // 2
             for ln in lines:
                 draw.text((tx, yy), ln, fill=BLACK, font=foot_f)
@@ -528,21 +543,30 @@ def render_back() -> Image.Image:
 
 
 def main() -> None:
-    OUT_DIR.mkdir(parents=True, exist_ok=True)
-    front = render_front()
-    back = render_back()
-    front_path = OUT_DIR / "tarjeta-atrix-frente.png"
-    back_path = OUT_DIR / "tarjeta-atrix-reverso.png"
-    front.save(front_path, "PNG", optimize=True, dpi=(DPI, DPI))
-    back.save(back_path, "PNG", optimize=True, dpi=(DPI, DPI))
-    print(f"Wrote {front_path} {front.size} @ {DPI} DPI ({8.5}×{5.4} cm)")
-    print(f"Wrote {back_path} {back.size} @ {DPI} DPI ({8.5}×{5.4} cm)")
+    import sys
 
+    only = sys.argv[1] if len(sys.argv) > 1 else "both"
+    OUT_DIR.mkdir(parents=True, exist_ok=True)
     dpi300_w = round(8.5 / 2.54 * 300)
     dpi300_h = round(5.4 / 2.54 * 300)
-    for src, name in ((front, "tarjeta-atrix-frente-300dpi.png"), (back, "tarjeta-atrix-reverso-300dpi.png")):
-        small = src.resize((dpi300_w, dpi300_h), Image.Resampling.LANCZOS)
-        out = OUT_DIR / name
+
+    if only in ("both", "front"):
+        front = render_front()
+        front_path = OUT_DIR / "tarjeta-atrix-frente.png"
+        front.save(front_path, "PNG", optimize=True, dpi=(DPI, DPI))
+        print(f"Wrote {front_path} {front.size} @ {DPI} DPI ({8.5}×{5.4} cm)")
+        small = front.resize((dpi300_w, dpi300_h), Image.Resampling.LANCZOS)
+        out = OUT_DIR / "tarjeta-atrix-frente-300dpi.png"
+        small.save(out, "PNG", optimize=True, dpi=(300, 300))
+        print(f"Wrote {out} {small.size} @ 300 DPI")
+
+    if only in ("both", "back", "reverso"):
+        back = render_back()
+        back_path = OUT_DIR / "tarjeta-atrix-reverso.png"
+        back.save(back_path, "PNG", optimize=True, dpi=(DPI, DPI))
+        print(f"Wrote {back_path} {back.size} @ {DPI} DPI ({8.5}×{5.4} cm)")
+        small = back.resize((dpi300_w, dpi300_h), Image.Resampling.LANCZOS)
+        out = OUT_DIR / "tarjeta-atrix-reverso-300dpi.png"
         small.save(out, "PNG", optimize=True, dpi=(300, 300))
         print(f"Wrote {out} {small.size} @ 300 DPI")
 
