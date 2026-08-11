@@ -3,6 +3,7 @@
 
 from __future__ import annotations
 
+import math
 from pathlib import Path
 
 from PIL import Image, ImageDraw, ImageFont
@@ -201,43 +202,61 @@ def service_icon(
     """Clean geometric line icons for the PVC reverse grid."""
     w = max(3, s // 11)
     if kind == "monitor":
-        # Laptop / tech support: screen + base
+        # Tech support: clean laptop + compact gear badge
         draw.rounded_rectangle(
-            (cx - s * 0.72, cy - s * 0.72, cx + s * 0.72, cy + s * 0.28),
-            radius=max(4, s // 10),
+            (cx - s * 0.70, cy - s * 0.78, cx + s * 0.70, cy + s * 0.08),
+            radius=max(5, s // 12),
             outline=color,
             width=w,
         )
-        draw.line([(cx - s * 0.55, cy - s * 0.48), (cx + s * 0.55, cy - s * 0.48)], fill=color, width=max(2, w - 1))
-        draw.line([(cx - s * 0.95, cy + s * 0.42), (cx + s * 0.95, cy + s * 0.42)], fill=color, width=w)
-        draw.line([(cx - s * 0.72, cy + s * 0.28), (cx - s * 0.95, cy + s * 0.42)], fill=color, width=w)
-        draw.line([(cx + s * 0.72, cy + s * 0.28), (cx + s * 0.95, cy + s * 0.42)], fill=color, width=w)
-        # Small wrench accent (geometric)
-        draw.arc(
-            (cx + s * 0.15, cy - s * 0.25, cx + s * 0.55, cy + s * 0.15),
-            start=200,
-            end=340,
-            fill=color,
-            width=w,
+        draw.rectangle(
+            (cx - s * 0.54, cy - s * 0.62, cx + s * 0.54, cy - s * 0.06),
+            outline=color,
+            width=max(2, w - 1),
         )
-        draw.line(
-            [(cx + s * 0.35, cy - s * 0.05), (cx + s * 0.55, cy + s * 0.18)],
-            fill=color,
-            width=w,
-        )
+        draw.line([(cx - s * 0.95, cy + s * 0.22), (cx + s * 0.95, cy + s * 0.22)], fill=color, width=w)
+        draw.line([(cx - s * 0.70, cy + s * 0.08), (cx - s * 0.95, cy + s * 0.22)], fill=color, width=w)
+        draw.line([(cx + s * 0.70, cy + s * 0.08), (cx + s * 0.95, cy + s * 0.22)], fill=color, width=w)
+        draw.line([(cx - s * 0.95, cy + s * 0.36), (cx + s * 0.95, cy + s * 0.36)], fill=color, width=max(2, w - 1))
+        gx, gy, gr = cx + s * 0.28, cy - s * 0.34, s * 0.18
+        draw.ellipse((gx - gr, gy - gr, gx + gr, gy + gr), outline=color, width=w)
+        draw.ellipse((gx - gr * 0.35, gy - gr * 0.35, gx + gr * 0.35, gy + gr * 0.35), fill=color)
+        for ang in (0, 60, 120):
+            rad = math.radians(ang)
+            c, sn = math.cos(rad), math.sin(rad)
+            draw.line(
+                [(gx + gr * 0.55 * c, gy + gr * 0.55 * sn), (gx + gr * 1.15 * c, gy + gr * 1.15 * sn)],
+                fill=color,
+                width=max(2, w - 1),
+            )
+            draw.line(
+                [(gx - gr * 0.55 * c, gy - gr * 0.55 * sn), (gx - gr * 1.15 * c, gy - gr * 1.15 * sn)],
+                fill=color,
+                width=max(2, w - 1),
+            )
     elif kind == "cctv":
-        # Dome / bullet camera — simple silhouette
-        draw.ellipse((cx - s * 0.35, cy - s * 0.55, cx + s * 0.35, cy + s * 0.15), outline=color, width=w)
+        # Clean side-profile security camera
         draw.rounded_rectangle(
-            (cx - s * 0.55, cy - s * 0.05, cx + s * 0.55, cy + s * 0.45),
-            radius=max(4, s // 9),
+            (cx - s * 0.58, cy - s * 0.28, cx + s * 0.28, cy + s * 0.28),
+            radius=max(8, s // 7),
             outline=color,
             width=w,
         )
-        draw.ellipse((cx - s * 0.18, cy + s * 0.05, cx + s * 0.18, cy + s * 0.35), outline=color, width=w)
-        draw.ellipse((cx - s * 0.07, cy + s * 0.14, cx + s * 0.07, cy + s * 0.26), fill=color)
-        draw.line([(cx, cy + s * 0.45), (cx, cy + s * 0.72)], fill=color, width=w)
-        draw.line([(cx - s * 0.35, cy + s * 0.72), (cx + s * 0.35, cy + s * 0.72)], fill=color, width=w)
+        draw.ellipse((cx + s * 0.08, cy - s * 0.30, cx + s * 0.68, cy + s * 0.30), outline=color, width=w)
+        draw.ellipse(
+            (cx + s * 0.26, cy - s * 0.16, cx + s * 0.54, cy + s * 0.16),
+            outline=color,
+            width=max(2, w - 1),
+        )
+        draw.ellipse((cx + s * 0.34, cy - s * 0.07, cx + s * 0.46, cy + s * 0.07), fill=color)
+        draw.ellipse((cx - s * 0.42, cy - s * 0.12, cx - s * 0.28, cy + s * 0.02), fill=color)
+        draw.line([(cx - s * 0.12, cy + s * 0.28), (cx - s * 0.12, cy + s * 0.55)], fill=color, width=w)
+        draw.rounded_rectangle(
+            (cx - s * 0.48, cy + s * 0.55, cx + s * 0.24, cy + s * 0.72),
+            radius=max(3, s // 18),
+            outline=color,
+            width=w,
+        )
     elif kind == "network":
         # Hub-and-spoke nodes (no globe clutter)
         nodes = [
@@ -257,24 +276,25 @@ def service_icon(
             draw.ellipse((nx - nr, ny - nr, nx + nr, ny + nr), outline=color, width=w)
             draw.ellipse((nx - nr // 2, ny - nr // 2, nx + nr // 2, ny + nr // 2), fill=color)
     elif kind == "code":
-        # Soft brackets + slash (no window chrome / text glyph)
-        bw = max(3, w)
-        # Left chevron <
-        draw.line(
-            [(cx - s * 0.15, cy - s * 0.72), (cx - s * 0.72, cy), (cx - s * 0.15, cy + s * 0.72)],
-            fill=color,
-            width=bw,
-            joint="curve",
+        # Software: app window with code lines (reads clearer than tight </>)
+        draw.rounded_rectangle(
+            (cx - s * 0.78, cy - s * 0.62, cx + s * 0.78, cy + s * 0.66),
+            radius=max(6, s // 10),
+            outline=color,
+            width=w,
         )
-        # Right chevron >
-        draw.line(
-            [(cx + s * 0.15, cy - s * 0.72), (cx + s * 0.72, cy), (cx + s * 0.15, cy + s * 0.72)],
-            fill=color,
-            width=bw,
-            joint="curve",
-        )
-        # Center slash
-        draw.line([(cx + s * 0.12, cy - s * 0.55), (cx - s * 0.12, cy + s * 0.55)], fill=color, width=bw)
+        # Title bar
+        draw.line([(cx - s * 0.78, cy - s * 0.30), (cx + s * 0.78, cy - s * 0.30)], fill=color, width=w)
+        for dx in (-0.55, -0.38, -0.21):
+            r = max(3, s // 16)
+            px = cx + s * dx
+            py = cy - s * 0.46
+            draw.ellipse((px - r, py - r, px + r, py + r), fill=color)
+        # Code lines
+        for i, frac in enumerate((0.85, 0.62, 0.74)):
+            yy = cy - s * 0.05 + i * s * 0.22
+            x0 = cx - s * 0.52
+            draw.line([(x0, yy), (x0 + s * frac, yy)], fill=color, width=max(2, w - 1))
     elif kind == "server":
         # Three clean rack units
         unit_h = s * 0.42
@@ -343,10 +363,12 @@ def wrap_center(
     if cur:
         lines.append(cur)
     yy = y
-    for line in lines:
+    for i, line in enumerate(lines):
         tw, th = text_size(draw, line, fnt)
         draw.text((cx - tw // 2, yy), line, fill=fill, font=fnt)
-        yy += th + line_gap
+        yy += th
+        if i < len(lines) - 1:
+            yy += line_gap
     return yy
 
 
@@ -528,30 +550,30 @@ def render_back() -> Image.Image:
         ("printer", C_PRINT, "IMPRESORAS Y PERIFÉRICOS", "Instalación, Configuración y Soporte"),
     ]
 
-    # —— Footer band: compact marco, clear air above from service accents ——
+    # —— Footer band: short thin marco, clear air above from service accents ——
     bar_m = SAFE + 12
-    bar_h = 156
+    bar_h = 76  # was 156 — short band, tight vertical padding
     bar_y1 = H - SAFE + 2
     bar_y0 = bar_y1 - bar_h
 
-    # Gap between bottom accent row and footer frame (was too tight)
+    # Gap between bottom accent row and footer frame
     grid_top = header_bottom + 22
-    grid_bottom = bar_y0 - 48
+    grid_bottom = bar_y0 - 40
     margin_x = SAFE + 8
     usable_w = W - margin_x * 2
     cols, rows = 3, 2
     cell_w = usable_w // cols
     cell_h = (grid_bottom - grid_top) // rows
 
-    # Enlarged type + icons; per-row free space stretches title/caption gaps uniformly
+    # Type + icons; captions sit close under titles; accents stay on a fixed row baseline
     title_font = font(FONT_BOLD, 40)
     desc_font = font(FONT_REG, 30)
     icon_s = 90
     title_line_gap = 8
     desc_line_gap = 10
-    min_icon_title = 20
-    min_title_desc = 20
-    min_desc_accent = 16
+    min_icon_title = 18
+    # Tight title→caption gap (do not stretch — captions lift toward titles)
+    title_desc_gap = 2
     cell_pad = 10
     text_max_w = cell_w - 32
 
@@ -563,38 +585,27 @@ def render_back() -> Image.Image:
         measured.append((kind, color, title, desc, title_h, desc_h))
 
     # No gray cell separators — open 2×3 grid
-    w_it, w_td, w_da = 1.2, 1.6, 1.0
-    w_sum = w_it + w_td + w_da
-    base_min = min_icon_title + min_title_desc + min_desc_accent
-
     for row in range(rows):
         row_items = measured[row * cols : (row + 1) * cols]
         y0 = grid_top + row * cell_h
-        # Top-anchored icons + bottom-anchored accents fill the cell; gaps separate text
+        # Top-anchored icons; accents locked to a shared bottom baseline (do not follow captions)
         icon_y = y0 + cell_pad + icon_s
-        accent_y = y0 + cell_h - cell_pad
-        span = accent_y - (icon_y + icon_s)  # room for gaps + title + caption
-        max_text = max(th + dh for *_, th, dh in row_items)
+        line_y = y0 + cell_h - cell_pad
+        span = line_y - (icon_y + icon_s)
+        max_text = max(th + title_desc_gap + dh for *_, th, dh in row_items)
+        # Extra vertical room becomes air between captions and the fixed accent line
         free = max(0, span - max_text)
-        if free >= base_min:
-            extra = free - base_min
-            icon_title_gap = min_icon_title + int(extra * (w_it / w_sum))
-            title_desc_gap = min_title_desc + int(extra * (w_td / w_sum))
-            desc_accent_gap = min_desc_accent + int(extra * (w_da / w_sum))
-        else:
-            title_desc_gap = min(min_title_desc, max(14, free // 2))
-            remain = max(0, free - title_desc_gap)
-            icon_title_gap = min(min_icon_title, max(12, remain // 2))
-            desc_accent_gap = max(10, remain - icon_title_gap)
+        icon_title_gap = min_icon_title + max(0, free // 5)
+
+        text_top = icon_y + icon_s + icon_title_gap
 
         for col, (kind, color, title, desc, _th, _dh) in enumerate(row_items):
             cx = margin_x + col * cell_w + cell_w // 2
             service_icon(draw, cx, icon_y, kind, color, s=icon_s)
-            text_top = icon_y + icon_s + icon_title_gap
             ty = wrap_center(
                 draw, title, cx, text_top, title_font, color, text_max_w, line_gap=title_line_gap
             )
-            dy = wrap_center(
+            wrap_center(
                 draw,
                 desc,
                 cx,
@@ -604,17 +615,15 @@ def render_back() -> Image.Image:
                 text_max_w,
                 line_gap=desc_line_gap,
             )
-            # Shared accent baseline across the row
-            line_y = accent_y if dy + 8 <= accent_y else min(dy + 8, y0 + cell_h - 6)
             accent_w = min(int(cell_w * 0.36), 148)
             draw.line([(cx - accent_w, line_y), (cx + accent_w, line_y)], fill=color, width=4)
             draw.ellipse((cx - 6, line_y - 6, cx + 6, line_y + 6), fill=color)
 
-    # —— Footer frame + equal-column content (compact marco) ——
-    draw_footer_frame(draw, bar_m, bar_y0, W - bar_m, bar_y1, radius=20)
+    # —— Footer frame + equal-column content (shorter marco, no gray dividers) ——
+    draw_footer_frame(draw, bar_m, bar_y0, W - bar_m, bar_y1, radius=12)
 
-    # Padding inside thin frame so icons/text clear the edge
-    stroke_inset = 24
+    # Tight inset so icons/text sit close to the thin border
+    stroke_inset = 5
     content_y0 = bar_y0 + stroke_inset
     content_y1 = bar_y1 - stroke_inset
     mid_y = (content_y0 + content_y1) // 2
@@ -627,27 +636,21 @@ def render_back() -> Image.Image:
     inner_m = bar_m + stroke_inset
     inner_w = W - 2 * inner_m
     seg_w = inner_w // 3
-    foot_f = font(FONT_BOLD, 22)
-    url_f = font(FONT_BOLD, 28)
-    icon_r = 28
-    icon_text_gap = 16
-    col_pad = 12
+    foot_f = font(FONT_BOLD, 19)
+    url_f = font(FONT_BOLD, 25)
+    icon_r = 24
+    icon_text_gap = 10
+    col_pad = 8
 
     for i, (kind, label, is_url) in enumerate(footer_items):
         seg_x0 = inner_m + seg_w * i
-        if i > 0:
-            sx = seg_x0
-            draw.line(
-                [(sx, content_y0 + 8), (sx, content_y1 - 8)],
-                fill=(198, 208, 224),
-                width=2,
-            )
+        # No gray vertical dividers between footer columns
 
         fnt = url_f if is_url else foot_f
         lines = label.split("\n")
-        # Line air inside compact marco (still separated, not piled)
-        line_gap = 12 if not is_url else 4
-        tracking = 1.3 if not is_url else 0.0
+        # Tight line air inside short marco
+        line_gap = 2 if not is_url else 2
+        tracking = 1.1 if not is_url else 0.0
 
         def tracked_width(text: str) -> int:
             if tracking <= 0 or len(text) <= 1:
@@ -667,11 +670,11 @@ def render_back() -> Image.Image:
         total_h = sum(heights) + line_gap * (len(lines) - 1)
         max_line_w = max(tracked_width(ln) for ln in lines)
 
-        # Icon + text as one unit, centered in the column (balanced band)
+        # Icon + text as one unit, vertically centered in the short band
         block_w = icon_r * 2 + icon_text_gap + max_line_w
-        max_block = seg_w - 2 * col_pad
-        if block_w > max_block:
-            block_w = max_block
+        max_block_w = seg_w - 2 * col_pad
+        if block_w > max_block_w:
+            block_w = max_block_w
         block_left = seg_x0 + (seg_w - block_w) // 2
         icon_cx = block_left + icon_r
         circle_icon(draw, icon_cx, mid_y, icon_r, kind)
