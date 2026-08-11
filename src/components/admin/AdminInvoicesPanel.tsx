@@ -20,6 +20,11 @@ type InvoiceForm = {
   notes: string;
 };
 
+type InvoiceDraftRow = InvoiceForm & {
+  id: string;
+  createdAt: string;
+};
+
 const emptyForm = (): InvoiceForm => ({
   clientName: "",
   projectName: "",
@@ -31,17 +36,49 @@ const emptyForm = (): InvoiceForm => ({
   notes: "",
 });
 
+function mapApiDraft(inv: {
+  id: string;
+  clientName?: string | null;
+  projectName?: string | null;
+  startDate?: string | null;
+  endDate?: string | null;
+  engineers?: string[] | null;
+  paymentMethod?: string | null;
+  terms?: string | null;
+  notes?: string | null;
+  createdAt?: string | null;
+}): InvoiceDraftRow {
+  const engineers = Array.isArray(inv.engineers)
+    ? inv.engineers.filter((e) => typeof e === "string")
+    : [];
+  return {
+    id: inv.id,
+    clientName: inv.clientName ?? "",
+    projectName: inv.projectName ?? "",
+    startDate: inv.startDate ?? "",
+    endDate: inv.endDate ?? "",
+    engineers: engineers.length > 0 ? engineers : [""],
+    paymentMethod: inv.paymentMethod ?? "Transferencia bancaria",
+    terms: inv.terms?.trim() ? inv.terms : DEFAULT_INVOICE_TERMS,
+    notes: inv.notes ?? "",
+    createdAt: inv.createdAt ?? "",
+  };
+}
+
 export function AdminInvoicesPanel() {
   const [form, setForm] = useState<InvoiceForm>(emptyForm);
   const [setupNote, setSetupNote] = useState<string | null>(null);
-  const [drafts, setDrafts] = useState<
-    { id: string; clientName: string; projectName: string; createdAt: string }[]
-  >([]);
+  const [drafts, setDrafts] = useState<InvoiceDraftRow[]>([]);
+  const [selectedDraftId, setSelectedDraftId] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
   const [deletingId, setDeletingId] = useState<string | null>(null);
   const [pdfBusy, setPdfBusy] = useState(false);
+  const [draftPdfBusy, setDraftPdfBusy] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+
+  const selectedDraft =
+    drafts.find((d) => d.id === selectedDraftId) ?? null;
 
   const load = useCallback(async () => {
     try {
@@ -50,20 +87,12 @@ export function AdminInvoicesPanel() {
       });
       const data = await res.json();
       setSetupNote(data.setupNote ?? null);
-      setDrafts(
-        (data.invoices ?? []).map(
-          (inv: {
-            id: string;
-            clientName: string;
-            projectName: string;
-            createdAt: string;
-          }) => ({
-            id: inv.id,
-            clientName: inv.clientName,
-            projectName: inv.projectName,
-            createdAt: inv.createdAt,
-          }),
-        ),
+      const next = (data.invoices ?? []).map(
+        (inv: Parameters<typeof mapApiDraft>[0]) => mapApiDraft(inv),
+      ) as InvoiceDraftRow[];
+      setDrafts(next);
+      setSelectedDraftId((prev) =>
+        prev && next.some((d) => d.id === prev) ? prev : null,
       );
     } catch {
       setSetupNote("No se pudieron cargar borradores (PDF sigue disponible).");
@@ -143,6 +172,7 @@ export function AdminInvoicesPanel() {
           (data as { error?: string }).error || "No se pudo eliminar",
         );
       }
+      if (selectedDraftId === id) setSelectedDraftId(null);
       setMessage("Borrador eliminado.");
       await load();
     } catch (e) {
@@ -152,30 +182,63 @@ export function AdminInvoicesPanel() {
     }
   }
 
-  async function downloadPdf() {
-    if (!form.clientName.trim() || !form.projectName.trim()) {
+  function loadDraftIntoForm(draft: InvoiceDraftRow) {
+    setForm({
+      clientName: draft.clientName,
+      projectName: draft.projectName,
+      startDate: draft.startDate,
+      endDate: draft.endDate,
+      engineers:
+        draft.engineers.filter((e) => e.trim()).length > 0
+          ? draft.engineers
+          : [""],
+      paymentMethod: draft.paymentMethod,
+      terms: draft.terms || DEFAULT_INVOICE_TERMS,
+      notes: draft.notes,
+    });
+    setSelectedDraftId(draft.id);
+    setMessage("Borrador cargado en el formulario.");
+    setError(null);
+  }
+
+  async function downloadPdfFromInput(input: InvoiceForm, busy: "form" | "draft") {
+    if (!input.clientName.trim() || !input.projectName.trim()) {
       setError("Indica al menos cliente y proyecto para el PDF.");
       return;
     }
-    setPdfBusy(true);
+    if (busy === "form") setPdfBusy(true);
+    else setDraftPdfBusy(true);
     setError(null);
     try {
       const filename = await downloadInvoicePdf({
-        clientName: form.clientName,
-        projectName: form.projectName,
-        startDate: form.startDate,
-        endDate: form.endDate,
-        engineers: form.engineers,
-        paymentMethod: form.paymentMethod,
-        terms: form.terms,
-        notes: form.notes,
+        clientName: input.clientName,
+        projectName: input.projectName,
+        startDate: input.startDate,
+        endDate: input.endDate,
+        engineers: input.engineers,
+        paymentMethod: input.paymentMethod,
+        terms: input.terms || DEFAULT_INVOICE_TERMS,
+        notes: input.notes,
       });
       setMessage(`PDF descargado: ${filename}`);
     } catch (e) {
       setError(e instanceof Error ? e.message : "Error al generar PDF");
     } finally {
-      setPdfBusy(false);
+      if (busy === "form") setPdfBusy(false);
+      else setDraftPdfBusy(false);
     }
+  }
+
+  async function downloadPdf() {
+    await downloadPdfFromInput(form, "form");
+  }
+
+  async function downloadSelectedDraft() {
+    if (!selectedDraft) {
+      setError("Selecciona un borrador para descargar el PDF.");
+      return;
+    }
+    await downloadPdfFromInput(selectedDraft, "draft");
   }
 
   return (
@@ -354,43 +417,102 @@ export function AdminInvoicesPanel() {
             Borradores recientes
           </h2>
           <p className="mt-1 text-xs text-muted">
-            Últimos comprobantes guardados en Supabase.
+            Selecciona un borrador para descargar su PDF o cargarlo en el
+            formulario.
           </p>
-          <ul className="mt-4 divide-y divide-line">
+
+          <div className="mt-4 flex flex-wrap gap-2">
+            <button
+              type="button"
+              disabled={!selectedDraft || draftPdfBusy}
+              onClick={() => void downloadSelectedDraft()}
+              className="rounded-full bg-accent px-4 py-2 text-xs font-semibold text-accent-ink disabled:cursor-not-allowed disabled:opacity-40"
+            >
+              {draftPdfBusy ? "Generando…" : "Descargar borrador"}
+            </button>
+            <button
+              type="button"
+              disabled={!selectedDraft}
+              onClick={() => selectedDraft && loadDraftIntoForm(selectedDraft)}
+              className="rounded-full border border-line px-4 py-2 text-xs font-semibold text-fg disabled:cursor-not-allowed disabled:opacity-40"
+            >
+              Cargar en formulario
+            </button>
+          </div>
+
+          {!selectedDraft && drafts.length > 0 && (
+            <p className="mt-3 text-[11px] text-muted">
+              Ningún borrador seleccionado.
+            </p>
+          )}
+          {selectedDraft && (
+            <p className="mt-3 text-[11px] text-accent">
+              Seleccionado: {selectedDraft.clientName || "Sin cliente"} —{" "}
+              {selectedDraft.projectName || "Sin proyecto"}
+            </p>
+          )}
+
+          <ul
+            className="mt-4 divide-y divide-line"
+            role="radiogroup"
+            aria-label="Borradores guardados"
+          >
             {drafts.length === 0 && (
               <li className="py-6 text-center text-sm text-muted">
                 Sin borradores aún.
               </li>
             )}
-            {drafts.map((d) => (
-              <li
-                key={d.id}
-                className="flex items-start justify-between gap-3 py-3 text-sm"
-              >
-                <div className="min-w-0">
-                  <p className="font-medium text-fg">{d.clientName}</p>
-                  <p className="text-xs text-muted">{d.projectName}</p>
-                  <p className="mt-1 text-[11px] text-muted">
-                    {d.createdAt
-                      ? new Date(d.createdAt).toLocaleString("es-MX")
-                      : ""}
-                  </p>
-                </div>
-                <button
-                  type="button"
-                  disabled={deletingId === d.id}
-                  onClick={() =>
-                    void deleteDraft(
-                      d.id,
-                      d.clientName || d.projectName || "borrador",
-                    )
-                  }
-                  className="shrink-0 border border-red-500/30 px-2.5 py-1 text-[11px] font-semibold text-red-400 transition hover:bg-red-500/10 disabled:opacity-50"
-                >
-                  {deletingId === d.id ? "…" : "Eliminar"}
-                </button>
-              </li>
-            ))}
+            {drafts.map((d) => {
+              const selected = selectedDraftId === d.id;
+              return (
+                <li key={d.id} className="py-1">
+                  <div
+                    className={`flex items-start gap-3 rounded-md px-2 py-2 transition ${
+                      selected
+                        ? "bg-accent/10 ring-1 ring-accent/40"
+                        : "hover:bg-bg/60"
+                    }`}
+                  >
+                    <label className="flex min-w-0 flex-1 cursor-pointer items-start gap-3">
+                      <input
+                        type="radio"
+                        name="invoice-draft"
+                        className="mt-1 shrink-0 accent-[var(--accent,#1A6BFF)]"
+                        checked={selected}
+                        onChange={() => setSelectedDraftId(d.id)}
+                        aria-label={`Seleccionar borrador de ${d.clientName || d.projectName || "sin nombre"}`}
+                      />
+                      <span className="min-w-0 text-sm">
+                        <span className="block font-medium text-fg">
+                          {d.clientName || "Sin cliente"}
+                        </span>
+                        <span className="block text-xs text-muted">
+                          {d.projectName || "Sin proyecto"}
+                        </span>
+                        <span className="mt-1 block text-[11px] text-muted">
+                          {d.createdAt
+                            ? new Date(d.createdAt).toLocaleString("es-MX")
+                            : ""}
+                        </span>
+                      </span>
+                    </label>
+                    <button
+                      type="button"
+                      disabled={deletingId === d.id}
+                      onClick={() =>
+                        void deleteDraft(
+                          d.id,
+                          d.clientName || d.projectName || "borrador",
+                        )
+                      }
+                      className="shrink-0 border border-red-500/30 px-2.5 py-1 text-[11px] font-semibold text-red-400 transition hover:bg-red-500/10 disabled:opacity-50"
+                    >
+                      {deletingId === d.id ? "…" : "Eliminar"}
+                    </button>
+                  </div>
+                </li>
+              );
+            })}
           </ul>
         </aside>
       </div>
