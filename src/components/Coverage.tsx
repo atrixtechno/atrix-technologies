@@ -105,7 +105,7 @@ export function Coverage() {
           <Reveal delay={80}>
             <SectionMedia
               src="/images/home/cobertura-frontera.jpg"
-              alt="Cobertura ATRIX en el corredor Nuevo Laredo–Laredo"
+              alt="Atardecer artístico en la frontera Nuevo Laredo–Laredo"
               aspect="aspect-[16/9]"
               sizes="(max-width: 1024px) 100vw, 55vw"
             />
