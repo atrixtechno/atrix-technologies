@@ -2,9 +2,9 @@ export const unetePage = {
   eyebrow: "Carreras · Equipo ATRIX",
   title: "¿Quieres ser parte de ATRIX?",
   lead:
-    "Únete al equipo tech que impulsa soporte, CCTV, redes, software y conferencias en la frontera.",
+    "Buscamos personas con actitud técnica y profesionalismo. Soporte, CCTV, redes, software y conferencias en Nuevo Laredo y Laredo, TX.",
   uniformCaption:
-    "Nuestra identidad de equipo: polo, gorra y hoodie con la marca ATRIX. Profesionalismo visible en cada visita y cada proyecto.",
+    "El uniforme ATRIX representa cómo trabajamos: serio, ordenado y reconocible. Polo, gorra y hoodie con la marca que ves en cada visita y proyecto.",
   whatsappMessage:
     "Hola ATRIX Technologies, quiero unirme al equipo. Les envío mi CV / estoy interesado(a) en formar parte de ATRIX.",
 } as const;
@@ -21,7 +21,7 @@ export const uneteSteps = [
   {
     number: "01",
     title: "Envía tu CV por WhatsApp",
-    copy: "Escríbenos con una breve presentación y adjunta tu currículum. Respondemos al mismo canal.",
+    copy: "Escríbenos con una breve presentación y adjunta tu currículum. Respondemos por el mismo canal.",
     cta: "whatsapp" as const,
   },
   {
@@ -33,7 +33,7 @@ export const uneteSteps = [
   {
     number: "03",
     title: "Conversamos",
-    copy: "Revisamos perfil, experiencia y encaje con las necesidades del equipo en Nuevo Laredo y Laredo, TX.",
+    copy: "Revisamos perfil, experiencia y encaje con las necesidades del equipo en la frontera.",
     cta: null,
   },
 ] as const;
