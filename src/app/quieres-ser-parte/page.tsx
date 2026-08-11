@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { PageDecor } from "@/components/PageDecor";
 import { QuieresSerParteHero } from "@/components/QuieresSerParteHero";
+import { QuieresSerParteIdentidad } from "@/components/QuieresSerParteIdentidad";
 import { Reveal } from "@/components/Reveal";
 import { uneteAreas, unetePage, uneteSteps } from "@/content/unete";
 import { site, whatsappUrl } from "@/content/site";
@@ -34,10 +34,10 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: `${site.url}/brand/atrix-uniforme.png`,
+        url: `${site.url}/brand/atrix-identidad.png`,
         width: 1536,
         height: 1024,
-        alt: `${site.legalName} — Uniforme del equipo`,
+        alt: `${site.legalName} — Identidad y profesionalismo`,
         type: "image/png",
       },
     ],
@@ -46,7 +46,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: `${pageTitle} · ${site.legalName}`,
     description: pageDescription,
-    images: [`${site.url}/brand/atrix-uniforme.png`],
+    images: [`${site.url}/brand/atrix-identidad.png`],
   },
 };
 
@@ -67,7 +67,7 @@ export default function QuieresSerPartePage() {
         about: { "@id": `${site.url}/#organization` },
         primaryImageOfPage: {
           "@type": "ImageObject",
-          url: `${site.url}/brand/atrix-uniforme.png`,
+          url: `${site.url}/brand/atrix-identidad.png`,
           width: 1536,
           height: 1024,
         },
@@ -126,6 +126,8 @@ export default function QuieresSerPartePage() {
         <main className="atmosphere relative z-10 min-h-screen">
           <QuieresSerParteHero whatsappHref={wa} />
 
+          <QuieresSerParteIdentidad />
+
           {/* Areas */}
           <section
             className="border-b border-line py-14 md:py-20"
@@ -161,43 +163,6 @@ export default function QuieresSerPartePage() {
                   </Reveal>
                 ))}
               </ul>
-            </div>
-          </section>
-
-          {/* Credibilidad — uniforme como señal, no como protagonista */}
-          <section
-            className="border-b border-line py-12 md:py-16"
-            aria-labelledby="credibilidad-heading"
-          >
-            <div className="mx-auto max-w-6xl px-4 sm:px-5 md:px-8">
-              <Reveal>
-                <div className="grid items-center gap-8 md:grid-cols-[minmax(0,14rem)_1fr] md:gap-12 lg:grid-cols-[minmax(0,16rem)_1fr]">
-                  <div className="relative mx-auto aspect-[3/2] w-full max-w-[16rem] overflow-hidden border border-line bg-[#0a0c10] md:mx-0">
-                    <Image
-                      src="/brand/atrix-uniforme.png"
-                      alt="Uniforme ATRIX Technologies"
-                      fill
-                      quality={100}
-                      className="object-cover object-center"
-                      sizes="(max-width: 768px) 256px, 280px"
-                    />
-                  </div>
-                  <div className="min-w-0 text-center md:text-left">
-                    <p className="text-[10px] font-semibold tracking-[0.22em] text-accent uppercase">
-                      Cómo trabajamos
-                    </p>
-                    <h2
-                      id="credibilidad-heading"
-                      className="font-display mt-3 text-xl font-bold tracking-tight sm:text-2xl"
-                    >
-                      Vamos en serio
-                    </h2>
-                    <p className="mt-3 max-w-lg text-pretty text-[15px] leading-relaxed text-muted sm:text-base md:mx-0 md:max-w-xl">
-                      {unetePage.uniformCaption}
-                    </p>
-                  </div>
-                </div>
-              </Reveal>
             </div>
           </section>
 

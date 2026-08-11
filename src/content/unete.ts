@@ -3,11 +3,40 @@ export const unetePage = {
   title: "¿Quieres ser parte de ATRIX?",
   lead:
     "Buscamos personas con actitud técnica y profesionalismo. Soporte, CCTV, redes, software y conferencias en Nuevo Laredo y Laredo, TX.",
-  uniformCaption:
-    "Así nos presentamos en campo y en cliente: con orden y profesionalismo. El uniforme es una señal de que vamos en serio.",
+  identityEyebrow: "Nuestra identidad",
+  identityTitle: "Identidad. Profesionalismo. Presencia.",
+  identityLead:
+    "Así se presenta ATRIX ante el cliente y en cada proyecto: con orden, marca clara y la seriedad de un equipo que va en serio.",
+  identityPillars: [
+    {
+      label: "Presencia",
+      copy: "Una imagen coherente en campo, en oficina y frente al cliente.",
+    },
+    {
+      label: "Detalle",
+      copy: "Cada pieza comunica precisión, cuidado y estándares altos.",
+    },
+    {
+      label: "Compromiso",
+      copy: "No improvisamos: trabajamos con identidad y responsabilidad.",
+    },
+  ],
   whatsappMessage:
     "Hola ATRIX Technologies, quiero unirme al equipo. Les envío mi CV / estoy interesado(a) en formar parte de ATRIX.",
 } as const;
+
+export const uneteIdentityGallery = [
+  {
+    src: "/brand/atrix-identidad.png",
+    alt: "Identidad ATRIX Technologies: polo, gorra y hoodie con marca oficial",
+    caption: "Colección de marca · Polo, gorra y hoodie",
+  },
+  {
+    src: "/brand/atrix-uniforme.png",
+    alt: "Identidad ATRIX Technologies: detalles de logo, mangas y presencia de equipo",
+    caption: "Detalle de marca · Crest, mangas y presencia",
+  },
+] as const;
 
 export const uneteAreas = [
   { label: "Soporte técnico", copy: "Campo y remoto para hogares y empresas." },
