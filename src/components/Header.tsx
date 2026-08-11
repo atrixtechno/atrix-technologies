@@ -22,6 +22,7 @@ const links = [
 const pageLinks = [
   { href: "/soporte-remoto", label: "Soporte remoto" },
   { href: "/conferencias", label: "Conferencias" },
+  { href: "/quieres-ser-parte", label: "Sé parte" },
 ] as const;
 
 /** Compact at `lg` so many items fit; relax spacing at `xl`. */

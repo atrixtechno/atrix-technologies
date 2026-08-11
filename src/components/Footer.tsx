@@ -95,6 +95,14 @@ export function Footer({ light = false }: { light?: boolean }) {
                   Conferencias
                 </Link>
               </li>
+              <li>
+                <Link
+                  href="/quieres-ser-parte"
+                  className="text-sm text-muted transition hover:text-fg"
+                >
+                  Sé parte de ATRIX
+                </Link>
+              </li>
             </ul>
           </div>
 
