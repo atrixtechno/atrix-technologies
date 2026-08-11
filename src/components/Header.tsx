@@ -14,6 +14,7 @@ import { site, whatsappUrl } from "@/content/site";
 
 const links = [
   { hash: "servicios", label: "Servicios" },
+  { hash: "recomendaciones", label: "Opiniones" },
   { hash: "hogares", label: "Hogares" },
   { hash: "empresas", label: "Empresas" },
   { hash: "contacto", label: "Contacto" },

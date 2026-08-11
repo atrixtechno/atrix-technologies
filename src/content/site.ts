@@ -11,6 +11,8 @@ export const site = {
   whatsapp: process.env.NEXT_PUBLIC_WHATSAPP ?? "528671793155",
   email: "atrix.techno@gmail.com",
   facebook: "https://www.facebook.com/atrixnld",
+  facebookReviews:
+    "https://www.facebook.com/atrixnld/reviews/?id=61590549456658&sk=reviews",
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://atrixnld.com",
 } as const;
 

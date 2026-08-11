@@ -7,6 +7,7 @@ import { Benefits } from "@/components/Benefits";
 import { AudienceGuides } from "@/components/Guides";
 import { ProjectsTeaser } from "@/components/ProjectsTeaser";
 import { Process } from "@/components/Process";
+import { Recommendations } from "@/components/Recommendations";
 import { Contact } from "@/components/Contact";
 import { Footer } from "@/components/Footer";
 import { PageDecor } from "@/components/PageDecor";
@@ -129,6 +130,14 @@ export default function HomePage() {
           },
         ],
         sameAs: [site.facebook],
+        aggregateRating: {
+          "@type": "AggregateRating",
+          ratingValue: "5",
+          bestRating: "5",
+          worstRating: "1",
+          ratingCount: "9",
+          reviewCount: "9",
+        },
         parentOrganization: { "@id": `${site.url}/#organization` },
         hasOfferCatalog: {
           "@type": "OfferCatalog",
@@ -165,6 +174,7 @@ export default function HomePage() {
           <AudienceGuides />
           <ProjectsTeaser />
           <Process />
+          <Recommendations />
           <Contact />
         </main>
         <div className="relative z-10">
