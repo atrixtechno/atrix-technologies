@@ -5,6 +5,8 @@ export type Service = {
   copy: string;
   bullets: string[];
   icon: "pc" | "printer" | "cctv" | "network" | "code" | "gear";
+  image: string;
+  imageAlt: string;
 };
 
 export const services: Service[] = [
@@ -19,6 +21,8 @@ export const services: Service[] = [
       "Soporte a domicilio o remoto",
     ],
     icon: "pc",
+    image: "/images/services/soporte-tecnico.jpg",
+    imageAlt: "Estación de trabajo con laptop y herramientas de soporte técnico",
   },
   {
     slug: "impresoras-perifericos",
@@ -31,6 +35,8 @@ export const services: Service[] = [
       "Mantenimiento y revisión",
     ],
     icon: "printer",
+    image: "/images/services/impresoras.jpg",
+    imageAlt: "Impresora multifunción y periféricos de oficina",
   },
   {
     slug: "cctv",
@@ -43,6 +49,8 @@ export const services: Service[] = [
       "Mantenimiento y ampliación",
     ],
     icon: "cctv",
+    image: "/images/services/cctv.jpg",
+    imageAlt: "Cámaras de seguridad CCTV con iluminación técnica",
   },
   {
     slug: "redes-infraestructura",
@@ -55,6 +63,8 @@ export const services: Service[] = [
       "Routers, switches y acceso",
     ],
     icon: "network",
+    image: "/images/services/redes.jpg",
+    imageAlt: "Infraestructura de red, switches y cableado estructurado",
   },
   {
     slug: "desarrollo-software",
@@ -67,6 +77,8 @@ export const services: Service[] = [
       "Software a la medida",
     ],
     icon: "code",
+    image: "/images/services/software.jpg",
+    imageAlt: "Entorno de desarrollo de software con monitores",
   },
   {
     slug: "soporte-it-empresarial",
@@ -79,6 +91,8 @@ export const services: Service[] = [
       "Optimización de equipos",
     ],
     icon: "gear",
+    image: "/images/services/it-empresarial.jpg",
+    imageAlt: "Rack de servidores e infraestructura IT empresarial",
   },
 ];
 

@@ -230,7 +230,7 @@ export function LoginForm() {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full rounded-full bg-accent px-6 py-3 text-sm font-semibold text-accent-ink transition hover:brightness-110 disabled:opacity-60"
+                  className="btn-primary w-full rounded-full px-6 py-3 text-sm font-semibold disabled:opacity-60"
                 >
                   {loading ? "Verificando…" : "Entrar"}
                 </button>
@@ -287,7 +287,7 @@ export function LoginForm() {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full rounded-full bg-accent px-6 py-3 text-sm font-semibold text-accent-ink transition hover:brightness-110 disabled:opacity-60"
+                  className="btn-primary w-full rounded-full px-6 py-3 text-sm font-semibold disabled:opacity-60"
                 >
                   {loading ? "Guardando…" : "Guardar y continuar"}
                 </button>

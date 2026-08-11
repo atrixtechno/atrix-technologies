@@ -153,7 +153,7 @@ export default function HomePage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <div className="relative">
+      <div className="atmosphere relative">
         <PageDecor />
         <Header solid />
         <main className="relative z-10">

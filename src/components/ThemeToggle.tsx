@@ -12,14 +12,14 @@ export function ThemeToggle({ className = "" }: { className?: string }) {
       onClick={toggleTheme}
       aria-label={isDark ? "Cambiar a tema claro" : "Cambiar a tema oscuro"}
       title={isDark ? "Tema claro" : "Tema oscuro"}
-      className={`group relative inline-flex h-10 items-center gap-2 overflow-hidden rounded-full border border-line bg-bg-elevated/80 px-2.5 text-fg shadow-[0_0_0_1px_rgba(43,107,255,0.08)] backdrop-blur transition hover:border-signal/40 hover:shadow-[0_0_24px_rgba(43,107,255,0.18)] ${className}`}
+      className={`group relative inline-flex h-10 items-center gap-2 overflow-hidden rounded-full border border-line bg-bg-elevated/80 px-2.5 text-fg shadow-[0_0_0_1px_rgba(26,107,255,0.1)] backdrop-blur transition hover:border-accent/45 hover:shadow-[0_0_24px_rgba(26,107,255,0.22)] ${className}`}
     >
-      <span className="pointer-events-none absolute inset-0 bg-[linear-gradient(120deg,transparent,rgba(43,107,255,0.08),transparent)] opacity-0 transition group-hover:opacity-100" />
+      <span className="pointer-events-none absolute inset-0 bg-[linear-gradient(120deg,transparent,rgba(26,107,255,0.1),transparent)] opacity-0 transition group-hover:opacity-100" />
 
       <span
         className={`relative inline-flex h-6 w-6 items-center justify-center rounded-full transition ${
           isDark
-            ? "bg-signal text-white shadow-[0_0_16px_rgba(43,107,255,0.45)]"
+            ? "bg-accent text-white shadow-[0_0_16px_rgba(26,107,255,0.5)]"
             : "bg-accent/15 text-accent-deep"
         }`}
       >

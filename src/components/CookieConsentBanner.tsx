@@ -73,7 +73,7 @@ export function CookieConsentBanner({ onDecision }: CookieConsentBannerProps) {
           <button
             type="button"
             onClick={() => decide("accepted")}
-            className="rounded-full bg-accent px-5 py-2.5 text-sm font-semibold text-accent-ink transition hover:brightness-110"
+            className="btn-primary rounded-full px-5 py-2.5 text-sm font-semibold"
           >
             Aceptar
           </button>

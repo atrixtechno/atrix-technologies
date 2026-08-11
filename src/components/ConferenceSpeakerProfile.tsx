@@ -50,7 +50,7 @@ export function ConferenceSpeakerProfile({ speaker }: Props) {
               aria-hidden
             />
             <div
-              className="absolute inset-0 bg-[radial-gradient(ellipse_at_70%_12%,rgba(13,159,150,0.2),transparent_52%)]"
+              className="absolute inset-0 bg-[radial-gradient(ellipse_at_70%_12%,rgba(26,107,255,0.28),transparent_52%)]"
               aria-hidden
             />
             <div className="absolute inset-x-0 bottom-0 p-5 sm:p-7">
@@ -161,7 +161,7 @@ export function ConferenceSpeakerProfile({ speaker }: Props) {
               href={wa}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center rounded-full bg-accent px-6 py-3.5 text-sm font-semibold text-accent-ink shadow-[0_12px_32px_rgba(13,159,150,0.28)] transition hover:brightness-110"
+              className="btn-primary inline-flex items-center justify-center rounded-full px-6 py-3.5 text-sm font-semibold"
             >
               WhatsApp · Agendar plática
             </a>

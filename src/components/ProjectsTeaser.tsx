@@ -41,7 +41,7 @@ export function ProjectsTeaser() {
             </div>
             <Link
               href="/proyectos"
-              className="inline-flex rounded-full bg-accent px-6 py-3 text-sm font-semibold text-accent-ink transition hover:brightness-110"
+              className="btn-primary inline-flex rounded-full px-6 py-3 text-sm font-semibold"
             >
               Ver portafolio de software
             </Link>

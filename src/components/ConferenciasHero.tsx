@@ -18,23 +18,23 @@ export function ConferenciasHero({ whatsappHref }: Props) {
   return (
     <section className="relative overflow-hidden border-b border-line md:min-h-[min(94svh,58rem)]">
       <Image
-        src="/brand/hero-poster.jpg"
+        src="/images/conferencias/ia-keynote.jpg"
         alt=""
         fill
         priority
-        className={`object-cover object-[center_30%] transition duration-300 ${
-          isLight ? "opacity-40 saturate-70" : "opacity-60 saturate-95"
+        className={`object-cover object-[center_35%] transition duration-300 ${
+          isLight ? "opacity-45 saturate-80" : "opacity-70 saturate-100"
         }`}
         sizes="100vw"
         aria-hidden
       />
       <div className="hero-overlay absolute inset-0" />
-      <div className="absolute inset-0 bg-gradient-to-r from-bg via-bg/75 to-transparent md:via-bg/55" />
+      <div className="absolute inset-0 bg-gradient-to-r from-bg via-bg/78 to-transparent md:via-bg/55" />
       <div className="hero-glow absolute inset-0" />
-      <div className="grid-tech pointer-events-none absolute inset-0 opacity-40" />
+      <div className="grid-tech animate-grid-pulse pointer-events-none absolute inset-0 opacity-40" />
 
       <div className="pointer-events-none absolute inset-0" aria-hidden>
-        <div className="animate-orb absolute left-[6%] top-[18%] h-56 w-56 rounded-full bg-accent/20 blur-3xl" />
+        <div className="animate-orb absolute left-[6%] top-[18%] h-56 w-56 rounded-full bg-accent/22 blur-3xl" />
         <div className="animate-orb-delayed absolute right-[8%] bottom-[12%] h-64 w-64 rounded-full bg-signal/16 blur-3xl" />
         <p className="font-display absolute top-1/2 -left-2 hidden -translate-y-1/2 rotate-180 text-[11px] font-bold tracking-[0.55em] text-accent/35 uppercase [writing-mode:vertical-rl] md:block lg:left-3 lg:text-xs">
           Keynote · Programa
@@ -46,7 +46,7 @@ export function ConferenciasHero({ whatsappHref }: Props) {
         <div className="grid items-end gap-8 sm:gap-10 lg:grid-cols-[1.15fr_0.85fr] lg:items-center lg:gap-14">
           <div className="animate-rise min-w-0 text-center md:text-left">
             <div className="animate-fade-scale relative mx-auto mb-6 w-full max-w-[12rem] sm:mb-8 sm:max-w-[17rem] md:mx-0 md:mb-10 md:max-w-[22rem]">
-              <div className="animate-glow pointer-events-none absolute inset-0 -m-5 rounded-full bg-[radial-gradient(circle,rgba(13,159,150,0.22),transparent_68%)] blur-2xl" />
+              <div className="animate-glow pointer-events-none absolute inset-0 -m-5 rounded-full bg-[radial-gradient(circle,rgba(26,107,255,0.28),transparent_68%)] blur-2xl" />
               <Logo
                 key={isLight ? "conf-hero-light" : "conf-hero-dark"}
                 variant={isLight ? "full-light" : "full"}
@@ -71,13 +71,13 @@ export function ConferenciasHero({ whatsappHref }: Props) {
                 href={whatsappHref}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex w-full items-center justify-center rounded-full bg-accent px-6 py-3.5 text-sm font-semibold text-accent-ink shadow-[0_12px_32px_rgba(13,159,150,0.28)] transition hover:brightness-110 sm:w-auto"
+                className="btn-primary inline-flex w-full items-center justify-center rounded-full px-6 py-3.5 text-sm font-semibold sm:w-auto"
               >
                 Solicitar por WhatsApp
               </a>
               <Link
                 href="#temas"
-                className="inline-flex w-full items-center justify-center rounded-full border border-line bg-bg-elevated/60 px-6 py-3.5 text-sm font-semibold text-fg backdrop-blur transition hover:border-accent/40 hover:bg-bg-elevated sm:w-auto"
+                className="btn-ghost inline-flex w-full items-center justify-center rounded-full px-6 py-3.5 text-sm font-semibold sm:w-auto"
               >
                 Ver temario
               </Link>
@@ -89,6 +89,16 @@ export function ConferenciasHero({ whatsappHref }: Props) {
 
           <aside className="animate-rise-delay relative mx-auto w-full max-w-md min-w-0 md:mx-0 md:max-w-none">
             <div className="tech-frame border border-line/80 bg-bg-elevated/55 p-5 backdrop-blur-md sm:p-7">
+              <div className="relative mb-5 aspect-[16/9] overflow-hidden border border-line">
+                <Image
+                  src="/images/conferencias/ciberseguridad-talk.jpg"
+                  alt="Visual de conferencia sobre ciberseguridad e IA"
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 768px) 90vw, 380px"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-bg-elevated/80 to-transparent" />
+              </div>
               <p className="text-[10px] font-semibold tracking-[0.22em] text-signal uppercase">
                 Programa listo
               </p>

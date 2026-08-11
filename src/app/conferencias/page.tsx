@@ -470,7 +470,7 @@ export default function ConferenciasPage() {
                       href={wa}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex w-full shrink-0 items-center justify-center rounded-full bg-accent px-6 py-3 text-sm font-semibold text-accent-ink shadow-[0_12px_32px_rgba(13,159,150,0.28)] transition hover:brightness-110 sm:w-auto"
+                      className="btn-primary inline-flex w-full shrink-0 items-center justify-center rounded-full px-6 py-3 text-sm font-semibold sm:w-auto"
                     >
                       Consultar por WhatsApp
                     </a>
@@ -570,7 +570,7 @@ export default function ConferenciasPage() {
                         href={wa}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex w-full items-center justify-center rounded-full bg-accent px-6 py-3.5 text-sm font-semibold text-accent-ink shadow-[0_12px_32px_rgba(13,159,150,0.28)] transition hover:brightness-110 sm:w-auto"
+                        className="btn-primary inline-flex w-full items-center justify-center rounded-full px-6 py-3.5 text-sm font-semibold sm:w-auto"
                       >
                         WhatsApp · {site.phoneDisplay}
                       </a>

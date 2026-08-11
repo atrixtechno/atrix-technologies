@@ -43,7 +43,7 @@ export function Footer({ light = false }: { light?: boolean }) {
                 href={whatsappUrl()}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex rounded-full bg-accent px-5 py-2.5 text-sm font-semibold text-accent-ink transition hover:brightness-110"
+                className="btn-primary inline-flex rounded-full px-5 py-2.5 text-sm font-semibold"
               >
                 Cotizar por WhatsApp
               </a>

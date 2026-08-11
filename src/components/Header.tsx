@@ -346,7 +346,7 @@ export function Header({
               href={whatsappUrl()}
               target="_blank"
               rel="noopener noreferrer"
-              className="rounded-full bg-accent px-3 py-1.5 text-xs font-semibold text-accent-ink transition hover:brightness-110 xl:px-4 xl:py-2 xl:text-sm"
+              className="btn-primary rounded-full px-3 py-1.5 text-xs font-semibold xl:px-4 xl:py-2 xl:text-sm"
             >
               WhatsApp
             </a>
@@ -509,7 +509,7 @@ export function Header({
                 href={whatsappUrl()}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mt-5 inline-flex items-center justify-center rounded-full bg-accent px-4 py-3.5 text-sm font-semibold text-accent-ink"
+                className="btn-primary mt-5 inline-flex items-center justify-center rounded-full px-4 py-3.5 text-sm font-semibold"
                 onClick={closeMobileMenu}
               >
                 WhatsApp · {site.phoneDisplay}

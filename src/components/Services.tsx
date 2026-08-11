@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { Reveal } from "@/components/Reveal";
 import { services } from "@/content/services";
@@ -9,7 +10,7 @@ const remoteSupportSlugs = new Set([
 ]);
 
 function Icon({ name }: { name: string }) {
-  const common = "h-6 w-6";
+  const common = "h-5 w-5";
   switch (name) {
     case "pc":
       return (
@@ -82,7 +83,11 @@ export function Services() {
   return (
     <section id="servicios" className="relative scroll-mt-10 border-t border-line py-24 md:py-28">
       <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-accent/40 to-transparent" />
-      <div className="mx-auto max-w-6xl px-5 md:px-8">
+      <div className="pointer-events-none absolute inset-0 opacity-40" aria-hidden>
+        <div className="animate-orb absolute -left-16 top-24 h-56 w-56 rounded-full bg-accent/10 blur-3xl" />
+        <div className="animate-orb-delayed absolute -right-10 bottom-10 h-64 w-64 rounded-full bg-signal/10 blur-3xl" />
+      </div>
+      <div className="relative mx-auto max-w-6xl px-5 md:px-8">
         <Reveal>
           <p className="text-xs font-semibold tracking-[0.28em] text-accent uppercase">
             Servicios
@@ -100,45 +105,55 @@ export function Services() {
         <ul className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {services.map((service, index) => (
             <Reveal key={service.slug} delay={index * 70}>
-              <li className="tech-frame group border border-line bg-bg-elevated/40 p-6 transition duration-300 hover:-translate-y-1 hover:border-accent/40 hover:bg-bg-elevated hover:shadow-[0_20px_40px_rgba(11,26,36,0.08)]">
-                <div className="flex items-start justify-between gap-3">
-                  <span className="inline-flex h-11 w-11 items-center justify-center rounded-xl border border-line text-accent transition group-hover:scale-105 group-hover:border-accent/50 group-hover:text-signal">
+              <li className="tech-frame group overflow-hidden border border-line bg-bg-elevated/40 transition duration-300 hover:-translate-y-1 hover:border-accent/40 hover:bg-bg-elevated hover:shadow-[0_20px_44px_rgba(26,107,255,0.12)]">
+                <div className="relative aspect-[16/10] overflow-hidden border-b border-line">
+                  <Image
+                    src={service.image}
+                    alt={service.imageAlt}
+                    fill
+                    className="object-cover transition duration-500 group-hover:scale-[1.04]"
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-bg-elevated/90 via-bg-elevated/20 to-transparent" />
+                  <span className="absolute bottom-3 left-3 inline-flex h-10 w-10 items-center justify-center border border-line/80 bg-bg-elevated/90 text-accent backdrop-blur-sm transition group-hover:border-accent/50 group-hover:text-signal">
                     <Icon name={service.icon} />
                   </span>
-                  <span className="text-[11px] font-semibold tracking-[0.18em] text-muted">
+                  <span className="absolute top-3 right-3 text-[11px] font-semibold tracking-[0.18em] text-fg/70 tabular-nums">
                     {String(index + 1).padStart(2, "0")}
                   </span>
                 </div>
-                <h3 className="font-display mt-5 text-xl font-semibold">{service.title}</h3>
-                <p className="mt-1 text-sm font-medium text-signal">{service.short}</p>
-                <p className="mt-3 text-sm leading-relaxed text-muted">{service.copy}</p>
-                <ul className="mt-4 space-y-1.5">
-                  {service.bullets.map((b) => (
-                    <li key={b} className="flex gap-2 text-sm text-fg/80">
-                      <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-accent" />
-                      {b}
-                    </li>
-                  ))}
-                </ul>
-                <div className="mt-5 flex flex-wrap items-center gap-x-4 gap-y-2">
-                  <a
-                    href={whatsappUrl(
-                      `Hola ATRIX, me interesa el servicio de ${service.title}.`,
-                    )}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex text-sm font-semibold text-accent transition hover:text-fg"
-                  >
-                    Cotizar →
-                  </a>
-                  {remoteSupportSlugs.has(service.slug) && (
-                    <Link
-                      href="/soporte-remoto"
-                      className="inline-flex text-sm font-semibold text-muted transition hover:text-accent"
+                <div className="p-6">
+                  <h3 className="font-display text-xl font-semibold">{service.title}</h3>
+                  <p className="mt-1 text-sm font-medium text-signal">{service.short}</p>
+                  <p className="mt-3 text-sm leading-relaxed text-muted">{service.copy}</p>
+                  <ul className="mt-4 space-y-1.5">
+                    {service.bullets.map((b) => (
+                      <li key={b} className="flex gap-2 text-sm text-fg/80">
+                        <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-accent" />
+                        {b}
+                      </li>
+                    ))}
+                  </ul>
+                  <div className="mt-5 flex flex-wrap items-center gap-x-4 gap-y-2">
+                    <a
+                      href={whatsappUrl(
+                        `Hola ATRIX, me interesa el servicio de ${service.title}.`,
+                      )}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex text-sm font-semibold text-accent transition hover:text-fg"
                     >
-                      Ver departamento de sistemas →
-                    </Link>
-                  )}
+                      Cotizar →
+                    </a>
+                    {remoteSupportSlugs.has(service.slug) && (
+                      <Link
+                        href="/soporte-remoto"
+                        className="inline-flex text-sm font-semibold text-muted transition hover:text-accent"
+                      >
+                        Ver departamento de sistemas →
+                      </Link>
+                    )}
+                  </div>
                 </div>
               </li>
             </Reveal>

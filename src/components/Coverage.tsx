@@ -46,7 +46,7 @@ export function Coverage() {
                 )}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="rounded-full bg-accent px-6 py-3.5 text-sm font-semibold text-accent-ink shadow-[0_12px_32px_rgba(13,159,150,0.25)] transition hover:brightness-110"
+                className="btn-primary inline-flex items-center justify-center rounded-full px-6 py-3.5 text-sm font-semibold"
               >
                 WhatsApp ahora · {site.phoneDisplay}
               </a>
