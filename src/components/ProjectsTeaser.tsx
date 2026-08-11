@@ -22,38 +22,37 @@ function hexToRgba(hex: string, alpha: number) {
 
 export function ProjectsTeaser() {
   return (
-    <section id="software" className="relative scroll-mt-10 border-t border-line py-24 md:py-28">
-      <div className="pointer-events-none absolute right-0 top-10 h-48 w-48 rounded-full bg-signal/10 blur-3xl" />
+    <section id="software" className="relative scroll-mt-10 border-t border-line py-14 md:py-16">
+      <div className="pointer-events-none absolute right-0 top-6 h-32 w-32 rounded-full bg-signal/10 blur-3xl" />
       <div className="mx-auto max-w-6xl px-5 md:px-8">
         <Reveal>
-          <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
-            <div>
-              <p className="text-xs font-semibold tracking-[0.28em] text-accent uppercase">
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between sm:gap-6">
+            <div className="min-w-0">
+              <p className="text-[10px] font-semibold tracking-[0.28em] text-accent uppercase sm:text-xs">
                 Desarrollo de software
               </p>
-              <h2 className="font-display mt-4 max-w-xl text-3xl font-bold tracking-tight md:text-5xl">
+              <h2 className="font-display mt-2 max-w-xl text-2xl font-bold tracking-tight sm:text-3xl md:text-4xl">
                 Casos de sistemas y plataformas
               </h2>
-              <div className="animate-line mt-4 h-px w-24 bg-accent/50" />
-              <p className="mt-4 max-w-xl text-muted">
-                Además del soporte e infraestructura, construimos sitios, paneles y
-                apps a la medida. Estos son algunos casos.
+              <div className="animate-line mt-3 h-px w-16 bg-accent/50 sm:w-20" />
+              <p className="mt-3 max-w-lg text-sm text-muted sm:text-[15px]">
+                Sitios, paneles y apps a la medida. Estos son algunos casos.
               </p>
             </div>
             <Link
               href="/proyectos"
-              className="btn-primary inline-flex rounded-full px-6 py-3 text-sm font-semibold"
+              className="btn-primary inline-flex shrink-0 rounded-full px-5 py-2.5 text-sm font-semibold"
             >
-              Ver portafolio de software
+              Ver portafolio
             </Link>
           </div>
         </Reveal>
 
-        <ul className="mt-12 grid gap-5 sm:grid-cols-2">
+        <ul className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-3 lg:gap-4">
           {projects.map((project, index) => {
             const { accent, glow } = project.theme;
             return (
-              <Reveal key={project.slug} delay={index * 70}>
+              <Reveal key={project.slug} delay={Math.min(index * 50, 200)}>
                 <li className="h-full min-w-0">
                   <Link
                     href={`/proyectos/${project.slug}`}
@@ -74,36 +73,38 @@ export function ProjectsTeaser() {
                       } as React.CSSProperties
                     }
                   >
-                    <div className="relative aspect-[16/10] w-full overflow-hidden border-b border-line/60 bg-bg">
+                    <div className="relative aspect-[16/8] w-full overflow-hidden border-b border-line/60 bg-bg">
                       {project.previewImage ? (
                         <Image
                           src={project.previewImage}
                           alt={`Vista previa de ${project.name}`}
                           fill
-                          quality={85}
+                          quality={80}
                           className="object-cover object-top transition duration-500 group-hover:scale-[1.03]"
-                          sizes="(max-width: 640px) 100vw, 50vw"
+                          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                         />
                       ) : null}
-                      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-bg/80 via-transparent to-transparent" />
+                      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-bg/70 via-transparent to-transparent" />
                     </div>
 
-                    <div className="relative flex flex-1 flex-col gap-3 px-4 py-4 sm:px-5 sm:py-5">
-                      <div className="flex min-w-0 items-center gap-3">
+                    <div className="relative flex flex-1 flex-col gap-1.5 px-3.5 py-3 sm:px-4 sm:py-3.5">
+                      <div className="flex min-w-0 items-center gap-2.5">
                         {project.logo && (
                           <ProjectLogo src={project.logo} name={project.name} size="sm" />
                         )}
                         <div className="min-w-0">
-                          <h3 className="font-display text-lg font-semibold sm:text-xl">
+                          <h3 className="font-display truncate text-[15px] font-semibold sm:text-base">
                             {project.name}
                           </h3>
-                          <p className="mt-0.5 text-sm font-medium text-[var(--project-accent)]">
+                          <p className="truncate text-[11px] font-medium text-[var(--project-accent)] sm:text-xs">
                             {project.sector}
                           </p>
                         </div>
                       </div>
-                      <p className="text-pretty text-sm text-muted">{project.summary}</p>
-                      <p className="mt-auto pt-1 text-sm font-semibold text-[var(--project-accent)]">
+                      <p className="line-clamp-2 text-pretty text-xs leading-relaxed text-muted sm:text-[13px]">
+                        {project.summary}
+                      </p>
+                      <p className="mt-auto pt-1 text-xs font-semibold text-[var(--project-accent)]">
                         Ver caso →
                       </p>
                     </div>
