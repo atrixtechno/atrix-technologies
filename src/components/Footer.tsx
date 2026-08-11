@@ -38,14 +38,22 @@ export function Footer({ light = false }: { light?: boolean }) {
             <p className="mt-5 max-w-xs text-sm leading-relaxed text-muted">
               {site.tagline}. Atención personalizada en {site.coverage}.
             </p>
-            <a
-              href={whatsappUrl()}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-6 inline-flex rounded-full bg-accent px-5 py-2.5 text-sm font-semibold text-accent-ink transition hover:brightness-110"
-            >
-              Cotizar por WhatsApp
-            </a>
+            <div className="mt-6 flex flex-wrap items-center gap-3">
+              <a
+                href={whatsappUrl()}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex rounded-full bg-accent px-5 py-2.5 text-sm font-semibold text-accent-ink transition hover:brightness-110"
+              >
+                Cotizar por WhatsApp
+              </a>
+              <Link
+                href="/login"
+                className="inline-flex rounded-full border border-line px-5 py-2.5 text-sm font-semibold text-fg transition hover:border-accent/40 hover:text-accent"
+              >
+                Acceso
+              </Link>
+            </div>
           </div>
 
           <div>
