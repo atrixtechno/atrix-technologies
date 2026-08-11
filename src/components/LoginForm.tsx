@@ -7,13 +7,11 @@ import { Logo } from "@/components/Logo";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { useTheme } from "@/components/ThemeProvider";
 import {
-  ADMIN_DOMAIN,
-  ADMIN_EMAIL,
-  buildAdminEmail,
   changeAdminPassword,
   clearAdminSession,
   hasAdminSession,
   isPasswordChanged,
+  isValidAdminUser,
   mustChangePassword,
   setAdminSession,
   verifyPassword,
@@ -25,7 +23,7 @@ export function LoginForm() {
   const router = useRouter();
   const { theme } = useTheme();
   const [step, setStep] = useState<Step>("login");
-  const [localPart, setLocalPart] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -47,8 +45,7 @@ export function LoginForm() {
     setLoading(true);
 
     try {
-      const email = buildAdminEmail(localPart);
-      if (email !== ADMIN_EMAIL) {
+      if (!isValidAdminUser(username)) {
         setError("Usuario o contraseña incorrectos.");
         return;
       }
@@ -141,29 +138,22 @@ export function LoginForm() {
               <form onSubmit={onLogin} className="mt-8 space-y-5">
                 <label className="block">
                   <span className="text-xs tracking-[0.16em] text-muted uppercase">
-                    Usuario
+                    usuario
                   </span>
-                  <div className="mt-2 flex overflow-hidden border border-line bg-bg focus-within:border-accent">
-                    <input
-                      name="username"
-                      autoComplete="username"
-                      required
-                      value={localPart}
-                      onChange={(e) =>
-                        setLocalPart(e.target.value.replace(/@.*/g, ""))
-                      }
-                      placeholder="admin"
-                      className="min-w-0 flex-1 bg-transparent px-4 py-3.5 text-fg outline-none"
-                    />
-                    <span className="flex shrink-0 items-center border-l border-line bg-bg-elevated/60 px-3 text-sm text-muted">
-                      {ADMIN_DOMAIN}
-                    </span>
-                  </div>
+                  <input
+                    name="username"
+                    autoComplete="username"
+                    required
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                    placeholder="usuario"
+                    className="mt-2 w-full border border-line bg-bg px-4 py-3.5 text-fg outline-none transition focus:border-accent"
+                  />
                 </label>
 
                 <label className="block">
                   <span className="text-xs tracking-[0.16em] text-muted uppercase">
-                    Contraseña
+                    contraseña
                   </span>
                   <input
                     name="password"
@@ -172,6 +162,7 @@ export function LoginForm() {
                     required
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
+                    placeholder="contraseña"
                     className="mt-2 w-full border border-line bg-bg px-4 py-3.5 text-fg outline-none transition focus:border-accent"
                   />
                 </label>

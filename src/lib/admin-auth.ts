@@ -1,7 +1,7 @@
 /** Client-side admin gate for the marketing site (not enterprise auth). */
 
+export const ADMIN_USERNAME = "admin";
 export const ADMIN_EMAIL = "admin@atrix.com";
-export const ADMIN_DOMAIN = "@atrix.com";
 export const DEFAULT_PASSWORD = "12345678";
 
 export const AUTH_KEYS = {
@@ -18,12 +18,13 @@ export async function sha256(text: string): Promise<string> {
     .join("");
 }
 
-export function normalizeLocalPart(value: string): string {
+/** Accepts `admin` or legacy `admin@atrix.com` (domain stripped). */
+export function normalizeUsername(value: string): string {
   return value.trim().toLowerCase().replace(/@.*$/, "");
 }
 
-export function buildAdminEmail(localPart: string): string {
-  return `${normalizeLocalPart(localPart)}${ADMIN_DOMAIN}`;
+export function isValidAdminUser(value: string): boolean {
+  return normalizeUsername(value) === ADMIN_USERNAME;
 }
 
 export function getStoredPasswordHash(): string | null {
