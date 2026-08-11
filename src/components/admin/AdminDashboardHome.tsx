@@ -20,7 +20,6 @@ const QUICK_LINKS = [
   { href: "/#contacto", label: "Contacto" },
   { href: "/admin/proyectos", label: "Gestionar proyectos" },
   { href: "/admin/facturas", label: "Factura / comprobante" },
-  { href: "/admin/tarjeta", label: "Tarjeta de presentación" },
 ] as const;
 
 export function AdminDashboardHome() {
@@ -92,8 +91,8 @@ export function AdminDashboardHome() {
         />
         <SummaryCard
           label="Módulos del panel"
-          value="4"
-          hint="Dashboard · Proyecto · Factura · Tarjeta"
+          value="3"
+          hint="Dashboard · Proyecto · Factura"
         />
         <SummaryCard
           label="Usuario"
@@ -157,8 +156,8 @@ export function AdminDashboardHome() {
             </h3>
             <p className="mt-2 text-sm leading-relaxed text-muted">
               Panel interno ATRIX: vault de proyectos (secretos cifrados),
-              comprobantes PDF, editor de tarjeta y analítica. Requiere Supabase
-              service role para persistencia.
+              comprobantes PDF y analítica. Requiere Supabase service role para
+              persistencia.
             </p>
           </div>
         </section>

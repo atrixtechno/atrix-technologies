@@ -17,7 +17,6 @@ const NAV = [
   { href: "/admin", label: "Dashboard", exact: true },
   { href: "/admin/proyectos", label: "Proyecto", exact: false },
   { href: "/admin/facturas", label: "Factura", exact: false },
-  { href: "/admin/tarjeta", label: "Tarjeta presentación", exact: false },
 ] as const;
 
 function navActive(pathname: string, href: string, exact: boolean) {
