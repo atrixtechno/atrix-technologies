@@ -1,5 +1,6 @@
 import { Reveal } from "@/components/Reveal";
 import { SectionLink } from "@/components/SectionLink";
+import { SectionMedia } from "@/components/SectionMedia";
 import { pillars, promises, values } from "@/content/services";
 import { site, whatsappUrl } from "@/content/site";
 
@@ -26,7 +27,7 @@ export function Coverage() {
           <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-accent/40 to-transparent" />
         </div>
 
-        <div className="relative mx-auto grid max-w-6xl gap-10 px-5 py-14 md:grid-cols-[1.1fr_0.9fr] md:items-center md:gap-14 md:px-8 md:py-16">
+        <div className="relative mx-auto grid max-w-6xl gap-10 px-5 py-14 md:grid-cols-[1.05fr_0.95fr] md:items-center md:gap-12 md:px-8 md:py-16">
           <Reveal>
             <p className="text-xs font-semibold tracking-[0.28em] text-accent uppercase">
               Respuesta rápida
@@ -60,34 +61,56 @@ export function Coverage() {
           </Reveal>
 
           <Reveal delay={100}>
-            <ul className="grid gap-3 sm:grid-cols-2 md:grid-cols-1">
-              {cities.map((city) => (
-                <li
-                  key={city.name}
-                  className="tech-frame border border-line bg-bg/80 p-5 backdrop-blur transition hover:border-accent/35"
-                >
-                  <p className="font-display text-xl font-semibold">{city.name}</p>
-                  <p className="mt-1 text-xs font-semibold tracking-[0.16em] text-signal uppercase">
-                    {city.region}
-                  </p>
-                  <p className="mt-2 text-sm text-muted">{city.note}</p>
-                </li>
-              ))}
-            </ul>
+            <div className="space-y-4">
+              <SectionMedia
+                src="/images/home/respuesta-rapida.jpg"
+                alt="Técnico ATRIX brindando soporte profesional en sitio"
+                aspect="aspect-[16/11]"
+                sizes="(max-width: 768px) 100vw, 48vw"
+              />
+              <ul className="grid gap-3 sm:grid-cols-2">
+                {cities.map((city) => (
+                  <li
+                    key={city.name}
+                    className="tech-frame border border-line bg-bg/80 p-4 backdrop-blur transition hover:border-accent/35"
+                  >
+                    <p className="font-display text-lg font-semibold">{city.name}</p>
+                    <p className="mt-1 text-[10px] font-semibold tracking-[0.16em] text-signal uppercase">
+                      {city.region}
+                    </p>
+                    <p className="mt-1.5 text-sm text-muted">{city.note}</p>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </Reveal>
         </div>
       </div>
 
       <div className="mx-auto max-w-6xl px-5 py-16 md:px-8 md:py-20">
-        <Reveal>
-          <p className="text-xs font-semibold tracking-[0.28em] text-accent uppercase">
-            Cobertura
-          </p>
-          <h2 className="font-display mt-4 max-w-2xl text-3xl font-bold tracking-tight md:text-4xl">
-            Servicio en {site.coverage}
-          </h2>
-          <div className="animate-line mt-4 h-px w-24 bg-accent/50" />
-        </Reveal>
+        <div className="grid items-end gap-8 lg:grid-cols-[1fr_1.05fr] lg:gap-12">
+          <Reveal>
+            <p className="text-xs font-semibold tracking-[0.28em] text-accent uppercase">
+              Cobertura
+            </p>
+            <h2 className="font-display mt-4 max-w-2xl text-3xl font-bold tracking-tight md:text-4xl">
+              Servicio en {site.coverage}
+            </h2>
+            <div className="animate-line mt-4 h-px w-24 bg-accent/50" />
+            <p className="mt-4 max-w-md text-muted">
+              Operamos en la frontera con presencia local, tiempos de respuesta
+              claros y seguimiento hasta dejar tu operación estable.
+            </p>
+          </Reveal>
+          <Reveal delay={80}>
+            <SectionMedia
+              src="/images/home/cobertura-frontera.jpg"
+              alt="Cobertura ATRIX en el corredor Nuevo Laredo–Laredo"
+              aspect="aspect-[16/9]"
+              sizes="(max-width: 1024px) 100vw, 55vw"
+            />
+          </Reveal>
+        </div>
 
         <ul className="mt-10 grid gap-6 md:grid-cols-3">
           {promises.map((item, index) => (

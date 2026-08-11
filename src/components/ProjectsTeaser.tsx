@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { ProjectLogo } from "@/components/ProjectLogo";
 import { Reveal } from "@/components/Reveal";
@@ -48,15 +49,15 @@ export function ProjectsTeaser() {
           </div>
         </Reveal>
 
-        <ul className="mt-12 grid gap-4">
+        <ul className="mt-12 grid gap-5 sm:grid-cols-2">
           {projects.map((project, index) => {
             const { accent, glow } = project.theme;
             return (
               <Reveal key={project.slug} delay={index * 70}>
-                <li>
+                <li className="h-full min-w-0">
                   <Link
                     href={`/proyectos/${project.slug}`}
-                    className="project-tile group relative flex min-w-0 flex-col gap-3 overflow-hidden border px-4 py-4 transition duration-300 hover:-translate-y-0.5 sm:px-5 sm:py-5 md:flex-row md:items-center md:justify-between md:gap-8 md:px-6 md:py-6"
+                    className="project-tile group relative flex h-full min-w-0 flex-col overflow-hidden border transition duration-300 hover:-translate-y-0.5"
                     style={
                       {
                         "--project-accent": accent,
@@ -69,35 +70,43 @@ export function ProjectsTeaser() {
                         "--accent": accent,
                         borderColor: "var(--project-border)",
                         background:
-                          "linear-gradient(135deg, var(--project-tint) 0%, var(--project-tint-soft) 55%, transparent 100%)",
+                          "linear-gradient(180deg, var(--project-tint) 0%, var(--project-tint-soft) 45%, transparent 100%)",
                       } as React.CSSProperties
                     }
                   >
-                    <span
-                      className="absolute inset-y-0 left-0 w-1 bg-[var(--project-accent)] transition-all duration-300 group-hover:w-1.5"
-                      aria-hidden
-                    />
-                    <div
-                      className="pointer-events-none absolute -right-8 -top-10 h-28 w-28 rounded-full bg-[var(--project-orb)] blur-2xl transition duration-500 group-hover:scale-125"
-                      aria-hidden
-                    />
-
-                    <div className="relative flex min-w-0 items-center gap-3 sm:gap-4">
-                      {project.logo && (
-                        <ProjectLogo src={project.logo} name={project.name} size="md" />
-                      )}
-                      <div className="min-w-0">
-                        <h3 className="font-display text-lg font-semibold sm:text-xl md:text-2xl">
-                          {project.name}
-                        </h3>
-                        <p className="mt-1 text-sm font-medium text-[var(--project-accent)]">
-                          {project.sector}
-                        </p>
-                      </div>
+                    <div className="relative aspect-[16/10] w-full overflow-hidden border-b border-line/60 bg-bg">
+                      {project.previewImage ? (
+                        <Image
+                          src={project.previewImage}
+                          alt={`Vista previa de ${project.name}`}
+                          fill
+                          quality={85}
+                          className="object-cover object-top transition duration-500 group-hover:scale-[1.03]"
+                          sizes="(max-width: 640px) 100vw, 50vw"
+                        />
+                      ) : null}
+                      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-bg/80 via-transparent to-transparent" />
                     </div>
-                    <p className="relative max-w-md text-pretty text-sm text-muted md:text-right">
-                      {project.summary}
-                    </p>
+
+                    <div className="relative flex flex-1 flex-col gap-3 px-4 py-4 sm:px-5 sm:py-5">
+                      <div className="flex min-w-0 items-center gap-3">
+                        {project.logo && (
+                          <ProjectLogo src={project.logo} name={project.name} size="sm" />
+                        )}
+                        <div className="min-w-0">
+                          <h3 className="font-display text-lg font-semibold sm:text-xl">
+                            {project.name}
+                          </h3>
+                          <p className="mt-0.5 text-sm font-medium text-[var(--project-accent)]">
+                            {project.sector}
+                          </p>
+                        </div>
+                      </div>
+                      <p className="text-pretty text-sm text-muted">{project.summary}</p>
+                      <p className="mt-auto pt-1 text-sm font-semibold text-[var(--project-accent)]">
+                        Ver caso →
+                      </p>
+                    </div>
                   </Link>
                 </li>
               </Reveal>

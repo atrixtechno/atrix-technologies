@@ -39,11 +39,31 @@ export const uneteIdentityGallery = [
 ] as const;
 
 export const uneteAreas = [
-  { label: "Soporte técnico", copy: "Campo y remoto para hogares y empresas." },
-  { label: "CCTV y seguridad", copy: "Instalación, configuración y mantenimiento." },
-  { label: "Redes", copy: "Conectividad estable en oficinas y comercios." },
-  { label: "Software", copy: "Productos y herramientas que construimos." },
-  { label: "Conferencias", copy: "IA, ciberseguridad y transformación digital." },
+  {
+    label: "Soporte técnico",
+    copy: "Campo y remoto para hogares y empresas.",
+    image: "/images/unete/area-soporte.jpg",
+  },
+  {
+    label: "CCTV y seguridad",
+    copy: "Instalación, configuración y mantenimiento.",
+    image: "/images/unete/area-cctv.jpg",
+  },
+  {
+    label: "Redes",
+    copy: "Conectividad estable en oficinas y comercios.",
+    image: "/images/unete/area-redes.jpg",
+  },
+  {
+    label: "Software",
+    copy: "Productos y herramientas que construimos.",
+    image: "/images/unete/area-software.jpg",
+  },
+  {
+    label: "Conferencias",
+    copy: "IA, ciberseguridad y transformación digital.",
+    image: "/images/unete/area-conferencias.jpg",
+  },
 ] as const;
 
 export const uneteSteps = [

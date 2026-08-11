@@ -5,6 +5,7 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { PageDecor } from "@/components/PageDecor";
 import { Reveal } from "@/components/Reveal";
+import { SectionMedia } from "@/components/SectionMedia";
 import {
   conferenceAudiences,
   conferenceBenefits,
@@ -262,6 +263,17 @@ export default function ConferenciasPage() {
                 </p>
               </Reveal>
 
+              <Reveal delay={80}>
+                <div className="mt-10 sm:mt-12">
+                  <SectionMedia
+                    src="/images/conferencias/audiencia-empresas.jpg"
+                    alt="Conferencia profesional ATRIX ante audiencia empresarial"
+                    aspect="aspect-[16/9]"
+                    sizes="(max-width: 1152px) 100vw, 1152px"
+                  />
+                </div>
+              </Reveal>
+
               <div className="mt-12 grid grid-cols-1 gap-0 border-y border-line sm:mt-16 md:grid-cols-3">
                 {conferenceAudiences.map((item, index) => (
                   <Reveal key={item.id} delay={index * 90}>
@@ -377,6 +389,17 @@ export default function ConferenciasPage() {
                     Cada tema tiene audiencia, resultados esperados y formato.
                     Podemos combinar o adaptar el contenido a tu evento.
                   </p>
+                </div>
+              </Reveal>
+
+              <Reveal delay={70}>
+                <div className="mt-8 sm:mt-10">
+                  <SectionMedia
+                    src="/images/conferencias/temario-ciber.jpg"
+                    alt="Charla de ciberseguridad e inteligencia artificial ATRIX"
+                    aspect="aspect-[16/9]"
+                    sizes="(max-width: 1152px) 100vw, 1152px"
+                  />
                 </div>
               </Reveal>
 
@@ -550,8 +573,8 @@ export default function ConferenciasPage() {
                     <div className="animate-orb absolute -left-12 top-0 h-48 w-48 rounded-full bg-accent/14 blur-3xl" />
                     <div className="animate-orb-delayed absolute -right-10 bottom-0 h-52 w-52 rounded-full bg-signal/12 blur-3xl" />
                   </div>
-                  <div className="relative grid gap-8 px-5 py-10 sm:gap-10 sm:px-10 sm:py-16 md:grid-cols-[1fr_auto] md:items-end md:gap-12 md:px-16 md:py-20">
-                    <div className="max-w-2xl min-w-0">
+                  <div className="relative grid gap-0 md:grid-cols-[1.05fr_0.95fr] md:items-stretch">
+                    <div className="px-5 py-10 sm:px-10 sm:py-16 md:px-12 md:py-20 lg:px-16">
                       <ChapterMark number="05" label="Agenda tu sesión" />
                       <h2
                         id="agendar-heading"
@@ -564,22 +587,31 @@ export default function ConferenciasPage() {
                         presencial o virtual. Respondemos por WhatsApp al{" "}
                         {site.phoneDisplay}.
                       </p>
+                      <div className="mt-8 flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
+                        <a
+                          href={wa}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="btn-primary inline-flex w-full items-center justify-center rounded-full px-6 py-3.5 text-sm font-semibold sm:w-auto"
+                        >
+                          WhatsApp · {site.phoneDisplay}
+                        </a>
+                        <Link
+                          href="/#contacto"
+                          className="inline-flex w-full items-center justify-center rounded-full border border-line px-6 py-3.5 text-sm font-semibold text-fg transition hover:border-accent/40 hover:bg-bg-elevated sm:w-auto"
+                        >
+                          Formulario de contacto
+                        </Link>
+                      </div>
                     </div>
-                    <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row md:flex-col">
-                      <a
-                        href={wa}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="btn-primary inline-flex w-full items-center justify-center rounded-full px-6 py-3.5 text-sm font-semibold sm:w-auto"
-                      >
-                        WhatsApp · {site.phoneDisplay}
-                      </a>
-                      <Link
-                        href="/#contacto"
-                        className="inline-flex w-full items-center justify-center rounded-full border border-line px-6 py-3.5 text-sm font-semibold text-fg transition hover:border-accent/40 hover:bg-bg-elevated sm:w-auto"
-                      >
-                        Formulario de contacto
-                      </Link>
+                    <div className="relative min-h-[18rem] border-t border-line md:min-h-[28rem] md:border-t-0 md:border-l">
+                      <SectionMedia
+                        src="/images/conferencias/agenda-sesion.jpg"
+                        alt="Networking profesional tras una conferencia ATRIX"
+                        aspect="absolute inset-0 h-full w-full"
+                        className="border-0"
+                        sizes="(max-width: 768px) 100vw, 45vw"
+                      />
                     </div>
                   </div>
                 </div>

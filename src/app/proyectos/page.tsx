@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import type { Metadata } from "next";
 import { Header } from "@/components/Header";
@@ -84,32 +85,47 @@ export default function ProjectsIndexPage() {
               <li key={project.slug} className="min-w-0">
                 <Link
                   href={`/proyectos/${project.slug}`}
-                  className="group block h-full overflow-hidden border border-line bg-bg-elevated/50 p-5 transition hover:border-accent/40 hover:bg-bg-elevated sm:p-6 md:p-8"
+                  className="group block h-full overflow-hidden border border-line bg-bg-elevated/50 transition hover:border-accent/40 hover:bg-bg-elevated"
                   style={{
                     boxShadow: `inset 3px 0 0 ${project.theme.accent}`,
                     ["--accent" as string]: project.theme.accent,
                     ["--project-glow" as string]: project.theme.glow,
                   }}
                 >
-                  <div className="flex items-start gap-3 sm:gap-4">
-                    {project.logo && (
-                      <ProjectLogo src={project.logo} name={project.name} size="md" />
-                    )}
-                    <div className="min-w-0 flex-1">
-                      <p className="text-[10px] font-semibold tracking-[0.16em] text-muted uppercase sm:text-[11px] sm:tracking-[0.2em]">
-                        {project.sector}
-                      </p>
-                      <h2 className="font-display mt-1.5 text-xl font-bold transition group-hover:text-accent sm:mt-2 sm:text-2xl md:text-3xl">
-                        {project.name}
-                      </h2>
+                  {project.previewImage ? (
+                    <div className="relative aspect-[16/10] w-full overflow-hidden border-b border-line bg-bg">
+                      <Image
+                        src={project.previewImage}
+                        alt={`Vista previa de ${project.name}`}
+                        fill
+                        quality={85}
+                        className="object-cover object-top transition duration-500 group-hover:scale-[1.03]"
+                        sizes="(max-width: 768px) 100vw, 50vw"
+                      />
+                      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-bg-elevated/90 via-transparent to-transparent" />
                     </div>
+                  ) : null}
+                  <div className="p-5 sm:p-6 md:p-8">
+                    <div className="flex items-start gap-3 sm:gap-4">
+                      {project.logo && (
+                        <ProjectLogo src={project.logo} name={project.name} size="md" />
+                      )}
+                      <div className="min-w-0 flex-1">
+                        <p className="text-[10px] font-semibold tracking-[0.16em] text-muted uppercase sm:text-[11px] sm:tracking-[0.2em]">
+                          {project.sector}
+                        </p>
+                        <h2 className="font-display mt-1.5 text-xl font-bold transition group-hover:text-accent sm:mt-2 sm:text-2xl md:text-3xl">
+                          {project.name}
+                        </h2>
+                      </div>
+                    </div>
+                    <p className="mt-3 text-pretty text-sm leading-relaxed text-muted sm:mt-4">
+                      {project.summary}
+                    </p>
+                    <p className="mt-5 text-sm font-semibold text-accent sm:mt-6">
+                      Ver caso completo →
+                    </p>
                   </div>
-                  <p className="mt-3 text-pretty text-sm leading-relaxed text-muted sm:mt-4">
-                    {project.summary}
-                  </p>
-                  <p className="mt-5 text-sm font-semibold text-accent sm:mt-6">
-                    Ver caso completo →
-                  </p>
                 </Link>
               </li>
             ))}

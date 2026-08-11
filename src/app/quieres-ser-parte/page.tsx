@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
@@ -6,6 +7,7 @@ import { PageDecor } from "@/components/PageDecor";
 import { QuieresSerParteHero } from "@/components/QuieresSerParteHero";
 import { QuieresSerParteIdentidad } from "@/components/QuieresSerParteIdentidad";
 import { Reveal } from "@/components/Reveal";
+import { SectionMedia } from "@/components/SectionMedia";
 import { uneteAreas, unetePage, uneteSteps } from "@/content/unete";
 import { site, whatsappUrl } from "@/content/site";
 
@@ -149,16 +151,29 @@ export default function QuieresSerPartePage() {
               <ul className="mt-10 grid grid-cols-1 gap-4 sm:mt-12 sm:grid-cols-2 lg:grid-cols-5 lg:gap-3">
                 {uneteAreas.map((area, index) => (
                   <Reveal key={area.label} delay={index * 55}>
-                    <li className="group h-full border border-line bg-bg-elevated/70 px-5 py-6 transition hover:border-accent/35 hover:bg-bg-elevated">
-                      <p className="font-display text-xl font-extrabold text-accent/30 tabular-nums transition group-hover:text-accent/55">
-                        {String(index + 1).padStart(2, "0")}
-                      </p>
-                      <h3 className="font-display mt-3 text-base font-semibold sm:text-[17px]">
-                        {area.label}
-                      </h3>
-                      <p className="mt-2 text-sm leading-relaxed text-muted">
-                        {area.copy}
-                      </p>
+                    <li className="group h-full overflow-hidden border border-line bg-bg-elevated/70 transition hover:border-accent/35 hover:bg-bg-elevated">
+                      <div className="relative aspect-[16/11] w-full overflow-hidden border-b border-line bg-bg">
+                        <Image
+                          src={area.image}
+                          alt={area.label}
+                          fill
+                          quality={85}
+                          className="object-cover transition duration-500 group-hover:scale-[1.04]"
+                          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 20vw"
+                        />
+                        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-bg-elevated via-transparent to-transparent opacity-80" />
+                      </div>
+                      <div className="px-5 py-5">
+                        <p className="font-display text-xl font-extrabold text-accent/30 tabular-nums transition group-hover:text-accent/55">
+                          {String(index + 1).padStart(2, "0")}
+                        </p>
+                        <h3 className="font-display mt-2 text-base font-semibold sm:text-[17px]">
+                          {area.label}
+                        </h3>
+                        <p className="mt-2 text-sm leading-relaxed text-muted">
+                          {area.copy}
+                        </p>
+                      </div>
                     </li>
                   </Reveal>
                 ))}
@@ -173,21 +188,31 @@ export default function QuieresSerPartePage() {
             aria-labelledby="como-unirte-heading"
           >
             <div className="mx-auto max-w-6xl px-4 sm:px-5 md:px-8">
-              <Reveal>
-                <p className="text-[10px] font-semibold tracking-[0.22em] text-accent uppercase">
-                  Cómo unirte
-                </p>
-                <h2
-                  id="como-unirte-heading"
-                  className="font-display mt-3 max-w-2xl text-[1.65rem] font-bold tracking-tight sm:text-3xl md:text-4xl"
-                >
-                  Proceso claro y directo
-                </h2>
-                <p className="mt-4 max-w-xl text-[15px] leading-relaxed text-muted sm:text-base">
-                  WhatsApp para enviar tu CV al instante, o el formulario si
-                  prefieres escribir desde el sitio.
-                </p>
-              </Reveal>
+              <div className="grid items-end gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:gap-12">
+                <Reveal>
+                  <p className="text-[10px] font-semibold tracking-[0.22em] text-accent uppercase">
+                    Cómo unirte
+                  </p>
+                  <h2
+                    id="como-unirte-heading"
+                    className="font-display mt-3 max-w-2xl text-[1.65rem] font-bold tracking-tight sm:text-3xl md:text-4xl"
+                  >
+                    Proceso claro y directo
+                  </h2>
+                  <p className="mt-4 max-w-xl text-[15px] leading-relaxed text-muted sm:text-base">
+                    WhatsApp para enviar tu CV al instante, o el formulario si
+                    prefieres escribir desde el sitio.
+                  </p>
+                </Reveal>
+                <Reveal delay={80}>
+                  <SectionMedia
+                    src="/images/unete/proceso-cv.jpg"
+                    alt="Proceso profesional para unirte al equipo ATRIX"
+                    aspect="aspect-[16/10]"
+                    sizes="(max-width: 1024px) 100vw, 45vw"
+                  />
+                </Reveal>
+              </div>
 
               <ol className="mt-12 grid grid-cols-1 gap-4 md:mt-14 md:grid-cols-3 md:gap-5">
                 {uneteSteps.map((step, index) => (

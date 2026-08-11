@@ -4,6 +4,7 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { PageDecor } from "@/components/PageDecor";
 import { Reveal } from "@/components/Reveal";
+import { SectionMedia } from "@/components/SectionMedia";
 import { SoporteRemotoHero } from "@/components/SoporteRemotoHero";
 import {
   soporteIdealAudiences,
@@ -224,6 +225,14 @@ export default function SoporteRemotoPage() {
                     Al servicio de tu operación
                   </h2>
                   <div className="animate-line mt-5 h-px w-16 bg-signal/55" />
+                  <div className="mt-8">
+                    <SectionMedia
+                      src="/images/soporte/remoto-sesion.jpg"
+                      alt="Sesión de soporte remoto profesional ATRIX"
+                      aspect="aspect-[4/3]"
+                      sizes="(max-width: 1024px) 100vw, 40vw"
+                    />
+                  </div>
                 </Reveal>
                 <div className="space-y-5 border-l-2 border-signal/25 pl-5 sm:pl-6 md:pl-8">
                   {soporteRemotoPage.intro.map((paragraph, index) => (
@@ -383,21 +392,31 @@ export default function SoporteRemotoPage() {
             aria-labelledby="servicios-heading"
           >
             <div className="mx-auto max-w-6xl px-4 sm:px-5 md:px-8">
-              <Reveal>
-                <p className="text-[11px] font-semibold tracking-[0.22em] text-signal uppercase">
-                  Cobertura incluida
-                </p>
-                <h2
-                  id="servicios-heading"
-                  className="font-display mt-3 max-w-2xl text-[1.65rem] font-bold tracking-tight sm:text-3xl md:text-4xl"
-                >
-                  Servicios incluidos
-                </h2>
-                <p className="mt-4 max-w-2xl text-[15px] leading-relaxed text-muted sm:text-base md:text-lg">
-                  Cobertura remota continua para mantener equipos y sistemas
-                  estables, seguros y listos para trabajar.
-                </p>
-              </Reveal>
+              <div className="grid items-end gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:gap-12">
+                <Reveal>
+                  <p className="text-[11px] font-semibold tracking-[0.22em] text-signal uppercase">
+                    Cobertura incluida
+                  </p>
+                  <h2
+                    id="servicios-heading"
+                    className="font-display mt-3 max-w-2xl text-[1.65rem] font-bold tracking-tight sm:text-3xl md:text-4xl"
+                  >
+                    Servicios incluidos
+                  </h2>
+                  <p className="mt-4 max-w-2xl text-[15px] leading-relaxed text-muted sm:text-base md:text-lg">
+                    Cobertura remota continua para mantener equipos y sistemas
+                    estables, seguros y listos para trabajar.
+                  </p>
+                </Reveal>
+                <Reveal delay={80}>
+                  <SectionMedia
+                    src="/images/soporte/mantenimiento-flota.jpg"
+                    alt="Mantenimiento profesional de flota de equipos empresariales"
+                    aspect="aspect-[16/10]"
+                    sizes="(max-width: 1024px) 100vw, 42vw"
+                  />
+                </Reveal>
+              </div>
 
               <ul className="mt-10 grid grid-cols-1 gap-3 sm:mt-12 sm:grid-cols-2">
                 {soporteServiciosIncluidos.map((item, index) => (

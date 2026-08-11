@@ -1,6 +1,7 @@
 "use client";
 
 import { FormEvent, useEffect, useRef, useState } from "react";
+import { SectionMedia } from "@/components/SectionMedia";
 import { site, whatsappUrl } from "@/content/site";
 
 type Phase = "idle" | "loading" | "success" | "error";
@@ -105,6 +106,14 @@ export function Contact() {
             Soporte técnico, CCTV, redes, impresoras, software o IT empresarial.
             Escríbenos y te orientamos sin compromiso.
           </p>
+          <div className="mt-6 hidden md:block">
+            <SectionMedia
+              src="/images/home/contacto-escritorio.jpg"
+              alt="Escritorio profesional ATRIX listo para atender tu cotización"
+              aspect="aspect-[16/10]"
+              sizes="(max-width: 768px) 100vw, 42vw"
+            />
+          </div>
           <a
             href={whatsappUrl("Hola ATRIX, quiero cotizar un servicio.")}
             target="_blank"
