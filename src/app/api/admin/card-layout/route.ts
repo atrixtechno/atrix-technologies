@@ -3,6 +3,7 @@ import { isAdminRequest } from "@/lib/admin-api-auth";
 import {
   CARD_LAYOUT_KEY,
   DEFAULT_CARD_LAYOUT,
+  normalizeCardLayout,
   type BusinessCardLayout,
 } from "@/lib/card-layout";
 import {
@@ -50,8 +51,9 @@ export async function GET(request: Request) {
       });
     }
 
-    const layout =
-      (data?.value as BusinessCardLayout | undefined) ?? DEFAULT_CARD_LAYOUT;
+    const layout = normalizeCardLayout(
+      (data?.value as BusinessCardLayout | undefined) ?? DEFAULT_CARD_LAYOUT,
+    );
 
     return NextResponse.json({
       configured: true,
@@ -79,20 +81,22 @@ export async function PUT(request: Request) {
       return NextResponse.json({ error: "Layout inválido" }, { status: 400 });
     }
 
+    const layout = normalizeCardLayout(body.layout);
+
     if (!isSupabaseAdminConfigured()) {
       return NextResponse.json({
         saved: false,
         localOnly: true,
         message:
           "Supabase no configurado — guarda también en localStorage desde el cliente.",
-        layout: body.layout,
+        layout,
       });
     }
 
     const supabase = getSupabaseAdmin();
     const { error } = await supabase.from("site_settings").upsert({
       key: CARD_LAYOUT_KEY,
-      value: body.layout,
+      value: layout,
       updated_at: new Date().toISOString(),
     });
 
@@ -100,7 +104,7 @@ export async function PUT(request: Request) {
       return NextResponse.json({ error: error.message }, { status: 400 });
     }
 
-    return NextResponse.json({ saved: true, layout: body.layout });
+    return NextResponse.json({ saved: true, layout });
   } catch (err) {
     console.error(err);
     return NextResponse.json({ error: "Error al guardar" }, { status: 500 });
