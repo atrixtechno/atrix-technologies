@@ -6,6 +6,7 @@ import {
   DEFAULT_INVOICE_TERMS,
   PAYMENT_METHODS,
 } from "@/lib/invoice-defaults";
+import { downloadInvoicePdf } from "@/lib/invoice-pdf";
 import { Field } from "@/components/admin/AdminFormFields";
 
 type InvoiceForm = {
@@ -37,6 +38,7 @@ export function AdminInvoicesPanel() {
     { id: string; clientName: string; projectName: string; createdAt: string }[]
   >([]);
   const [saving, setSaving] = useState(false);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
   const [pdfBusy, setPdfBusy] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -121,6 +123,35 @@ export function AdminInvoicesPanel() {
     }
   }
 
+  async function deleteDraft(id: string, label: string) {
+    const ok = window.confirm(
+      `¿Eliminar el borrador de «${label}»? Esta acción no se puede deshacer.`,
+    );
+    if (!ok) return;
+
+    setDeletingId(id);
+    setError(null);
+    setMessage(null);
+    try {
+      const res = await adminFetch(`/api/admin/invoices/${id}`, {
+        method: "DELETE",
+        credentials: "same-origin",
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        throw new Error(
+          (data as { error?: string }).error || "No se pudo eliminar",
+        );
+      }
+      setMessage("Borrador eliminado.");
+      await load();
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Error al eliminar borrador");
+    } finally {
+      setDeletingId(null);
+    }
+  }
+
   async function downloadPdf() {
     if (!form.clientName.trim() || !form.projectName.trim()) {
       setError("Indica al menos cliente y proyecto para el PDF.");
@@ -129,108 +160,16 @@ export function AdminInvoicesPanel() {
     setPdfBusy(true);
     setError(null);
     try {
-      const { jsPDF } = await import("jspdf");
-      const doc = new jsPDF({ unit: "pt", format: "letter" });
-      const pageW = doc.internal.pageSize.getWidth();
-      const margin = 48;
-      let y = margin;
-
-      try {
-        const logoRes = await fetch("/brand/atrix-logo.png");
-        const blob = await logoRes.blob();
-        const dataUrl = await blobToDataUrl(blob);
-        doc.addImage(dataUrl, "PNG", margin, y, 110, 36);
-      } catch {
-        doc.setFont("helvetica", "bold");
-        doc.setFontSize(18);
-        doc.text("ATRIX Technologies", margin, y + 20);
-      }
-
-      doc.setFont("helvetica", "normal");
-      doc.setFontSize(9);
-      doc.setTextColor(100);
-      doc.text("Nuevo Laredo, Tamaulipas · Laredo, TX", pageW - margin, y + 14, {
-        align: "right",
+      const filename = await downloadInvoicePdf({
+        clientName: form.clientName,
+        projectName: form.projectName,
+        startDate: form.startDate,
+        endDate: form.endDate,
+        engineers: form.engineers,
+        paymentMethod: form.paymentMethod,
+        terms: form.terms,
+        notes: form.notes,
       });
-      doc.text("atrixnld.com", pageW - margin, y + 28, { align: "right" });
-      y += 56;
-
-      doc.setDrawColor(196, 163, 90);
-      doc.setLineWidth(1.5);
-      doc.line(margin, y, pageW - margin, y);
-      y += 28;
-
-      doc.setTextColor(20);
-      doc.setFont("helvetica", "bold");
-      doc.setFontSize(16);
-      doc.text("Comprobante de servicio", margin, y);
-      y += 28;
-
-      doc.setFontSize(11);
-      const rows: [string, string][] = [
-        ["Cliente", form.clientName],
-        ["Proyecto", form.projectName],
-        ["Inicio", form.startDate || "—"],
-        ["Finalización", form.endDate || "—"],
-        [
-          "Ingeniero(s)",
-          form.engineers.filter((e) => e.trim()).join(", ") || "—",
-        ],
-        ["Forma de pago", form.paymentMethod || "—"],
-      ];
-
-      for (const [label, value] of rows) {
-        doc.setFont("helvetica", "bold");
-        doc.setTextColor(90);
-        doc.text(`${label}:`, margin, y);
-        doc.setFont("helvetica", "normal");
-        doc.setTextColor(20);
-        const lines = doc.splitTextToSize(value, pageW - margin - 160);
-        doc.text(lines, margin + 120, y);
-        y += Math.max(18, lines.length * 14);
-      }
-
-      if (form.notes.trim()) {
-        y += 8;
-        doc.setFont("helvetica", "bold");
-        doc.setTextColor(90);
-        doc.text("Notas:", margin, y);
-        y += 14;
-        doc.setFont("helvetica", "normal");
-        doc.setTextColor(20);
-        const noteLines = doc.splitTextToSize(
-          form.notes,
-          pageW - margin * 2,
-        );
-        doc.text(noteLines, margin, y);
-        y += noteLines.length * 12 + 12;
-      }
-
-      y += 10;
-      doc.setFont("helvetica", "bold");
-      doc.setFontSize(12);
-      doc.setTextColor(20);
-      doc.text("Términos y condiciones", margin, y);
-      y += 16;
-      doc.setFont("helvetica", "normal");
-      doc.setFontSize(8.5);
-      doc.setTextColor(40);
-      const termLines = doc.splitTextToSize(
-        form.terms,
-        pageW - margin * 2,
-      );
-      for (const line of termLines) {
-        if (y > doc.internal.pageSize.getHeight() - margin) {
-          doc.addPage();
-          y = margin;
-        }
-        doc.text(line, margin, y);
-        y += 11;
-      }
-
-      const stamp = new Date().toISOString().slice(0, 10);
-      const filename = `ATRIX-comprobante-${slug(form.clientName)}-${stamp}.pdf`;
-      doc.save(filename);
       setMessage(`PDF descargado: ${filename}`);
     } catch (e) {
       setError(e instanceof Error ? e.message : "Error al generar PDF");
@@ -424,14 +363,32 @@ export function AdminInvoicesPanel() {
               </li>
             )}
             {drafts.map((d) => (
-              <li key={d.id} className="py-3 text-sm">
-                <p className="font-medium text-fg">{d.clientName}</p>
-                <p className="text-xs text-muted">{d.projectName}</p>
-                <p className="mt-1 text-[11px] text-muted">
-                  {d.createdAt
-                    ? new Date(d.createdAt).toLocaleString("es-MX")
-                    : ""}
-                </p>
+              <li
+                key={d.id}
+                className="flex items-start justify-between gap-3 py-3 text-sm"
+              >
+                <div className="min-w-0">
+                  <p className="font-medium text-fg">{d.clientName}</p>
+                  <p className="text-xs text-muted">{d.projectName}</p>
+                  <p className="mt-1 text-[11px] text-muted">
+                    {d.createdAt
+                      ? new Date(d.createdAt).toLocaleString("es-MX")
+                      : ""}
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  disabled={deletingId === d.id}
+                  onClick={() =>
+                    void deleteDraft(
+                      d.id,
+                      d.clientName || d.projectName || "borrador",
+                    )
+                  }
+                  className="shrink-0 border border-red-500/30 px-2.5 py-1 text-[11px] font-semibold text-red-400 transition hover:bg-red-500/10 disabled:opacity-50"
+                >
+                  {deletingId === d.id ? "…" : "Eliminar"}
+                </button>
               </li>
             ))}
           </ul>
@@ -439,23 +396,4 @@ export function AdminInvoicesPanel() {
       </div>
     </div>
   );
-}
-
-function slug(s: string) {
-  return s
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "")
-    .slice(0, 40);
-}
-
-function blobToDataUrl(blob: Blob): Promise<string> {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = () => resolve(String(reader.result));
-    reader.onerror = reject;
-    reader.readAsDataURL(blob);
-  });
 }
