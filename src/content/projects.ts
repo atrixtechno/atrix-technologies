@@ -253,6 +253,188 @@ export const projects: Project[] = [
     location: "Nuevo Laredo, Tamaulipas",
   },
   {
+    slug: "jonal-parfum",
+    name: "Jon Al Parfum",
+    sector: "Retail · Perfumería de lujo",
+    summary:
+      "Tienda digital de perfumes originales: catálogo curado, asesoría personalizada y envíos a toda la República desde Nuevo Laredo.",
+    result:
+      "jonalparfum.com en producción — experiencia premium, catálogo destacado, contacto multicanal y presencia lista para vender fragancias de lujo.",
+    url: "https://www.jonalparfum.com",
+    previewImage: "/projects/jonal-parfum-preview.jpg",
+    logo: "/projects/logos/jonal-parfum.png",
+    tags: [
+      "E-commerce / vitrina",
+      "UI/UX",
+      "Branding web",
+      "SEO local",
+      "Catálogo",
+      "Conversión WhatsApp",
+    ],
+    stats: [
+      { value: "100%", label: "Fragancias originales" },
+      { value: "MX", label: "Envíos a toda la República" },
+      { value: "24h", label: "Respuesta a consultas" },
+      { value: "1", label: "Marca digital premium" },
+    ],
+    story: [
+      "Jon Al Parfum necesitaba una vitrina digital a la altura de su propuesta: perfumes originales de casas prestigiosas, elegancia fronteriza y confianza para clientes en Nuevo Laredo y en todo México.",
+      "ATRIX Technologies diseñó y desarrolló el sitio www.jonalparfum.com: narrativa de lujo, catálogo destacado, consejo del día, beneficios claros (originalidad, envío, asesoría) y rutas de contacto por WhatsApp, formulario y correo.",
+      "El resultado es una presencia online lista para convertir interés en pedidos: estética premium, mensajes claros y operación comercial enfocada en fragancias auténticas.",
+    ],
+    approach: [
+      {
+        title: "Lujo accesible",
+        copy: "Tipografía, ritmo y contraste para que la marca se sienta exclusiva sin perder claridad en móvil.",
+      },
+      {
+        title: "Catálogo que vende",
+        copy: "Destacados, colección y pruebas de confianza (originalidad, envío, atención personal).",
+      },
+      {
+        title: "Conversión cercana",
+        copy: "WhatsApp, formulario y FAQ orientados a resolver dudas y cerrar pedidos.",
+      },
+    ],
+    deliverables: [
+      {
+        title: "Landing premium",
+        copy: "Hero, historia, destacados, por qué elegirnos, contacto y FAQ en un solo flujo.",
+      },
+      {
+        title: "Identidad digital",
+        copy: "Sistema visual alineado a perfumería de lujo y marca Jon Al Parfum.",
+      },
+      {
+        title: "Catálogo vitrina",
+        copy: "Selección exclusiva y camino a ver toda la colección.",
+      },
+      {
+        title: "SEO y metadatos",
+        copy: "Títulos, descripciones y Open Graph listos para compartir y descubrir.",
+      },
+      {
+        title: "Contacto comercial",
+        copy: "WhatsApp, correo, ubicación y formulario para pedidos y consultas.",
+      },
+    ],
+    lead: {
+      name: "Ing. Néstor J. Resendiz",
+      role: "Dirección técnica · Ingeniero de Tecnologías de la Información · ATRIX Technologies",
+      badges: ["Ingeniería", "E-commerce"],
+      copy: [
+        "Diseño y desarrollo de la plataforma Jon Al Parfum: experiencia de marca, catálogo y canales de conversión para retail de lujo en Nuevo Laredo.",
+        "Enfoque: sitio en producción, visualmente premium y listo para asesorar y vender fragancias originales con envío nacional.",
+      ],
+    },
+    highlights: [
+      "Sitio premium en www.jonalparfum.com con narrativa de lujo olfativo",
+      "Catálogo destacado y colección curada de fragancias originales",
+      "Envíos a toda la República Mexicana desde Nuevo Laredo",
+      "Asesoría por WhatsApp, formulario y correo",
+      "SEO local y Open Graph para compartir la marca",
+    ],
+    stackNote: "Next.js · Vercel · Supabase · SEO · WhatsApp",
+    seoTitle: "Jon Al Parfum — tienda digital de perfumes de lujo",
+    seoDescription:
+      "Caso ATRIX Technologies: sitio web de Jon Al Parfum en Nuevo Laredo con catálogo de perfumes originales, envíos nacionales y conversión por WhatsApp.",
+    keywords: [
+      "Jon Al Parfum",
+      "jonalparfum.com",
+      "perfumes Nuevo Laredo",
+      "perfumería de lujo México",
+      "tienda online fragancias",
+      "ATRIX Technologies",
+      "e-commerce perfumes",
+    ],
+    theme: {
+      bg: "#0c0a0f",
+      bgElevated: "#16131c",
+      fg: "#f7f1e8",
+      muted: "#b9a99a",
+      accent: "#c4a574",
+      accentInk: "#0c0a0f",
+      glow: "rgba(196,165,116,0.22)",
+    },
+    themeDark: {
+      bg: "#07060a",
+      bgElevated: "#12101a",
+      fg: "#f7f1e8",
+      muted: "#a89888",
+      accent: "#d4b896",
+      accentInk: "#0c0a0f",
+      glow: "rgba(212,184,150,0.26)",
+    },
+    challenge:
+      "Una perfumería de lujo en la frontera necesita verse tan exclusiva online como en el mostrador, generar confianza sobre originalidad y facilitar pedidos con envío nacional.",
+    solution:
+      "Construimos una vitrina digital premium: historia de marca, catálogo curado, pruebas de valor y contacto directo para asesoría y ventas.",
+    impact: [
+      "Presencia digital alineada a retail de lujo",
+      "Canal claro para consultas y pedidos en todo México",
+      "Marca lista para crecer catálogo y campañas",
+    ],
+    modules: [
+      {
+        title: "Hero de marca",
+        copy: "Propuesta de lujo olfativo, envíos nacionales y confianza desde el primer viewport.",
+      },
+      {
+        title: "Historia",
+        copy: "Elegancia desde la frontera: autenticidad, criterio y atención personalizada.",
+      },
+      {
+        title: "Destacados",
+        copy: "Selección exclusiva de fragancias con camino a la colección completa.",
+      },
+      {
+        title: "Confianza",
+        copy: "Originalidad, envío nacional y asesoría — argumentos de compra claros.",
+      },
+      {
+        title: "Contacto",
+        copy: "WhatsApp, formulario, correo y cobertura de envíos.",
+      },
+      {
+        title: "FAQ",
+        copy: "Respuestas sobre originalidad, tiempos de entrega y pedidos especiales.",
+      },
+    ],
+    technologies: [
+      { name: "Next.js", role: "Sitio público rápido y SEO-friendly" },
+      { name: "React", role: "UI de catálogo, contacto y experiencia móvil" },
+      { name: "Vercel", role: "Hosting, HTTPS y despliegue continuo" },
+      { name: "Supabase Storage", role: "Imágenes de producto y assets de marca" },
+      { name: "SEO / Open Graph", role: "Metadatos y preview al compartir" },
+      { name: "WhatsApp Business", role: "Canal principal de asesoría y pedidos" },
+    ],
+    process: [
+      {
+        title: "Descubrimiento",
+        copy: "Definimos tono de lujo, catálogo, envíos y rutas de conversión.",
+      },
+      {
+        title: "Diseño",
+        copy: "Identidad digital, jerarquía tipográfica y vitrina de fragancias.",
+      },
+      {
+        title: "Desarrollo",
+        copy: "Landing, destacados, contacto, FAQ y assets de producto.",
+      },
+      {
+        title: "Lanzamiento",
+        copy: "Producción en jonalparfum.com, SEO y canales de venta activos.",
+      },
+    ],
+    persuasion: [
+      "Tu marca de lujo también puede verse premium en la web — y vender con claridad.",
+      "ATRIX conecta diseño, catálogo y WhatsApp para que el cliente pase de curiosidad a pedido.",
+      "Ideal para retail especializado que quiere presencia nacional sin perder el trato personal.",
+    ],
+    year: "2026",
+    location: "Nuevo Laredo, Tamaulipas · Envíos a todo México",
+  },
+  {
     slug: "grupo-gi-casa-de-cambio",
     name: "Grupo GI Casa de Cambio",
     sector: "Finanzas · Casa de cambio",
