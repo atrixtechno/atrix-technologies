@@ -36,7 +36,7 @@ export function ProjectsTeaser() {
               </h2>
               <div className="animate-line mt-3 h-px w-16 bg-accent/50 sm:w-20" />
               <p className="mt-3 max-w-lg text-sm text-muted sm:text-[15px]">
-                Sitios, paneles y apps a la medida. Estos son algunos casos.
+                Sitios, paneles y apps a la medida. Desliza la lista para ver más casos.
               </p>
             </div>
             <Link
@@ -48,72 +48,88 @@ export function ProjectsTeaser() {
           </div>
         </Reveal>
 
-        <ul className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-3 lg:gap-4">
-          {projects.map((project, index) => {
-            const { accent, glow } = project.theme;
-            return (
-              <Reveal key={project.slug} delay={Math.min(index * 50, 200)}>
-                <li className="h-full min-w-0">
-                  <Link
-                    href={`/proyectos/${project.slug}`}
-                    className="project-tile group relative flex h-full min-w-0 flex-col overflow-hidden border transition duration-300 hover:-translate-y-0.5"
-                    style={
-                      {
-                        "--project-accent": accent,
-                        "--project-glow": glow,
-                        "--project-tint": hexToRgba(accent, 0.14),
-                        "--project-tint-soft": hexToRgba(accent, 0.04),
-                        "--project-border": hexToRgba(accent, 0.28),
-                        "--project-border-hover": hexToRgba(accent, 0.5),
-                        "--project-orb": hexToRgba(accent, 0.22),
-                        "--accent": accent,
-                        borderColor: "var(--project-border)",
-                        background:
-                          "linear-gradient(180deg, var(--project-tint) 0%, var(--project-tint-soft) 45%, transparent 100%)",
-                      } as React.CSSProperties
-                    }
-                  >
-                    <div className="relative aspect-[16/8] w-full overflow-hidden border-b border-line/60 bg-bg">
-                      {project.previewImage ? (
-                        <Image
-                          src={project.previewImage}
-                          alt={`Vista previa de ${project.name}`}
-                          fill
-                          quality={80}
-                          className="object-cover object-top transition duration-500 group-hover:scale-[1.03]"
-                          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                        />
-                      ) : null}
-                      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-bg/70 via-transparent to-transparent" />
-                    </div>
+        <Reveal delay={60}>
+          <div className="relative mt-7 sm:mt-8">
+            <div
+              className="software-scroll max-h-[22.5rem] overflow-y-auto overscroll-contain border border-line bg-bg-elevated/30 sm:max-h-[24rem]"
+              tabIndex={0}
+              aria-label="Lista de proyectos de software. Desliza para ver más."
+            >
+              <ul className="divide-y divide-line">
+                {projects.map((project) => {
+                  const { accent, glow } = project.theme;
+                  return (
+                    <li key={project.slug} className="min-w-0">
+                      <Link
+                        href={`/proyectos/${project.slug}`}
+                        className="project-tile group relative flex min-h-[10.5rem] gap-3 overflow-hidden px-3 py-3 transition hover:bg-bg-elevated/70 sm:min-h-[11rem] sm:gap-4 sm:px-4 sm:py-3.5"
+                        style={
+                          {
+                            "--project-accent": accent,
+                            "--project-glow": glow,
+                            "--project-tint": hexToRgba(accent, 0.1),
+                            "--project-border": hexToRgba(accent, 0.28),
+                            "--accent": accent,
+                            boxShadow: `inset 3px 0 0 ${accent}`,
+                            background:
+                              "linear-gradient(90deg, var(--project-tint) 0%, transparent 42%)",
+                          } as React.CSSProperties
+                        }
+                      >
+                        <div className="relative hidden h-[8.75rem] w-[11.5rem] shrink-0 overflow-hidden border border-line/70 bg-bg sm:block">
+                          {project.previewImage ? (
+                            <Image
+                              src={project.previewImage}
+                              alt=""
+                              fill
+                              quality={75}
+                              className="object-cover object-top transition duration-500 group-hover:scale-[1.03]"
+                              sizes="184px"
+                            />
+                          ) : null}
+                        </div>
 
-                    <div className="relative flex flex-1 flex-col gap-1.5 px-3.5 py-3 sm:px-4 sm:py-3.5">
-                      <div className="flex min-w-0 items-center gap-2.5">
-                        {project.logo && (
-                          <ProjectLogo src={project.logo} name={project.name} size="sm" />
-                        )}
-                        <div className="min-w-0">
-                          <h3 className="font-display truncate text-[15px] font-semibold sm:text-base">
-                            {project.name}
-                          </h3>
-                          <p className="truncate text-[11px] font-medium text-[var(--project-accent)] sm:text-xs">
-                            {project.sector}
+                        <div className="relative flex min-w-0 flex-1 flex-col justify-center gap-1.5 py-0.5">
+                          <div className="flex min-w-0 items-center gap-2.5">
+                            {project.logo && (
+                              <ProjectLogo
+                                src={project.logo}
+                                name={project.name}
+                                size="sm"
+                              />
+                            )}
+                            <div className="min-w-0">
+                              <h3 className="font-display truncate text-[15px] font-semibold sm:text-base">
+                                {project.name}
+                              </h3>
+                              <p className="truncate text-[11px] font-medium text-[var(--project-accent)] sm:text-xs">
+                                {project.sector}
+                              </p>
+                            </div>
+                          </div>
+                          <p className="line-clamp-2 text-pretty text-xs leading-relaxed text-muted sm:text-[13px]">
+                            {project.summary}
+                          </p>
+                          <p className="text-xs font-semibold text-[var(--project-accent)]">
+                            Ver caso →
                           </p>
                         </div>
-                      </div>
-                      <p className="line-clamp-2 text-pretty text-xs leading-relaxed text-muted sm:text-[13px]">
-                        {project.summary}
-                      </p>
-                      <p className="mt-auto pt-1 text-xs font-semibold text-[var(--project-accent)]">
-                        Ver caso →
-                      </p>
-                    </div>
-                  </Link>
-                </li>
-              </Reveal>
-            );
-          })}
-        </ul>
+                      </Link>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+
+            <div
+              className="pointer-events-none absolute inset-x-0 bottom-0 h-10 bg-gradient-to-t from-bg via-bg/70 to-transparent"
+              aria-hidden
+            />
+            <p className="mt-3 text-center text-[11px] tracking-[0.16em] text-muted uppercase">
+              Desliza para ver más · {projects.length} proyectos
+            </p>
+          </div>
+        </Reveal>
       </div>
     </section>
   );

@@ -487,6 +487,24 @@ video {
   will-change: transform;
 }
 
+.software-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in oklab, var(--accent) 55%, transparent) transparent;
+}
+
+.software-scroll::-webkit-scrollbar {
+  width: 6px;
+}
+
+.software-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.software-scroll::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background: color-mix(in oklab, var(--accent) 55%, transparent);
+}
+
 @media (prefers-reduced-motion: reduce) {
   .animate-rise,
   .animate-rise-delay,
