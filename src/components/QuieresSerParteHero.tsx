@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { Logo } from "@/components/Logo";
 import { useTheme } from "@/components/ThemeProvider";
@@ -24,8 +23,8 @@ export function QuieresSerParteHero({ whatsappHref }: Props) {
         <div className="grid-tech absolute inset-0 opacity-30" />
       </div>
 
-      <div className="relative mx-auto grid max-w-6xl items-center gap-10 px-4 pb-14 pt-28 sm:gap-12 sm:px-5 sm:pb-16 sm:pt-32 md:grid-cols-[1.05fr_0.95fr] md:gap-14 md:px-8 md:pb-20 md:pt-36 lg:gap-16">
-        <div className="animate-rise order-2 min-w-0 md:order-1">
+      <div className="relative mx-auto max-w-6xl px-4 pb-14 pt-28 sm:px-5 sm:pb-16 sm:pt-32 md:px-8 md:pb-20 md:pt-36">
+        <div className="animate-rise max-w-3xl">
           <div className="animate-fade-scale relative mb-6 w-full max-w-[10.5rem] sm:mb-8 sm:max-w-[13rem] md:max-w-[16rem]">
             <div className="animate-glow pointer-events-none absolute inset-0 -m-4 rounded-full bg-[radial-gradient(circle,rgba(26,107,255,0.28),transparent_70%)] blur-2xl" />
             <Logo
@@ -63,41 +62,10 @@ export function QuieresSerParteHero({ whatsappHref }: Props) {
             >
               Completar formulario
             </Link>
-            <a
-              href="#uniforme"
-              className="text-center text-sm font-medium text-muted underline-offset-4 transition hover:text-accent hover:underline sm:text-left"
-            >
-              Ver el uniforme →
-            </a>
           </div>
           <p className="mt-5 text-sm text-muted">
             {site.coverage} · Equipo tech en crecimiento
           </p>
-        </div>
-
-        <div className="animate-fade-scale order-1 md:order-2">
-          <div className="relative overflow-hidden border border-line bg-[#0a0c10] shadow-[0_24px_80px_-28px_rgba(26,107,255,0.45)]">
-            <div className="pointer-events-none absolute inset-x-0 top-0 z-10 h-px bg-gradient-to-r from-transparent via-accent/70 to-transparent" />
-            <div className="relative aspect-[3/2] w-full">
-              <Image
-                src="/brand/atrix-uniforme.png"
-                alt="Uniforme ATRIX Technologies: polo, gorra y hoodie con marca"
-                fill
-                priority
-                quality={95}
-                className="object-cover object-center"
-                sizes="(max-width: 768px) 100vw, 48vw"
-              />
-            </div>
-            <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/75 via-black/25 to-transparent px-4 pb-4 pt-16 sm:px-5 sm:pb-5">
-              <p className="text-[10px] font-semibold tracking-[0.2em] text-accent uppercase">
-                Identidad de equipo
-              </p>
-              <p className="mt-1 text-sm font-medium text-white/95">
-                Polo · Gorra · Hoodie — marca ATRIX
-              </p>
-            </div>
-          </div>
         </div>
       </div>
     </section>

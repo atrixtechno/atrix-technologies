@@ -126,57 +126,6 @@ export default function QuieresSerPartePage() {
         <main className="atmosphere relative z-10 min-h-screen">
           <QuieresSerParteHero whatsappHref={wa} />
 
-          {/* Uniform — HD showcase, image first */}
-          <section
-            id="uniforme"
-            className="relative scroll-mt-24 border-b border-line bg-[#06080c]"
-            aria-labelledby="uniforme-heading"
-          >
-            <div className="mx-auto max-w-6xl px-4 py-12 sm:px-5 sm:py-16 md:px-8 md:py-20">
-              <Reveal>
-                <div className="mb-8 flex flex-col gap-4 sm:mb-10 sm:flex-row sm:items-end sm:justify-between">
-                  <div className="max-w-xl">
-                    <p className="text-[10px] font-semibold tracking-[0.22em] text-accent uppercase sm:text-xs">
-                      Identidad del equipo
-                    </p>
-                    <h2
-                      id="uniforme-heading"
-                      className="font-display mt-3 text-[1.65rem] font-bold tracking-tight text-white sm:text-3xl md:text-4xl"
-                    >
-                      Así se ve ATRIX
-                    </h2>
-                    <p className="mt-3 text-pretty text-[15px] leading-relaxed text-white/65 sm:text-base">
-                      {unetePage.uniformCaption}
-                    </p>
-                  </div>
-                  <p className="text-[11px] tracking-[0.16em] text-white/40 uppercase">
-                    Alta definición · Marca oficial
-                  </p>
-                </div>
-              </Reveal>
-
-              <Reveal delay={80}>
-                <figure className="relative overflow-hidden border border-white/10 bg-black shadow-[0_40px_100px_-40px_rgba(26,107,255,0.55)]">
-                  <div className="pointer-events-none absolute inset-x-0 top-0 z-10 h-px bg-gradient-to-r from-transparent via-accent to-transparent" />
-                  <div className="relative aspect-[3/2] w-full sm:aspect-[16/10]">
-                    <Image
-                      src="/brand/atrix-uniforme.png"
-                      alt="Uniforme ATRIX: polo negro, gorra y hoodie con logo plateado y acentos azul eléctrico"
-                      fill
-                      quality={100}
-                      priority
-                      className="object-contain object-center p-2 sm:p-4 md:p-6"
-                      sizes="(max-width: 1152px) 100vw, 1152px"
-                    />
-                  </div>
-                  <figcaption className="border-t border-white/10 bg-black/60 px-4 py-3 text-center text-xs text-white/55 sm:px-6 sm:text-sm">
-                    Polo · Gorra · Hoodie — branding ATRIX Technologies · atrixnld.com
-                  </figcaption>
-                </figure>
-              </Reveal>
-            </div>
-          </section>
-
           {/* Areas */}
           <section
             className="border-b border-line py-14 md:py-20"
@@ -212,6 +161,43 @@ export default function QuieresSerPartePage() {
                   </Reveal>
                 ))}
               </ul>
+            </div>
+          </section>
+
+          {/* Credibilidad — uniforme como señal, no como protagonista */}
+          <section
+            className="border-b border-line py-12 md:py-16"
+            aria-labelledby="credibilidad-heading"
+          >
+            <div className="mx-auto max-w-6xl px-4 sm:px-5 md:px-8">
+              <Reveal>
+                <div className="grid items-center gap-8 md:grid-cols-[minmax(0,14rem)_1fr] md:gap-12 lg:grid-cols-[minmax(0,16rem)_1fr]">
+                  <div className="relative mx-auto aspect-[3/2] w-full max-w-[16rem] overflow-hidden border border-line bg-[#0a0c10] md:mx-0">
+                    <Image
+                      src="/brand/atrix-uniforme.png"
+                      alt="Uniforme ATRIX Technologies"
+                      fill
+                      quality={100}
+                      className="object-cover object-center"
+                      sizes="(max-width: 768px) 256px, 280px"
+                    />
+                  </div>
+                  <div className="min-w-0 text-center md:text-left">
+                    <p className="text-[10px] font-semibold tracking-[0.22em] text-accent uppercase">
+                      Cómo trabajamos
+                    </p>
+                    <h2
+                      id="credibilidad-heading"
+                      className="font-display mt-3 text-xl font-bold tracking-tight sm:text-2xl"
+                    >
+                      Vamos en serio
+                    </h2>
+                    <p className="mt-3 max-w-lg text-pretty text-[15px] leading-relaxed text-muted sm:text-base md:mx-0 md:max-w-xl">
+                      {unetePage.uniformCaption}
+                    </p>
+                  </div>
+                </div>
+              </Reveal>
             </div>
           </section>
 

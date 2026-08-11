@@ -4,7 +4,7 @@ export const unetePage = {
   lead:
     "Buscamos personas con actitud técnica y profesionalismo. Soporte, CCTV, redes, software y conferencias en Nuevo Laredo y Laredo, TX.",
   uniformCaption:
-    "El uniforme ATRIX representa cómo trabajamos: serio, ordenado y reconocible. Polo, gorra y hoodie con la marca que ves en cada visita y proyecto.",
+    "Así nos presentamos en campo y en cliente: con orden y profesionalismo. El uniforme es una señal de que vamos en serio.",
   whatsappMessage:
     "Hola ATRIX Technologies, quiero unirme al equipo. Les envío mi CV / estoy interesado(a) en formar parte de ATRIX.",
 } as const;
