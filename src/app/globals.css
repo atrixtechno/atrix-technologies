@@ -473,6 +473,20 @@ video {
   animation: line-draw 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
+@keyframes marquee-rtl {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.marquee-track {
+  animation: marquee-rtl var(--marquee-duration, 40s) linear infinite;
+  will-change: transform;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .animate-rise,
   .animate-rise-delay,
@@ -489,7 +503,8 @@ video {
   .project-cta-pulse,
   .project-preview-float,
   .project-stat-value,
-  .project-section-line {
+  .project-section-line,
+  .marquee-track {
     animation: none;
   }
 

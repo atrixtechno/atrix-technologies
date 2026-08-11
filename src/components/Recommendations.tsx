@@ -1,3 +1,4 @@
+import { Marquee } from "@/components/Marquee";
 import { Reveal } from "@/components/Reveal";
 import {
   recommendations,
@@ -13,21 +14,13 @@ function QuoteIcon({ className }: { className?: string }) {
   );
 }
 
-function FacebookMark({ className }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="currentColor" aria-hidden>
-      <path d="M14 13.5h2.5l1-4H14v-2c0-1.03 0-2 2-2h1.5V2.14C17.174 2.097 15.943 2 14.643 2 11.928 2 10 3.657 10 6.7v2.8H7v4h3V22h4v-8.5Z" />
-    </svg>
-  );
-}
-
 export function Recommendations() {
   const { summary } = recommendationsPage;
 
   return (
     <section
       id="recomendaciones"
-      className="relative scroll-mt-10 border-t border-line py-24 md:py-28"
+      className="relative scroll-mt-10 overflow-hidden border-t border-line py-20 md:py-28"
       aria-labelledby="recomendaciones-heading"
     >
       <div className="pointer-events-none absolute inset-0" aria-hidden>
@@ -36,87 +29,85 @@ export function Recommendations() {
       </div>
 
       <div className="relative mx-auto max-w-6xl px-5 md:px-8">
-        <div className="grid items-end gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:gap-12">
-          <Reveal>
-            <p className="text-xs font-semibold tracking-[0.28em] text-accent uppercase">
-              {recommendationsPage.eyebrow}
-            </p>
-            <h2
-              id="recomendaciones-heading"
-              className="font-display mt-4 max-w-2xl text-3xl font-bold tracking-tight md:text-5xl"
-            >
-              {recommendationsPage.title}
-            </h2>
-            <div className="animate-line mt-4 h-px w-24 bg-accent/50" />
-            <p className="mt-4 max-w-xl text-muted">{recommendationsPage.lead}</p>
-          </Reveal>
-
-          <Reveal delay={80}>
-            <div className="grid grid-cols-2 gap-3 sm:gap-4">
-              <div className="border border-line bg-bg-elevated/60 px-4 py-5 sm:px-5">
-                <p className="font-display text-2xl font-extrabold tracking-tight text-accent sm:text-3xl">
+        <Reveal>
+          <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+            <div className="max-w-2xl">
+              <p className="text-xs font-semibold tracking-[0.28em] text-accent uppercase">
+                Recomendaciones
+              </p>
+              <h2
+                id="recomendaciones-heading"
+                className="font-display mt-4 text-3xl font-bold tracking-tight md:text-5xl"
+              >
+                {recommendationsPage.title}
+              </h2>
+              <div className="animate-line mt-4 h-px w-24 bg-accent/50" />
+              <p className="mt-4 text-muted">{recommendationsPage.lead}</p>
+            </div>
+            <div className="flex flex-wrap gap-3">
+              <div className="border border-line bg-bg-elevated/60 px-4 py-3">
+                <p className="font-display text-xl font-extrabold text-accent tabular-nums">
                   100%
                 </p>
-                <p className="mt-1 text-xs font-semibold tracking-[0.14em] text-muted uppercase">
-                  {summary.scoreLabel.replace("100% ", "")}
+                <p className="text-[10px] font-semibold tracking-[0.14em] text-muted uppercase">
+                  {summary.scoreLabel}
                 </p>
               </div>
-              <div className="border border-line bg-bg-elevated/60 px-4 py-5 sm:px-5">
-                <p className="font-display text-2xl font-extrabold tracking-tight sm:text-3xl">
+              <div className="border border-line bg-bg-elevated/60 px-4 py-3">
+                <p className="font-display text-xl font-extrabold tabular-nums">
                   {summary.reviewCount}
                 </p>
-                <p className="mt-1 text-xs font-semibold tracking-[0.14em] text-muted uppercase">
-                  Reseñas en Facebook
+                <p className="text-[10px] font-semibold tracking-[0.14em] text-muted uppercase">
+                  En Facebook
                 </p>
               </div>
             </div>
-          </Reveal>
-        </div>
+          </div>
+        </Reveal>
+      </div>
 
-        <ul className="mt-12 grid gap-4 sm:mt-14 sm:grid-cols-2 lg:grid-cols-3">
-          {recommendations.map((item, index) => (
-            <Reveal key={`${item.name}-${index}`} delay={index * 70}>
-              <li className="flex h-full flex-col border border-line bg-bg-elevated/45 p-5 transition hover:border-accent/35 sm:p-6">
-                <QuoteIcon className="h-7 w-7 text-accent/35" />
-                <p className="mt-4 flex-1 text-sm leading-relaxed text-fg md:text-[15px]">
-                  “{item.excerpt}”
-                </p>
-                <div className="mt-6 border-t border-line pt-4">
-                  <p className="font-display text-base font-semibold">{item.name}</p>
-                  <p className="mt-1 flex items-center gap-1.5 text-xs font-medium text-signal">
-                    <span aria-hidden>✓</span>
-                    Recomienda ATRIX · {item.source}
-                  </p>
-                </div>
-              </li>
-            </Reveal>
-          ))}
+      <div className="relative mt-10 md:mt-14">
+        <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-10 bg-gradient-to-r from-bg to-transparent sm:w-16 md:w-24" />
+        <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-10 bg-gradient-to-l from-bg to-transparent sm:w-16 md:w-24" />
 
-          <Reveal delay={recommendations.length * 70}>
-            <li className="flex h-full flex-col justify-between border border-dashed border-line bg-bg/40 p-5 sm:p-6">
-              <div>
-                <div className="inline-flex h-10 w-10 items-center justify-center border border-line bg-bg-elevated text-[#1877F2]">
-                  <FacebookMark className="h-5 w-5" />
-                </div>
-                <h3 className="font-display mt-4 text-lg font-semibold">
-                  Más opiniones en Facebook
-                </h3>
-                <p className="mt-2 text-sm leading-relaxed text-muted">
-                  Lee las {summary.reviewCount} recomendaciones públicas de{" "}
-                  {site.name} y deja la tuya si ya trabajaste con nosotros.
+        <Marquee duration={55} className="py-1">
+          {recommendations.map((item) => (
+            <article
+              key={`${item.name}-${item.focus ?? "r"}`}
+              className="flex w-[min(85vw,22rem)] shrink-0 flex-col border border-line bg-bg-elevated/55 p-5 sm:w-[24rem] sm:p-6"
+            >
+              <div className="flex items-start justify-between gap-3">
+                <QuoteIcon className="h-7 w-7 shrink-0 text-accent/35" />
+                {item.focus ? (
+                  <span className="rounded-full border border-line px-2.5 py-1 text-[10px] font-semibold tracking-[0.14em] text-muted uppercase">
+                    {item.focus}
+                  </span>
+                ) : null}
+              </div>
+              <p className="mt-4 flex-1 text-sm leading-relaxed text-fg md:text-[15px]">
+                “{item.excerpt}”
+              </p>
+              <div className="mt-5 border-t border-line pt-4">
+                <p className="font-display text-base font-semibold">{item.name}</p>
+                <p className="mt-1 text-xs font-medium text-signal">
+                  ✓ Recomienda ATRIX
+                  {item.source === "Facebook" ? " · Facebook" : ""}
                 </p>
               </div>
-              <a
-                href={recommendationsPage.facebookUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn-primary mt-6 inline-flex w-full items-center justify-center rounded-full px-5 py-3 text-sm font-semibold"
-              >
-                {recommendationsPage.facebookLabel}
-              </a>
-            </li>
-          </Reveal>
-        </ul>
+            </article>
+          ))}
+        </Marquee>
+      </div>
+
+      <div className="relative mx-auto mt-10 max-w-6xl px-5 text-center md:px-8">
+        <a
+          href={recommendationsPage.facebookUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center justify-center rounded-full border border-line px-6 py-3 text-sm font-semibold text-fg transition hover:border-accent/40 hover:bg-bg-elevated"
+        >
+          {recommendationsPage.facebookLabel} · {site.name}
+        </a>
       </div>
     </section>
   );

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Header } from "@/components/Header";
 import { Hero } from "@/components/Hero";
+import { TrustedCompanies } from "@/components/TrustedCompanies";
 import { Services } from "@/components/Services";
 import { Coverage } from "@/components/Coverage";
 import { Benefits } from "@/components/Benefits";
@@ -168,6 +169,7 @@ export default function HomePage() {
         <Header solid />
         <main className="relative z-10">
           <Hero />
+          <TrustedCompanies />
           <Services />
           <Coverage />
           <Benefits />
