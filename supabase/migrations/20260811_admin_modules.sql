@@ -73,3 +73,7 @@ alter table public.site_settings enable row level security;
 -- Bucket sugerido (crear en Dashboard → Storage si se usan uploads):
 -- name: project-assets
 -- public: true (solo logos/assets de proyecto; secretos van cifrados en DB)
+--
+-- Contratos PDF (migración 20260812_admin_project_contract.sql):
+-- name: project-contracts
+-- public: false — descarga vía URL firmada en /api/admin/projects/[id]/contract

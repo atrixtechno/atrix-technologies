@@ -89,6 +89,7 @@ export function AdminProjectsPanel() {
   const [message, setMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [uploading, setUploading] = useState(false);
+  const [contractBusy, setContractBusy] = useState(false);
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -174,6 +175,75 @@ export function AdminProjectsPanel() {
       setError(e instanceof Error ? e.message : "Error al subir imagen");
     } finally {
       setUploading(false);
+    }
+  }
+
+  async function handleContractUpload(projectId: string, file: File) {
+    setContractBusy(true);
+    setError(null);
+    setMessage(null);
+    try {
+      const fd = new FormData();
+      fd.set("file", file);
+      const res = await adminFetch(`/api/admin/projects/${projectId}/contract`, {
+        method: "POST",
+        body: fd,
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Error al subir el contrato");
+      setMessage(data.message || "Contrato PDF guardado.");
+      await load();
+      if (data.project?.id) {
+        setSelectedId(data.project.id);
+      }
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Error al subir el contrato");
+    } finally {
+      setContractBusy(false);
+    }
+  }
+
+  async function handleContractDownload(projectId: string) {
+    setContractBusy(true);
+    setError(null);
+    try {
+      const res = await adminFetch(`/api/admin/projects/${projectId}/contract`, {
+        method: "GET",
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "No se pudo abrir el contrato");
+      if (!data.downloadUrl) throw new Error("No hay enlace de descarga");
+      window.open(data.downloadUrl, "_blank", "noopener,noreferrer");
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Error al descargar el contrato");
+    } finally {
+      setContractBusy(false);
+    }
+  }
+
+  async function handleContractDelete(projectId: string) {
+    if (
+      !window.confirm(
+        "¿Eliminar el contrato PDF de este proyecto? Esta acción no se puede deshacer.",
+      )
+    ) {
+      return;
+    }
+    setContractBusy(true);
+    setError(null);
+    setMessage(null);
+    try {
+      const res = await adminFetch(`/api/admin/projects/${projectId}/contract`, {
+        method: "DELETE",
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "No se pudo eliminar el contrato");
+      setMessage(data.message || "Contrato eliminado.");
+      await load();
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Error al eliminar el contrato");
+    } finally {
+      setContractBusy(false);
     }
   }
 
@@ -433,6 +503,14 @@ export function AdminProjectsPanel() {
                   <Info label="Base de datos" value={selected.dbPlatform} />
                   <Info label="Deploy" value={selected.deployPlatform} />
                 </dl>
+
+                <ContractSection
+                  project={selected}
+                  busy={contractBusy}
+                  onUpload={(file) => void handleContractUpload(selected.id, file)}
+                  onDownload={() => void handleContractDownload(selected.id)}
+                  onDelete={() => void handleContractDelete(selected.id)}
+                />
               </div>
             )}
 
@@ -647,6 +725,27 @@ export function AdminProjectsPanel() {
                     automáticamente a +1 año.
                   </p>
                 </Section>
+
+                {mode === "edit" && selectedId && (
+                  <div className="border-t border-line pt-5">
+                    <ContractSection
+                      project={
+                        projects.find((p) => p.id === selectedId) ?? {
+                          id: selectedId,
+                          contractUrl: null,
+                          contractFilename: null,
+                          contractUploadedAt: null,
+                        }
+                      }
+                      busy={contractBusy}
+                      onUpload={(file) =>
+                        void handleContractUpload(selectedId, file)
+                      }
+                      onDownload={() => void handleContractDownload(selectedId)}
+                      onDelete={() => void handleContractDelete(selectedId)}
+                    />
+                  </div>
+                )}
               </form>
             )}
           </div>
@@ -662,5 +761,111 @@ function Info({ label, value }: { label: string; value: string | null }) {
       <dt className="text-xs tracking-[0.12em] text-muted uppercase">{label}</dt>
       <dd className="mt-1 text-fg">{value || "—"}</dd>
     </div>
+  );
+}
+
+type ContractProjectBits = {
+  id: string;
+  contractUrl: string | null;
+  contractFilename: string | null;
+  contractUploadedAt: string | null;
+};
+
+function ContractSection({
+  project,
+  busy,
+  onUpload,
+  onDownload,
+  onDelete,
+}: {
+  project: ContractProjectBits;
+  busy: boolean;
+  onUpload: (file: File) => void;
+  onDownload: () => void;
+  onDelete: () => void;
+}) {
+  const hasContract = Boolean(project.contractUrl);
+
+  return (
+    <section className="space-y-3 border border-line bg-bg/40 p-4">
+      <div>
+        <h3 className="text-xs font-semibold tracking-[0.16em] text-muted uppercase">
+          Contrato PDF
+        </h3>
+        <p className="mt-1 text-xs text-muted">
+          Documento guardado de forma privada con el proyecto (máx. 10 MB).
+        </p>
+      </div>
+
+      {hasContract ? (
+        <div className="space-y-3">
+          <p className="text-sm text-fg">
+            <span className="font-medium">
+              {project.contractFilename || "contrato.pdf"}
+            </span>
+            {project.contractUploadedAt && (
+              <span className="mt-0.5 block text-xs text-muted">
+                Subido: {project.contractUploadedAt.slice(0, 10)}
+              </span>
+            )}
+          </p>
+          <div className="flex flex-wrap gap-2">
+            <button
+              type="button"
+              disabled={busy}
+              onClick={onDownload}
+              className="rounded-full border border-line px-4 py-2 text-sm font-semibold text-fg disabled:opacity-50"
+            >
+              Ver / Descargar contrato
+            </button>
+            <label
+              className={`inline-flex cursor-pointer rounded-full bg-accent px-4 py-2 text-sm font-semibold text-accent-ink ${
+                busy ? "pointer-events-none opacity-50" : ""
+              }`}
+            >
+              {busy ? "Procesando…" : "Reemplazar PDF"}
+              <input
+                type="file"
+                accept="application/pdf,.pdf"
+                className="sr-only"
+                disabled={busy}
+                onChange={(e) => {
+                  const f = e.target.files?.[0];
+                  e.target.value = "";
+                  if (f) onUpload(f);
+                }}
+              />
+            </label>
+            <button
+              type="button"
+              disabled={busy}
+              onClick={onDelete}
+              className="rounded-full border border-red-500/40 px-4 py-2 text-sm font-semibold text-red-600 disabled:opacity-50 dark:text-red-300"
+            >
+              Eliminar contrato
+            </button>
+          </div>
+        </div>
+      ) : (
+        <label
+          className={`inline-flex cursor-pointer rounded-full bg-accent px-4 py-2 text-sm font-semibold text-accent-ink ${
+            busy ? "pointer-events-none opacity-50" : ""
+          }`}
+        >
+          {busy ? "Subiendo…" : "Subir contrato (PDF)"}
+          <input
+            type="file"
+            accept="application/pdf,.pdf"
+            className="sr-only"
+            disabled={busy}
+            onChange={(e) => {
+              const f = e.target.files?.[0];
+              e.target.value = "";
+              if (f) onUpload(f);
+            }}
+          />
+        </label>
+      )}
+    </section>
   );
 }

@@ -24,6 +24,10 @@ export type AdminProjectRow = {
   deploy_password_enc: string | null;
   domain_registered_at: string | null;
   domain_renews_at: string | null;
+  /** Storage object path in private bucket (not a public URL). Optional until migration. */
+  contract_url?: string | null;
+  contract_filename?: string | null;
+  contract_uploaded_at?: string | null;
   created_at: string;
   updated_at: string;
 };
@@ -48,6 +52,10 @@ export type AdminProjectPublic = {
   deployPassword: string | null;
   domainRegisteredAt: string | null;
   domainRenewsAt: string | null;
+  /** Storage path; use downloadUrl from contract API or signed URL when present. */
+  contractUrl: string | null;
+  contractFilename: string | null;
+  contractUploadedAt: string | null;
   daysUntilRenewal: number | null;
   renewalStatus: "ok" | "warn" | "danger" | "none";
   createdAt: string;
@@ -140,6 +148,9 @@ export function toPublicProject(row: AdminProjectRow): AdminProjectPublic {
     deployPassword: decryptSecret(row.deploy_password_enc),
     domainRegisteredAt: row.domain_registered_at,
     domainRenewsAt: row.domain_renews_at,
+    contractUrl: row.contract_url ?? null,
+    contractFilename: row.contract_filename ?? null,
+    contractUploadedAt: row.contract_uploaded_at ?? null,
     daysUntilRenewal: days,
     renewalStatus: renewalStatus(days),
     createdAt: row.created_at,
@@ -180,6 +191,9 @@ export function seedRowsFromSiteContent(): Omit<
     deploy_password_enc: null,
     domain_registered_at: null,
     domain_renews_at: null,
+    contract_url: null,
+    contract_filename: null,
+    contract_uploaded_at: null,
   }));
 }
 

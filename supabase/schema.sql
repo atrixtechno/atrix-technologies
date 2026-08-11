@@ -72,6 +72,9 @@ create table if not exists public.admin_projects (
   deploy_password_enc text,
   domain_registered_at date,
   domain_renews_at date,
+  contract_url text,
+  contract_filename text,
+  contract_uploaded_at timestamptz,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
