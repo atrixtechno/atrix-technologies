@@ -17,6 +17,26 @@ const LOCKUP = {
   displayW: 168,
 } as const;
 
+/** Page geometry (pt) */
+const MARGIN = 52;
+const FOOTER_RESERVED = 44;
+const CONT_HEADER_H = 28;
+
+/** Typography (pt) — readable sizes, not micro T&C */
+const FONT = {
+  title: 15,
+  section: 9,
+  body: 10,
+  label: 8.5,
+  meta: 8.5,
+  terms: 9.5,
+  termsLeading: 13,
+  noteLeading: 13,
+  footer: 7.5,
+  sigTitle: 9,
+  sigLabel: 8,
+} as const;
+
 export type InvoicePdfInput = {
   clientName: string;
   projectName: string;
@@ -79,36 +99,87 @@ async function loadLockupDataUrl(): Promise<string | null> {
   }
 }
 
-function ensureSpace(doc: jsPDF, y: number, need: number, margin: number) {
-  const pageH = doc.internal.pageSize.getHeight();
-  if (y + need > pageH - margin - 36) {
-    doc.addPage();
-    return margin;
-  }
-  return y;
+/** Split on blank lines first; fall back to single newlines so each block stays intact. */
+function splitParagraphs(text: string): string[] {
+  const normalized = text.replace(/\r\n/g, "\n").trim();
+  if (!normalized) return [];
+  const byBlank = normalized
+    .split(/\n\s*\n+/)
+    .map((p) => p.replace(/\n+/g, " ").trim())
+    .filter(Boolean);
+  if (byBlank.length > 1) return byBlank;
+  return normalized
+    .split(/\n+/)
+    .map((p) => p.trim())
+    .filter(Boolean);
+}
+
+function pageBottom(doc: jsPDF): number {
+  return doc.internal.pageSize.getHeight() - MARGIN - FOOTER_RESERVED;
+}
+
+function drawContinuationHeader(
+  doc: jsPDF,
+  pageW: number,
+  folio: string,
+) {
+  const y = MARGIN;
+  doc.setFont("helvetica", "bold");
+  doc.setFontSize(FONT.meta);
+  doc.setTextColor(...NAVY);
+  doc.text("ATRIX Technologies", MARGIN, y + 10);
+
+  doc.setFont("helvetica", "normal");
+  doc.setFontSize(FONT.meta);
+  doc.setTextColor(...MUTED);
+  doc.text("Comprobante de servicio (continuación)", pageW / 2, y + 10, {
+    align: "center",
+  });
+  doc.text(`Folio  ${folio}`, pageW - MARGIN, y + 10, { align: "right" });
+
+  doc.setDrawColor(...ACCENT);
+  doc.setLineWidth(1.5);
+  doc.line(MARGIN, y + 18, pageW - MARGIN, y + 18);
+}
+
+/**
+ * Ensures `need` pt of vertical room below `y`.
+ * If not enough, starts a new page with a slim continuation header.
+ * Returns the y cursor where content should continue.
+ */
+function ensureBlockSpace(
+  doc: jsPDF,
+  y: number,
+  need: number,
+  folio: string,
+  pageW: number,
+): number {
+  if (y + need <= pageBottom(doc)) return y;
+  doc.addPage();
+  drawContinuationHeader(doc, pageW, folio);
+  return MARGIN + CONT_HEADER_H;
 }
 
 function drawFooter(
   doc: jsPDF,
   pageW: number,
   pageH: number,
-  margin: number,
   pageLabel: string,
 ) {
-  const fy = pageH - 28;
+  const fy = pageH - 26;
   doc.setDrawColor(...LINE);
   doc.setLineWidth(0.6);
-  doc.line(margin, fy - 12, pageW - margin, fy - 12);
+  doc.line(MARGIN, fy - 12, pageW - MARGIN, fy - 12);
 
   doc.setFont("helvetica", "normal");
-  doc.setFontSize(7);
+  doc.setFontSize(FONT.footer);
   doc.setTextColor(...MUTED);
   doc.text(
     "ATRIX Technologies · atrixnld.com · Nuevo Laredo / Laredo, TX · 867 179 3155",
-    margin,
+    MARGIN,
     fy,
   );
-  doc.text(pageLabel, pageW - margin, fy, { align: "right" });
+  doc.text(pageLabel, pageW - MARGIN, fy, { align: "right" });
 }
 
 function drawSignatureBlock(
@@ -119,23 +190,60 @@ function drawSignatureBlock(
   title: string,
 ) {
   doc.setFont("helvetica", "bold");
-  doc.setFontSize(8);
+  doc.setFontSize(FONT.sigTitle);
   doc.setTextColor(...NAVY);
   doc.text(title, x, y);
 
-  const lineY = y + 36;
+  const lineY = y + 40;
   doc.setDrawColor(...NAVY);
   doc.setLineWidth(0.7);
   doc.line(x, lineY, x + width, lineY);
 
   doc.setFont("helvetica", "normal");
-  doc.setFontSize(7);
+  doc.setFontSize(FONT.sigLabel);
   doc.setTextColor(...MUTED);
-  const labelY = lineY + 12;
+  const labelY = lineY + 14;
   const third = width / 3;
   doc.text("Nombre", x, labelY);
   doc.text("Firma", x + third, labelY);
   doc.text("Fecha", x + third * 2, labelY);
+}
+
+/**
+ * Draws a paragraph as an atomic block (never mid-paragraph page break).
+ * Returns the y after the paragraph (including trailing gap).
+ */
+function drawParagraphBlock(
+  doc: jsPDF,
+  text: string,
+  y: number,
+  opts: {
+    folio: string;
+    pageW: number;
+    contentW: number;
+    fontSize: number;
+    leading: number;
+    gapAfter: number;
+  },
+): number {
+  doc.setFont("helvetica", "normal");
+  doc.setFontSize(opts.fontSize);
+  const lines = doc.splitTextToSize(text, opts.contentW) as string[];
+  const blockH = lines.length * opts.leading;
+
+  let cursor = ensureBlockSpace(
+    doc,
+    y,
+    blockH + 2,
+    opts.folio,
+    opts.pageW,
+  );
+
+  doc.setFont("helvetica", "normal");
+  doc.setFontSize(opts.fontSize);
+  doc.setTextColor(...INK);
+  doc.text(lines, MARGIN, cursor);
+  return cursor + blockH + opts.gapAfter;
 }
 
 /**
@@ -149,9 +257,8 @@ export async function downloadInvoicePdf(
   const doc = new jsPDF({ unit: "pt", format: "letter" });
   const pageW = doc.internal.pageSize.getWidth();
   const pageH = doc.internal.pageSize.getHeight();
-  const margin = 48;
-  const contentW = pageW - margin * 2;
-  let y = margin;
+  const contentW = pageW - MARGIN * 2;
+  let y = MARGIN;
 
   const now = new Date();
   const folio = makeFolio(now);
@@ -169,7 +276,7 @@ export async function downloadInvoicePdf(
     doc.addImage(
       logoData,
       "PNG",
-      margin,
+      MARGIN,
       y,
       LOCKUP.displayW,
       lockupH,
@@ -180,42 +287,42 @@ export async function downloadInvoicePdf(
     doc.setFont("helvetica", "bold");
     doc.setFontSize(16);
     doc.setTextColor(...NAVY);
-    doc.text("ATRIX Technologies", margin, y + 22);
+    doc.text("ATRIX Technologies", MARGIN, y + 22);
   }
 
   doc.setFont("helvetica", "normal");
-  doc.setFontSize(8);
+  doc.setFontSize(FONT.meta);
   doc.setTextColor(...MUTED);
-  const rightX = pageW - margin;
+  const rightX = pageW - MARGIN;
   doc.text("Nuevo Laredo, Tamaulipas", rightX, y + 10, { align: "right" });
   doc.text("Laredo, Texas", rightX, y + 22, { align: "right" });
   doc.setTextColor(...ACCENT);
   doc.setFont("helvetica", "bold");
   doc.text("atrixnld.com", rightX, y + 34, { align: "right" });
 
-  y += Math.max(lockupH, 40) + 14;
+  y += Math.max(lockupH, 40) + 16;
 
   /* Accent rule */
   doc.setDrawColor(...ACCENT);
   doc.setLineWidth(2);
-  doc.line(margin, y, pageW - margin, y);
+  doc.line(MARGIN, y, pageW - MARGIN, y);
   doc.setDrawColor(...LINE);
   doc.setLineWidth(0.5);
-  doc.line(margin, y + 3.5, pageW - margin, y + 3.5);
-  y += 22;
+  doc.line(MARGIN, y + 3.5, pageW - MARGIN, y + 3.5);
+  y += 24;
 
   /* ── Document title + meta ── */
   doc.setFont("helvetica", "bold");
-  doc.setFontSize(15);
+  doc.setFontSize(FONT.title);
   doc.setTextColor(...NAVY);
-  doc.text("COMPROBANTE DE SERVICIO", margin, y);
+  doc.text("COMPROBANTE DE SERVICIO", MARGIN, y);
 
   doc.setFont("helvetica", "normal");
-  doc.setFontSize(8);
+  doc.setFontSize(FONT.meta);
   doc.setTextColor(...MUTED);
   doc.text(`Folio  ${folio}`, rightX, y - 6, { align: "right" });
   doc.text(`Generado  ${generatedLabel}`, rightX, y + 8, { align: "right" });
-  y += 22;
+  y += 26;
 
   /* ── Details table ── */
   const engineers =
@@ -231,121 +338,128 @@ export async function downloadInvoicePdf(
 
   const labelCol = 130;
   const rowPadX = 12;
-  const rowPadY = 8;
+  const rowPadY = 9;
   const valueMaxW = contentW - labelCol - rowPadX * 2;
 
   doc.setFont("helvetica", "bold");
-  doc.setFontSize(8);
+  doc.setFontSize(FONT.section);
   doc.setTextColor(...ACCENT);
-  doc.text("DATOS DEL SERVICIO", margin, y);
-  y += 10;
+  doc.text("DATOS DEL SERVICIO", MARGIN, y);
+  y += 12;
 
   for (let i = 0; i < rows.length; i++) {
     const [label, value] = rows[i];
     doc.setFont("helvetica", "normal");
-    doc.setFontSize(9.5);
+    doc.setFontSize(FONT.body);
     const valueLines = doc.splitTextToSize(value, valueMaxW) as string[];
-    const rowH = Math.max(22, valueLines.length * 12 + rowPadY * 2);
+    const rowH = Math.max(24, valueLines.length * 13 + rowPadY * 2);
 
-    y = ensureSpace(doc, y, rowH + 2, margin);
+    y = ensureBlockSpace(doc, y, rowH + 2, folio, pageW);
 
     if (i % 2 === 0) {
       doc.setFillColor(...ROW_BG);
-      doc.rect(margin, y, contentW, rowH, "F");
+      doc.rect(MARGIN, y, contentW, rowH, "F");
     }
 
     doc.setDrawColor(...LINE);
     doc.setLineWidth(0.4);
-    doc.line(margin, y + rowH, pageW - margin, y + rowH);
+    doc.line(MARGIN, y + rowH, pageW - MARGIN, y + rowH);
 
-    const textY = y + rowPadY + 10;
+    const textY = y + rowPadY + 11;
     doc.setFont("helvetica", "bold");
-    doc.setFontSize(8);
+    doc.setFontSize(FONT.label);
     doc.setTextColor(...MUTED);
-    doc.text(label.toUpperCase(), margin + rowPadX, textY);
+    doc.text(label.toUpperCase(), MARGIN + rowPadX, textY);
 
     doc.setFont("helvetica", "normal");
-    doc.setFontSize(9.5);
+    doc.setFontSize(FONT.body);
     doc.setTextColor(...INK);
-    doc.text(valueLines, margin + labelCol, textY);
+    doc.text(valueLines, MARGIN + labelCol, textY);
 
     y += rowH;
   }
 
-  /* ── Notes ── */
+  /* ── Notes (paragraph-aware) ── */
   if (input.notes.trim()) {
-    y += 16;
-    y = ensureSpace(doc, y, 40, margin);
+    y += 18;
+    const noteParas = splitParagraphs(input.notes);
+    const headingNeed = 22;
+    y = ensureBlockSpace(doc, y, headingNeed, folio, pageW);
+
     doc.setFont("helvetica", "bold");
-    doc.setFontSize(8);
+    doc.setFontSize(FONT.section);
     doc.setTextColor(...ACCENT);
-    doc.text("NOTAS", margin, y);
-    y += 10;
-    doc.setFont("helvetica", "normal");
-    doc.setFontSize(9);
-    doc.setTextColor(...INK);
-    const noteLines = doc.splitTextToSize(
-      input.notes.trim(),
-      contentW,
-    ) as string[];
-    for (const line of noteLines) {
-      y = ensureSpace(doc, y, 14, margin);
-      doc.text(line, margin, y);
-      y += 12;
+    doc.text("NOTAS", MARGIN, y);
+    y += 14;
+
+    for (const para of noteParas) {
+      y = drawParagraphBlock(doc, para, y, {
+        folio,
+        pageW,
+        contentW,
+        fontSize: FONT.body,
+        leading: FONT.noteLeading,
+        gapAfter: 10,
+      });
     }
   }
 
-  /* ── Terms ── */
-  y += 18;
-  y = ensureSpace(doc, y, 40, margin);
+  /* ── Terms (paragraph-aware — never split mid-paragraph) ── */
+  y += 20;
+  y = ensureBlockSpace(doc, y, 28, folio, pageW);
+
   doc.setFont("helvetica", "bold");
-  doc.setFontSize(8);
+  doc.setFontSize(FONT.section);
   doc.setTextColor(...ACCENT);
-  doc.text("TÉRMINOS Y CONDICIONES", margin, y);
-  y += 12;
+  doc.text("TÉRMINOS Y CONDICIONES", MARGIN, y);
+  y += 10;
 
   doc.setDrawColor(...LINE);
   doc.setLineWidth(0.5);
-  doc.line(margin, y - 4, pageW - margin, y - 4);
+  doc.line(MARGIN, y, pageW - MARGIN, y);
+  y += 14;
 
-  doc.setFont("helvetica", "normal");
-  doc.setFontSize(7.5);
-  doc.setTextColor(...INK);
-  const termLines = doc.splitTextToSize(input.terms, contentW) as string[];
-  for (const line of termLines) {
-    y = ensureSpace(doc, y, 12, margin);
-    doc.text(line, margin, y);
-    y += 10;
+  const termParas = splitParagraphs(input.terms);
+  for (const para of termParas) {
+    y = drawParagraphBlock(doc, para, y, {
+      folio,
+      pageW,
+      contentW,
+      fontSize: FONT.terms,
+      leading: FONT.termsLeading,
+      gapAfter: 12,
+    });
   }
 
-  /* ── Signatures ── */
-  y += 28;
-  const sigBlockH = 64;
-  y = ensureSpace(doc, y, sigBlockH + 8, margin);
+  /* ── Signatures (atomic — full block or new page) ── */
+  y += 16;
+  const sigHeadingH = 16;
+  const sigBlockH = 72;
+  const sigNeed = sigHeadingH + sigBlockH + 8;
+  y = ensureBlockSpace(doc, y, sigNeed, folio, pageW);
 
   doc.setFont("helvetica", "bold");
-  doc.setFontSize(8);
+  doc.setFontSize(FONT.section);
   doc.setTextColor(...ACCENT);
-  doc.text("FIRMAS", margin, y);
-  y += 14;
+  doc.text("FIRMAS", MARGIN, y);
+  y += sigHeadingH;
 
   const gap = 28;
   const sigW = (contentW - gap) / 2;
-  drawSignatureBlock(doc, margin, y, sigW, "Firma del cliente");
+  drawSignatureBlock(doc, MARGIN, y, sigW, "Firma del cliente");
   drawSignatureBlock(
     doc,
-    margin + sigW + gap,
+    MARGIN + sigW + gap,
     y,
     sigW,
     "Firma del ingeniero",
   );
-  y += sigBlockH;
 
   /* Footers on every page */
   const total = doc.getNumberOfPages();
   for (let p = 1; p <= total; p++) {
     doc.setPage(p);
-    drawFooter(doc, pageW, pageH, margin, `Pág. ${p}/${total}`);
+    drawFooter(doc, pageW, pageH, `Pág. ${p}/${total}`);
   }
 
   const stamp = now.toISOString().slice(0, 10);
