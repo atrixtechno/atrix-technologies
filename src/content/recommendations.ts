@@ -1,10 +1,10 @@
 import { site } from "@/content/site";
 
 export const recommendationsPage = {
-  eyebrow: "Personas que confían en nosotros",
+  eyebrow: "Recomendaciones",
   title: "Personas que confían en nosotros",
   lead:
-    "Recomendaciones de clientes que ya trabajaron con ATRIX. Atención, velocidad y resultados que se notan.",
+    "Opiniones reales de clientes en nuestra página de Facebook. Atención, velocidad y resultados que se notan.",
   facebookLabel: "Ver reseñas en Facebook",
   facebookUrl: site.facebookReviews,
   summary: {
@@ -17,80 +17,70 @@ export const recommendationsPage = {
 export type Recommendation = {
   name: string;
   excerpt: string;
-  focus?: string;
-  source: "Facebook" | "Cliente";
+  source: "Facebook";
   recommends: boolean;
 };
 
-/**
- * Reseñas mostradas en el landing (marquee).
- * Jonathan Ruiz: texto público de Facebook.
- * El resto: recomendaciones de clientes para completar el carrusel;
- * reemplázalas con el texto exacto de Facebook cuando esté disponible.
- */
+/** Reseñas públicas de Facebook · ATRIX (atrixnld). */
 export const recommendations: Recommendation[] = [
   {
     name: "Jonathan Ruiz",
     recommends: true,
     source: "Facebook",
-    focus: "Desarrollo web",
     excerpt:
       "Muy buen servicio. 100% Recomendado, si quieres una página web para tu negocio o emprendimiento sin duda es una excelente opción. Excelente atención, tiempo de respuesta rápida, muy accesible, trabajos súper rápidos y muy bien elaborados.",
   },
   {
-    name: "María González",
+    name: "Lisseth Mancilla",
     recommends: true,
-    source: "Cliente",
-    focus: "CCTV",
+    source: "Facebook",
     excerpt:
-      "Instalaron las cámaras en el negocio y desde el celular veo todo. Quedó limpio, explicaron el sistema y respondieron rápido cuando tuve dudas.",
+      "Excelente servicio, atención y calidad 10000/10. Sin duda es una gran opción para trabajos de calidad profesional.",
   },
   {
-    name: "Carlos Mendoza",
+    name: "César De León",
     recommends: true,
-    source: "Cliente",
-    focus: "Soporte técnico",
+    source: "Facebook",
     excerpt:
-      "Mi laptop estaba lentísima y en poco tiempo la dejaron lista. Atención seria, precios accesibles y sin rodeos. Los recomiendo totalmente.",
+      "Súper recomendados siempre con buena actitud, entregan en tiempo y toman en cuenta todos los detalles. 10/10.",
   },
   {
-    name: "Ana Patricia Reyes",
+    name: "Janett Rebro",
     recommends: true,
-    source: "Cliente",
-    focus: "Redes",
+    source: "Facebook",
     excerpt:
-      "En la oficina el WiFi fallaba en varias áreas. ATRIX ordenó la red y ahora trabajamos sin caídas. Se nota que saben lo que hacen.",
+      "Muy recomendado. Siempre responden rápido, te atienden muy bien y buscan la mejor solución. Se mira su profesionalismo y calidad. ATRIX es una excelente opción para un servicio de alta calidad.",
   },
   {
-    name: "Luis Hernández",
+    name: "Diego Olivares",
     recommends: true,
-    source: "Cliente",
-    focus: "Software",
-    excerpt:
-      "Nos hicieron el sistema a la medida y se nota el detalle. Comunicación clara, entregas a tiempo y soporte después del lanzamiento.",
+    source: "Facebook",
+    excerpt: "Excelente servicio, muy atentos. 10/10.",
   },
   {
-    name: "Diana Flores",
+    name: "Fátima Moreno",
     recommends: true,
-    source: "Cliente",
-    focus: "IT empresarial",
-    excerpt:
-      "Contratamos soporte remoto para la empresa y ya no perdemos tiempo con fallas. Disponibles cuando los necesitamos y muy profesionales.",
+    source: "Facebook",
+    excerpt: "Excelente atención al cliente.",
   },
   {
-    name: "Roberto Salinas",
+    name: "ALe Ruiz",
     recommends: true,
-    source: "Cliente",
-    focus: "Impresoras",
-    excerpt:
-      "Teníamos problemas con la impresora de la oficina cada semana. La configuraron bien y desde entonces trabaja sin drama. Excelente servicio.",
+    source: "Facebook",
+    excerpt: "Muy buena atención y respuesta inmediata.",
   },
   {
-    name: "Sofía Ramírez",
+    name: "Carla Zuñiga",
     recommends: true,
-    source: "Cliente",
-    focus: "Conferencias",
+    source: "Facebook",
     excerpt:
-      "La plática de IA para el equipo fue clara y práctica. Sin humo, con ejemplos reales. Ideal para empresas que quieren actualizarse de verdad.",
+      "Muy buen servicio. Me atendió muy bien, aclaró todas mis dudas y respondió rápido. Sin duda alguna los recomiendo.",
+  },
+  {
+    name: "Citlali Díaz",
+    recommends: true,
+    source: "Facebook",
+    excerpt:
+      "Me encanta su trabajo, la verdad es muy atento con los clientes. Me gustó mucho tanto el servicio como el trabajo.",
   },
 ];

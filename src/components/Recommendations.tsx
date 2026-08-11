@@ -73,16 +73,14 @@ export function Recommendations() {
         <Marquee duration={55} className="py-1">
           {recommendations.map((item) => (
             <article
-              key={`${item.name}-${item.focus ?? "r"}`}
+              key={item.name}
               className="flex w-[min(85vw,22rem)] shrink-0 flex-col border border-line bg-bg-elevated/55 p-5 sm:w-[24rem] sm:p-6"
             >
               <div className="flex items-start justify-between gap-3">
                 <QuoteIcon className="h-7 w-7 shrink-0 text-accent/35" />
-                {item.focus ? (
-                  <span className="rounded-full border border-line px-2.5 py-1 text-[10px] font-semibold tracking-[0.14em] text-muted uppercase">
-                    {item.focus}
-                  </span>
-                ) : null}
+                <span className="rounded-full border border-line px-2.5 py-1 text-[10px] font-semibold tracking-[0.14em] text-muted uppercase">
+                  Facebook
+                </span>
               </div>
               <p className="mt-4 flex-1 text-sm leading-relaxed text-fg md:text-[15px]">
                 “{item.excerpt}”
@@ -90,8 +88,7 @@ export function Recommendations() {
               <div className="mt-5 border-t border-line pt-4">
                 <p className="font-display text-base font-semibold">{item.name}</p>
                 <p className="mt-1 text-xs font-medium text-signal">
-                  ✓ Recomienda ATRIX
-                  {item.source === "Facebook" ? " · Facebook" : ""}
+                  ✓ Recomienda ATRIX · Facebook
                 </p>
               </div>
             </article>
