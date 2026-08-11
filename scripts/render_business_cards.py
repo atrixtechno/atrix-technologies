@@ -425,29 +425,84 @@ def render_front() -> Image.Image:
     return img
 
 
+def draw_footer_frame(
+    draw: ImageDraw.ImageDraw,
+    x0: int,
+    y0: int,
+    x1: int,
+    y1: int,
+    radius: int = 28,
+) -> None:
+    """Professional dual-stroke footer frame with soft fill (ATRIX corner aesthetic)."""
+    fill = (244, 247, 252)
+    draw.rounded_rectangle((x0, y0, x1, y1), radius=radius, fill=fill)
+    # Outer navy — solid architectural edge
+    draw.rounded_rectangle((x0, y0, x1, y1), radius=radius, outline=NAVY, width=6)
+    # Clear gap + inner blue track (readable dual-line at print scale)
+    inset = 13
+    draw.rounded_rectangle(
+        (x0 + inset, y0 + inset, x1 - inset, y1 - inset),
+        radius=max(12, radius - 10),
+        outline=BLUE,
+        width=4,
+    )
+
+
+def measure_wrapped(
+    draw: ImageDraw.ImageDraw,
+    text: str,
+    fnt: ImageFont.ImageFont,
+    max_w: int,
+    line_gap: int = 4,
+) -> tuple[list[str], int, int]:
+    """Return wrapped lines, block width, and block height."""
+    words = text.split()
+    lines: list[str] = []
+    cur = ""
+    for word in words:
+        trial = f"{cur} {word}".strip()
+        tw, _ = text_size(draw, trial, fnt)
+        if tw <= max_w:
+            cur = trial
+        else:
+            if cur:
+                lines.append(cur)
+            cur = word
+    if cur:
+        lines.append(cur)
+    if not lines:
+        return [], 0, 0
+    widths = [text_size(draw, ln, fnt)[0] for ln in lines]
+    heights = [text_size(draw, ln, fnt)[1] for ln in lines]
+    return lines, max(widths), sum(heights) + line_gap * (len(lines) - 1)
+
+
 def render_back() -> Image.Image:
-    """Reverse: 2×3 service grid fills height between header and footer (print-readable)."""
+    """Reverse: 2×3 service grid + refined footer band (print-readable)."""
     img = Image.new("RGB", (W, H), WHITE)
     draw = ImageDraw.Draw(img)
 
-    wm = load_mark_watermark(780, opacity=11)
-    img.paste(wm, (W - wm.width - 8, (H - wm.height) // 2 - 40), wm)
+    wm = load_mark_watermark(760, opacity=10)
+    img.paste(wm, (W - wm.width - 20, (H - wm.height) // 2 - 28), wm)
 
-    # Match reference: TL + BR corners (no BL)
-    paint_corner(draw, "tl", size=300, band=50)
-    paint_corner(draw, "br", size=320, band=52)
+    # Match reference: TL + BR corners (BR painted again after footer so it overlaps frame)
+    paint_corner(draw, "tl", size=292, band=48)
 
-    title_f = font(FONT_BLACK, 64)
-    sub_f = font(FONT_BOLD, 34)
+    # —— Header ——
+    title_f = font(FONT_BLACK, 60)
+    sub_f = font(FONT_BOLD, 32)
     t1 = "SOLUCIONES TECNOLÓGICAS"
     t2 = "PARA HOGARES Y EMPRESAS"
+    header_top = SAFE + 2
     tw, th1 = text_size(draw, t1, title_f)
-    draw.text(((W - tw) // 2, SAFE - 4), t1, fill=NAVY, font=title_f)
+    draw.text(((W - tw) // 2, header_top), t1, fill=NAVY, font=title_f)
     tw2, th2 = text_size(draw, t2, sub_f)
-    sub_y = SAFE - 4 + th1 + 14
+    sub_y = header_top + th1 + 12
     draw.text(((W - tw2) // 2, sub_y), t2, fill=MUTED, font=sub_f)
-    rule_y = sub_y + th2 + 10
-    draw.line([(W // 2 - 90, rule_y), (W // 2 + 90, rule_y)], fill=BLUE, width=4)
+    rule_y = sub_y + th2 + 14
+    # Dual accent rule under header
+    draw.line([(W // 2 - 110, rule_y), (W // 2 + 110, rule_y)], fill=BLUE, width=5)
+    draw.line([(W // 2 - 48, rule_y + 8), (W // 2 + 48, rule_y + 8)], fill=NAVY, width=2)
 
     services = [
         ("monitor", C_SOPORTE, "SOPORTE TÉCNICO", "Computadoras, Laptops Mantenimiento y Reparación"),
@@ -458,86 +513,113 @@ def render_back() -> Image.Image:
         ("printer", C_PRINT, "IMPRESORAS Y PERIFÉRICOS", "Instalación, Configuración y Soporte"),
     ]
 
-    # Compact footer — sits close under the 2×3 grid (no empty mid band)
-    bar_m = SAFE + 6
-    bar_h = 168
-    bar_y1 = H - SAFE + 4
+    # —— Footer band: equal thirds, circular marks + text as one aligned row ——
+    bar_m = SAFE + 12
+    bar_h = 198
+    bar_y1 = H - SAFE + 2
     bar_y0 = bar_y1 - bar_h
-    grid_top = rule_y + 18
+
+    grid_top = rule_y + 22
     grid_bottom = bar_y0 - 18
-    margin_x = SAFE + 10
+    margin_x = SAFE + 14
     usable_w = W - margin_x * 2
     cols, rows = 3, 2
     cell_w = usable_w // cols
     cell_h = (grid_bottom - grid_top) // rows
 
-    title_font = font(FONT_BOLD, 36)
-    desc_font = font(FONT_REG, 28)
-    icon_s = 78
+    title_font = font(FONT_BOLD, 34)
+    desc_font = font(FONT_REG, 26)
+    icon_s = 72
 
-    # Grid separators
+    # Soft grid separators (inset so they don't collide with corners)
+    sep = (220, 226, 236)
     for c in range(1, cols):
         sx = margin_x + cell_w * c
-        draw.line([(sx, grid_top + 6), (sx, grid_bottom - 6)], fill=LIGHT_GRAY, width=2)
-    mid_x0 = margin_x + 28
-    mid_x1 = margin_x + usable_w - 28
-    mid_y = grid_top + cell_h
-    draw.line([(mid_x0, mid_y), (mid_x1, mid_y)], fill=LIGHT_GRAY, width=2)
+        draw.line([(sx, grid_top + 14), (sx, grid_bottom - 14)], fill=sep, width=2)
+    mid_x0 = margin_x + 36
+    mid_x1 = margin_x + usable_w - 36
+    mid_sep_y = grid_top + cell_h
+    draw.line([(mid_x0, mid_sep_y), (mid_x1, mid_sep_y)], fill=sep, width=2)
 
     for i, (kind, color, title, desc) in enumerate(services):
         row, col = divmod(i, cols)
         x0 = margin_x + col * cell_w
         y0 = grid_top + row * cell_h
         cx = x0 + cell_w // 2
-        # Vertical stack centered in cell: icon → title → desc → accent
-        pad_y = 22
-        icon_y = y0 + pad_y + icon_s
-        text_max_w = cell_w - 36
-        text_top = icon_y + icon_s + 18
-        service_icon(draw, cx, icon_y, kind, color, s=icon_s)
-        ty = wrap_center(draw, title, cx, text_top, title_font, color, text_max_w, line_gap=3)
-        dy = wrap_center(draw, desc, cx, ty + 10, desc_font, GRAY, text_max_w, line_gap=4)
-        line_y = min(dy + 16, y0 + cell_h - 28)
-        accent_w = min(int(cell_w * 0.38), 150)
-        draw.line([(cx - accent_w, line_y), (cx + accent_w, line_y)], fill=color, width=4)
-        draw.ellipse((cx - 7, line_y - 7, cx + 7, line_y + 7), fill=color)
+        text_max_w = cell_w - 44
 
-    draw.rounded_rectangle((bar_m, bar_y0, W - bar_m, bar_y1), radius=14, outline=BLUE, width=4)
+        # Measure stack then center vertically in cell
+        _, _, title_h = measure_wrapped(draw, title, title_font, text_max_w, line_gap=2)
+        _, _, desc_h = measure_wrapped(draw, desc, desc_font, text_max_w, line_gap=3)
+        stack_h = icon_s * 2 + 14 + title_h + 8 + desc_h + 18
+        stack_top = y0 + max(16, (cell_h - stack_h) // 2)
+        icon_y = stack_top + icon_s
+        text_top = icon_y + icon_s + 14
+
+        service_icon(draw, cx, icon_y, kind, color, s=icon_s)
+        ty = wrap_center(draw, title, cx, text_top, title_font, color, text_max_w, line_gap=2)
+        dy = wrap_center(draw, desc, cx, ty + 8, desc_font, GRAY, text_max_w, line_gap=3)
+        line_y = min(dy + 14, y0 + cell_h - 22)
+        accent_w = min(int(cell_w * 0.32), 128)
+        draw.line([(cx - accent_w, line_y), (cx + accent_w, line_y)], fill=color, width=4)
+        draw.ellipse((cx - 6, line_y - 6, cx + 6, line_y + 6), fill=color)
+
+    # —— Footer frame + equal-column content ——
+    draw_footer_frame(draw, bar_m, bar_y0, W - bar_m, bar_y1, radius=26)
+
+    # Content box inside dual stroke
+    stroke_inset = 22
+    content_y0 = bar_y0 + stroke_inset
+    content_y1 = bar_y1 - stroke_inset
+    mid_y = (content_y0 + content_y1) // 2
 
     footer_items = [
-        ("home", "SOPORTE A DOMICILIO\nY REMOTO"),
-        ("people", "PROYECTOS\nEMPRESARIALES"),
-        ("web", "atrixnld.com"),
+        ("home", "SOPORTE A DOMICILIO\nY REMOTO", False),
+        ("people", "PROYECTOS\nEMPRESARIALES", False),
+        ("web", "atrixnld.com", True),
     ]
-    seg_w = (W - 2 * bar_m) // 3
-    foot_f = font(FONT_BOLD, 30)
-    url_f = font(FONT_BOLD, 38)
-    for i, (kind, label) in enumerate(footer_items):
-        cx = bar_m + seg_w * i + seg_w // 2
+    inner_m = bar_m + stroke_inset
+    inner_w = W - 2 * inner_m
+    seg_w = inner_w // 3
+    foot_f = font(FONT_BOLD, 27)
+    url_f = font(FONT_BOLD, 34)
+    icon_r = 38
+    icon_text_gap = 20
+    col_pad = 18
+
+    for i, (kind, label, is_url) in enumerate(footer_items):
+        seg_x0 = inner_m + seg_w * i
         if i > 0:
-            sx = bar_m + seg_w * i
-            draw.line([(sx, bar_y0 + 18), (sx, bar_y1 - 18)], fill=LIGHT_GRAY, width=2)
-        mid_y = (bar_y0 + bar_y1) // 2
-        icon_r = 34
-        if label == "atrixnld.com":
-            block_w = icon_r * 2 + 16 + text_size(draw, label, url_f)[0]
-            icon_cx = cx - block_w // 2 + icon_r
-            circle_icon(draw, icon_cx, mid_y, icon_r, kind)
-            tw, th = text_size(draw, label, url_f)
-            draw.text((icon_cx + icon_r + 16, mid_y - th // 2), label, fill=BLACK, font=url_f)
-        else:
-            lines = label.split("\n")
-            heights = [text_size(draw, ln, foot_f)[1] for ln in lines]
-            total_h = sum(heights) + 4 * (len(lines) - 1)
-            max_line_w = max(text_size(draw, ln, foot_f)[0] for ln in lines)
-            block_w = icon_r * 2 + 14 + max_line_w
-            icon_cx = cx - block_w // 2 + icon_r
-            circle_icon(draw, icon_cx, mid_y, icon_r, kind)
-            tx = icon_cx + icon_r + 14
-            yy = mid_y - total_h // 2
-            for ln in lines:
-                draw.text((tx, yy), ln, fill=BLACK, font=foot_f)
-                yy += text_size(draw, ln, foot_f)[1] + 4
+            sx = seg_x0
+            draw.line(
+                [(sx, content_y0 + 12), (sx, content_y1 - 12)],
+                fill=(198, 208, 224),
+                width=2,
+            )
+
+        fnt = url_f if is_url else foot_f
+        lines = label.split("\n")
+        heights = [text_size(draw, ln, fnt)[1] for ln in lines]
+        line_gap = 3
+        total_h = sum(heights) + line_gap * (len(lines) - 1)
+        max_line_w = max(text_size(draw, ln, fnt)[0] for ln in lines)
+
+        # Icon + text as one unit, centered in the column (balanced band)
+        block_w = icon_r * 2 + icon_text_gap + max_line_w
+        max_block = seg_w - 2 * col_pad
+        if block_w > max_block:
+            block_w = max_block
+        block_left = seg_x0 + (seg_w - block_w) // 2
+        icon_cx = block_left + icon_r
+        circle_icon(draw, icon_cx, mid_y, icon_r, kind)
+        tx = icon_cx + icon_r + icon_text_gap
+        yy = mid_y - total_h // 2
+        for ln in lines:
+            draw.text((tx, yy), ln, fill=BLACK, font=fnt)
+            yy += text_size(draw, ln, fnt)[1] + line_gap
+
+    # Brand corner sits over the footer frame (reference look)
+    paint_corner(draw, "br", size=310, band=50)
 
     return img
 
