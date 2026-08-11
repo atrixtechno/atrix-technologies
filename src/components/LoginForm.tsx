@@ -197,7 +197,7 @@ export function LoginForm() {
                       onChange={(e) =>
                         setUsername(e.target.value.replace(/@.*$/, ""))
                       }
-                      placeholder="admin"
+                      placeholder="usuario"
                       className="min-w-0 flex-1 bg-transparent px-4 py-3.5 text-fg outline-none"
                     />
                     <span
