@@ -14,12 +14,22 @@ npm run dev
 
 ## Supabase
 
-En el SQL Editor del proyecto, ejecuta [`supabase/schema.sql`](supabase/schema.sql) (o la migración en `supabase/migrations/`) para crear:
+En el SQL Editor del proyecto, ejecuta [`supabase/schema.sql`](supabase/schema.sql) (o las migraciones en `supabase/migrations/`) para crear:
 
 - `leads` — formulario de contacto
 - `page_views` — analítica first-party del Dashboard admin
+- `admin_projects` — vault de proyectos (credenciales cifradas)
+- `admin_invoices` — borradores de comprobantes
+- `site_settings` — layout de tarjeta de presentación
 
-Para leer estadísticas en `/admin`, añade también `SUPABASE_SERVICE_ROLE_KEY` en `.env.local` y en Vercel (solo servidor; no es pública).
+Variables de servidor (`.env.local` / Vercel; nunca públicas):
+
+- `SUPABASE_SERVICE_ROLE_KEY` — lecturas/escrituras admin
+- `PROJECT_SECRETS_KEY` — cifrado AES-GCM del vault (opcional; si falta se deriva del service role)
+
+Panel: `/admin` · Proyectos `/admin/proyectos` · Facturas `/admin/facturas` · Tarjeta `/admin/tarjeta`.
+
+Bucket Storage recomendado (público): `project-assets` para logos de proyecto.
 
 ## Contacto del sitio
 

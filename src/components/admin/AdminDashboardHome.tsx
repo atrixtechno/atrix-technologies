@@ -19,6 +19,7 @@ const QUICK_LINKS = [
   { href: "/soporte-remoto", label: "Soporte remoto" },
   { href: "/#contacto", label: "Contacto" },
   { href: "/admin/proyectos", label: "Gestionar proyectos" },
+  { href: "/admin/facturas", label: "Factura / comprobante" },
   { href: "/admin/tarjeta", label: "Tarjeta de presentación" },
 ] as const;
 
@@ -70,8 +71,8 @@ export function AdminDashboardHome() {
         />
         <SummaryCard
           label="Módulos del panel"
-          value="3"
-          hint="Dashboard · Proyecto · Tarjeta"
+          value="4"
+          hint="Dashboard · Proyecto · Factura · Tarjeta"
         />
         <SummaryCard
           label="Usuario"
@@ -134,9 +135,9 @@ export function AdminDashboardHome() {
               Nota
             </h3>
             <p className="mt-2 text-sm leading-relaxed text-muted">
-              Este panel es administración local del sitio de marketing. Los
-              proyectos se leen del contenido del repositorio; la tarjeta de
-              presentación ofrece previews y descargas HD.
+              Panel interno ATRIX: vault de proyectos (secretos cifrados),
+              comprobantes PDF, editor de tarjeta y analítica. Requiere Supabase
+              service role para persistencia.
             </p>
           </div>
         </section>

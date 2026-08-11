@@ -1,7 +1,6 @@
-import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
+import { isAdminRequest } from "@/lib/admin-api-auth";
 import {
-  ADMIN_SESSION_COOKIE,
   aggregatePageViews,
   emptyStats,
   type PageViewRow,
@@ -14,17 +13,6 @@ import {
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
-
-async function isAdminRequest(request: Request): Promise<boolean> {
-  const jar = await cookies();
-  const cookie = jar.get(ADMIN_SESSION_COOKIE)?.value;
-  if (cookie?.startsWith("ok:")) return true;
-
-  const header = request.headers.get("x-atrix-admin-session");
-  if (header?.startsWith("ok:")) return true;
-
-  return false;
-}
 
 export async function GET(request: Request) {
   try {
