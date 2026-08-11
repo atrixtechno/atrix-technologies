@@ -268,8 +268,8 @@ export default function QuieresSerPartePage() {
                     <div className="absolute -left-16 top-0 h-56 w-56 rounded-full bg-accent/15 blur-3xl" />
                     <div className="absolute -right-12 bottom-0 h-56 w-56 rounded-full bg-signal/12 blur-3xl" />
                   </div>
-                  <div className="relative grid gap-8 px-5 py-10 sm:gap-10 sm:px-10 sm:py-16 md:grid-cols-[1.2fr_auto] md:items-center md:gap-12 md:px-14 md:py-20 lg:px-16">
-                    <div className="max-w-2xl min-w-0">
+                  <div className="relative grid gap-0 md:grid-cols-[1.05fr_0.95fr] md:items-stretch">
+                    <div className="px-5 py-10 sm:px-10 sm:py-16 md:px-12 md:py-20 lg:px-16">
                       <p className="text-[11px] font-semibold tracking-[0.2em] text-accent uppercase">
                         Siguiente paso
                       </p>
@@ -284,22 +284,31 @@ export default function QuieresSerPartePage() {
                         completa el formulario. Revisamos cada perfil con
                         atención.
                       </p>
+                      <div className="mt-8 flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
+                        <a
+                          href={wa}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="btn-primary inline-flex w-full items-center justify-center rounded-full px-6 py-3.5 text-sm font-semibold sm:w-auto"
+                        >
+                          Enviar CV por WhatsApp
+                        </a>
+                        <Link
+                          href="/#contacto"
+                          className="inline-flex w-full items-center justify-center rounded-full border border-line px-6 py-3.5 text-sm font-semibold text-fg transition hover:border-accent/40 hover:bg-bg-elevated sm:w-auto"
+                        >
+                          Formulario de contacto
+                        </Link>
+                      </div>
                     </div>
-                    <div className="flex w-full flex-col gap-3 sm:w-auto sm:min-w-[14rem]">
-                      <a
-                        href={wa}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="btn-primary inline-flex w-full items-center justify-center rounded-full px-6 py-3.5 text-sm font-semibold"
-                      >
-                        Enviar CV por WhatsApp
-                      </a>
-                      <Link
-                        href="/#contacto"
-                        className="inline-flex w-full items-center justify-center rounded-full border border-line px-6 py-3.5 text-sm font-semibold text-fg transition hover:border-accent/40 hover:bg-bg-elevated"
-                      >
-                        Formulario de contacto
-                      </Link>
+                    <div className="relative min-h-[18rem] border-t border-line md:min-h-[28rem] md:border-t-0 md:border-l">
+                      <SectionMedia
+                        src="/images/unete/cta-equipo.jpg"
+                        alt="Incorporación profesional al equipo ATRIX Technologies"
+                        aspect="absolute inset-0 h-full w-full"
+                        className="border-0"
+                        sizes="(max-width: 768px) 100vw, 45vw"
+                      />
                     </div>
                   </div>
                 </div>

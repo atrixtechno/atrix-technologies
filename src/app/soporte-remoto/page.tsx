@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
@@ -276,54 +277,76 @@ export default function SoporteRemotoPage() {
 
               <div className="grid gap-6 lg:grid-cols-2 lg:gap-8">
                 <Reveal>
-                  <div className="h-full border border-line bg-bg-elevated/40 p-5 sm:p-8">
-                    <div className="flex items-center gap-3">
-                      <span className="flex h-9 w-9 items-center justify-center border border-line text-muted">
-                        <svg
-                          viewBox="0 0 24 24"
-                          className="h-4 w-4"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="2"
-                          aria-hidden
-                        >
-                          <path d="M12 9v4m0 4h.01M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z" />
-                        </svg>
-                      </span>
-                      <div>
-                        <p className="text-[10px] font-semibold tracking-[0.18em] text-muted uppercase">
-                          Sin cobertura
-                        </p>
-                        <p className="font-display text-lg font-bold">
-                          Fricción diaria
-                        </p>
-                      </div>
+                  <div className="flex h-full flex-col overflow-hidden border border-line bg-bg-elevated/40">
+                    <div className="relative aspect-[16/10] w-full shrink-0 overflow-hidden border-b border-line bg-bg">
+                      <Image
+                        src="/images/soporte/friccion-oficina.jpg"
+                        alt="Fricción en oficina sin cobertura de TI: equipos lentos y trabajo interrumpido"
+                        fill
+                        quality={85}
+                        className="object-cover object-center"
+                        sizes="(max-width: 1024px) 100vw, 50vw"
+                      />
                     </div>
-                    <ul className="mt-7 space-y-4">
-                      {soporteProblemas.map((item, index) => (
-                        <li
-                          key={item}
-                          className="flex gap-3 border-t border-line pt-4 first:border-t-0 first:pt-0"
-                        >
-                          <span className="mt-0.5 text-[11px] font-bold text-muted/70 tabular-nums">
-                            {String(index + 1).padStart(2, "0")}
-                          </span>
-                          <p className="text-sm leading-relaxed text-fg md:text-[15px]">
-                            {item}
+                    <div className="flex flex-1 flex-col p-5 sm:p-8">
+                      <div className="flex items-center gap-3">
+                        <span className="flex h-9 w-9 items-center justify-center border border-line text-muted">
+                          <svg
+                            viewBox="0 0 24 24"
+                            className="h-4 w-4"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            aria-hidden
+                          >
+                            <path d="M12 9v4m0 4h.01M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z" />
+                          </svg>
+                        </span>
+                        <div>
+                          <p className="text-[10px] font-semibold tracking-[0.18em] text-muted uppercase">
+                            Sin cobertura
                           </p>
-                        </li>
-                      ))}
-                    </ul>
+                          <p className="font-display text-lg font-bold">
+                            Fricción diaria
+                          </p>
+                        </div>
+                      </div>
+                      <ul className="mt-7 space-y-4">
+                        {soporteProblemas.map((item, index) => (
+                          <li
+                            key={item}
+                            className="flex gap-3 border-t border-line pt-4 first:border-t-0 first:pt-0"
+                          >
+                            <span className="mt-0.5 text-[11px] font-bold text-muted/70 tabular-nums">
+                              {String(index + 1).padStart(2, "0")}
+                            </span>
+                            <p className="text-sm leading-relaxed text-fg md:text-[15px]">
+                              {item}
+                            </p>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
                   </div>
                 </Reveal>
 
                 <Reveal delay={100}>
-                  <div className="relative h-full overflow-hidden border border-accent/35 bg-accent/[0.06] p-5 sm:p-8">
+                  <div className="relative flex h-full flex-col overflow-hidden border border-accent/35 bg-accent/[0.06]">
                     <div
                       className="pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full bg-accent/15 blur-3xl"
                       aria-hidden
                     />
-                    <div className="relative">
+                    <div className="relative aspect-[16/10] w-full shrink-0 overflow-hidden border-b border-accent/25 bg-bg">
+                      <Image
+                        src="/images/soporte/continuidad-ops.jpg"
+                        alt="Continuidad operativa con soporte remoto ATRIX para empresas"
+                        fill
+                        quality={85}
+                        className="object-cover object-center"
+                        sizes="(max-width: 1024px) 100vw, 50vw"
+                      />
+                    </div>
+                    <div className="relative flex flex-1 flex-col p-5 sm:p-8">
                       <div className="flex items-center gap-3">
                         <span className="flex h-9 w-9 items-center justify-center border border-accent/40 bg-accent/15 text-accent">
                           <svg
@@ -479,7 +502,7 @@ export default function SoporteRemotoPage() {
                   <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_100%_0%,rgba(26,76,255,0.1),transparent_60%)]" />
                   <div className="grid-tech absolute inset-0 opacity-25" />
                 </div>
-                <div className="relative grid gap-8 p-5 sm:gap-10 sm:p-8 md:grid-cols-[1.1fr_0.9fr] md:gap-12 md:p-12 lg:p-14">
+                <div className="relative grid gap-8 p-5 sm:gap-10 sm:p-8 md:grid-cols-[1.05fr_0.95fr] md:items-center md:gap-12 md:p-12 lg:p-14">
                   <Reveal>
                     <p className="text-[11px] font-semibold tracking-[0.22em] text-signal uppercase">
                       Plan a medida
@@ -509,10 +532,7 @@ export default function SoporteRemotoPage() {
                         </div>
                       ))}
                     </div>
-                  </Reveal>
-
-                  <Reveal delay={90}>
-                    <div className="border border-line bg-bg-elevated/70 p-5 sm:p-7">
+                    <div className="mt-8 border border-line bg-bg-elevated/70 p-5 sm:p-7">
                       <p className="text-[10px] font-semibold tracking-[0.2em] text-accent uppercase">
                         Ideal para
                       </p>
@@ -531,6 +551,15 @@ export default function SoporteRemotoPage() {
                       </ul>
                     </div>
                   </Reveal>
+
+                  <Reveal delay={90}>
+                    <SectionMedia
+                      src="/images/soporte/plan-medida.jpg"
+                      alt="Recorrido de inventario y plan personalizado de soporte remoto ATRIX"
+                      aspect="aspect-[16/10]"
+                      sizes="(max-width: 768px) 100vw, 45vw"
+                    />
+                  </Reveal>
                 </div>
               </div>
             </div>
@@ -546,28 +575,27 @@ export default function SoporteRemotoPage() {
               <Reveal>
                 <div className="relative overflow-hidden border border-signal/25 bg-signal/[0.04]">
                   <div className="pointer-events-none absolute inset-0" aria-hidden>
+                    <div className="grid-tech absolute inset-0 opacity-25" />
                     <div className="animate-orb absolute -right-8 top-0 h-40 w-40 rounded-full bg-signal/12 blur-3xl" />
                     <div className="scanline absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-signal/35 to-transparent" />
                   </div>
-                  <div className="relative px-5 py-10 sm:px-10 sm:py-14 md:px-14 md:py-16">
-                    <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
-                      <div className="max-w-xl min-w-0">
-                        <p className="text-[11px] font-semibold tracking-[0.22em] text-signal uppercase">
-                          Siguiente paso
-                        </p>
-                        <h2
-                          id="cotizar-heading"
-                          className="font-display mt-3 text-[1.65rem] font-bold tracking-tight sm:text-3xl md:text-4xl"
-                        >
-                          {soporteRemotoPage.closing}
-                        </h2>
-                        <p className="mt-4 text-pretty text-[15px] leading-relaxed text-muted sm:text-base md:text-lg">
-                          Cuéntanos cuántos equipos tienes y con qué frecuencia
-                          necesitas soporte. Respondemos por WhatsApp al{" "}
-                          {site.phoneDisplay}.
-                        </p>
-                      </div>
-                      <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row lg:flex-col">
+                  <div className="relative grid gap-0 md:grid-cols-[1.05fr_0.95fr] md:items-stretch">
+                    <div className="px-5 py-10 sm:px-10 sm:py-14 md:px-12 md:py-16 lg:px-14">
+                      <p className="text-[11px] font-semibold tracking-[0.22em] text-signal uppercase">
+                        Siguiente paso
+                      </p>
+                      <h2
+                        id="cotizar-heading"
+                        className="font-display mt-3 text-[1.65rem] font-bold tracking-tight sm:text-3xl md:text-4xl"
+                      >
+                        {soporteRemotoPage.closing}
+                      </h2>
+                      <p className="mt-4 text-pretty text-[15px] leading-relaxed text-muted sm:text-base md:text-lg">
+                        Cuéntanos cuántos equipos tienes y con qué frecuencia
+                        necesitas soporte. Respondemos por WhatsApp al{" "}
+                        {site.phoneDisplay}.
+                      </p>
+                      <div className="mt-8 flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
                         <a
                           href={wa}
                           target="_blank"
@@ -583,6 +611,15 @@ export default function SoporteRemotoPage() {
                           Formulario de contacto
                         </Link>
                       </div>
+                    </div>
+                    <div className="relative min-h-[18rem] border-t border-line md:min-h-[28rem] md:border-t-0 md:border-l">
+                      <SectionMedia
+                        src="/images/soporte/cotizar-whatsapp.jpg"
+                        alt="Cotiza soporte remoto ATRIX por WhatsApp con un técnico"
+                        aspect="absolute inset-0 h-full w-full"
+                        className="border-0"
+                        sizes="(max-width: 768px) 100vw, 45vw"
+                      />
                     </div>
                   </div>
                 </div>

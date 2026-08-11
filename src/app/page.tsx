@@ -6,6 +6,7 @@ import { Coverage } from "@/components/Coverage";
 import { Benefits } from "@/components/Benefits";
 import { AudienceGuides } from "@/components/Guides";
 import { ProjectsTeaser } from "@/components/ProjectsTeaser";
+import { Process } from "@/components/Process";
 import { Contact } from "@/components/Contact";
 import { Footer } from "@/components/Footer";
 import { PageDecor } from "@/components/PageDecor";
@@ -163,6 +164,7 @@ export default function HomePage() {
           <Benefits />
           <AudienceGuides />
           <ProjectsTeaser />
+          <Process />
           <Contact />
         </main>
         <div className="relative z-10">

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { ConferenciasHero } from "@/components/ConferenciasHero";
 import { Header } from "@/components/Header";
@@ -83,6 +84,7 @@ function ChapterMark({ number, label }: { number: string; label: string }) {
 export default function ConferenciasPage() {
   const speaker = conferenceSpeaker;
   const wa = whatsappUrl(conferenciasPage.whatsappMessage);
+  const waSpeaker = whatsappUrl(conferenceSpeaker.whatsappMessage);
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -301,6 +303,82 @@ export default function ConferenciasPage() {
             </div>
           </section>
 
+          {/* Conferencista */}
+          <section
+            id="conferencista"
+            className="scroll-mt-24 border-b border-line py-16 md:py-28"
+            aria-labelledby="conferencista-heading"
+          >
+            <div className="mx-auto max-w-6xl px-4 sm:px-5 md:px-8">
+              <Reveal>
+                <ChapterMark number="02" label="Conferencista" />
+                <h2
+                  id="conferencista-heading"
+                  className="font-display mt-5 max-w-3xl text-[1.65rem] font-bold tracking-tight sm:mt-6 sm:text-3xl md:text-5xl"
+                >
+                  {speaker.name}
+                </h2>
+                <p className="mt-4 max-w-2xl text-[15px] leading-relaxed text-muted sm:mt-5 sm:text-base md:text-lg">
+                  {speaker.copy[0]}
+                </p>
+                <p className="mt-3 text-sm font-medium text-accent sm:mt-4">
+                  {speaker.role}
+                </p>
+              </Reveal>
+
+              <Reveal delay={80}>
+                <div className="mt-10 sm:mt-12">
+                  <SectionMedia
+                    src="/images/conferencias/conferencista-podium.jpg"
+                    alt="Conferencista ATRIX impartiendo keynote de tecnología e IA"
+                    aspect="aspect-[16/9]"
+                    sizes="(max-width: 1152px) 100vw, 1152px"
+                  />
+                </div>
+              </Reveal>
+
+              <Reveal delay={120}>
+                <div className="mt-4 grid grid-cols-1 gap-4 sm:mt-6 sm:grid-cols-3 sm:gap-5">
+                  {speaker.visuals.slice(0, 3).map((visual) => (
+                    <figure
+                      key={visual.src}
+                      className="overflow-hidden border border-line bg-bg-elevated/40"
+                    >
+                      <div className="relative aspect-[16/10]">
+                        <Image
+                          src={visual.src}
+                          alt={visual.alt}
+                          fill
+                          quality={85}
+                          className="object-cover object-center"
+                          sizes="(max-width: 640px) 100vw, 33vw"
+                        />
+                      </div>
+                      {visual.caption ? (
+                        <figcaption className="px-3 py-2.5 text-[11px] font-semibold tracking-[0.14em] text-muted uppercase">
+                          {visual.caption}
+                        </figcaption>
+                      ) : null}
+                    </figure>
+                  ))}
+                </div>
+              </Reveal>
+
+              <Reveal delay={100}>
+                <div className="mt-8 sm:mt-10">
+                  <a
+                    href={waSpeaker}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn-primary inline-flex w-full items-center justify-center rounded-full px-6 py-3.5 text-sm font-semibold sm:w-auto"
+                  >
+                    Agendar con el conferencista
+                  </a>
+                </div>
+              </Reveal>
+            </div>
+          </section>
+
           {/* 02 · Utilidad — manifesto + formats */}
           <section
             id="utilidad"
@@ -308,58 +386,79 @@ export default function ConferenciasPage() {
             aria-labelledby="utilidad-heading"
           >
             <div className="mx-auto max-w-6xl px-4 sm:px-5 md:px-8">
-              <div className="grid gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:gap-20">
-                <Reveal>
-                  <ChapterMark number="02" label="Utilidad" />
-                  <h2
-                    id="utilidad-heading"
-                    className="font-display mt-5 max-w-md text-[1.65rem] font-bold tracking-tight sm:mt-6 sm:text-3xl md:text-5xl"
-                  >
-                    Qué se llevan tus asistentes
-                  </h2>
-                  <p className="mt-4 max-w-sm text-[15px] leading-relaxed text-muted sm:mt-5 sm:text-base">
-                    Claridad técnica, riesgos reales y un puente hacia la
-                    implementación — en el formato que tu organización necesita.
-                  </p>
-                </Reveal>
+              <Reveal>
+                <ChapterMark number="03" label="Utilidad" />
+                <h2
+                  id="utilidad-heading"
+                  className="font-display mt-5 max-w-md text-[1.65rem] font-bold tracking-tight sm:mt-6 sm:text-3xl md:text-5xl"
+                >
+                  Qué se llevan tus asistentes
+                </h2>
+                <p className="mt-4 max-w-sm text-[15px] leading-relaxed text-muted sm:mt-5 sm:text-base">
+                  Claridad técnica, riesgos reales y un puente hacia la
+                  implementación — en el formato que tu organización necesita.
+                </p>
+              </Reveal>
 
-                <ol className="space-y-0">
-                  {conferenceBenefits.map((item, index) => (
-                    <Reveal key={item.title} delay={index * 70}>
-                      <li className="grid grid-cols-[auto_1fr] gap-4 border-t border-line py-6 first:border-t-0 first:pt-0 sm:gap-5 sm:py-7 md:gap-8 md:py-8">
-                        <span className="font-display pt-0.5 text-xl font-extrabold text-accent tabular-nums sm:text-2xl md:text-3xl">
-                          {String(index + 1).padStart(2, "0")}
-                        </span>
-                        <div className="min-w-0">
-                          <h3 className="font-display text-base font-semibold sm:text-lg md:text-xl">
-                            {item.title}
-                          </h3>
-                          <p className="mt-2 text-sm leading-relaxed text-muted md:text-[15px]">
-                            {item.copy}
-                          </p>
-                        </div>
-                      </li>
-                    </Reveal>
-                  ))}
-                </ol>
-              </div>
+              <Reveal delay={80}>
+                <div className="mt-10 sm:mt-12">
+                  <SectionMedia
+                    src="/images/conferencias/utilidad-asistentes.jpg"
+                    alt="Audiencia profesional en una conferencia ATRIX de inteligencia artificial"
+                    aspect="aspect-[16/9]"
+                    sizes="(max-width: 1152px) 100vw, 1152px"
+                  />
+                </div>
+              </Reveal>
+
+              <ol className="mt-10 max-w-3xl space-y-0 sm:mt-14">
+                {conferenceBenefits.map((item, index) => (
+                  <Reveal key={item.title} delay={index * 70}>
+                    <li className="grid grid-cols-[auto_1fr] gap-4 border-t border-line py-6 first:border-t-0 first:pt-0 sm:gap-5 sm:py-7 md:gap-8 md:py-8">
+                      <span className="font-display pt-0.5 text-xl font-extrabold text-accent tabular-nums sm:text-2xl md:text-3xl">
+                        {String(index + 1).padStart(2, "0")}
+                      </span>
+                      <div className="min-w-0">
+                        <h3 className="font-display text-base font-semibold sm:text-lg md:text-xl">
+                          {item.title}
+                        </h3>
+                        <p className="mt-2 text-sm leading-relaxed text-muted md:text-[15px]">
+                          {item.copy}
+                        </p>
+                      </div>
+                    </li>
+                  </Reveal>
+                ))}
+              </ol>
 
               <Reveal delay={120}>
                 <div className="mt-12 grid grid-cols-1 gap-4 border-t border-line pt-10 sm:mt-16 sm:gap-6 sm:pt-12 sm:grid-cols-3">
                   {conferenceFormats.map((fmt, index) => (
                     <div
                       key={fmt.title}
-                      className="relative overflow-hidden border border-line bg-bg/40 px-4 py-5 sm:px-5 sm:py-6"
+                      className="relative overflow-hidden border border-line bg-bg/40"
                     >
-                      <p className="text-[10px] font-semibold tracking-[0.18em] text-muted uppercase tabular-nums">
-                        Formato {String(index + 1).padStart(2, "0")}
-                      </p>
-                      <h3 className="font-display mt-3 text-base font-semibold md:text-lg">
-                        {fmt.title}
-                      </h3>
-                      <p className="mt-2 text-sm leading-relaxed text-muted">
-                        {fmt.copy}
-                      </p>
+                      <div className="relative aspect-[16/10]">
+                        <Image
+                          src={fmt.image}
+                          alt={fmt.imageAlt}
+                          fill
+                          quality={85}
+                          className="object-cover object-center"
+                          sizes="(max-width: 640px) 100vw, 33vw"
+                        />
+                      </div>
+                      <div className="px-4 py-5 sm:px-5 sm:py-6">
+                        <p className="text-[10px] font-semibold tracking-[0.18em] text-muted uppercase tabular-nums">
+                          Formato {String(index + 1).padStart(2, "0")}
+                        </p>
+                        <h3 className="font-display mt-3 text-base font-semibold md:text-lg">
+                          {fmt.title}
+                        </h3>
+                        <p className="mt-2 text-sm leading-relaxed text-muted">
+                          {fmt.copy}
+                        </p>
+                      </div>
                     </div>
                   ))}
                 </div>
@@ -377,7 +476,7 @@ export default function ConferenciasPage() {
               <Reveal>
                 <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between lg:gap-6">
                   <div>
-                    <ChapterMark number="03" label="Temario" />
+                    <ChapterMark number="04" label="Temario" />
                     <h2
                       id="temas-heading"
                       className="font-display mt-5 max-w-3xl text-[1.65rem] font-bold tracking-tight sm:mt-6 sm:text-3xl md:text-5xl"
@@ -407,66 +506,79 @@ export default function ConferenciasPage() {
                 {conferenceTalks.map((talk, index) => (
                   <Reveal key={talk.slug} delay={Math.min(index * 50, 200)}>
                     <article className="group relative overflow-hidden border border-line bg-bg-elevated/30 transition hover:border-accent/40 hover:bg-bg-elevated/55">
-                      <div className="pointer-events-none absolute inset-y-0 left-0 w-1 bg-accent/0 transition group-hover:bg-accent/70" />
-                      <div className="flex flex-col gap-5 p-5 sm:gap-6 sm:p-8 lg:flex-row lg:gap-10">
-                        <div className="flex shrink-0 items-start gap-3 sm:gap-4 lg:w-28 lg:flex-col lg:gap-2">
-                          <span className="font-display text-3xl font-extrabold text-accent/30 tabular-nums transition group-hover:text-accent/55 sm:text-4xl md:text-5xl">
-                            {String(index + 1).padStart(2, "0")}
-                          </span>
-                          <div className="pt-1 lg:pt-0">
-                            <p className="text-[10px] font-semibold tracking-[0.16em] text-signal uppercase">
-                              Sesión
-                            </p>
-                            <p className="mt-1 text-xs font-semibold text-muted">
-                              {talk.duration}
-                            </p>
-                          </div>
+                      <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-1 bg-accent/0 transition group-hover:bg-accent/70" />
+                      <div className="flex flex-col lg:flex-row">
+                        <div className="relative aspect-[16/10] w-full shrink-0 overflow-hidden bg-bg lg:aspect-auto lg:w-[280px] lg:self-stretch lg:min-h-[220px]">
+                          <Image
+                            src={talk.image}
+                            alt={talk.imageAlt}
+                            fill
+                            quality={85}
+                            className="object-cover object-center"
+                            sizes="(max-width: 1024px) 100vw, 280px"
+                          />
                         </div>
 
-                        <div className="min-w-0 flex-1">
-                          <h3 className="font-display text-lg font-bold tracking-tight sm:text-xl md:text-2xl">
-                            {talk.title}
-                          </h3>
-                          <p className="mt-3 max-w-2xl text-pretty text-sm leading-relaxed text-muted md:text-base">
-                            {talk.focus}
-                          </p>
-                          <p className="mt-4 text-sm">
-                            <span className="font-semibold text-fg">Audiencia:</span>{" "}
-                            <span className="text-muted">{talk.audience}</span>
-                          </p>
-                          <ul className="mt-5 grid grid-cols-1 gap-2 sm:grid-cols-2">
-                            {talk.outcomes.map((outcome) => (
-                              <li
-                                key={outcome}
-                                className="flex gap-2.5 text-sm text-muted"
-                              >
-                                <span
-                                  className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-accent"
-                                  aria-hidden
-                                />
-                                <span className="min-w-0">{outcome}</span>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-
-                        <div className="flex shrink-0 flex-col justify-between gap-4 border-t border-line pt-5 lg:w-44 lg:border-t-0 lg:border-l lg:pt-0 lg:pl-8">
-                          <div>
-                            <p className="text-[10px] font-semibold tracking-[0.16em] text-muted uppercase">
-                              Formato
-                            </p>
-                            <p className="mt-2 text-sm font-semibold text-fg">
-                              {talk.format}
-                            </p>
+                        <div className="flex min-w-0 flex-1 flex-col gap-5 p-5 sm:gap-6 sm:p-8 lg:flex-row lg:gap-10">
+                          <div className="flex shrink-0 items-start gap-3 sm:gap-4 lg:w-28 lg:flex-col lg:gap-2">
+                            <span className="font-display text-3xl font-extrabold text-accent/30 tabular-nums transition group-hover:text-accent/55 sm:text-4xl md:text-5xl">
+                              {String(index + 1).padStart(2, "0")}
+                            </span>
+                            <div className="pt-1 lg:pt-0">
+                              <p className="text-[10px] font-semibold tracking-[0.16em] text-signal uppercase">
+                                Sesión
+                              </p>
+                              <p className="mt-1 text-xs font-semibold text-muted">
+                                {talk.duration}
+                              </p>
+                            </div>
                           </div>
-                          <a
-                            href={wa}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex text-sm font-semibold text-accent transition hover:brightness-110"
-                          >
-                            Solicitar tema →
-                          </a>
+
+                          <div className="min-w-0 flex-1">
+                            <h3 className="font-display text-lg font-bold tracking-tight sm:text-xl md:text-2xl">
+                              {talk.title}
+                            </h3>
+                            <p className="mt-3 max-w-2xl text-pretty text-sm leading-relaxed text-muted md:text-base">
+                              {talk.focus}
+                            </p>
+                            <p className="mt-4 text-sm">
+                              <span className="font-semibold text-fg">Audiencia:</span>{" "}
+                              <span className="text-muted">{talk.audience}</span>
+                            </p>
+                            <ul className="mt-5 grid grid-cols-1 gap-2 sm:grid-cols-2">
+                              {talk.outcomes.map((outcome) => (
+                                <li
+                                  key={outcome}
+                                  className="flex gap-2.5 text-sm text-muted"
+                                >
+                                  <span
+                                    className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-accent"
+                                    aria-hidden
+                                  />
+                                  <span className="min-w-0">{outcome}</span>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+
+                          <div className="flex shrink-0 flex-col justify-between gap-4 border-t border-line pt-5 lg:w-44 lg:border-t-0 lg:border-l lg:pt-0 lg:pl-8">
+                            <div>
+                              <p className="text-[10px] font-semibold tracking-[0.16em] text-muted uppercase">
+                                Formato
+                              </p>
+                              <p className="mt-2 text-sm font-semibold text-fg">
+                                {talk.format}
+                              </p>
+                            </div>
+                            <a
+                              href={wa}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="inline-flex text-sm font-semibold text-accent transition hover:brightness-110"
+                            >
+                              Solicitar tema →
+                            </a>
+                          </div>
                         </div>
                       </div>
                     </article>
@@ -511,7 +623,7 @@ export default function ConferenciasPage() {
           >
             <div className="mx-auto max-w-6xl px-4 sm:px-5 md:px-8">
               <Reveal>
-                <ChapterMark number="04" label="Servicios ATRIX" />
+                <ChapterMark number="05" label="Servicios ATRIX" />
                 <h2
                   id="servicios-conf-heading"
                   className="font-display mt-5 max-w-3xl text-[1.65rem] font-bold tracking-tight sm:mt-6 sm:text-3xl md:text-5xl"
@@ -527,19 +639,31 @@ export default function ConferenciasPage() {
               <ul className="mt-10 grid grid-cols-1 gap-px bg-line sm:mt-14 sm:grid-cols-2 lg:grid-cols-3">
                 {conferenceServiceLinks.map((svc, index) => (
                   <Reveal key={svc.slug} delay={index * 55}>
-                    <li className="h-full bg-bg-elevated/80 p-5 transition hover:bg-bg-elevated sm:p-6 md:p-7">
-                      <p className="text-[10px] font-semibold tracking-[0.16em] text-signal uppercase tabular-nums">
-                        {String(index + 1).padStart(2, "0")}
-                      </p>
-                      <h3 className="font-display mt-3 text-lg font-semibold">
-                        {svc.title}
-                      </h3>
-                      <p className="mt-1 text-xs font-medium tracking-wide text-accent uppercase">
-                        {svc.short}
-                      </p>
-                      <p className="mt-3 text-sm leading-relaxed text-muted">
-                        {svc.talkAngle}
-                      </p>
+                    <li className="flex h-full flex-col overflow-hidden bg-bg-elevated/80 transition hover:bg-bg-elevated">
+                      <div className="relative aspect-[16/10] w-full shrink-0 overflow-hidden bg-bg">
+                        <Image
+                          src={svc.image}
+                          alt={svc.imageAlt}
+                          fill
+                          quality={85}
+                          className="object-cover object-center"
+                          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                        />
+                      </div>
+                      <div className="flex flex-1 flex-col p-5 sm:p-6 md:p-7">
+                        <p className="text-[10px] font-semibold tracking-[0.16em] text-signal uppercase tabular-nums">
+                          {String(index + 1).padStart(2, "0")}
+                        </p>
+                        <h3 className="font-display mt-3 text-lg font-semibold">
+                          {svc.title}
+                        </h3>
+                        <p className="mt-1 text-xs font-medium tracking-wide text-accent uppercase">
+                          {svc.short}
+                        </p>
+                        <p className="mt-3 text-sm leading-relaxed text-muted">
+                          {svc.talkAngle}
+                        </p>
+                      </div>
                     </li>
                   </Reveal>
                 ))}
@@ -575,7 +699,7 @@ export default function ConferenciasPage() {
                   </div>
                   <div className="relative grid gap-0 md:grid-cols-[1.05fr_0.95fr] md:items-stretch">
                     <div className="px-5 py-10 sm:px-10 sm:py-16 md:px-12 md:py-20 lg:px-16">
-                      <ChapterMark number="05" label="Agenda tu sesión" />
+                      <ChapterMark number="06" label="Agenda tu sesión" />
                       <h2
                         id="agendar-heading"
                         className="font-display mt-5 text-[1.65rem] font-bold tracking-tight sm:mt-6 sm:text-3xl md:text-5xl"

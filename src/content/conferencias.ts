@@ -22,6 +22,8 @@ export type ConferenceTalk = {
   format: string;
   duration: string;
   relatedServices: string[];
+  image: string;
+  imageAlt: string;
 };
 
 export type ConferenceServiceLink = {
@@ -29,6 +31,15 @@ export type ConferenceServiceLink = {
   title: string;
   short: string;
   talkAngle: string;
+  image: string;
+  imageAlt: string;
+};
+
+export type ConferenceFormat = {
+  title: string;
+  copy: string;
+  image: string;
+  imageAlt: string;
 };
 
 export type ConferenceTeamMember = {
@@ -72,10 +83,11 @@ export const conferenciasPage = {
 
 export const conferenceChapters = [
   { id: "para-quien", number: "01", label: "Para quién" },
-  { id: "utilidad", number: "02", label: "Utilidad" },
-  { id: "temas", number: "03", label: "Temario" },
-  { id: "servicios-conferencias", number: "04", label: "Servicios" },
-  { id: "agendar", number: "05", label: "Agendar" },
+  { id: "conferencista", number: "02", label: "Conferencista" },
+  { id: "utilidad", number: "03", label: "Utilidad" },
+  { id: "temas", number: "04", label: "Temario" },
+  { id: "servicios-conferencias", number: "05", label: "Servicios" },
+  { id: "agendar", number: "06", label: "Agendar" },
 ] as const;
 
 export const conferenceAudiences: ConferenceAudience[] = [
@@ -134,6 +146,8 @@ export const conferenceTalks: ConferenceTalk[] = [
     format: "Charla + Q&A",
     duration: "60–75 min",
     relatedServices: ["desarrollo-software", "soporte-it-empresarial"],
+    image: "/images/conferencias/talk-ia-practica.jpg",
+    imageAlt: "Equipo empresarial usando IA para productividad en oficina",
   },
   {
     slug: "ciberseguridad-conciencia",
@@ -149,6 +163,8 @@ export const conferenceTalks: ConferenceTalk[] = [
     format: "Charla práctica",
     duration: "45–60 min",
     relatedServices: ["cctv", "redes-infraestructura", "soporte-it-empresarial"],
+    image: "/images/conferencias/talk-ciberseguridad.jpg",
+    imageAlt: "Conferencia de ciberseguridad con visuales de protección digital",
   },
   {
     slug: "transformacion-digital-pymes",
@@ -168,6 +184,8 @@ export const conferenceTalks: ConferenceTalk[] = [
       "soporte-tecnico",
       "soporte-it-empresarial",
     ],
+    image: "/images/conferencias/talk-transformacion.jpg",
+    imageAlt: "PyME revisando operación digital y analítica en punto de venta",
   },
   {
     slug: "ia-educacion",
@@ -183,6 +201,8 @@ export const conferenceTalks: ConferenceTalk[] = [
     format: "Charla / taller corto",
     duration: "50–70 min",
     relatedServices: ["desarrollo-software", "redes-infraestructura"],
+    image: "/images/conferencias/talk-ia-educacion.jpg",
+    imageAlt: "Aula moderna con docentes y alumnos usando tecnología responsablemente",
   },
   {
     slug: "software-ia-cuando-conviene",
@@ -198,6 +218,8 @@ export const conferenceTalks: ConferenceTalk[] = [
     format: "Sesión técnica-ejecutiva",
     duration: "60–75 min",
     relatedServices: ["desarrollo-software", "soporte-it-empresarial"],
+    image: "/images/conferencias/talk-software-ia.jpg",
+    imageAlt: "Desarrollo de software y paneles a la medida con IA aplicada",
   },
   {
     slug: "infraestructura-operacion",
@@ -218,6 +240,8 @@ export const conferenceTalks: ConferenceTalk[] = [
       "soporte-tecnico",
       "impresoras-perifericos",
     ],
+    image: "/images/conferencias/talk-infraestructura.jpg",
+    imageAlt: "Técnico configurando redes y monitoreo CCTV en infraestructura",
   },
 ];
 
@@ -243,6 +267,8 @@ export const conferenceServiceLinks: ConferenceServiceLink[] = services.map(
       title: s.title,
       short: s.short,
       talkAngle: angles[s.slug] ?? s.copy,
+      image: s.image,
+      imageAlt: s.imageAlt,
     };
   },
 );
@@ -271,24 +297,19 @@ export const conferenceSpeaker: ConferenceSpeaker = {
   ],
   visuals: [
     {
-      src: "/brand/hero-poster.jpg",
-      alt: "Atmósfera tecnológica ATRIX",
-      caption: "ATRIX",
+      src: "/images/conferencias/conferencista-podium.jpg",
+      alt: "Conferencista ATRIX impartiendo keynote de tecnología e IA",
+      caption: "Keynote en vivo",
+    },
+    {
+      src: "/images/conferencias/utilidad-asistentes.jpg",
+      alt: "Audiencia profesional en conferencia ATRIX",
+      caption: "Audiencia",
     },
     {
       src: "/projects/grupo-gi-preview.jpg",
       alt: "Plataforma Grupo GI",
       caption: "Grupo GI",
-    },
-    {
-      src: "/projects/tecos-elite-preview.jpg",
-      alt: "Plataforma Tecos Elite Voleibol",
-      caption: "Tecos Elite",
-    },
-    {
-      src: "/projects/dojangspace-preview.jpg",
-      alt: "Producto DojangSpace",
-      caption: "DojangSpace",
     },
     {
       src: "/projects/dentalmate-preview.jpg",
@@ -352,17 +373,23 @@ export const conferenceTeam: ConferenceTeamMember[] = [
   },
 ];
 
-export const conferenceFormats = [
+export const conferenceFormats: ConferenceFormat[] = [
   {
     title: "Charla magistral",
     copy: "45–75 min + preguntas. Ideal para eventos, kickoffs y asambleas.",
+    image: "/images/conferencias/formato-magistral.jpg",
+    imageAlt: "Escenario listo para charla magistral ATRIX",
   },
   {
     title: "Taller práctico",
     copy: "90–120 min con ejercicios. Ideal para equipos que van a implementar.",
+    image: "/images/conferencias/formato-taller.jpg",
+    imageAlt: "Taller práctico de tecnología con equipos colaborando",
   },
   {
     title: "Sesión in-company",
     copy: "Agenda cerrada a tu sector. Presencial en planta/oficina o virtual.",
+    image: "/images/conferencias/formato-incompany.jpg",
+    imageAlt: "Sesión in-company ATRIX en sala de juntas ejecutiva",
   },
-] as const;
+];

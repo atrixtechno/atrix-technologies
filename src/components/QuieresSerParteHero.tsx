@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { Logo } from "@/components/Logo";
 import { useTheme } from "@/components/ThemeProvider";
@@ -15,15 +16,24 @@ export function QuieresSerParteHero({ whatsappHref }: Props) {
   const isLight = theme === "light";
 
   return (
-    <section className="relative overflow-hidden border-b border-line">
-      <div className="pointer-events-none absolute inset-0" aria-hidden>
-        <div className="absolute inset-0 bg-gradient-to-br from-bg via-bg to-bg-elevated" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_50%_at_100%_0%,rgba(26,107,255,0.18),transparent_55%)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_45%_40%_at_0%_100%,rgba(26,107,255,0.1),transparent_50%)]" />
-        <div className="grid-tech absolute inset-0 opacity-30" />
-      </div>
+    <section className="relative overflow-hidden border-b border-line md:min-h-[min(88svh,52rem)]">
+      <Image
+        src="/images/unete/hero-equipo.jpg"
+        alt=""
+        fill
+        priority
+        className={`object-cover object-[center_30%] transition duration-300 ${
+          isLight ? "opacity-40 saturate-80" : "opacity-65 saturate-100"
+        }`}
+        sizes="100vw"
+        aria-hidden
+      />
+      <div className="hero-overlay absolute inset-0" />
+      <div className="absolute inset-0 bg-gradient-to-r from-bg via-bg/80 to-bg/35 md:via-bg/60" />
+      <div className="hero-glow absolute inset-0" />
+      <div className="grid-tech animate-grid-pulse pointer-events-none absolute inset-0 opacity-35" />
 
-      <div className="relative mx-auto max-w-6xl px-4 pb-14 pt-28 sm:px-5 sm:pb-16 sm:pt-32 md:px-8 md:pb-20 md:pt-36">
+      <div className="relative mx-auto flex max-w-6xl flex-col justify-end px-4 pb-14 pt-28 sm:px-5 sm:pb-16 sm:pt-32 md:min-h-[min(88svh,52rem)] md:justify-center md:px-8 md:pb-20 md:pt-36">
         <div className="animate-rise max-w-3xl">
           <div className="animate-fade-scale relative mb-6 w-full max-w-[10.5rem] sm:mb-8 sm:max-w-[13rem] md:max-w-[16rem]">
             <div className="animate-glow pointer-events-none absolute inset-0 -m-4 rounded-full bg-[radial-gradient(circle,rgba(26,107,255,0.28),transparent_70%)] blur-2xl" />
@@ -62,6 +72,12 @@ export function QuieresSerParteHero({ whatsappHref }: Props) {
             >
               Completar formulario
             </Link>
+            <a
+              href="#identidad"
+              className="text-center text-sm font-medium text-muted underline-offset-4 transition hover:text-accent hover:underline sm:text-left"
+            >
+              Ver nuestra identidad →
+            </a>
           </div>
           <p className="mt-5 text-sm text-muted">
             {site.coverage} · Equipo tech en crecimiento
