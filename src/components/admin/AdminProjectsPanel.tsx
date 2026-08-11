@@ -280,12 +280,9 @@ export function AdminProjectsPanel() {
         )}
       </header>
 
-      <div className="border border-amber-500/30 bg-amber-500/10 px-4 py-3 text-sm text-fg/90">
-        Este vault es de uso privado del admin ATRIX. No compartas contraseñas de
-        terceros ni las guardes en el repositorio. Requiere{" "}
-        <code className="text-xs">PROJECT_SECRETS_KEY</code> (o service role)
-        para cifrar.
-      </div>
+      <p className="text-sm text-muted">
+        Vault privado ATRIX. Las contraseñas se guardan cifradas.
+      </p>
 
       {setupNote && (
         <div className="border border-accent/30 bg-accent/10 px-4 py-3 text-sm text-fg">

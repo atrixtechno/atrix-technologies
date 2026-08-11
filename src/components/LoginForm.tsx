@@ -10,6 +10,7 @@ import {
   clearAdminUiSession,
   isValidAdminUser,
   markAdminUiSession,
+  normalizeUsername,
 } from "@/lib/admin-auth";
 
 type Step = "login" | "change-password";
@@ -65,7 +66,8 @@ export function LoginForm() {
     setLoading(true);
 
     try {
-      if (!isValidAdminUser(username)) {
+      const localUser = normalizeUsername(username);
+      if (!isValidAdminUser(localUser)) {
         setError("Usuario o contraseña incorrectos.");
         return;
       }
@@ -74,7 +76,7 @@ export function LoginForm() {
         method: "POST",
         credentials: "include",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ usuario: username, password }),
+        body: JSON.stringify({ usuario: localUser, password }),
       });
       const data = (await res.json()) as {
         error?: string;
@@ -186,15 +188,25 @@ export function LoginForm() {
                   <span className="text-xs tracking-[0.16em] text-muted uppercase">
                     usuario
                   </span>
-                  <input
-                    name="username"
-                    autoComplete="username"
-                    required
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                    placeholder="usuario"
-                    className="mt-2 w-full border border-line bg-bg px-4 py-3.5 text-fg outline-none transition focus:border-accent"
-                  />
+                  <div className="mt-2 flex border border-line bg-bg transition focus-within:border-accent">
+                    <input
+                      name="username"
+                      autoComplete="username"
+                      required
+                      value={username}
+                      onChange={(e) =>
+                        setUsername(e.target.value.replace(/@.*$/, ""))
+                      }
+                      placeholder="admin"
+                      className="min-w-0 flex-1 bg-transparent px-4 py-3.5 text-fg outline-none"
+                    />
+                    <span
+                      className="shrink-0 border-l border-line px-3 py-3.5 text-sm text-muted select-none"
+                      aria-hidden
+                    >
+                      @atrix.com
+                    </span>
+                  </div>
                 </label>
 
                 <label className="block">
