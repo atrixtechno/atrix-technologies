@@ -1,12 +1,5 @@
-/** Header the admin UI sends alongside the cookie (same token as localStorage). */
+/** Header the admin UI may send alongside the cookie (optional). */
 export const ADMIN_SESSION_HEADER = "x-atrix-admin-session";
-
-/** Client helper: session token from localStorage for fetch headers. */
-export function getClientAdminSessionToken(): string | null {
-  if (typeof window === "undefined") return null;
-  const raw = window.localStorage.getItem("atrix_admin_session");
-  return raw?.startsWith("ok:") ? raw : null;
-}
 
 export function adminFetchHeaders(
   extra?: HeadersInit,
@@ -20,7 +13,14 @@ export function adminFetchHeaders(
       headers[key] = value;
     });
   }
-  const token = getClientAdminSessionToken();
-  if (token) headers[ADMIN_SESSION_HEADER] = token;
   return headers;
+}
+
+/** Fetch admin APIs with the httpOnly session cookie. */
+export function adminFetch(input: RequestInfo | URL, init?: RequestInit) {
+  return fetch(input, {
+    ...init,
+    credentials: "include",
+    headers: adminFetchHeaders(init?.headers),
+  });
 }

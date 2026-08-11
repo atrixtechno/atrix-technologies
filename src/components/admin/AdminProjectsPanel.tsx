@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useCallback, useEffect, useState } from "react";
-import { adminFetchHeaders } from "@/lib/admin-session";
+import { adminFetch } from "@/lib/admin-session";
 import type { AdminProjectPublic } from "@/lib/admin-projects";
 import {
   Field,
@@ -94,9 +94,8 @@ export function AdminProjectsPanel() {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch("/api/admin/projects", {
+      const res = await adminFetch("/api/admin/projects", {
         credentials: "same-origin",
-        headers: adminFetchHeaders(),
       });
       if (res.status === 401) {
         setError("Sesión no autorizada. Vuelve a iniciar sesión.");
@@ -163,10 +162,8 @@ export function AdminProjectsPanel() {
       const fd = new FormData();
       fd.set("file", file);
       fd.set("folder", "logos");
-      const res = await fetch("/api/admin/projects/upload", {
+      const res = await adminFetch("/api/admin/projects/upload", {
         method: "POST",
-        credentials: "same-origin",
-        headers: adminFetchHeaders(),
         body: fd,
       });
       const data = await res.json();
@@ -210,10 +207,9 @@ export function AdminProjectsPanel() {
         mode === "create"
           ? "/api/admin/projects"
           : `/api/admin/projects/${selectedId}`;
-      const res = await fetch(url, {
+      const res = await adminFetch(url, {
         method: mode === "create" ? "POST" : "PATCH",
-        credentials: "same-origin",
-        headers: adminFetchHeaders({ "Content-Type": "application/json" }),
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
       const data = await res.json();
@@ -237,10 +233,8 @@ export function AdminProjectsPanel() {
     if (!window.confirm("¿Eliminar este proyecto del vault admin?")) return;
     setSaving(true);
     try {
-      const res = await fetch(`/api/admin/projects/${selectedId}`, {
+      const res = await adminFetch(`/api/admin/projects/${selectedId}`, {
         method: "DELETE",
-        credentials: "same-origin",
-        headers: adminFetchHeaders(),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "No se pudo eliminar");

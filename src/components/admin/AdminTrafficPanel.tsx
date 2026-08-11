@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import type { AnalyticsStats } from "@/lib/analytics";
-import { AUTH_KEYS, ensureAdminSessionCookie } from "@/lib/admin-auth";
+import { adminFetch } from "@/lib/admin-session";
 
 const POLL_MS = 8_000;
 
@@ -61,16 +61,12 @@ export function AdminTrafficPanel() {
   const [loading, setLoading] = useState(true);
 
   const load = useCallback(async () => {
-    ensureAdminSessionCookie();
-    const session = window.localStorage.getItem(AUTH_KEYS.session) ?? "";
     try {
-      const res = await fetch("/api/analytics/stats", {
-        credentials: "same-origin",
-        headers: session ? { "x-atrix-admin-session": session } : {},
+      const res = await adminFetch("/api/analytics/stats", {
         cache: "no-store",
       });
       if (res.status === 401) {
-        setError("Sesión no válida para analítica.");
+        setError("Sesión no válida o expirada.");
         setLoading(false);
         return;
       }

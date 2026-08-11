@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { AdminTrafficPanel } from "@/components/admin/AdminTrafficPanel";
-import { ADMIN_USERNAME, AUTH_KEYS } from "@/lib/admin-auth";
+import { ADMIN_USERNAME } from "@/lib/admin-auth";
 import { projects } from "@/content/projects";
 
 const SITE_SECTIONS = [
@@ -24,28 +24,49 @@ const QUICK_LINKS = [
 ] as const;
 
 export function AdminDashboardHome() {
-  const [sessionToken, setSessionToken] = useState<string | null>(null);
+  const [sessionActive, setSessionActive] = useState(false);
   const [sessionSince, setSessionSince] = useState<string>("—");
+  const [expiresLabel, setExpiresLabel] = useState<string>("8 horas");
 
   useEffect(() => {
-    const raw = window.localStorage.getItem(AUTH_KEYS.session);
-    setSessionToken(raw);
-    if (raw?.startsWith("ok:")) {
-      const stamp = raw.slice(3);
+    let cancelled = false;
+    async function loadSession() {
       try {
-        const ms = parseInt(stamp, 36);
-        if (!Number.isNaN(ms)) {
-          setSessionSince(
-            new Date(ms).toLocaleString("es-MX", {
-              dateStyle: "medium",
-              timeStyle: "short",
-            }),
-          );
-        }
+        const res = await fetch("/api/admin/session", {
+          credentials: "include",
+          cache: "no-store",
+        });
+        if (!res.ok || cancelled) return;
+        const data = (await res.json()) as {
+          authenticated?: boolean;
+          iat?: number;
+          exp?: number;
+          expiresIn?: number;
+        };
+        if (!data.authenticated || !data.exp) return;
+        setSessionActive(true);
+        const startMs = (data.iat ?? data.exp - 8 * 60 * 60) * 1000;
+        setSessionSince(
+          new Date(startMs).toLocaleString("es-MX", {
+            dateStyle: "medium",
+            timeStyle: "short",
+          }),
+        );
+        const hoursLeft = Math.max(
+          0,
+          Math.ceil((data.expiresIn ?? 0) / 3600),
+        );
+        setExpiresLabel(
+          hoursLeft <= 1 ? "expira en ~1 h" : `expira en ~${hoursLeft} h`,
+        );
       } catch {
-        setSessionSince("activa");
+        /* ignore */
       }
     }
+    void loadSession();
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   return (
@@ -58,8 +79,8 @@ export function AdminDashboardHome() {
           Resumen del panel
         </h1>
         <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted">
-          Acceso local de administración del sitio ATRIX. La sesión se guarda en
-          este navegador; no es un sistema de usuarios empresariales.
+          Panel de administración ATRIX. La sesión es una cookie httpOnly firmada
+          que expira a las 8 horas.
         </p>
       </header>
 
@@ -82,7 +103,7 @@ export function AdminDashboardHome() {
         <SummaryCard
           label="Sesión desde"
           value={sessionSince}
-          hint={sessionToken ? "Token local activo" : "Sin token"}
+          hint={sessionActive ? expiresLabel : "Sin sesión"}
         />
       </section>
 

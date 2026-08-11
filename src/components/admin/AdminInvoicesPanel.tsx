@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { adminFetchHeaders } from "@/lib/admin-session";
+import { adminFetch } from "@/lib/admin-session";
 import {
   DEFAULT_INVOICE_TERMS,
   PAYMENT_METHODS,
@@ -43,9 +43,8 @@ export function AdminInvoicesPanel() {
 
   const load = useCallback(async () => {
     try {
-      const res = await fetch("/api/admin/invoices", {
+      const res = await adminFetch("/api/admin/invoices", {
         credentials: "same-origin",
-        headers: adminFetchHeaders(),
       });
       const data = await res.json();
       setSetupNote(data.setupNote ?? null);
@@ -97,10 +96,9 @@ export function AdminInvoicesPanel() {
     setError(null);
     setMessage(null);
     try {
-      const res = await fetch("/api/admin/invoices", {
+      const res = await adminFetch("/api/admin/invoices", {
         method: "POST",
-        credentials: "same-origin",
-        headers: adminFetchHeaders({ "Content-Type": "application/json" }),
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           clientName: form.clientName,
           projectName: form.projectName,

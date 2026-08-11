@@ -1,34 +1,13 @@
-/** Client-side admin gate for the marketing site (not enterprise auth). */
-
-import { ADMIN_SESSION_COOKIE } from "@/lib/analytics";
+/** Client-side admin UI helpers (non-secret flags only). Session auth is the httpOnly cookie. */
 
 export const ADMIN_USERNAME = "admin";
 export const ADMIN_EMAIL = "admin@atrix.com";
-export const DEFAULT_PASSWORD = "12345678";
 
 export const AUTH_KEYS = {
-  passwordHash: "atrix_admin_password_hash",
+  /** Non-secret UI flag so the shell can render without waiting on every paint. */
+  uiSession: "atrix_admin_ui",
   passwordChanged: "atrix_admin_password_changed",
-  session: "atrix_admin_session",
 } as const;
-
-function syncAdminSessionCookie(value: string | null): void {
-  if (typeof document === "undefined") return;
-  if (value) {
-    const maxAge = 60 * 60 * 24 * 14;
-    document.cookie = `${ADMIN_SESSION_COOKIE}=${encodeURIComponent(value)}; Path=/; Max-Age=${maxAge}; SameSite=Lax`;
-  } else {
-    document.cookie = `${ADMIN_SESSION_COOKIE}=; Path=/; Max-Age=0; SameSite=Lax`;
-  }
-}
-
-export async function sha256(text: string): Promise<string> {
-  const data = new TextEncoder().encode(text);
-  const digest = await crypto.subtle.digest("SHA-256", data);
-  return Array.from(new Uint8Array(digest))
-    .map((b) => b.toString(16).padStart(2, "0"))
-    .join("");
-}
 
 /** Accepts `admin` or legacy `admin@atrix.com` (domain stripped). */
 export function normalizeUsername(value: string): string {
@@ -39,60 +18,46 @@ export function isValidAdminUser(value: string): boolean {
   return normalizeUsername(value) === ADMIN_USERNAME;
 }
 
-export function getStoredPasswordHash(): string | null {
-  if (typeof window === "undefined") return null;
-  return window.localStorage.getItem(AUTH_KEYS.passwordHash);
+export function hasAdminUiSession(): boolean {
+  if (typeof window === "undefined") return false;
+  return window.localStorage.getItem(AUTH_KEYS.uiSession) === "1";
 }
 
-export function isPasswordChanged(): boolean {
+export function isPasswordChangedLocal(): boolean {
   if (typeof window === "undefined") return false;
   return window.localStorage.getItem(AUTH_KEYS.passwordChanged) === "true";
 }
 
+export function markAdminUiSession(passwordChanged = true): void {
+  window.localStorage.setItem(AUTH_KEYS.uiSession, "1");
+  if (passwordChanged) {
+    window.localStorage.setItem(AUTH_KEYS.passwordChanged, "true");
+  }
+}
+
+export function clearAdminUiSession(): void {
+  window.localStorage.removeItem(AUTH_KEYS.uiSession);
+  window.localStorage.removeItem(AUTH_KEYS.passwordChanged);
+  // Legacy client tokens / hashes — remove if present.
+  window.localStorage.removeItem("atrix_admin_session");
+  window.localStorage.removeItem("atrix_admin_password_hash");
+}
+
+/** @deprecated Use hasAdminUiSession — kept for gradual rename. */
 export function hasAdminSession(): boolean {
-  if (typeof window === "undefined") return false;
-  return Boolean(window.localStorage.getItem(AUTH_KEYS.session));
+  return hasAdminUiSession();
 }
 
-export async function getEffectivePasswordHash(): Promise<string> {
-  const stored = getStoredPasswordHash();
-  if (stored) return stored;
-  return sha256(DEFAULT_PASSWORD);
-}
-
-export async function verifyPassword(password: string): Promise<boolean> {
-  const [inputHash, expected] = await Promise.all([
-    sha256(password),
-    getEffectivePasswordHash(),
-  ]);
-  return inputHash === expected;
-}
-
-export function setAdminSession(): void {
-  const token = `ok:${Date.now().toString(36)}`;
-  window.localStorage.setItem(AUTH_KEYS.session, token);
-  syncAdminSessionCookie(token);
-}
-
+/** @deprecated Use clearAdminUiSession */
 export function clearAdminSession(): void {
-  window.localStorage.removeItem(AUTH_KEYS.session);
-  syncAdminSessionCookie(null);
+  clearAdminUiSession();
 }
 
-/** Keep cookie in sync when an older localStorage session exists. */
+/** No-op: session cookie is httpOnly and set by the server. */
 export function ensureAdminSessionCookie(): void {
-  const raw = window.localStorage.getItem(AUTH_KEYS.session);
-  if (raw?.startsWith("ok:")) syncAdminSessionCookie(raw);
-  else syncAdminSessionCookie(null);
+  /* intentional no-op */
 }
 
-export async function changeAdminPassword(newPassword: string): Promise<void> {
-  const hash = await sha256(newPassword);
-  window.localStorage.setItem(AUTH_KEYS.passwordHash, hash);
-  window.localStorage.setItem(AUTH_KEYS.passwordChanged, "true");
-  setAdminSession();
-}
-
-export function mustChangePassword(): boolean {
-  return !isPasswordChanged();
+export function isPasswordChanged(): boolean {
+  return isPasswordChangedLocal();
 }

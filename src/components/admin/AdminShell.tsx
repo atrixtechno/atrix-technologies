@@ -8,10 +8,9 @@ import { ThemeToggle } from "@/components/ThemeToggle";
 import { useTheme } from "@/components/ThemeProvider";
 import {
   ADMIN_USERNAME,
-  clearAdminSession,
-  ensureAdminSessionCookie,
-  hasAdminSession,
-  isPasswordChanged,
+  clearAdminUiSession,
+  hasAdminUiSession,
+  markAdminUiSession,
 } from "@/lib/admin-auth";
 
 const NAV = [
@@ -34,20 +33,61 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   useEffect(() => {
-    if (!hasAdminSession() || !isPasswordChanged()) {
-      router.replace("/login");
-      return;
+    let cancelled = false;
+    async function verify() {
+      try {
+        const res = await fetch("/api/admin/session", {
+          credentials: "include",
+          cache: "no-store",
+        });
+        if (cancelled) return;
+        if (!res.ok) {
+          clearAdminUiSession();
+          router.replace("/login");
+          return;
+        }
+        const data = (await res.json()) as {
+          authenticated?: boolean;
+          mustChangePassword?: boolean;
+        };
+        if (!data.authenticated) {
+          clearAdminUiSession();
+          router.replace("/login");
+          return;
+        }
+        markAdminUiSession(true);
+        setReady(true);
+      } catch {
+        if (!cancelled) {
+          if (hasAdminUiSession()) {
+            // Network blip — keep UI if flag present; APIs will 401.
+            setReady(true);
+          } else {
+            router.replace("/login");
+          }
+        }
+      }
     }
-    ensureAdminSessionCookie();
-    setReady(true);
+    void verify();
+    return () => {
+      cancelled = true;
+    };
   }, [router]);
 
   useEffect(() => {
     setMobileOpen(false);
   }, [pathname]);
 
-  function logout() {
-    clearAdminSession();
+  async function logout() {
+    try {
+      await fetch("/api/admin/logout", {
+        method: "POST",
+        credentials: "include",
+      });
+    } catch {
+      /* clear local anyway */
+    }
+    clearAdminUiSession();
     router.replace("/login");
   }
 

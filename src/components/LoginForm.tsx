@@ -7,14 +7,9 @@ import { Logo } from "@/components/Logo";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { useTheme } from "@/components/ThemeProvider";
 import {
-  changeAdminPassword,
-  clearAdminSession,
-  hasAdminSession,
-  isPasswordChanged,
+  clearAdminUiSession,
   isValidAdminUser,
-  mustChangePassword,
-  setAdminSession,
-  verifyPassword,
+  markAdminUiSession,
 } from "@/lib/admin-auth";
 
 type Step = "login" | "change-password";
@@ -32,11 +27,36 @@ export function LoginForm() {
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
-    if (hasAdminSession() && isPasswordChanged()) {
-      router.replace("/admin");
-      return;
+    let cancelled = false;
+    async function check() {
+      try {
+        const res = await fetch("/api/admin/session", {
+          credentials: "include",
+          cache: "no-store",
+        });
+        const data = (await res.json()) as {
+          authenticated?: boolean;
+          mustChangePassword?: boolean;
+        };
+        if (cancelled) return;
+        if (data.authenticated) {
+          markAdminUiSession(true);
+          router.replace("/admin");
+          return;
+        }
+        if (data.mustChangePassword) {
+          setStep("change-password");
+        }
+      } catch {
+        /* stay on login */
+      } finally {
+        if (!cancelled) setReady(true);
+      }
     }
-    setReady(true);
+    void check();
+    return () => {
+      cancelled = true;
+    };
   }, [router]);
 
   async function onLogin(e: FormEvent) {
@@ -50,21 +70,34 @@ export function LoginForm() {
         return;
       }
 
-      const ok = await verifyPassword(password);
-      if (!ok) {
-        setError("Usuario o contraseña incorrectos.");
+      const res = await fetch("/api/admin/login", {
+        method: "POST",
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ usuario: username, password }),
+      });
+      const data = (await res.json()) as {
+        error?: string;
+        mustChangePassword?: boolean;
+        ok?: boolean;
+      };
+
+      if (!res.ok) {
+        setError(data.error || "Usuario o contraseña incorrectos.");
         return;
       }
 
-      if (mustChangePassword()) {
-        clearAdminSession();
+      if (data.mustChangePassword) {
+        clearAdminUiSession();
         setStep("change-password");
         setPassword("");
         return;
       }
 
-      setAdminSession();
+      markAdminUiSession(true);
       router.replace("/admin");
+    } catch {
+      setError("No se pudo conectar. Intenta de nuevo.");
     } finally {
       setLoading(false);
     }
@@ -89,8 +122,21 @@ export function LoginForm() {
 
     setLoading(true);
     try {
-      await changeAdminPassword(newPassword);
+      const res = await fetch("/api/admin/change-password", {
+        method: "POST",
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ newPassword, confirmPassword }),
+      });
+      const data = (await res.json()) as { error?: string; ok?: boolean };
+      if (!res.ok) {
+        setError(data.error || "No se pudo cambiar la contraseña.");
+        return;
+      }
+      markAdminUiSession(true);
       router.replace("/admin");
+    } catch {
+      setError("No se pudo conectar. Intenta de nuevo.");
     } finally {
       setLoading(false);
     }

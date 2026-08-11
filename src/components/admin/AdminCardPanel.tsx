@@ -7,7 +7,7 @@ import {
   useState,
   type PointerEvent as ReactPointerEvent,
 } from "react";
-import { adminFetchHeaders } from "@/lib/admin-session";
+import { adminFetch } from "@/lib/admin-session";
 import type {
   BusinessCardLayout,
   CardElement,
@@ -31,9 +31,8 @@ export function AdminCardPanel() {
   const load = useCallback(async () => {
     try {
       const local = window.localStorage.getItem(LOCAL_KEY);
-      const res = await fetch("/api/admin/card-layout", {
+      const res = await adminFetch("/api/admin/card-layout", {
         credentials: "same-origin",
-        headers: adminFetchHeaders(),
       });
       const data = await res.json();
       setSetupNote(data.setupNote ?? null);
@@ -108,10 +107,9 @@ export function AdminCardPanel() {
     setMessage(null);
     try {
       window.localStorage.setItem(LOCAL_KEY, JSON.stringify(layout));
-      const res = await fetch("/api/admin/card-layout", {
+      const res = await adminFetch("/api/admin/card-layout", {
         method: "PUT",
-        credentials: "same-origin",
-        headers: adminFetchHeaders({ "Content-Type": "application/json" }),
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ layout }),
       });
       const data = await res.json();
