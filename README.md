@@ -31,6 +31,20 @@ Variables de servidor (`.env.local` / Vercel; nunca públicas):
 
 Panel: `/admin` · Proyectos `/admin/proyectos` · Facturas `/admin/facturas` · Tarjeta `/admin/tarjeta`.
 
+### Login admin
+
+- Usuario: escribe solo `admin` (la UI muestra el sufijo `@atrix.com`)
+- Contraseña por defecto: `12345678` (hasta el primer cambio)
+- Si ya cambiaste la contraseña en Supabase, usa la nueva o restablécela
+
+Reset one-time (service role, desde la raíz del repo):
+
+```bash
+node --env-file=.env.local scripts/reset-admin-password.mjs
+```
+
+Esto pone el hash de `12345678`, `password_changed=false`, y limpia bloqueos en `admin_login_attempts`.
+
 Bucket Storage recomendado (público): `project-assets` para logos de proyecto.
 
 ## Contacto del sitio

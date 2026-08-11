@@ -182,7 +182,7 @@ export function AdminInvoicesPanel() {
     <div className="space-y-6">
       <header>
         <p className="text-[11px] font-semibold tracking-[0.22em] text-accent uppercase">
-          3. Factura
+          Factura
         </p>
         <h1 className="font-display mt-2 text-3xl font-semibold tracking-tight text-fg md:text-4xl">
           Comprobante de servicio

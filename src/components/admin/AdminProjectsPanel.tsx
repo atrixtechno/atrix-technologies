@@ -257,7 +257,7 @@ export function AdminProjectsPanel() {
       <header className="flex flex-wrap items-end justify-between gap-4">
         <div>
           <p className="text-[11px] font-semibold tracking-[0.22em] text-accent uppercase">
-            2. Proyecto
+            Proyecto
           </p>
           <h1 className="font-display mt-2 text-3xl font-semibold tracking-tight text-fg md:text-4xl">
             Vault de proyectos

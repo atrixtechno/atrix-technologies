@@ -203,7 +203,7 @@ export function AdminCardPanel() {
     <div className="space-y-6">
       <header>
         <p className="text-[11px] font-semibold tracking-[0.22em] text-accent uppercase">
-          4. Tarjeta presentación
+          Tarjeta presentación
         </p>
         <h1 className="font-display mt-2 text-3xl font-semibold tracking-tight text-fg md:text-4xl">
           Editor visual
