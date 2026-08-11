@@ -9,6 +9,7 @@ import { useTheme } from "@/components/ThemeProvider";
 import {
   ADMIN_USERNAME,
   clearAdminSession,
+  ensureAdminSessionCookie,
   hasAdminSession,
   isPasswordChanged,
 } from "@/lib/admin-auth";
@@ -36,6 +37,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
       router.replace("/login");
       return;
     }
+    ensureAdminSessionCookie();
     setReady(true);
   }, [router]);
 

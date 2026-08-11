@@ -14,7 +14,12 @@ npm run dev
 
 ## Supabase
 
-En el SQL Editor del proyecto, ejecuta [`supabase/schema.sql`](supabase/schema.sql) para crear la tabla `leads` del formulario de contacto.
+En el SQL Editor del proyecto, ejecuta [`supabase/schema.sql`](supabase/schema.sql) (o la migración en `supabase/migrations/`) para crear:
+
+- `leads` — formulario de contacto
+- `page_views` — analítica first-party del Dashboard admin
+
+Para leer estadísticas en `/admin`, añade también `SUPABASE_SERVICE_ROLE_KEY` en `.env.local` y en Vercel (solo servidor; no es pública).
 
 ## Contacto del sitio
 

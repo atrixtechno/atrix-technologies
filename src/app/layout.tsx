@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Sora, Space_Grotesk } from "next/font/google";
 import { Analytics } from "@/components/Analytics";
 import { HashGuard } from "@/components/HashGuard";
+import { PageViewTracker } from "@/components/PageViewTracker";
 import { ScrollReset } from "@/components/ScrollReset";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { site } from "@/content/site";
@@ -136,6 +137,7 @@ export default function RootLayout({
         <ThemeProvider>
           <HashGuard />
           <ScrollReset />
+          <PageViewTracker />
           <Analytics />
           {children}
         </ThemeProvider>

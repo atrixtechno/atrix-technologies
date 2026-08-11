@@ -1,5 +1,7 @@
 /** Client-side admin gate for the marketing site (not enterprise auth). */
 
+import { ADMIN_SESSION_COOKIE } from "@/lib/analytics";
+
 export const ADMIN_USERNAME = "admin";
 export const ADMIN_EMAIL = "admin@atrix.com";
 export const DEFAULT_PASSWORD = "12345678";
@@ -9,6 +11,16 @@ export const AUTH_KEYS = {
   passwordChanged: "atrix_admin_password_changed",
   session: "atrix_admin_session",
 } as const;
+
+function syncAdminSessionCookie(value: string | null): void {
+  if (typeof document === "undefined") return;
+  if (value) {
+    const maxAge = 60 * 60 * 24 * 14;
+    document.cookie = `${ADMIN_SESSION_COOKIE}=${encodeURIComponent(value)}; Path=/; Max-Age=${maxAge}; SameSite=Lax`;
+  } else {
+    document.cookie = `${ADMIN_SESSION_COOKIE}=; Path=/; Max-Age=0; SameSite=Lax`;
+  }
+}
 
 export async function sha256(text: string): Promise<string> {
   const data = new TextEncoder().encode(text);
@@ -57,14 +69,21 @@ export async function verifyPassword(password: string): Promise<boolean> {
 }
 
 export function setAdminSession(): void {
-  window.localStorage.setItem(
-    AUTH_KEYS.session,
-    `ok:${Date.now().toString(36)}`,
-  );
+  const token = `ok:${Date.now().toString(36)}`;
+  window.localStorage.setItem(AUTH_KEYS.session, token);
+  syncAdminSessionCookie(token);
 }
 
 export function clearAdminSession(): void {
   window.localStorage.removeItem(AUTH_KEYS.session);
+  syncAdminSessionCookie(null);
+}
+
+/** Keep cookie in sync when an older localStorage session exists. */
+export function ensureAdminSessionCookie(): void {
+  const raw = window.localStorage.getItem(AUTH_KEYS.session);
+  if (raw?.startsWith("ok:")) syncAdminSessionCookie(raw);
+  else syncAdminSessionCookie(null);
 }
 
 export async function changeAdminPassword(newPassword: string): Promise<void> {

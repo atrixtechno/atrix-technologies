@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { AdminTrafficPanel } from "@/components/admin/AdminTrafficPanel";
 import { ADMIN_USERNAME, AUTH_KEYS } from "@/lib/admin-auth";
 import { projects } from "@/content/projects";
 
@@ -83,6 +84,8 @@ export function AdminDashboardHome() {
           hint={sessionToken ? "Token local activo" : "Sin token"}
         />
       </section>
+
+      <AdminTrafficPanel />
 
       <div className="grid gap-6 lg:grid-cols-2">
         <section className="border border-line bg-bg-elevated/70 p-5 backdrop-blur md:p-6">
