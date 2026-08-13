@@ -29,6 +29,9 @@ create table if not exists public.page_views (
   hash text,
   referrer text,
   user_agent text,
+  country text,
+  region text,
+  city text,
   created_at timestamptz not null default now()
 );
 
@@ -37,6 +40,12 @@ create index if not exists page_views_created_at_idx
 
 create index if not exists page_views_path_idx
   on public.page_views (path);
+
+create index if not exists page_views_country_idx
+  on public.page_views (country);
+
+create index if not exists page_views_city_idx
+  on public.page_views (city);
 
 alter table public.page_views enable row level security;
 

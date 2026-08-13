@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import {
+  geoFromRequest,
   normalizeHash,
   normalizePath,
   rateLimitOk,
@@ -45,16 +46,34 @@ export async function POST(request: Request) {
         ? String(body.userAgent)
         : request.headers.get("user-agent"),
     );
+    const geo = geoFromRequest(request);
 
     const supabase = getSupabase();
-    const { error } = await supabase.from("page_views").insert({
+    const row = {
       path,
       hash,
       referrer,
       user_agent: userAgent,
-    });
+      country: geo.country,
+      region: geo.region,
+      city: geo.city,
+    };
+    const { error } = await supabase.from("page_views").insert(row);
 
     if (error) {
+      const missingGeo =
+        /column .* (country|region|city)|schema cache/i.test(error.message);
+      if (missingGeo) {
+        const retry = await supabase.from("page_views").insert({
+          path,
+          hash,
+          referrer,
+          user_agent: userAgent,
+        });
+        if (!retry.error) {
+          return NextResponse.json({ ok: true });
+        }
+      }
       console.error("pageview insert", error);
       // Table missing or RLS — don't break the public site
       return NextResponse.json(

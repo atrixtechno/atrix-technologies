@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import type { AnalyticsStats } from "@/lib/analytics";
+import { placeLabel } from "@/lib/analytics";
 import { adminFetch } from "@/lib/admin-session";
 
 const POLL_MS = 8_000;
@@ -97,8 +98,8 @@ export function AdminTrafficPanel() {
             Tráfico del sitio
           </h2>
           <p className="mt-1 text-sm text-muted">
-            Vistas en tiempo casi real (actualiza cada {POLL_MS / 1000}s). Sin
-            datos personales.
+            Vistas en tiempo casi real (actualiza cada {POLL_MS / 1000}s). Ciudad
+            y país aproximados por IP de red; no se guarda la IP.
           </p>
         </div>
         <div className="flex items-center gap-2 text-xs text-muted">
@@ -167,6 +168,36 @@ export function AdminTrafficPanel() {
         </div>
       </div>
 
+      <div className="grid gap-6 lg:grid-cols-3">
+        <div>
+          <h3 className="text-xs font-semibold tracking-[0.16em] text-muted uppercase">
+            Ciudades
+          </h3>
+          <BarList
+            items={stats?.topCities ?? []}
+            emptyLabel="Aún no hay ubicaciones. Las visitas nuevas en producción las irán llenando."
+          />
+        </div>
+        <div>
+          <h3 className="text-xs font-semibold tracking-[0.16em] text-muted uppercase">
+            Países
+          </h3>
+          <BarList
+            items={stats?.topCountries ?? []}
+            emptyLabel="Sin países registrados todavía."
+          />
+        </div>
+        <div>
+          <h3 className="text-xs font-semibold tracking-[0.16em] text-muted uppercase">
+            De dónde llegan
+          </h3>
+          <BarList
+            items={stats?.topSources ?? []}
+            emptyLabel="Sin orígenes (Google, Facebook, directo…)."
+          />
+        </div>
+      </div>
+
       <div>
         <h3 className="text-xs font-semibold tracking-[0.16em] text-muted uppercase">
           Eventos recientes
@@ -176,20 +207,24 @@ export function AdminTrafficPanel() {
             Aún no hay visitas registradas.
           </p>
         ) : (
-          <ul className="mt-3 max-h-64 divide-y divide-line overflow-y-auto border border-line">
+          <ul className="mt-3 max-h-72 divide-y divide-line overflow-y-auto border border-line">
             {(stats?.recent ?? []).map((ev, i) => (
               <li
                 key={`${ev.created_at}-${ev.path}-${i}`}
-                className="flex items-baseline justify-between gap-3 px-3 py-2 text-sm"
+                className="flex flex-col gap-1 px-3 py-2.5 text-sm sm:flex-row sm:items-baseline sm:justify-between sm:gap-3"
               >
-                <span className="truncate font-medium text-fg">
+                <span className="min-w-0 truncate font-medium text-fg">
                   {ev.path}
                   {ev.hash ? (
                     <span className="text-accent">#{ev.hash}</span>
                   ) : null}
                 </span>
-                <span className="shrink-0 text-xs text-muted">
-                  {formatRelative(ev.created_at)}
+                <span className="flex shrink-0 flex-wrap items-center gap-x-3 gap-y-0.5 text-xs text-muted">
+                  <span title="Ubicación aproximada">
+                    {placeLabel(ev.city, ev.region, ev.country)}
+                  </span>
+                  <span>{ev.source}</span>
+                  <span>{formatRelative(ev.created_at)}</span>
                 </span>
               </li>
             ))}
