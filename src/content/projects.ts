@@ -1,3 +1,14 @@
+export type ProjectKind = "sitio-web" | "sistema";
+
+export const projectKindLabels: Record<ProjectKind, string> = {
+  "sitio-web": "Sitio web",
+  sistema: "Sistema",
+};
+
+export function projectKindLabel(kind: ProjectKind) {
+  return projectKindLabels[kind];
+}
+
 export type ProjectTheme = {
   bg: string;
   bgElevated: string;
@@ -11,6 +22,8 @@ export type ProjectTheme = {
 
 export type Project = {
   slug: string;
+  /** Sitio web público o sistema operativo (POS, panel, intranet). */
+  kind: ProjectKind;
   name: string;
   sector: string;
   summary: string;
@@ -54,6 +67,7 @@ export type Project = {
 export const projects: Project[] = [
   {
     slug: "dentalmate",
+    kind: "sitio-web",
     name: "DentalMate",
     sector: "Salud · Consultorio dental",
     summary:
@@ -254,6 +268,7 @@ export const projects: Project[] = [
   },
   {
     slug: "jonal-parfum",
+    kind: "sitio-web",
     name: "Jon Al Parfum",
     sector: "Retail · Perfumería de lujo",
     summary:
@@ -436,6 +451,7 @@ export const projects: Project[] = [
   },
   {
     slug: "grupo-gi-casa-de-cambio",
+    kind: "sitio-web",
     name: "Grupo GI Casa de Cambio",
     sector: "Finanzas · Casa de cambio",
     summary:
@@ -631,6 +647,7 @@ export const projects: Project[] = [
   },
   {
     slug: "dojangspace",
+    kind: "sitio-web",
     name: "DojangSpace",
     sector: "Deporte · Directorio global de Taekwondo",
     summary:
@@ -828,6 +845,7 @@ export const projects: Project[] = [
   },
   {
     slug: "tecos-elite-voleibol",
+    kind: "sitio-web",
     name: "Tecos Elite Voleibol",
     sector: "Deporte · Club de voleibol",
     summary:
@@ -1033,6 +1051,7 @@ export const projects: Project[] = [
   },
   {
     slug: "tecos-taekwondo",
+    kind: "sitio-web",
     name: "Tecos Taekwondo",
     sector: "Deporte · Academia de Taekwondo",
     summary:
@@ -1238,6 +1257,7 @@ export const projects: Project[] = [
   },
   {
     slug: "moes-market",
+    kind: "sitio-web",
     name: "MOE'S Market y Algo Más",
     sector: "Retail · Servicar / Bebidas preparadas",
     summary:
@@ -1421,6 +1441,191 @@ export const projects: Project[] = [
       "Tu negocio local también puede tener una marca digital tan fuerte como tu mostrador.",
       "ATRIX conecta menú visual, mapa de sucursales y SEO local para que el cliente llegue al punto correcto.",
       "Ideal para servicar, retail y franquicias que necesitan informar — no solo verse bonitas.",
+    ],
+    year: "2026",
+    location: "Nuevo Laredo, Tamaulipas",
+  },
+  {
+    slug: "moes-pos",
+    kind: "sistema",
+    name: "MOE'S Market — Punto de venta",
+    sector: "Retail · POS / Comandero",
+    summary:
+      "Sistema operativo para el servicar MOE'S: punto de venta, Comandero en tablet, catálogo de bebidas, corredores con PIN propio y sincronización de empleados entre RRHH y mostrador.",
+    result:
+      "Operación en sucursal con Comandero, caja y catálogo alineados — corredores identificados por clave personal, sin mezclar accesos de encargado/caja.",
+    previewImage: "/projects/moes-pos-preview.jpg",
+    logo: "/projects/logos/moes.png",
+    tags: [
+      "Punto de venta",
+      "Comandero",
+      "RRHH",
+      "Tablet / móvil",
+      "Operación en sucursal",
+      "Sincronización",
+    ],
+    stats: [
+      { value: "2", label: "Capas · Caja y Comandero" },
+      { value: "4+", label: "Sucursales MOE'S" },
+      { value: "PIN", label: "Acceso corredor por empleado" },
+      { value: "1", label: "Catálogo operativo" },
+    ],
+    story: [
+      "MOE'S Market y Algo Más ya tenía presencia digital en moes.market; el siguiente paso era ordenar la operación en mostrador: tomar pedidos rápido, identificar corredores y mantener el catálogo de bebidas preparadas alineado al negocio.",
+      "ATRIX Technologies desarrolló el punto de venta y el Comandero para tablet/PC: flujo de pedidos para servicar, catálogo por categorías, empleados tipo corredor con clave propia de mesero y sincronización desde RRHH hacia el dispositivo en piso.",
+      "El resultado es un sistema en producción separado del sitio web — pensado para la sucursal, con roles claros entre corredor, caja y administración.",
+    ],
+    approach: [
+      {
+        title: "Operación real",
+        copy: "Flujos diseñados para servicar: pedido rápido, corredor identificado y catálogo coherente con lo que vende MOE'S.",
+      },
+      {
+        title: "Roles separados",
+        copy: "Corredor entra al Comandero con su PIN; no comparte la clave global de caja ni cuentas de encargado.",
+      },
+      {
+        title: "RRHH conectado",
+        copy: "Alta y edición de corredores en empleados sincroniza nombre y clave al catálogo del Comandero.",
+      },
+    ],
+    deliverables: [
+      {
+        title: "Punto de venta",
+        copy: "Caja operativa para registrar ventas, productos y flujo de pedidos en sucursal.",
+      },
+      {
+        title: "Comandero",
+        copy: "Interfaz en tablet/PC para corredores: selección de bebidas, modifiers y envío de orden.",
+      },
+      {
+        title: "Catálogo operativo",
+        copy: "Bebidas preparadas y categorías alineadas al menú del negocio, listas para vender en piso.",
+      },
+      {
+        title: "Empleados y corredores",
+        copy: "Alta en RRHH con clave de mesero; sincronización automática al Comandero.",
+      },
+      {
+        title: "Identidad MOE'S",
+        copy: "UI navy/rojo/amarillo coherente con la marca del servicar.",
+      },
+      {
+        title: "Despliegue en sucursal",
+        copy: "Listo para operar en el entorno real del negocio, separado del sitio público.",
+      },
+    ],
+    lead: {
+      name: "Ing. Néstor J. Resendiz, MBA",
+      role: "Diseñador · Programador · Líder técnico · ATRIX Technologies",
+      badges: ["Ingeniería", "MBA"],
+      copy: [
+        "Arquitectura y desarrollo del POS MOE'S: Comandero, catálogo, corredores con PIN y sincronización de empleados desde RRHH.",
+        "Enfoque: sistema operativo en producción, roles claros y experiencia rápida para el personal en sucursal.",
+      ],
+    },
+    highlights: [
+      "Punto de venta y Comandero separados del sitio moes.market",
+      "Corredores con clave personal de mesero en tablet/PC",
+      "Sincronización de empleados RRHH → Comandero",
+      "Catálogo de bebidas preparadas para operación diaria",
+      "Roles diferenciados: corredor, caja y administración",
+    ],
+    stackNote: "App nativa · Comandero · RRHH · Catálogo",
+    seoTitle: "MOE'S Market — punto de venta y Comandero en Nuevo Laredo",
+    seoDescription:
+      "Caso ATRIX Technologies: sistema POS y Comandero para MOE'S Market y Algo Más con corredores, catálogo operativo y sincronización de empleados en Nuevo Laredo.",
+    keywords: [
+      "MOE'S POS",
+      "punto de venta Nuevo Laredo",
+      "Comandero tablet restaurante",
+      "sistema servicar",
+      "corredor mesero PIN",
+      "ATRIX Technologies",
+    ],
+    theme: {
+      bg: "#071430",
+      bgElevated: "#0a1a38",
+      fg: "#f0f4ff",
+      muted: "#9aa8c4",
+      accent: "#e30613",
+      accentInk: "#ffffff",
+      glow: "rgba(227,6,19,0.22)",
+    },
+    themeDark: {
+      bg: "#040c1e",
+      bgElevated: "#071430",
+      fg: "#f0f4ff",
+      muted: "#7a8aa8",
+      accent: "#ffd100",
+      accentInk: "#071430",
+      glow: "rgba(255,209,0,0.24)",
+    },
+    challenge:
+      "Un servicar con varias sucursales necesita tomar pedidos al instante, saber qué corredor atiende cada orden y mantener catálogo y personal sincronizados — sin depender del sitio web público.",
+    solution:
+      "Construimos un POS con Comandero en tablet: catálogo operativo, corredores con PIN propio desde RRHH y flujos separados de caja y encargado.",
+    impact: [
+      "Operación de mostrador más ágil e identificada",
+      "Personal de piso con acceso simple y seguro",
+      "Sistema listo para escalar sucursales y catálogo",
+    ],
+    modules: [
+      {
+        title: "Punto de venta",
+        copy: "Registro de ventas, productos y cierre operativo en caja.",
+      },
+      {
+        title: "Comandero",
+        copy: "Tablet/PC para corredores: pedidos, categorías y envío a cocina/preparación.",
+      },
+      {
+        title: "Catálogo",
+        copy: "Bebidas preparadas y categorías alineadas al menú MOE'S.",
+      },
+      {
+        title: "RRHH / Corredores",
+        copy: "Empleados con clave de mesero; sync automático al Comandero.",
+      },
+      {
+        title: "Roles y accesos",
+        copy: "Corredor, caja y encargado con permisos separados.",
+      },
+      {
+        title: "Operación multi-sucursal",
+        copy: "Pensado para la red MOE'S en Nuevo Laredo.",
+      },
+    ],
+    technologies: [
+      { name: "App nativa", role: "Comandero y POS en tablet/dispositivo de sucursal" },
+      { name: "Catálogo operativo", role: "Productos y categorías de bebidas preparadas" },
+      { name: "RRHH", role: "Alta de corredores y claves de mesero por empleado" },
+      { name: "Sync empleados", role: "Nombre + PIN disponibles en Comandero vía catálogo/API" },
+      { name: "UI MOE'S", role: "Identidad navy/rojo/amarillo en interfaces operativas" },
+      { name: "Roles separados", role: "Corredor sin cuenta de caja ni encargado" },
+    ],
+    process: [
+      {
+        title: "Operación en campo",
+        copy: "Mapeamos flujo servicar, roles en sucursal y límites entre web pública y POS.",
+      },
+      {
+        title: "Diseño operativo",
+        copy: "Comandero táctil, catálogo y accesos por PIN para corredores.",
+      },
+      {
+        title: "Desarrollo e integración",
+        copy: "POS, RRHH, sync de empleados y catálogo conectados al negocio.",
+      },
+      {
+        title: "Puesta en marcha",
+        copy: "Despliegue en sucursal, pruebas con personal y ajustes de operación real.",
+      },
+    ],
+    persuasion: [
+      "Tu negocio puede tener sitio web y sistema operativo — cada uno en su capa.",
+      "ATRIX diseña POS con roles reales: corredor, caja y admin sin mezclar accesos.",
+      "Ideal para servicar, retail y franquicias que necesitan orden en mostrador.",
     ],
     year: "2026",
     location: "Nuevo Laredo, Tamaulipas",
