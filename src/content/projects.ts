@@ -1454,7 +1454,6 @@ export const projects: Project[] = [
       "Ecosistema para operar MOE'S en sucursal: caja en mostrador, Comandero en tablet para corredores y portal en la nube para oficina — ventas, inventario, personal y reportes en un solo flujo.",
     result:
       "Red de sucursales operando con caja, tablet y portal conectados: la tienda sigue vendiendo aunque falle internet y al volver se sincroniza con oficina.",
-    url: "https://cloud.moes.market",
     previewImage: "/projects/moes-pos-preview.jpg",
     logo: "/projects/logos/moes.png",
     tags: [
