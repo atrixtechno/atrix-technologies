@@ -1236,6 +1236,195 @@ export const projects: Project[] = [
     year: "2025–2026",
     location: "Nuevo Laredo, Tamaulipas",
   },
+  {
+    slug: "moes-market",
+    name: "MOE'S Market y Algo Más",
+    sector: "Retail · Servicar / Bebidas preparadas",
+    summary:
+      "Presencia digital del servicar MOE'S en Nuevo Laredo: landing de marca, menú interactivo por categorías, mapa de 4 sucursales y base legal — sin venta de alcohol en línea.",
+    result:
+      "moes.market en producción — identidad navy/rojo/amarillo, hero con video, menú filtrable, mapa Leaflet, privacidad/cookies y Open Graph listo para WhatsApp.",
+    url: "https://moes.market",
+    designerUrl: "https://moes.market/atrix.html",
+    previewImage: "/projects/moes-preview.jpg",
+    logo: "/projects/logos/moes.png",
+    tags: [
+      "UI/UX",
+      "Frontend",
+      "Branding web",
+      "SEO local",
+      "Mapa interactivo",
+      "Landing",
+    ],
+    stats: [
+      { value: "4", label: "Sucursales en mapa" },
+      { value: "10+", label: "Categorías de menú" },
+      { value: "1", label: "Landing en producción" },
+      { value: "100%", label: "Diseño responsive" },
+    ],
+    story: [
+      "MOE'S Market y Algo Más necesitaba más que una página bonita: una marca digital confiable para mostrar bebidas preparadas, ubicar sucursales en Nuevo Laredo y dejar claro que la venta de alcohol es presencial (servicar), no en línea.",
+      "ATRIX Technologies diseñó y desarrolló el sitio de punta a punta: identidad navy/rojo/amarillo, hero con video, menú por categorías con zoom, mapa interactivo, aviso de privacidad, cookies y vista previa social lista para WhatsApp.",
+      "El resultado es moes.market en producción: SEO local, Open Graph, experiencia responsive y una landing pensada para informar y orientar al cliente hacia la sucursal más cercana.",
+    ],
+    approach: [
+      {
+        title: "Precisión visual",
+        copy: "Jerarquía, tipografía Bebas/Outfit y detalle para que la marca se sienta fuerte desde el primer viewport.",
+      },
+      {
+        title: "Enfoque en el cliente",
+        copy: "Mensajes claros, menú fácil de explorar y caminos simples hacia Maps o sucursales.",
+      },
+      {
+        title: "Ejecución completa",
+        copy: "Diseño, desarrollo, SEO, legales y despliegue — no solo un mockup.",
+      },
+    ],
+    deliverables: [
+      {
+        title: "Identidad digital",
+        copy: "Sistema visual navy/rojo/amarillo, tipografía Bebas/Outfit y motion coherente.",
+      },
+      {
+        title: "Catálogo de menú",
+        copy: "Categorías filtrables, flyers y detalle de precios de referencia por sección.",
+      },
+      {
+        title: "Orientación a sucursal",
+        copy: "Mapa interactivo, popups y CTAs a Google Maps para llegar a cada punto.",
+      },
+      {
+        title: "Experiencia móvil",
+        copy: "Layout responsive: filtros, hero y mapa adaptados a cada viewport.",
+      },
+      {
+        title: "Share social",
+        copy: "Open Graph formal para que el link se vea bien al pegarlo en WhatsApp.",
+      },
+      {
+        title: "Legal y confianza",
+        copy: "Aviso de privacidad, cookies, créditos ATRIX y mensajes de consumo responsable 18+.",
+      },
+    ],
+    lead: {
+      name: "Ing. Néstor J. Resendiz, MBA",
+      role: "Diseñador · Programador · Líder técnico · ATRIX Technologies",
+      badges: ["Ingeniería", "MBA"],
+      copy: [
+        "Encargado del diseño visual, la arquitectura del sitio y la programación de MOE'S Market y Algo Más: menú interactivo, mapa de sucursales, privacidad/cookies y publicación en producción.",
+        "Enfoque: código limpio, interfaces claras y comunicación directa con el cliente hasta que cada requisito quede reflejado en funcionalidad real.",
+      ],
+    },
+    highlights: [
+      "Landing en moes.market con hero de video y experiencia servicar",
+      "Menú interactivo con filtros, flyers, zoom y subpáginas por categoría",
+      "Mapa Leaflet con 4 sucursales MOE'S y enlaces a Google Maps",
+      "Aviso de privacidad, banner de cookies y mensajes 18+",
+      "SEO local, Open Graph y despliegue en VPS con Caddy",
+    ],
+    stackNote: "HTML · CSS · JS · Leaflet · Caddy",
+    seoTitle: "MOE'S Market — landing servicar con menú y mapa en Nuevo Laredo",
+    seoDescription:
+      "Caso ATRIX Technologies: sitio moes.market para MOE'S Market y Algo Más con menú interactivo, mapa de sucursales, privacidad/cookies y SEO local en Nuevo Laredo.",
+    keywords: [
+      "MOE'S Market",
+      "moes.market",
+      "servicar Nuevo Laredo",
+      "bebidas preparadas Tamaulipas",
+      "menú interactivo servicar",
+      "mapa sucursales Nuevo Laredo",
+      "ATRIX Technologies",
+    ],
+    theme: {
+      bg: "#071430",
+      bgElevated: "#0a1a38",
+      fg: "#f0f4ff",
+      muted: "#9aa8c4",
+      accent: "#e30613",
+      accentInk: "#ffffff",
+      glow: "rgba(227,6,19,0.22)",
+    },
+    themeDark: {
+      bg: "#040c1e",
+      bgElevated: "#071430",
+      fg: "#f0f4ff",
+      muted: "#7a8aa8",
+      accent: "#ffd100",
+      accentInk: "#071430",
+      glow: "rgba(255,209,0,0.24)",
+    },
+    challenge:
+      "Un servicar de bebidas preparadas necesita una marca digital fuerte, un menú visual fácil de explorar y orientación clara a sucursales — sin confundir al cliente con venta en línea de alcohol.",
+    solution:
+      "Construimos moes.market de punta a punta: identidad de marca, menú por categorías con zoom, mapa interactivo de 4 puntos, base legal y SEO local listo para compartir.",
+    impact: [
+      "Presencia digital alineada al tono servicar de MOE'S",
+      "Menú y sucursales accesibles desde móvil en segundos",
+      "Marca lista para crecer categorías y campañas locales",
+    ],
+    modules: [
+      {
+        title: "Landing de marca",
+        copy: "Hero con video, experiencia servicar, menú, sucursales, cierre de marca y footer legal.",
+      },
+      {
+        title: "Menú interactivo",
+        copy: "Filtros por categoría, flyers, precios de referencia, subpáginas y zoom de imagen.",
+      },
+      {
+        title: "Mapa de sucursales",
+        copy: "Leaflet con pines MOE'S, zoom al clic, popups decorados y enlaces a Google Maps.",
+      },
+      {
+        title: "Privacidad y cookies",
+        copy: "Aviso de privacidad, banner de consentimiento y mensajes de consumo responsable 18+.",
+      },
+      {
+        title: "Integraciones",
+        copy: "Google Maps, Leaflet/Carto, assets de marca, favicon y hosting en VPS con Caddy.",
+      },
+      {
+        title: "SEO y producción",
+        copy: "Meta local, Open Graph, canonical, dominio moes.market y despliegue en producción.",
+      },
+    ],
+    technologies: [
+      { name: "HTML5", role: "Estructura semántica y secciones del sitio" },
+      { name: "CSS3", role: "Sistema visual MOE'S navy/rojo/amarillo" },
+      { name: "JavaScript", role: "Menú filtrable, mapa, cookies y zoom" },
+      { name: "Leaflet", role: "Mapa interactivo con pines de sucursales" },
+      { name: "Carto", role: "Basemap oscuro alineado a la marca" },
+      { name: "Open Graph", role: "Preview formal al compartir en WhatsApp" },
+      { name: "Caddy / VPS", role: "Hosting HTTPS en producción" },
+      { name: "Bebas Neue + Outfit", role: "Tipografía display y cuerpo legible" },
+    ],
+    process: [
+      {
+        title: "Descubrimiento",
+        copy: "Alcance del sitio, categorías prioritarias, tono servicar y límites (sin venta en línea).",
+      },
+      {
+        title: "Diseño y contenido",
+        copy: "UI, copy en español, estructura SEO y prototipo de la experiencia pública.",
+      },
+      {
+        title: "Desarrollo e integraciones",
+        copy: "HTML/CSS/JS, menú, mapa Leaflet, privacidad, cookies, OG y assets de marca.",
+      },
+      {
+        title: "Entrega y ajustes",
+        copy: "Publicación en moes.market, pruebas y refinamiento según uso real del negocio.",
+      },
+    ],
+    persuasion: [
+      "Tu negocio local también puede tener una marca digital tan fuerte como tu mostrador.",
+      "ATRIX conecta menú visual, mapa de sucursales y SEO local para que el cliente llegue al punto correcto.",
+      "Ideal para servicar, retail y franquicias que necesitan informar — no solo verse bonitas.",
+    ],
+    year: "2026",
+    location: "Nuevo Laredo, Tamaulipas",
+  },
 ];
 
 export function getProject(slug: string) {

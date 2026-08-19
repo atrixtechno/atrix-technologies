@@ -9,7 +9,7 @@ export const recommendationsPage = {
   facebookUrl: site.facebookReviews,
   summary: {
     scoreLabel: "recomiendan",
-    reviewCount: 9,
+    reviewCount: 10,
     source: "Facebook · ATRIX",
   },
 } as const;
@@ -23,6 +23,13 @@ export type Recommendation = {
 
 /** Reseñas públicas de Facebook · ATRIX (atrixnld). */
 export const recommendations: Recommendation[] = [
+  {
+    name: "Dental Mate Mexico",
+    recommends: true,
+    source: "Facebook",
+    excerpt:
+      "Muchas gracias! Quedamos satisfechos con el servicio del sitio web. En tiempo y forma, y comunicación. Muchas gracias.",
+  },
   {
     name: "Jonathan Ruiz",
     recommends: true,

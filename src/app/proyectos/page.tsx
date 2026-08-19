@@ -10,7 +10,7 @@ import { site } from "@/content/site";
 export const metadata: Metadata = {
   title: "Proyectos",
   description:
-    "Portafolio de ATRIX Technologies: DentalMate, Grupo GI, DojangSpace, Tecos Elite y más plataformas a la medida en Nuevo Laredo.",
+    "Portafolio de ATRIX Technologies: DentalMate, MOE'S Market, Grupo GI, DojangSpace, Tecos Elite y más plataformas a la medida en Nuevo Laredo.",
   alternates: { canonical: "/proyectos" },
   openGraph: {
     title: `Proyectos · ${site.legalName}`,

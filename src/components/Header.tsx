@@ -49,7 +49,7 @@ function Chevron({ open }: { open?: boolean }) {
   );
 }
 
-function SoftwareDropdown({
+function ProjectsDropdown({
   open,
   onOpen,
   onClose,
@@ -101,7 +101,7 @@ function SoftwareDropdown({
         aria-controls={panelId}
         onClick={onClose}
       >
-        Software
+        Proyectos
         <Chevron open={open} />
       </Link>
 
@@ -118,10 +118,10 @@ function SoftwareDropdown({
         <div className="overflow-hidden border border-line bg-bg-elevated/95 shadow-[0_24px_60px_rgba(11,26,36,0.14)] backdrop-blur-md">
           <div className="border-b border-line px-4 py-3">
             <p className="text-[10px] font-semibold tracking-[0.22em] text-accent uppercase">
-              Portafolio de software
+              Plataformas digitales
             </p>
             <p className="mt-1 text-xs text-muted">
-              Sistemas y plataformas a la medida
+              Sistemas integrados y presencia web en producción
             </p>
           </div>
           <ul className="max-h-[calc(4*3.35rem)] overflow-y-auto overscroll-contain py-1.5 [scrollbar-gutter:stable]">
@@ -210,9 +210,9 @@ export function Header({
   const { theme } = useTheme();
   const pathname = usePathname();
   const useLightLogo = light || theme === "light";
-  const [softwareOpen, setSoftwareOpen] = useState(false);
+  const [projectsOpen, setProjectsOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [mobileSoftwareOpen, setMobileSoftwareOpen] = useState(false);
+  const [mobileProjectsOpen, setMobileProjectsOpen] = useState(false);
   const [portalReady, setPortalReady] = useState(false);
 
   const mobilePanelRef = useRef<HTMLDivElement>(null);
@@ -244,12 +244,12 @@ export function Header({
 
   function closeMobileMenu() {
     setMobileOpen(false);
-    setMobileSoftwareOpen(false);
+    setMobileProjectsOpen(false);
   }
 
   function toggleMobileMenu() {
     setMobileOpen((v) => {
-      if (v) setMobileSoftwareOpen(false);
+      if (v) setMobileProjectsOpen(false);
       return !v;
     });
   }
@@ -326,10 +326,10 @@ export function Header({
             </SectionLink>
           ))}
 
-          <SoftwareDropdown
-            open={softwareOpen}
-            onOpen={() => setSoftwareOpen(true)}
-            onClose={() => setSoftwareOpen(false)}
+          <ProjectsDropdown
+            open={projectsOpen}
+            onOpen={() => setProjectsOpen(true)}
+            onClose={() => setProjectsOpen(false)}
           />
 
           {pageLinks.map((link) => (
@@ -435,19 +435,19 @@ export function Header({
                     className="text-[15px] font-semibold text-fg"
                     onClick={closeMobileMenu}
                   >
-                    Software
+                    Proyectos
                   </Link>
                   <button
                     type="button"
-                    aria-label="Ver proyectos de software"
-                    aria-expanded={mobileSoftwareOpen}
-                    onClick={() => setMobileSoftwareOpen((v) => !v)}
+                    aria-label="Ver plataformas digitales"
+                    aria-expanded={mobileProjectsOpen}
+                    onClick={() => setMobileProjectsOpen((v) => !v)}
                     className="inline-flex h-8 w-8 items-center justify-center border border-line bg-bg-elevated text-muted"
                   >
-                    <Chevron open={mobileSoftwareOpen} />
+                    <Chevron open={mobileProjectsOpen} />
                   </button>
                 </div>
-                {mobileSoftwareOpen && (
+                {mobileProjectsOpen && (
                   <ul className="max-h-[calc(4*2.75rem)] space-y-0 overflow-y-auto overscroll-contain bg-bg-elevated pb-2 pl-1">
                     {projects.map((project) => (
                       <li key={project.slug}>
