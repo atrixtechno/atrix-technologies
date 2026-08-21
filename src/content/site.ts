@@ -7,8 +7,8 @@ export const site = {
   motto: "Tecnología · Innovación · Rendimiento",
   description:
     "ATRIX Technologies ofrece soporte técnico, CCTV, redes, impresoras, desarrollo de software y soporte IT empresarial en Nuevo Laredo y Laredo, TX. Tecnología confiable, atención personalizada.",
-  phoneDisplay: "867 179 3155",
-  whatsapp: process.env.NEXT_PUBLIC_WHATSAPP ?? "528671793155",
+  phoneDisplay: "867 729 0445",
+  whatsapp: process.env.NEXT_PUBLIC_WHATSAPP ?? "528677290445",
   email: "atrix.techno@gmail.com",
   facebook: "https://www.facebook.com/atrixnld",
   facebookReviews:

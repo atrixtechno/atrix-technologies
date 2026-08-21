@@ -49,4 +49,4 @@ Bucket Storage recomendado (público): `project-assets` para logos de proyecto.
 
 ## Contacto del sitio
 
-WhatsApp: +52 867 179 3155
+WhatsApp: +52 867 729 0445

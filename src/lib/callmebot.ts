@@ -34,7 +34,7 @@ export async function sendCallMeBotWhatsApp(text: string): Promise<{
     return { ok: false, skipped: true };
   }
 
-  // CallMeBot: usar el número como en la activación (ej. 5218671793155)
+  // CallMeBot: usar el número como en la activación (ej. 5218677290445)
   const phone = phoneRaw.replace(/^\+/, "").replace(/\s+/g, "");
 
   const url = new URL(ENDPOINT);

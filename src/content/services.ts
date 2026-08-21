@@ -148,6 +148,6 @@ export const benefits = [
   },
   {
     title: "Respuesta directa por WhatsApp",
-    copy: "Cotiza, agenda visita o pide soporte al 867 179 3155. Comunicación clara, sin burocracia.",
+    copy: "Cotiza, agenda visita o pide soporte al 867 729 0445. Comunicación clara, sin burocracia.",
   },
 ];

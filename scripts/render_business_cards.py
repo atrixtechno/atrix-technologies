@@ -443,7 +443,7 @@ def render_front() -> Image.Image:
     draw.line([(rx, ul_y), (rx + max(tw, 280), ul_y)], fill=BLUE, width=4)
 
     rows = [
-        ("phone", "+52 867 179 3155", None),
+        ("phone", "+52 867 729 0445", None),
         ("mail", "atrix.techno@gmail.com", None),
         ("web", "atrixnld.com", None),
         ("pin", "Nuevo Laredo, Tamps.", "Laredo, TX"),
