@@ -22,7 +22,7 @@ export function SectionMedia({
 }: Props) {
   return (
     <div
-      className={`relative overflow-hidden border border-line bg-bg-elevated ${aspect} ${className}`}
+      className={`relative overflow-hidden rounded-[1.5rem] border border-line bg-bg-elevated shadow-[0_12px_40px_rgba(11,18,32,0.06)] ${aspect} ${className}`}
     >
       <div className="pointer-events-none absolute inset-x-0 top-0 z-10 h-px bg-gradient-to-r from-transparent via-accent/60 to-transparent" />
       <Image

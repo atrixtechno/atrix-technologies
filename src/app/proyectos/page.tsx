@@ -65,25 +65,39 @@ export default function ProjectsIndexPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <Header solid />
-      <main className="atmosphere min-h-screen">
-        <div className="mx-auto max-w-6xl px-5 pb-20 pt-14 sm:pb-24 sm:pt-16 md:px-8 md:pt-20">
-          <p className="text-[11px] font-semibold tracking-[0.22em] text-accent uppercase sm:text-xs sm:tracking-[0.28em]">
-            Portafolio
-          </p>
-          <h1 className="font-display mt-3 max-w-3xl text-balance text-3xl font-extrabold tracking-tight sm:mt-4 sm:text-4xl md:text-6xl">
-            Proyectos que operan en el mundo real
-          </h1>
-          <p className="mt-4 max-w-2xl text-pretty text-base text-muted sm:mt-5 sm:text-lg">
-            Filtra por sitio web o sistema operativo. Entra a cada caso para ver el
-            reto, la solución, módulos, tecnologías y por qué un cliente elegiría
-            algo similar.
-          </p>
+      <div className="atmosphere relative min-h-screen">
+        <Header />
+        <main className="relative z-10">
+          <section className="relative overflow-hidden bg-[#050a16] text-white">
+            <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_70%_50%_at_80%_20%,rgba(26,107,255,0.28),transparent_60%)]" />
+            <div className="relative mx-auto max-w-6xl px-5 pb-16 pt-28 sm:px-8 sm:pb-20 sm:pt-32 md:pb-24 md:pt-36">
+              <p className="font-display text-[clamp(2.4rem,8vw,4.5rem)] font-extrabold leading-[0.9] tracking-[-0.04em]">
+                {site.name}
+              </p>
+              <p className="mt-2 text-sm font-semibold tracking-[0.22em] text-white/65 uppercase">
+                Technologies · Portafolio
+              </p>
+              <h1 className="font-display mt-8 max-w-3xl text-balance text-[1.75rem] font-bold leading-[1.12] tracking-[-0.03em] sm:text-4xl md:text-5xl">
+                Proyectos que operan en el mundo real
+              </h1>
+              <p className="mt-5 max-w-2xl text-pretty text-[15px] leading-relaxed text-white/75 sm:text-base md:text-lg">
+                Filtra por sitio web o sistema. Entra a cada caso para ver el reto,
+                la solución y por qué un cliente elegiría algo similar.
+              </p>
+            </div>
+          </section>
 
-          <ProjectsIndexGrid />
+          <div className="relative overflow-hidden rounded-t-[2rem] bg-bg md:rounded-t-[2.5rem]">
+            <div className="grid-tech pointer-events-none absolute inset-0 opacity-50" />
+            <div className="relative mx-auto max-w-6xl px-5 pb-20 pt-10 sm:px-8 sm:pb-24 sm:pt-12 md:pt-14">
+              <ProjectsIndexGrid />
+            </div>
+          </div>
+        </main>
+        <div className="relative z-10">
+          <Footer />
         </div>
-      </main>
-      <Footer />
+      </div>
     </>
   );
 }

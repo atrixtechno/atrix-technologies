@@ -3,7 +3,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
-import { PageDecor } from "@/components/PageDecor";
 import { QuieresSerParteHero } from "@/components/QuieresSerParteHero";
 import { QuieresSerParteIdentidad } from "@/components/QuieresSerParteIdentidad";
 import { Reveal } from "@/components/Reveal";
@@ -122,12 +121,13 @@ export default function QuieresSerPartePage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <div className="relative">
-        <PageDecor />
-        <Header solid />
-        <main className="atmosphere relative z-10 min-h-screen">
+      <div className="atmosphere relative min-h-screen">
+        <Header />
+        <main className="relative z-10">
           <QuieresSerParteHero whatsappHref={wa} />
-
+          <div className="relative overflow-hidden rounded-t-[2rem] bg-bg md:rounded-t-[2.5rem]">
+            <div className="grid-tech pointer-events-none absolute inset-0 opacity-50" />
+            <div className="relative">
           <QuieresSerParteIdentidad />
 
           {/* Areas */}
@@ -151,7 +151,7 @@ export default function QuieresSerPartePage() {
               <ul className="mt-10 grid grid-cols-1 gap-4 sm:mt-12 sm:grid-cols-2 lg:grid-cols-5 lg:gap-3">
                 {uneteAreas.map((area, index) => (
                   <Reveal key={area.label} delay={index * 55}>
-                    <li className="group h-full overflow-hidden border border-line bg-bg-elevated/70 transition hover:border-accent/35 hover:bg-bg-elevated">
+                    <li className="group h-full overflow-hidden rounded-[1.5rem] border border-line bg-bg-elevated/70 shadow-[0_12px_40px_rgba(11,18,32,0.06)] transition hover:border-accent/35 hover:bg-bg-elevated hover:shadow-[0_20px_44px_rgba(26,107,255,0.12)]">
                       <div className="relative aspect-[16/11] w-full overflow-hidden border-b border-line bg-bg">
                         <Image
                           src={area.image}
@@ -217,7 +217,7 @@ export default function QuieresSerPartePage() {
               <ol className="mt-12 grid grid-cols-1 gap-4 md:mt-14 md:grid-cols-3 md:gap-5">
                 {uneteSteps.map((step, index) => (
                   <Reveal key={step.number} delay={index * 70}>
-                    <li className="flex h-full flex-col border border-line bg-bg p-6 sm:p-7">
+                    <li className="flex h-full flex-col rounded-[1.5rem] border border-line bg-bg p-6 shadow-[0_12px_40px_rgba(11,18,32,0.06)] sm:p-7">
                       <span className="font-display text-3xl font-extrabold text-accent tabular-nums">
                         {step.number}
                       </span>
@@ -262,7 +262,7 @@ export default function QuieresSerPartePage() {
           >
             <div className="mx-auto max-w-6xl px-4 sm:px-5 md:px-8">
               <Reveal>
-                <div className="relative overflow-hidden border border-line bg-gradient-to-br from-bg-elevated via-bg to-bg">
+                <div className="relative overflow-hidden rounded-[1.5rem] border border-line bg-gradient-to-br from-bg-elevated via-bg to-bg shadow-[0_12px_40px_rgba(11,18,32,0.06)]">
                   <div className="pointer-events-none absolute inset-0" aria-hidden>
                     <div className="grid-tech absolute inset-0 opacity-30" />
                     <div className="absolute -left-16 top-0 h-56 w-56 rounded-full bg-accent/15 blur-3xl" />
@@ -315,6 +315,8 @@ export default function QuieresSerPartePage() {
               </Reveal>
             </div>
           </section>
+            </div>
+          </div>
         </main>
         <div className="relative z-10">
           <Footer />

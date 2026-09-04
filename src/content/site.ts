@@ -3,10 +3,10 @@ export const site = {
   legalName: "ATRIX Technologies",
   city: "Nuevo Laredo, Tamaulipas",
   coverage: "Nuevo Laredo y Laredo, TX",
-  tagline: "Soluciones tecnológicas para hogares y empresas",
+  tagline: "Tecnología que opera y vende por tu negocio",
   motto: "Tecnología · Innovación · Rendimiento",
   description:
-    "ATRIX Technologies ofrece soporte técnico, CCTV, redes, impresoras, desarrollo de software y soporte IT empresarial en Nuevo Laredo y Laredo, TX. Tecnología confiable, atención personalizada.",
+    "ATRIX Technologies ofrece soporte técnico, CCTV, redes, impresoras, plataformas digitales y soporte IT empresarial en Nuevo Laredo y Laredo, TX. Diseño premium e ingeniería real para hogares y empresas.",
   phoneDisplay: "867 729 0445",
   whatsapp: process.env.NEXT_PUBLIC_WHATSAPP ?? "528677290445",
   email: "atrix.techno@gmail.com",

@@ -8,7 +8,6 @@ import { Logo } from "@/components/Logo";
 import { ProjectLogo } from "@/components/ProjectLogo";
 import { SectionLink } from "@/components/SectionLink";
 import { ThemeToggle } from "@/components/ThemeToggle";
-import { useTheme } from "@/components/ThemeProvider";
 import { projects } from "@/content/projects";
 import { site, whatsappUrl } from "@/content/site";
 
@@ -26,9 +25,8 @@ const pageLinks = [
   { href: "/quieres-ser-parte", label: "Sé parte" },
 ] as const;
 
-/** Compact at `lg` so many items fit; relax spacing at `xl`. */
 const navLinkClass =
-  "shrink-0 whitespace-nowrap rounded-full px-2 py-1.5 text-xs font-medium tracking-wide text-muted transition-colors hover:bg-bg-elevated/70 hover:text-fg xl:px-3 xl:py-2 xl:text-[13px]";
+  "shrink-0 whitespace-nowrap rounded-full px-2.5 py-1.5 text-xs font-medium tracking-wide text-muted transition-colors hover:bg-bg/70 hover:text-fg xl:px-3 xl:py-2 xl:text-[13px]";
 
 function Chevron({ open }: { open?: boolean }) {
   return (
@@ -115,7 +113,7 @@ function ProjectsDropdown({
             : "pointer-events-none -translate-y-1 opacity-0"
         }`}
       >
-        <div className="overflow-hidden border border-line bg-bg-elevated/95 shadow-[0_24px_60px_rgba(11,26,36,0.14)] backdrop-blur-md">
+        <div className="overflow-hidden rounded-2xl border border-line bg-bg-elevated/95 shadow-[0_24px_60px_rgba(11,26,36,0.14)] backdrop-blur-md">
           <div className="border-b border-line px-4 py-3">
             <p className="text-[10px] font-semibold tracking-[0.22em] text-accent uppercase">
               Plataformas digitales
@@ -199,17 +197,15 @@ function HamburgerIcon({ open }: { open: boolean }) {
 
 export function Header({
   solid: _solid = false,
-  light = false,
-  hideBrand = false,
+  light: _light = false,
+  hideBrand: _hideBrand = false,
 }: {
   solid?: boolean;
   light?: boolean;
   /** En landing: menú sticky sin logo (el hero ya lleva la marca). */
   hideBrand?: boolean;
 }) {
-  const { theme } = useTheme();
   const pathname = usePathname();
-  const useLightLogo = light || theme === "light";
   const [projectsOpen, setProjectsOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mobileProjectsOpen, setMobileProjectsOpen] = useState(false);
@@ -276,7 +272,7 @@ export function Header({
     closeMobileMenu();
   }
 
-  const brandLink = !hideBrand && (
+  const brandLink = (
     <Link
       href="/"
       className="group inline-flex min-w-0 shrink items-center"
@@ -284,85 +280,79 @@ export function Header({
       onClick={onBrandClick}
     >
       <Logo
-        key={useLightLogo ? "nav-lockup-light-sm" : "nav-lockup-dark-sm"}
-        variant={useLightLogo ? "lockup-light" : "lockup"}
+        key="drawer-lockup"
+        variant="lockup"
         size={152}
-        className="transition-transform duration-300 group-hover:scale-[1.02] lg:hidden"
-        priority
-      />
-      <Logo
-        key={useLightLogo ? "nav-lockup-light-lg" : "nav-lockup-dark-lg"}
-        variant={useLightLogo ? "lockup-light" : "lockup"}
-        size={168}
-        className="hidden transition-transform duration-300 group-hover:scale-[1.02] lg:block xl:hidden"
-        priority
-      />
-      <Logo
-        key={useLightLogo ? "nav-lockup-light-xl" : "nav-lockup-dark-xl"}
-        variant={useLightLogo ? "lockup-light" : "lockup"}
-        size={196}
-        className="hidden transition-transform duration-300 group-hover:scale-[1.02] xl:block"
+        className="transition-transform duration-300 group-hover:scale-[1.02]"
         priority
       />
     </Link>
   );
 
   return (
-    <header className="sticky top-0 z-40 border-b border-line bg-bg/95 backdrop-blur-md">
-      <div
-        className={`mx-auto flex max-w-6xl items-center gap-2 px-5 py-3.5 md:gap-3 md:px-8 md:py-5 ${
-          hideBrand ? "justify-end" : "justify-between"
-        }`}
-      >
-        {brandLink}
-
-        <nav
-          className="hidden min-w-0 items-center gap-0.5 lg:flex xl:gap-1"
-          aria-label="Principal"
+    <header className="pointer-events-none fixed inset-x-0 top-0 z-40 px-3 pt-3 sm:px-5 sm:pt-4 md:px-8">
+      <div className="pointer-events-auto mx-auto flex max-w-6xl items-center justify-between gap-3">
+        <Link
+          href="/"
+          className="group inline-flex min-w-0 shrink items-center rounded-full border border-white/10 bg-black/25 px-3 py-2 backdrop-blur-md sm:px-4"
+          aria-label="ATRIX Technologies"
+          onClick={onBrandClick}
         >
-          {links.slice(0, 3).map((link) => (
-            <SectionLink key={link.hash} hash={link.hash} className={navLinkClass}>
-              {link.label}
-            </SectionLink>
-          ))}
-
-          <ProjectsDropdown
-            open={projectsOpen}
-            onOpen={() => setProjectsOpen(true)}
-            onClose={() => setProjectsOpen(false)}
+          <Logo
+            key="nav-lockup-dark-hero"
+            variant="lockup"
+            size={148}
+            className="transition-transform duration-300 group-hover:scale-[1.02]"
+            priority
           />
+        </Link>
 
-          {pageLinks.map((link) => (
-            <Link key={link.href} href={link.href} className={navLinkClass}>
-              {link.label}
-            </Link>
-          ))}
+        <div className="nav-pill hidden items-center gap-1 rounded-full px-2 py-1.5 lg:flex xl:gap-1.5 xl:px-2.5 xl:py-2">
+          <nav className="flex min-w-0 items-center gap-0.5" aria-label="Principal">
+            {links.slice(0, 3).map((link) => (
+              <SectionLink key={link.hash} hash={link.hash} className={navLinkClass}>
+                {link.label}
+              </SectionLink>
+            ))}
 
-          <SectionLink hash="contacto" className={navLinkClass}>
-            Contacto
-          </SectionLink>
+            <ProjectsDropdown
+              open={projectsOpen}
+              onOpen={() => setProjectsOpen(true)}
+              onClose={() => setProjectsOpen(false)}
+            />
 
-          <div className="ml-1.5 flex shrink-0 items-center gap-1.5 border-l border-line pl-2.5 xl:ml-2 xl:gap-2 xl:pl-4">
+            {pageLinks.map((link) => (
+              <Link key={link.href} href={link.href} className={navLinkClass}>
+                {link.label}
+              </Link>
+            ))}
+
+            <SectionLink hash="contacto" className={navLinkClass}>
+              Contacto
+            </SectionLink>
+          </nav>
+
+          <div className="ml-1 flex shrink-0 items-center gap-1.5 border-l border-line pl-2 xl:ml-1.5 xl:pl-3">
             <ThemeToggle />
             <a
               href={whatsappUrl()}
               target="_blank"
               rel="noopener noreferrer"
-              className="btn-primary rounded-full px-3 py-1.5 text-xs font-semibold xl:px-4 xl:py-2 xl:text-sm"
+              className="btn-ink rounded-full px-3.5 py-2 text-xs font-semibold xl:px-4 xl:text-sm"
             >
-              WhatsApp
+              Cotizar
             </a>
           </div>
-        </nav>
+        </div>
 
-        <div className="flex items-center gap-2 lg:hidden">
+        <div className="nav-pill flex items-center gap-2 rounded-full px-2 py-1.5 lg:hidden">
           <ThemeToggle />
           <button
             type="button"
             aria-label={mobileOpen ? "Cerrar menú" : "Abrir menú"}
             aria-expanded={mobileOpen}
             onClick={toggleMobileMenu}
-            className="inline-flex h-10 w-10 items-center justify-center border border-line bg-bg-elevated text-fg"
+            className="inline-flex h-10 w-10 items-center justify-center rounded-full text-fg"
           >
             <span className="sr-only">Menú</span>
             <HamburgerIcon open={mobileOpen} />
@@ -383,26 +373,14 @@ export function Header({
             onPointerDown={onMobileShellPointerDown}
           >
             <div className="flex shrink-0 items-center justify-between gap-3 border-b border-line px-5 py-3.5">
-              <Link
-                href="/"
-                className="inline-flex min-w-0 items-center"
-                aria-label="ATRIX Technologies"
-                onClick={onBrandClick}
-              >
-                <Logo
-                  key={useLightLogo ? "drawer-lockup-light" : "drawer-lockup-dark"}
-                  variant={useLightLogo ? "lockup-light" : "lockup"}
-                  size={152}
-                  priority
-                />
-              </Link>
+              {brandLink}
               <div className="flex items-center gap-2">
                 <ThemeToggle />
                 <button
                   type="button"
                   aria-label="Cerrar menú"
                   onClick={closeMobileMenu}
-                  className="inline-flex h-10 w-10 items-center justify-center border border-line bg-bg-elevated text-fg"
+                  className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-line bg-bg-elevated text-fg"
                 >
                   <HamburgerIcon open />
                 </button>

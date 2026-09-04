@@ -72,7 +72,7 @@ export function Coverage() {
                 {cities.map((city) => (
                   <li
                     key={city.name}
-                    className="tech-frame border border-line bg-bg/80 p-4 backdrop-blur transition hover:border-accent/35"
+                    className="tech-frame rounded-[1.5rem] border border-line bg-bg/80 p-4 shadow-[0_12px_40px_rgba(11,18,32,0.06)] backdrop-blur transition hover:border-accent/35"
                   >
                     <p className="font-display text-lg font-semibold">{city.name}</p>
                     <p className="mt-1 text-[10px] font-semibold tracking-[0.16em] text-signal uppercase">
@@ -126,7 +126,7 @@ export function Coverage() {
         <ul className="mt-12 grid gap-4 sm:grid-cols-3">
           {pillars.map((item, index) => (
             <Reveal key={item.title} delay={index * 90}>
-              <li className="tech-frame border border-line bg-bg-elevated/50 px-5 py-5 transition duration-300 hover:-translate-y-0.5 hover:border-accent/35">
+              <li className="tech-frame rounded-[1.5rem] border border-line bg-bg-elevated/50 px-5 py-5 shadow-[0_12px_40px_rgba(11,18,32,0.06)] transition duration-300 hover:-translate-y-0.5 hover:border-accent/35">
                 <h3 className="font-display text-base font-semibold text-signal">
                   {item.title}
                 </h3>

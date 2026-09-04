@@ -73,11 +73,19 @@ export default async function ProjectPage({ params }: Props) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <Header solid />
-      <ProjectThemeShell theme={project.theme} themeDark={project.themeDark}>
-        <ProjectCase project={project} />
-      </ProjectThemeShell>
-      <Footer />
+      <div className="atmosphere relative min-h-screen">
+        <Header />
+        <main className="relative z-10 pt-20">
+          <div className="relative overflow-hidden rounded-t-[2rem] bg-bg md:rounded-t-[2.5rem]">
+            <ProjectThemeShell theme={project.theme} themeDark={project.themeDark}>
+              <ProjectCase project={project} />
+            </ProjectThemeShell>
+          </div>
+        </main>
+        <div className="relative z-10">
+          <Footer />
+        </div>
+      </div>
     </>
   );
 }

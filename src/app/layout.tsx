@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Sora, Space_Grotesk } from "next/font/google";
+import { Outfit, Plus_Jakarta_Sans } from "next/font/google";
 import { ConsentGatedAnalytics } from "@/components/ConsentGatedAnalytics";
 import { CookieConsentBanner } from "@/components/CookieConsentBanner";
 import { HashGuard } from "@/components/HashGuard";
@@ -10,13 +10,13 @@ import "./globals.css";
 
 const googleVerification = process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION?.trim();
 
-const spaceGrotesk = Space_Grotesk({
+const outfit = Outfit({
   variable: "--font-syne",
   subsets: ["latin"],
-  weight: ["500", "600", "700"],
+  weight: ["500", "600", "700", "800"],
 });
 
-const sora = Sora({
+const jakarta = Plus_Jakarta_Sans({
   variable: "--font-sora",
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
@@ -128,7 +128,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="es" className={`${spaceGrotesk.variable} ${sora.variable} h-full`} suppressHydrationWarning>
+    <html
+      lang="es"
+      className={`${outfit.variable} ${jakarta.variable} h-full`}
+      suppressHydrationWarning
+    >
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
         <script dangerouslySetInnerHTML={{ __html: scrollResetScript }} />

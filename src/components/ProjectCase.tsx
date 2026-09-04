@@ -131,7 +131,7 @@ export function ProjectCase({ project }: { project: Project }) {
                 href={project.url ?? "#"}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="project-preview-float group block overflow-hidden rounded-[1rem] border border-[var(--line)] bg-[var(--bg-elevated)] shadow-[0_24px_60px_rgba(11,40,45,0.12)] transition hover:-translate-y-1 sm:rounded-[1.15rem]"
+                className="project-preview-float group block overflow-hidden rounded-[1.5rem] border border-[var(--line)] bg-[var(--bg-elevated)] shadow-[0_24px_60px_rgba(11,40,45,0.12)] transition hover:-translate-y-1"
                 aria-label={`Abrir ${project.name} en vivo`}
               >
                 <div className="flex items-center gap-2 border-b border-[var(--line)] bg-[color-mix(in_srgb,var(--fg)_4%,transparent)] px-3 py-2.5">

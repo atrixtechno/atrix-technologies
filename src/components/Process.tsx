@@ -47,7 +47,7 @@ export function Process() {
         <ol className="mt-12 grid gap-6 md:mt-14 md:grid-cols-3 md:gap-5">
           {steps.map((step, i) => (
             <Reveal key={step.title} delay={i * 80}>
-              <li className="group flex h-full flex-col overflow-hidden border border-line bg-bg/70 transition hover:border-accent/35">
+              <li className="group flex h-full flex-col overflow-hidden rounded-[1.5rem] border border-line bg-bg/70 shadow-[0_12px_40px_rgba(11,18,32,0.06)] transition hover:-translate-y-1 hover:border-accent/35 hover:shadow-[0_20px_44px_rgba(26,107,255,0.12)]">
                 <div className="relative aspect-[16/10] w-full overflow-hidden border-b border-line bg-bg">
                   <Image
                     src={step.image}

@@ -2,8 +2,6 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { Logo } from "@/components/Logo";
-import { useTheme } from "@/components/ThemeProvider";
 import { unetePage } from "@/content/unete";
 import { site } from "@/content/site";
 
@@ -12,74 +10,53 @@ type Props = {
 };
 
 export function QuieresSerParteHero({ whatsappHref }: Props) {
-  const { theme } = useTheme();
-  const isLight = theme === "light";
-
   return (
-    <section className="relative overflow-hidden border-b border-line md:min-h-[min(88svh,52rem)]">
+    <section className="relative min-h-[88svh] overflow-hidden bg-[#050a16] text-white md:min-h-[92svh]">
       <Image
         src="/images/unete/hero-equipo.jpg"
         alt=""
         fill
         priority
-        className={`object-cover object-[center_30%] transition duration-300 ${
-          isLight ? "opacity-40 saturate-80" : "opacity-65 saturate-100"
-        }`}
+        className="object-cover object-[center_30%] opacity-50"
         sizes="100vw"
         aria-hidden
       />
       <div className="hero-overlay absolute inset-0" />
-      <div className="absolute inset-0 bg-gradient-to-r from-bg via-bg/80 to-bg/35 md:via-bg/60" />
       <div className="hero-glow absolute inset-0" />
-      <div className="grid-tech animate-grid-pulse pointer-events-none absolute inset-0 opacity-35" />
 
-      <div className="relative mx-auto flex max-w-6xl flex-col justify-end px-4 pb-14 pt-28 sm:px-5 sm:pb-16 sm:pt-32 md:min-h-[min(88svh,52rem)] md:justify-center md:px-8 md:pb-20 md:pt-36">
+      <div className="relative mx-auto flex min-h-[88svh] max-w-6xl flex-col justify-end px-5 pb-14 pt-28 sm:px-8 sm:pb-16 md:min-h-[92svh] md:justify-center md:pb-24 md:pt-32">
         <div className="animate-rise max-w-3xl">
-          <div className="animate-fade-scale relative mb-6 w-full max-w-[10.5rem] sm:mb-8 sm:max-w-[13rem] md:max-w-[16rem]">
-            <div className="animate-glow pointer-events-none absolute inset-0 -m-4 rounded-full bg-[radial-gradient(circle,rgba(26,107,255,0.28),transparent_70%)] blur-2xl" />
-            <Logo
-              key={isLight ? "unete-hero-light" : "unete-hero-dark"}
-              variant={isLight ? "full-light" : "full"}
-              size={400}
-              className="relative w-full"
-              priority
-            />
-          </div>
-
-          <p className="text-[10px] font-semibold tracking-[0.22em] text-accent uppercase sm:text-xs sm:tracking-[0.28em]">
-            {unetePage.eyebrow}
+          <p className="font-display text-[clamp(2.4rem,8vw,4.5rem)] font-extrabold leading-[0.9] tracking-[-0.04em]">
+            {site.name}
           </p>
-          <h1 className="font-display mt-3 text-balance text-[1.9rem] font-extrabold leading-[1.08] tracking-tight sm:mt-4 sm:text-5xl sm:leading-[1.02] md:text-[3.25rem] lg:text-[3.6rem]">
+          <p className="mt-2 text-sm font-semibold tracking-[0.22em] text-white/65 uppercase">
+            Technologies · {unetePage.eyebrow}
+          </p>
+
+          <h1 className="font-display mt-8 max-w-3xl text-balance text-[1.75rem] font-bold leading-[1.12] tracking-[-0.03em] sm:text-4xl md:text-5xl md:leading-[1.05]">
             {unetePage.title}
           </h1>
-          <div className="animate-line mt-4 h-px w-20 bg-accent sm:mt-5 sm:w-28" />
-          <p className="mt-4 max-w-xl text-pretty text-[15px] leading-relaxed text-muted sm:mt-5 sm:text-lg">
+          <p className="mt-5 max-w-xl text-pretty text-[15px] leading-relaxed text-white/75 sm:text-base md:text-lg">
             {unetePage.lead}
           </p>
 
-          <div className="mt-8 flex flex-col gap-3 sm:mt-10 sm:flex-row sm:flex-wrap sm:items-center">
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
             <a
               href={whatsappHref}
               target="_blank"
               rel="noopener noreferrer"
-              className="btn-primary inline-flex w-full items-center justify-center rounded-full px-6 py-3.5 text-sm font-semibold sm:w-auto"
+              className="btn-primary inline-flex items-center justify-center rounded-full px-7 py-3.5 text-[15px] font-semibold"
             >
               Enviar CV por WhatsApp
             </a>
             <Link
               href="/#contacto"
-              className="btn-ghost inline-flex w-full items-center justify-center rounded-full px-6 py-3.5 text-sm font-semibold sm:w-auto"
+              className="btn-ghost-light inline-flex items-center justify-center rounded-full px-7 py-3.5 text-[15px] font-semibold"
             >
               Completar formulario
             </Link>
-            <a
-              href="#identidad"
-              className="text-center text-sm font-medium text-muted underline-offset-4 transition hover:text-accent hover:underline sm:text-left"
-            >
-              Ver nuestra identidad →
-            </a>
           </div>
-          <p className="mt-5 text-sm text-muted">
+          <p className="mt-5 text-sm text-white/55">
             {site.coverage} · Equipo tech en crecimiento
           </p>
         </div>

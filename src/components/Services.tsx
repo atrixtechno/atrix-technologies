@@ -81,9 +81,8 @@ function Icon({ name }: { name: string }) {
 
 export function Services() {
   return (
-    <section id="servicios" className="relative scroll-mt-10 border-t border-line py-24 md:py-28">
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-accent/40 to-transparent" />
-      <div className="pointer-events-none absolute inset-0 opacity-40" aria-hidden>
+    <section id="servicios" className="relative scroll-mt-24 py-20 md:py-28">
+      <div className="pointer-events-none absolute inset-0 opacity-50" aria-hidden>
         <div className="animate-orb absolute -left-16 top-24 h-56 w-56 rounded-full bg-accent/10 blur-3xl" />
         <div className="animate-orb-delayed absolute -right-10 bottom-10 h-64 w-64 rounded-full bg-signal/10 blur-3xl" />
       </div>
@@ -93,19 +92,18 @@ export function Services() {
             Servicios
           </p>
           <h2 className="font-display mt-4 max-w-3xl text-3xl font-bold tracking-tight md:text-5xl">
-            Todo lo que ATRIX hace por ti
+            Ecosistemas digitales y tecnología que escala contigo
           </h2>
-          <div className="animate-line mt-4 h-px w-24 bg-accent/50" />
           <p className="mt-4 max-w-2xl text-muted">
-            No solo páginas web. Soporte técnico, seguridad, redes, infraestructura y
-            software — para hogares y empresas en la frontera.
+            Soporte técnico, seguridad, redes, infraestructura y plataformas — para
+            hogares y empresas en la frontera.
           </p>
         </Reveal>
 
         <ul className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {services.map((service, index) => (
             <Reveal key={service.slug} delay={index * 70}>
-              <li className="tech-frame group overflow-hidden border border-line bg-bg-elevated/40 transition duration-300 hover:-translate-y-1 hover:border-accent/40 hover:bg-bg-elevated hover:shadow-[0_20px_44px_rgba(26,107,255,0.12)]">
+              <li className="group overflow-hidden rounded-[1.5rem] border border-line bg-bg-elevated shadow-[0_12px_40px_rgba(11,18,32,0.06)] transition duration-300 hover:-translate-y-1 hover:border-accent/35 hover:shadow-[0_20px_44px_rgba(26,107,255,0.12)]">
                 <div className="relative aspect-[16/10] overflow-hidden border-b border-line">
                   <Image
                     src={service.image}
@@ -115,7 +113,7 @@ export function Services() {
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-bg-elevated/90 via-bg-elevated/20 to-transparent" />
-                  <span className="absolute bottom-3 left-3 inline-flex h-10 w-10 items-center justify-center border border-line/80 bg-bg-elevated/90 text-accent backdrop-blur-sm transition group-hover:border-accent/50 group-hover:text-signal">
+                  <span className="absolute bottom-3 left-3 inline-flex h-10 w-10 items-center justify-center rounded-xl border border-line/80 bg-bg-elevated/90 text-accent backdrop-blur-sm transition group-hover:border-accent/50 group-hover:text-signal">
                     <Icon name={service.icon} />
                   </span>
                   <span className="absolute top-3 right-3 text-[11px] font-semibold tracking-[0.18em] text-fg/70 tabular-nums">

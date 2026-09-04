@@ -1,49 +1,58 @@
 @import "tailwindcss";
 
-/* ATRIX brand: electric blue #1A6BFF + white / navy — light theme */
+/* Hybrid: soft agency light (pro-sites) + impact dark hero (ideamos) */
 :root {
-  --bg: #f5f8fc;
+  --bg: #f3f5f8;
   --bg-elevated: #ffffff;
-  --fg: #0a1628;
-  --muted: #3d5168;
+  --fg: #0b1220;
+  --muted: #5b6b7f;
   --accent: #1a6bff;
   --accent-deep: #0e4fd9;
   --accent-ink: #ffffff;
-  --signal: #4d8fff;
+  --signal: #3d86ff;
   --whatsapp: #25d366;
-  --line: rgba(10, 22, 40, 0.1);
-  --glow: rgba(26, 107, 255, 0.28);
+  --ink: #0b1220;
+  --line: rgba(11, 18, 32, 0.08);
+  --glow: rgba(26, 107, 255, 0.22);
+  --shadow-soft: 0 18px 50px rgba(11, 18, 32, 0.08);
+  --shadow-card: 0 12px 40px rgba(11, 18, 32, 0.06);
+  --glass: rgba(255, 255, 255, 0.72);
+  --glass-border: rgba(255, 255, 255, 0.55);
   --hero-overlay: linear-gradient(
     180deg,
-    rgba(245, 248, 252, 0.9) 0%,
-    rgba(245, 248, 252, 0.74) 45%,
-    rgba(245, 248, 252, 0.95) 100%
+    rgba(5, 10, 22, 0.72) 0%,
+    rgba(5, 10, 22, 0.55) 42%,
+    rgba(5, 10, 22, 0.9) 100%
   );
-  --hero-glow: rgba(26, 107, 255, 0.14);
+  --hero-glow: rgba(26, 107, 255, 0.28);
   --tip-bg: rgba(255, 255, 255, 0.78);
-  --tip-border: rgba(10, 22, 40, 0.1);
+  --tip-border: rgba(11, 18, 32, 0.1);
 }
 
-/* Dark: deep navy / black with electric blue accent */
 [data-theme="dark"] {
-  --bg: #030712;
-  --bg-elevated: #0a1424;
-  --fg: #f0f5ff;
-  --muted: #8b9bb4;
-  --accent: #1a6bff;
-  --accent-deep: #4d8fff;
+  --bg: #060a12;
+  --bg-elevated: #0d1420;
+  --fg: #f2f6ff;
+  --muted: #93a0b8;
+  --accent: #3d86ff;
+  --accent-deep: #1a6bff;
   --accent-ink: #ffffff;
   --signal: #6ba3ff;
   --whatsapp: #25d366;
-  --line: rgba(240, 245, 255, 0.1);
-  --glow: rgba(26, 107, 255, 0.4);
+  --ink: #f2f6ff;
+  --line: rgba(242, 246, 255, 0.1);
+  --glow: rgba(61, 134, 255, 0.28);
+  --shadow-soft: 0 18px 50px rgba(0, 0, 0, 0.35);
+  --shadow-card: 0 12px 40px rgba(0, 0, 0, 0.28);
+  --glass: rgba(13, 20, 32, 0.78);
+  --glass-border: rgba(255, 255, 255, 0.1);
   --hero-overlay: linear-gradient(
     180deg,
-    rgba(3, 7, 18, 0.86) 0%,
-    rgba(3, 7, 18, 0.72) 45%,
-    rgba(3, 7, 18, 0.96) 100%
+    rgba(3, 7, 18, 0.78) 0%,
+    rgba(3, 7, 18, 0.62) 42%,
+    rgba(3, 7, 18, 0.92) 100%
   );
-  --hero-glow: rgba(26, 107, 255, 0.22);
+  --hero-glow: rgba(61, 134, 255, 0.24);
   --tip-bg: rgba(255, 255, 255, 0.04);
   --tip-border: rgba(255, 255, 255, 0.14);
 }
@@ -109,32 +118,30 @@ video {
 
 .atmosphere {
   background:
-    radial-gradient(ellipse 85% 65% at 75% -5%, rgba(26, 107, 255, 0.12), transparent 55%),
-    radial-gradient(ellipse 70% 55% at 10% 30%, rgba(77, 143, 255, 0.08), transparent 50%),
-    radial-gradient(ellipse 50% 40% at 90% 85%, rgba(14, 79, 217, 0.06), transparent 45%),
-    linear-gradient(180deg, #f5f8fc 0%, #e8f0fa 50%, #f5f8fc 100%);
+    radial-gradient(ellipse 90% 55% at 85% -10%, rgba(26, 107, 255, 0.14), transparent 55%),
+    radial-gradient(ellipse 60% 45% at 5% 20%, rgba(61, 134, 255, 0.08), transparent 50%),
+    linear-gradient(180deg, #eef2f7 0%, #f7f8fb 42%, #f3f5f8 100%);
 }
 
 [data-theme="dark"] .atmosphere {
   background:
-    radial-gradient(ellipse 85% 65% at 75% -5%, rgba(26, 107, 255, 0.22), transparent 55%),
-    radial-gradient(ellipse 70% 55% at 10% 30%, rgba(77, 143, 255, 0.12), transparent 50%),
-    radial-gradient(ellipse 50% 40% at 90% 85%, rgba(14, 79, 217, 0.1), transparent 45%),
-    linear-gradient(180deg, #030712 0%, #07101f 50%, #030712 100%);
+    radial-gradient(ellipse 90% 55% at 85% -10%, rgba(61, 134, 255, 0.18), transparent 55%),
+    radial-gradient(ellipse 60% 45% at 5% 20%, rgba(26, 107, 255, 0.1), transparent 50%),
+    linear-gradient(180deg, #060a12 0%, #0a101c 50%, #060a12 100%);
 }
 
 .grid-tech {
   background-image:
-    linear-gradient(to right, rgba(26, 107, 255, 0.07) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(26, 107, 255, 0.07) 1px, transparent 1px);
-  background-size: 64px 64px;
-  mask-image: radial-gradient(ellipse 70% 60% at 50% 30%, black, transparent 75%);
+    linear-gradient(to right, rgba(11, 18, 32, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(11, 18, 32, 0.04) 1px, transparent 1px);
+  background-size: 56px 56px;
+  mask-image: radial-gradient(ellipse 80% 70% at 50% 40%, black, transparent 78%);
 }
 
 [data-theme="dark"] .grid-tech {
   background-image:
-    linear-gradient(to right, rgba(26, 107, 255, 0.05) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(26, 107, 255, 0.05) 1px, transparent 1px);
+    linear-gradient(to right, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
 }
 
 .hero-overlay {
@@ -142,19 +149,50 @@ video {
 }
 
 .hero-glow {
-  background: radial-gradient(ellipse 55% 45% at 50% 15%, var(--hero-glow), transparent 60%);
+  background: radial-gradient(ellipse 55% 45% at 70% 20%, var(--hero-glow), transparent 62%);
 }
 
-/* Primary CTA: electric blue glow */
+.nav-pill {
+  border: 1px solid var(--glass-border);
+  background: var(--glass);
+  box-shadow: var(--shadow-soft);
+  backdrop-filter: blur(16px) saturate(1.2);
+}
+
+.surface-card {
+  border: 1px solid var(--line);
+  background: var(--bg-elevated);
+  border-radius: 1.5rem;
+  box-shadow: var(--shadow-card);
+}
+
 .btn-primary {
   background: var(--accent);
   color: var(--accent-ink);
-  box-shadow: 0 12px 32px var(--glow);
+  box-shadow: 0 14px 34px var(--glow);
   transition: filter 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .btn-primary:hover {
-  filter: brightness(1.1);
+  filter: brightness(1.08);
+  transform: translateY(-1px);
+}
+
+.btn-ink {
+  background: var(--ink);
+  color: #fff;
+  box-shadow: 0 14px 34px rgba(11, 18, 32, 0.22);
+  transition: filter 0.2s ease, transform 0.2s ease;
+}
+
+[data-theme="dark"] .btn-ink {
+  background: #f2f6ff;
+  color: #0b1220;
+}
+
+.btn-ink:hover {
+  filter: brightness(1.08);
+  transform: translateY(-1px);
 }
 
 .btn-ghost {
@@ -172,6 +210,21 @@ video {
 .btn-ghost:hover {
   border-color: color-mix(in srgb, var(--accent) 50%, transparent);
   color: var(--accent);
+  transform: translateY(-1px);
+}
+
+.btn-ghost-light {
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  backdrop-filter: blur(10px);
+  transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+
+.btn-ghost-light:hover {
+  background: rgba(255, 255, 255, 0.18);
+  border-color: rgba(255, 255, 255, 0.45);
+  transform: translateY(-1px);
 }
 
 @keyframes rise {
@@ -428,6 +481,8 @@ video {
 }
 
 .project-card {
+  border-radius: 1.5rem;
+  box-shadow: 0 12px 40px rgba(11, 18, 32, 0.06);
   transition:
     transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
     border-color 0.35s ease,

@@ -2,9 +2,8 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { ConferenciasHero } from "@/components/ConferenciasHero";
-import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
-import { PageDecor } from "@/components/PageDecor";
+import { Header } from "@/components/Header";
 import { Reveal } from "@/components/Reveal";
 import { SectionMedia } from "@/components/SectionMedia";
 import {
@@ -209,12 +208,13 @@ export default function ConferenciasPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <div className="relative">
-        <PageDecor />
-        <Header solid />
-        <main className="atmosphere relative z-10 min-h-screen">
+      <div className="atmosphere relative min-h-screen">
+        <Header />
+        <main className="relative z-10">
           <ConferenciasHero whatsappHref={wa} />
-
+          <div className="relative overflow-hidden rounded-t-[2rem] bg-bg md:rounded-t-[2.5rem]">
+            <div className="grid-tech pointer-events-none absolute inset-0 opacity-50" />
+            <div className="relative">
           {/* Editorial chapter index */}
           <nav
             aria-label="Índice de capítulos"
@@ -342,7 +342,7 @@ export default function ConferenciasPage() {
                   {speaker.visuals.slice(0, 3).map((visual) => (
                     <figure
                       key={visual.src}
-                      className="overflow-hidden border border-line bg-bg-elevated/40"
+                      className="overflow-hidden rounded-[1.5rem] border border-line bg-bg-elevated/40 shadow-[0_12px_40px_rgba(11,18,32,0.06)]"
                     >
                       <div className="relative aspect-[16/10]">
                         <Image
@@ -436,7 +436,7 @@ export default function ConferenciasPage() {
                   {conferenceFormats.map((fmt, index) => (
                     <div
                       key={fmt.title}
-                      className="relative overflow-hidden border border-line bg-bg/40"
+                      className="relative overflow-hidden rounded-[1.5rem] border border-line bg-bg/40 shadow-[0_12px_40px_rgba(11,18,32,0.06)]"
                     >
                       <div className="relative aspect-[16/10]">
                         <Image
@@ -505,7 +505,7 @@ export default function ConferenciasPage() {
               <div className="mt-10 space-y-4 sm:mt-14">
                 {conferenceTalks.map((talk, index) => (
                   <Reveal key={talk.slug} delay={Math.min(index * 50, 200)}>
-                    <article className="group relative overflow-hidden border border-line bg-bg-elevated/30 transition hover:border-accent/40 hover:bg-bg-elevated/55">
+                    <article className="group relative overflow-hidden rounded-[1.5rem] border border-line bg-bg-elevated/30 shadow-[0_12px_40px_rgba(11,18,32,0.06)] transition hover:border-accent/40 hover:bg-bg-elevated/55 hover:shadow-[0_20px_44px_rgba(26,107,255,0.12)]">
                       <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-1 bg-accent/0 transition group-hover:bg-accent/70" />
                       <div className="flex flex-col lg:flex-row">
                         <div className="relative aspect-[16/10] w-full shrink-0 overflow-hidden bg-bg lg:aspect-auto lg:w-[280px] lg:self-stretch lg:min-h-[220px]">
@@ -587,7 +587,7 @@ export default function ConferenciasPage() {
               </div>
 
               <Reveal delay={80}>
-                <div className="relative mt-10 overflow-hidden border border-line px-5 py-7 sm:mt-12 sm:px-8 sm:py-8">
+                <div className="relative mt-10 overflow-hidden rounded-[1.5rem] border border-line px-5 py-7 shadow-[0_12px_40px_rgba(11,18,32,0.06)] sm:mt-12 sm:px-8 sm:py-8">
                   <div className="pointer-events-none absolute inset-0" aria-hidden>
                     <div className="animate-orb absolute -left-8 top-0 h-32 w-32 rounded-full bg-accent/10 blur-3xl" />
                   </div>
@@ -636,10 +636,10 @@ export default function ConferenciasPage() {
                 </p>
               </Reveal>
 
-              <ul className="mt-10 grid grid-cols-1 gap-px bg-line sm:mt-14 sm:grid-cols-2 lg:grid-cols-3">
+              <ul className="mt-10 grid grid-cols-1 gap-4 sm:mt-14 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3">
                 {conferenceServiceLinks.map((svc, index) => (
                   <Reveal key={svc.slug} delay={index * 55}>
-                    <li className="flex h-full flex-col overflow-hidden bg-bg-elevated/80 transition hover:bg-bg-elevated">
+                    <li className="flex h-full flex-col overflow-hidden rounded-[1.5rem] border border-line bg-bg-elevated/80 shadow-[0_12px_40px_rgba(11,18,32,0.06)] transition hover:border-accent/35 hover:bg-bg-elevated hover:shadow-[0_20px_44px_rgba(26,107,255,0.12)]">
                       <div className="relative aspect-[16/10] w-full shrink-0 overflow-hidden bg-bg">
                         <Image
                           src={svc.image}
@@ -691,7 +691,7 @@ export default function ConferenciasPage() {
           >
             <div className="mx-auto max-w-6xl px-4 sm:px-5 md:px-8">
               <Reveal>
-                <div className="relative overflow-hidden border border-line">
+                <div className="relative overflow-hidden rounded-[1.5rem] border border-line shadow-[0_12px_40px_rgba(11,18,32,0.06)]">
                   <div className="pointer-events-none absolute inset-0" aria-hidden>
                     <div className="grid-tech absolute inset-0 opacity-35" />
                     <div className="animate-orb absolute -left-12 top-0 h-48 w-48 rounded-full bg-accent/14 blur-3xl" />
@@ -742,6 +742,8 @@ export default function ConferenciasPage() {
               </Reveal>
             </div>
           </section>
+            </div>
+          </div>
         </main>
         <div className="relative z-10">
           <Footer />

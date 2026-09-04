@@ -22,7 +22,7 @@ function hexToRgba(hex: string, alpha: number) {
 
 export function ProjectsTeaser() {
   return (
-    <section id="proyectos" className="relative scroll-mt-10 border-t border-line py-14 md:py-16">
+    <section id="proyectos" className="relative scroll-mt-24 py-20 md:py-28">
       <div className="pointer-events-none absolute right-0 top-6 h-32 w-32 rounded-full bg-signal/10 blur-3xl" />
       <div className="mx-auto max-w-6xl px-5 md:px-8">
         <Reveal>
@@ -31,17 +31,17 @@ export function ProjectsTeaser() {
               <p className="text-[10px] font-semibold tracking-[0.28em] text-accent uppercase sm:text-xs">
                 Plataformas digitales
               </p>
-              <h2 className="font-display mt-2 max-w-xl text-2xl font-bold tracking-tight sm:text-3xl md:text-4xl">
-                Sistemas y presencia web a la medida
+              <h2 className="font-display mt-2 max-w-xl text-2xl font-bold tracking-tight sm:text-3xl md:text-5xl">
+                Infraestructuras que facturan
               </h2>
-              <div className="animate-line mt-3 h-px w-16 bg-accent/50 sm:w-20" />
               <p className="mt-3 max-w-lg text-sm text-muted sm:text-[15px]">
-                Sitios, paneles, apps e integraciones operativas — plataformas completas en producción, no solo páginas.
+                Sitios, paneles, apps e integraciones operativas — plataformas
+                completas en producción, no solo páginas.
               </p>
             </div>
             <Link
               href="/proyectos"
-              className="btn-primary inline-flex shrink-0 rounded-full px-5 py-2.5 text-sm font-semibold"
+              className="btn-ink inline-flex shrink-0 rounded-full px-5 py-2.5 text-sm font-semibold"
             >
               Ver portafolio
             </Link>
@@ -51,7 +51,7 @@ export function ProjectsTeaser() {
         <Reveal delay={60}>
           <div className="relative mt-7 sm:mt-8">
             <div
-              className="projects-scroll max-h-[22.5rem] overflow-y-auto overscroll-contain border border-line bg-bg-elevated/30 sm:max-h-[24rem]"
+              className="projects-scroll max-h-[22.5rem] overflow-y-auto overscroll-contain rounded-[1.5rem] border border-line bg-bg-elevated/60 shadow-[0_12px_40px_rgba(11,18,32,0.05)] sm:max-h-[24rem]"
               tabIndex={0}
               aria-label="Lista de plataformas digitales. Desliza para ver más."
             >
@@ -76,7 +76,7 @@ export function ProjectsTeaser() {
                           } as React.CSSProperties
                         }
                       >
-                        <div className="relative hidden h-[8.75rem] w-[11.5rem] shrink-0 overflow-hidden border border-line/70 bg-bg sm:block">
+                        <div className="relative hidden h-[8.75rem] w-[11.5rem] shrink-0 overflow-hidden rounded-xl border border-line/70 bg-bg sm:block">
                           {project.previewImage ? (
                             <Image
                               src={project.previewImage}

@@ -36,7 +36,7 @@ export function ProjectsIndexGrid() {
   return (
     <>
       <div
-        className="mt-8 inline-flex flex-wrap gap-2 border border-line bg-bg-elevated/40 p-1 sm:mt-10"
+        className="mt-2 inline-flex flex-wrap gap-2 rounded-full border border-line bg-bg-elevated/40 p-1 sm:mt-4"
         role="tablist"
         aria-label="Filtrar proyectos por tipo"
       >
@@ -68,7 +68,7 @@ export function ProjectsIndexGrid() {
           <li key={project.slug} className="min-w-0">
             <Link
               href={`/proyectos/${project.slug}`}
-              className="group block h-full overflow-hidden border border-line bg-bg-elevated/50 transition hover:border-accent/40 hover:bg-bg-elevated"
+                  className="group block h-full overflow-hidden rounded-[1.5rem] border border-line bg-bg-elevated shadow-[0_12px_40px_rgba(11,18,32,0.06)] transition hover:-translate-y-1 hover:border-accent/40 hover:shadow-[0_20px_44px_rgba(26,107,255,0.12)]"
               style={{
                 boxShadow: `inset 3px 0 0 ${project.theme.accent}`,
                 ["--accent" as string]: project.theme.accent,
@@ -120,7 +120,7 @@ export function ProjectsIndexGrid() {
       </ul>
 
       {filtered.length === 0 ? (
-        <p className="mt-10 border border-dashed border-line bg-bg-elevated/40 px-5 py-8 text-center text-sm text-muted">
+        <p className="mt-10 rounded-[1.5rem] border border-dashed border-line bg-bg-elevated/40 px-5 py-8 text-center text-sm text-muted">
           Aún no hay proyectos en esta categoría.
         </p>
       ) : null}

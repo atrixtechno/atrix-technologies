@@ -169,8 +169,8 @@ export function LoginForm() {
       </div>
 
       <div className="relative">
-        <div className="pointer-events-none absolute -inset-px rounded-sm bg-gradient-to-br from-accent/25 via-transparent to-signal/20 opacity-70" />
-        <div className="relative border border-line bg-bg-elevated/85 p-6 backdrop-blur md:p-8">
+        <div className="pointer-events-none absolute -inset-px rounded-[1.5rem] bg-gradient-to-br from-accent/25 via-transparent to-signal/20 opacity-70" />
+        <div className="relative rounded-[1.5rem] border border-line bg-bg-elevated/85 p-6 shadow-[0_12px_40px_rgba(11,18,32,0.06)] backdrop-blur md:p-8">
           {step === "login" ? (
             <>
               <p className="text-[11px] font-semibold tracking-[0.22em] text-accent uppercase">
@@ -188,7 +188,7 @@ export function LoginForm() {
                   <span className="text-xs tracking-[0.16em] text-muted uppercase">
                     usuario
                   </span>
-                  <div className="mt-2 flex border border-line bg-bg transition focus-within:border-accent">
+                  <div className="mt-2 flex rounded-xl border border-line bg-bg transition focus-within:border-accent">
                     <input
                       name="username"
                       autoComplete="username"
@@ -221,7 +221,7 @@ export function LoginForm() {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="contraseña"
-                    className="mt-2 w-full border border-line bg-bg px-4 py-3.5 text-fg outline-none transition focus:border-accent"
+                    className="mt-2 w-full rounded-xl border border-line bg-bg px-4 py-3.5 text-fg outline-none transition focus:border-accent"
                   />
                 </label>
 
@@ -262,7 +262,7 @@ export function LoginForm() {
                     minLength={8}
                     value={newPassword}
                     onChange={(e) => setNewPassword(e.target.value)}
-                    className="mt-2 w-full border border-line bg-bg px-4 py-3.5 text-fg outline-none transition focus:border-accent"
+                    className="mt-2 w-full rounded-xl border border-line bg-bg px-4 py-3.5 text-fg outline-none transition focus:border-accent"
                   />
                 </label>
 
@@ -278,7 +278,7 @@ export function LoginForm() {
                     minLength={8}
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
-                    className="mt-2 w-full border border-line bg-bg px-4 py-3.5 text-fg outline-none transition focus:border-accent"
+                    className="mt-2 w-full rounded-xl border border-line bg-bg px-4 py-3.5 text-fg outline-none transition focus:border-accent"
                   />
                 </label>
 

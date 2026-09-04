@@ -11,7 +11,6 @@ import { Process } from "@/components/Process";
 import { Recommendations } from "@/components/Recommendations";
 import { Contact } from "@/components/Contact";
 import { Footer } from "@/components/Footer";
-import { PageDecor } from "@/components/PageDecor";
 import { site } from "@/content/site";
 import { services } from "@/content/services";
 
@@ -165,19 +164,23 @@ export default function HomePage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <div className="atmosphere relative">
-        <PageDecor />
-        <Header solid />
+        <Header />
         <main className="relative z-10">
           <Hero />
-          <TrustedCompanies />
-          <Services />
-          <Coverage />
-          <Benefits />
-          <AudienceGuides />
-          <ProjectsTeaser />
-          <Process />
-          <Recommendations />
-          <Contact />
+          <div className="relative overflow-hidden rounded-t-[2rem] bg-bg md:rounded-t-[2.5rem]">
+            <div className="grid-tech pointer-events-none absolute inset-0 opacity-60" />
+            <div className="relative">
+              <TrustedCompanies />
+              <Services />
+              <Coverage />
+              <Benefits />
+              <AudienceGuides />
+              <ProjectsTeaser />
+              <Process />
+              <Recommendations />
+              <Contact />
+            </div>
+          </div>
         </main>
         <div className="relative z-10">
           <Footer />

@@ -3,7 +3,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
-import { PageDecor } from "@/components/PageDecor";
 import { Reveal } from "@/components/Reveal";
 import { SectionMedia } from "@/components/SectionMedia";
 import { SoporteRemotoHero } from "@/components/SoporteRemotoHero";
@@ -71,7 +70,7 @@ function FlowStep({
       href={href}
       className="group flex shrink-0 items-center gap-2.5 px-1 py-1 transition hover:opacity-90 sm:min-w-0 sm:flex-1 sm:gap-3"
     >
-      <span className="flex h-8 w-8 shrink-0 items-center justify-center border border-signal/35 bg-signal/10 text-[11px] font-bold text-signal tabular-nums transition group-hover:border-signal/60 group-hover:bg-signal/15">
+      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl border border-signal/35 bg-signal/10 text-[11px] font-bold text-signal tabular-nums transition group-hover:border-signal/60 group-hover:bg-signal/15">
         {step}
       </span>
       <span className="whitespace-nowrap text-xs font-semibold tracking-wide text-muted transition group-hover:text-fg sm:truncate sm:text-sm">
@@ -156,12 +155,13 @@ export default function SoporteRemotoPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <div className="relative">
-        <PageDecor />
-        <Header solid />
-        <main className="atmosphere relative z-10 min-h-screen">
+      <div className="atmosphere relative min-h-screen">
+        <Header />
+        <main className="relative z-10">
           <SoporteRemotoHero whatsappHref={wa} />
-
+          <div className="relative overflow-hidden rounded-t-[2rem] bg-bg md:rounded-t-[2.5rem]">
+            <div className="grid-tech pointer-events-none absolute inset-0 opacity-50" />
+            <div className="relative">
           {/* Ops flow rail — not a chapter index */}
           <nav
             aria-label="Flujo del servicio"
@@ -277,7 +277,7 @@ export default function SoporteRemotoPage() {
 
               <div className="grid gap-6 lg:grid-cols-2 lg:gap-8">
                 <Reveal>
-                  <div className="flex h-full flex-col overflow-hidden border border-line bg-bg-elevated/40">
+                  <div className="flex h-full flex-col overflow-hidden rounded-[1.5rem] border border-line bg-bg-elevated/40 shadow-[0_12px_40px_rgba(11,18,32,0.06)]">
                     <div className="relative aspect-[16/10] w-full shrink-0 overflow-hidden border-b border-line bg-bg">
                       <Image
                         src="/images/soporte/friccion-oficina.jpg"
@@ -290,7 +290,7 @@ export default function SoporteRemotoPage() {
                     </div>
                     <div className="flex flex-1 flex-col p-5 sm:p-8">
                       <div className="flex items-center gap-3">
-                        <span className="flex h-9 w-9 items-center justify-center border border-line text-muted">
+                        <span className="flex h-9 w-9 items-center justify-center rounded-xl border border-line text-muted">
                           <svg
                             viewBox="0 0 24 24"
                             className="h-4 w-4"
@@ -331,7 +331,7 @@ export default function SoporteRemotoPage() {
                 </Reveal>
 
                 <Reveal delay={100}>
-                  <div className="relative flex h-full flex-col overflow-hidden border border-accent/35 bg-accent/[0.06]">
+                  <div className="relative flex h-full flex-col overflow-hidden rounded-[1.5rem] border border-accent/35 bg-accent/[0.06] shadow-[0_12px_40px_rgba(11,18,32,0.06)]">
                     <div
                       className="pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full bg-accent/15 blur-3xl"
                       aria-hidden
@@ -348,7 +348,7 @@ export default function SoporteRemotoPage() {
                     </div>
                     <div className="relative flex flex-1 flex-col p-5 sm:p-8">
                       <div className="flex items-center gap-3">
-                        <span className="flex h-9 w-9 items-center justify-center border border-accent/40 bg-accent/15 text-accent">
+                        <span className="flex h-9 w-9 items-center justify-center rounded-xl border border-accent/40 bg-accent/15 text-accent">
                           <svg
                             viewBox="0 0 24 24"
                             className="h-4 w-4"
@@ -444,9 +444,9 @@ export default function SoporteRemotoPage() {
               <ul className="mt-10 grid grid-cols-1 gap-3 sm:mt-12 sm:grid-cols-2">
                 {soporteServiciosIncluidos.map((item, index) => (
                   <Reveal key={item} delay={Math.min(index * 40, 180)}>
-                    <li className="flex items-start gap-3 border border-line bg-bg/50 px-4 py-4 transition hover:border-accent/35 hover:bg-bg-elevated sm:gap-4 sm:px-5">
+                    <li className="flex items-start gap-3 rounded-[1.5rem] border border-line bg-bg/50 px-4 py-4 shadow-[0_12px_40px_rgba(11,18,32,0.06)] transition hover:border-accent/35 hover:bg-bg-elevated sm:gap-4 sm:px-5">
                       <span
-                        className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center border border-accent/40 bg-accent/10 text-xs font-bold text-accent"
+                        className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-xl border border-accent/40 bg-accent/10 text-xs font-bold text-accent"
                         aria-hidden
                       >
                         ✓
@@ -461,7 +461,7 @@ export default function SoporteRemotoPage() {
 
               <Reveal delay={80}>
                 <div className="mt-10 grid gap-4 sm:mt-12 sm:grid-cols-[1fr_auto] sm:items-center">
-                  <div className="tech-frame border border-line bg-bg/60 px-4 py-5 sm:px-6">
+                  <div className="tech-frame rounded-[1.5rem] border border-line bg-bg/60 px-4 py-5 shadow-[0_12px_40px_rgba(11,18,32,0.06)] sm:px-6">
                     <p className="text-[10px] font-semibold tracking-[0.18em] text-signal uppercase">
                       Sistemas compatibles
                     </p>
@@ -469,10 +469,10 @@ export default function SoporteRemotoPage() {
                       {soporteRemotoPage.sistemas}
                     </p>
                     <div className="mt-4 flex flex-wrap gap-2">
-                      <span className="border border-line px-3 py-1.5 text-xs font-bold tracking-wide">
+                      <span className="rounded-full border border-line px-3 py-1.5 text-xs font-bold tracking-wide">
                         Windows
                       </span>
-                      <span className="border border-line px-3 py-1.5 text-xs font-bold tracking-wide">
+                      <span className="rounded-full border border-line px-3 py-1.5 text-xs font-bold tracking-wide">
                         macOS
                       </span>
                     </div>
@@ -497,7 +497,7 @@ export default function SoporteRemotoPage() {
             aria-labelledby="plan-heading"
           >
             <div className="mx-auto max-w-6xl px-4 sm:px-5 md:px-8">
-              <div className="relative overflow-hidden border border-line">
+              <div className="relative overflow-hidden rounded-[1.5rem] border border-line shadow-[0_12px_40px_rgba(11,18,32,0.06)]">
                 <div className="pointer-events-none absolute inset-0" aria-hidden>
                   <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_100%_0%,rgba(26,76,255,0.1),transparent_60%)]" />
                   <div className="grid-tech absolute inset-0 opacity-25" />
@@ -532,7 +532,7 @@ export default function SoporteRemotoPage() {
                         </div>
                       ))}
                     </div>
-                    <div className="mt-8 border border-line bg-bg-elevated/70 p-5 sm:p-7">
+                    <div className="mt-8 rounded-xl border border-line bg-bg-elevated/70 p-5 sm:p-7">
                       <p className="text-[10px] font-semibold tracking-[0.2em] text-accent uppercase">
                         Ideal para
                       </p>
@@ -543,7 +543,7 @@ export default function SoporteRemotoPage() {
                         {soporteIdealAudiences.map((label) => (
                           <li
                             key={label}
-                            className="border border-line bg-bg/50 px-3 py-1.5 text-xs font-semibold tracking-wide text-fg"
+                            className="rounded-full border border-line bg-bg/50 px-3 py-1.5 text-xs font-semibold tracking-wide text-fg"
                           >
                             {label}
                           </li>
@@ -573,7 +573,7 @@ export default function SoporteRemotoPage() {
           >
             <div className="mx-auto max-w-6xl px-4 sm:px-5 md:px-8">
               <Reveal>
-                <div className="relative overflow-hidden border border-signal/25 bg-signal/[0.04]">
+                <div className="relative overflow-hidden rounded-[1.5rem] border border-signal/25 bg-signal/[0.04] shadow-[0_12px_40px_rgba(11,18,32,0.06)]">
                   <div className="pointer-events-none absolute inset-0" aria-hidden>
                     <div className="grid-tech absolute inset-0 opacity-25" />
                     <div className="animate-orb absolute -right-8 top-0 h-40 w-40 rounded-full bg-signal/12 blur-3xl" />
@@ -626,6 +626,8 @@ export default function SoporteRemotoPage() {
               </Reveal>
             </div>
           </section>
+            </div>
+          </div>
         </main>
         <div className="relative z-10">
           <Footer />

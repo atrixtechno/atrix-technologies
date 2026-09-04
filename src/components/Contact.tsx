@@ -131,7 +131,7 @@ export function Contact() {
                 rel="noopener noreferrer"
                 className="group inline-flex items-center gap-3 text-sm text-muted transition hover:text-fg"
               >
-                <span className="inline-flex h-10 w-10 items-center justify-center border border-line bg-bg-elevated text-[#1877F2] transition group-hover:border-[#1877F2]/40">
+                <span className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-line bg-bg-elevated text-[#1877F2] transition group-hover:border-[#1877F2]/40">
                   <FacebookIcon className="h-5 w-5" />
                 </span>
                 <span>
@@ -149,7 +149,7 @@ export function Contact() {
                 href={`mailto:${site.email}`}
                 className="group inline-flex items-center gap-3 text-sm text-muted transition hover:text-fg"
               >
-                <span className="inline-flex h-10 w-10 items-center justify-center border border-line bg-bg-elevated transition group-hover:border-accent/40">
+                <span className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-line bg-bg-elevated transition group-hover:border-accent/40">
                   <GmailIcon className="h-5 w-5" />
                 </span>
                 <span>
@@ -166,14 +166,14 @@ export function Contact() {
         </div>
 
         <form ref={formRef} onSubmit={onSubmit} className="relative space-y-5">
-          <div className="pointer-events-none absolute -inset-px rounded-sm bg-gradient-to-br from-accent/20 via-transparent to-signal/20 opacity-60" />
-          <div className="relative space-y-5 border border-line bg-bg-elevated/80 p-5 backdrop-blur md:p-6">
+          <div className="pointer-events-none absolute -inset-px rounded-[1.5rem] bg-gradient-to-br from-accent/20 via-transparent to-signal/20 opacity-60" />
+          <div className="relative space-y-5 rounded-[1.5rem] border border-line bg-bg-elevated/80 p-5 shadow-[0_12px_40px_rgba(11,18,32,0.06)] backdrop-blur md:p-6">
             <label className="block">
               <span className="text-xs tracking-[0.16em] text-muted uppercase">Nombre</span>
               <input
                 name="name"
                 required
-                className="mt-2 w-full border border-line bg-bg px-4 py-3.5 text-fg outline-none transition focus:border-accent"
+                className="mt-2 w-full rounded-xl border border-line bg-bg px-4 py-3.5 text-fg outline-none transition focus:border-accent"
               />
             </label>
             <label className="block">
@@ -195,7 +195,7 @@ export function Contact() {
                   const text = e.clipboardData.getData("text");
                   setPhone((prev) => sanitizePhone(prev + text));
                 }}
-                className="mt-2 w-full border border-line bg-bg px-4 py-3.5 text-fg outline-none transition focus:border-accent"
+                className="mt-2 w-full rounded-xl border border-line bg-bg px-4 py-3.5 text-fg outline-none transition focus:border-accent"
               />
             </label>
             <label className="block">
@@ -205,7 +205,7 @@ export function Contact() {
               <input
                 name="business"
                 placeholder="Ej. CCTV, redes, soporte, sitio web…"
-                className="mt-2 w-full border border-line bg-bg px-4 py-3.5 text-fg outline-none transition focus:border-accent"
+                className="mt-2 w-full rounded-xl border border-line bg-bg px-4 py-3.5 text-fg outline-none transition focus:border-accent"
               />
             </label>
             <label className="block">
@@ -214,13 +214,13 @@ export function Contact() {
                 name="message"
                 required
                 rows={4}
-                className="mt-2 w-full resize-y border border-line bg-bg px-4 py-3.5 text-fg outline-none transition focus:border-accent"
+                className="mt-2 w-full resize-y rounded-xl border border-line bg-bg px-4 py-3.5 text-fg outline-none transition focus:border-accent"
               />
             </label>
             <button
               type="submit"
               disabled={phase === "loading"}
-              className="w-full border border-accent bg-transparent px-6 py-3.5 font-semibold text-accent transition hover:bg-accent hover:text-accent-ink disabled:opacity-60 md:w-auto"
+              className="w-full rounded-xl border border-accent bg-transparent px-6 py-3.5 font-semibold text-accent transition hover:bg-accent hover:text-accent-ink disabled:opacity-60 md:w-auto"
             >
               Enviar mensaje
             </button>
@@ -240,7 +240,7 @@ export function Contact() {
           aria-modal="true"
           aria-labelledby="contact-modal-title"
         >
-          <div className="animate-fade-scale relative w-full max-w-md overflow-hidden border border-line bg-bg-elevated p-8 shadow-[0_30px_80px_rgba(11,26,36,0.18)]">
+          <div className="animate-fade-scale relative w-full max-w-md overflow-hidden rounded-[1.5rem] border border-line bg-bg-elevated p-8 shadow-[0_30px_80px_rgba(11,26,36,0.18)]">
             <div className="pointer-events-none absolute -right-8 -top-8 h-28 w-28 rounded-full bg-accent/15 blur-2xl" />
             <div className="pointer-events-none absolute -bottom-10 -left-6 h-24 w-24 rounded-full bg-signal/15 blur-2xl" />
             <div className="pointer-events-none absolute inset-x-0 top-0 h-1 bg-line">

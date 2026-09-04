@@ -43,7 +43,7 @@ export function CookieConsentBanner({ onDecision }: CookieConsentBannerProps) {
       className="fixed inset-x-0 bottom-0 z-[60] p-4 md:p-6"
     >
       <div className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-bg via-bg/90 to-transparent" />
-      <div className="relative mx-auto max-w-3xl border border-line bg-bg-elevated/95 p-5 shadow-[0_-8px_40px_rgba(3,9,18,0.18)] backdrop-blur-md md:p-6">
+      <div className="relative mx-auto max-w-3xl rounded-[1.5rem] border border-line bg-bg-elevated/95 p-5 shadow-[0_-8px_40px_rgba(3,9,18,0.18)] backdrop-blur-md md:p-6">
         <p className="text-[11px] font-semibold tracking-[0.2em] text-accent uppercase">
           Privacidad
         </p>

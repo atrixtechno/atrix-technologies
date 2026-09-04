@@ -45,7 +45,7 @@ export function Recommendations() {
               <p className="mt-4 text-muted">{recommendationsPage.lead}</p>
             </div>
             <div className="flex flex-wrap gap-3">
-              <div className="border border-line bg-bg-elevated/60 px-4 py-3">
+              <div className="rounded-2xl border border-line bg-bg-elevated/60 px-4 py-3 shadow-[0_8px_24px_rgba(11,18,32,0.04)]">
                 <p className="font-display text-xl font-extrabold text-accent tabular-nums">
                   100%
                 </p>
@@ -53,7 +53,7 @@ export function Recommendations() {
                   {summary.scoreLabel}
                 </p>
               </div>
-              <div className="border border-line bg-bg-elevated/60 px-4 py-3">
+              <div className="rounded-2xl border border-line bg-bg-elevated/60 px-4 py-3 shadow-[0_8px_24px_rgba(11,18,32,0.04)]">
                 <p className="font-display text-xl font-extrabold tabular-nums">
                   {summary.reviewCount}
                 </p>
@@ -74,7 +74,7 @@ export function Recommendations() {
           {recommendations.map((item) => (
             <article
               key={item.name}
-              className="flex w-[min(85vw,22rem)] shrink-0 flex-col border border-line bg-bg-elevated/55 p-5 sm:w-[24rem] sm:p-6"
+              className="flex w-[min(85vw,22rem)] shrink-0 flex-col rounded-[1.5rem] border border-line bg-bg-elevated/55 p-5 shadow-[0_12px_40px_rgba(11,18,32,0.06)] sm:w-[24rem] sm:p-6"
             >
               <div className="flex items-start justify-between gap-3">
                 <QuoteIcon className="h-7 w-7 shrink-0 text-accent/35" />
