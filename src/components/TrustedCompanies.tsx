@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import type { CSSProperties } from "react";
 import { Marquee } from "@/components/Marquee";
 import { projects } from "@/content/projects";
 
@@ -9,45 +10,45 @@ export function TrustedCompanies() {
   return (
     <section
       aria-label="Empresas que confían en nosotros"
-      className="relative border-b border-line py-10 md:py-12"
+      className="relative border-b border-line bg-bg-soft"
     >
-      <div className="mx-auto max-w-6xl px-5 md:px-8">
-        <p className="text-center text-[10px] font-semibold tracking-[0.28em] text-muted uppercase sm:text-xs">
-          Empresas que confían en nosotros
+      <div className="mx-auto flex max-w-[1240px] flex-col gap-4 px-5 py-7 sm:px-8 md:flex-row md:items-center md:gap-10">
+        <p className="mono shrink-0 text-[10.5px] tracking-[0.16em] text-subtle uppercase">
+          Confían en ATRIX
         </p>
-      </div>
+        <div className="relative min-w-0 flex-1">
+          <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-12 bg-gradient-to-r from-bg-soft to-transparent md:w-24" />
+          <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-12 bg-gradient-to-l from-bg-soft to-transparent md:w-24" />
 
-      <div className="relative mt-6">
-        <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-12 bg-gradient-to-r from-bg to-transparent sm:w-20 md:w-28" />
-        <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-12 bg-gradient-to-l from-bg to-transparent sm:w-20 md:w-28" />
-
-        <Marquee duration={36} className="py-1">
-          {items.map((project) => (
-            <Link
-              key={project.slug}
-              href={`/proyectos/${project.slug}`}
-              className="group flex shrink-0 items-center gap-3 rounded-2xl border border-line bg-bg-elevated px-4 py-3 shadow-[0_8px_24px_rgba(11,18,32,0.04)] transition hover:border-accent/35 hover:shadow-[0_14px_34px_rgba(26,107,255,0.1)] sm:gap-3.5 sm:px-5 sm:py-3.5"
-            >
-              <span className="relative h-10 w-10 shrink-0 overflow-hidden rounded-full border border-line bg-bg sm:h-11 sm:w-11">
-                <Image
-                  src={project.logo!}
-                  alt=""
-                  fill
-                  className="object-cover"
-                  sizes="44px"
-                />
-              </span>
-              <span className="min-w-0">
-                <span className="font-display block text-sm font-semibold tracking-tight transition group-hover:text-accent sm:text-[15px]">
+          <Marquee duration={36} className="py-1">
+            {items.map((project) => (
+              <Link
+                key={project.slug}
+                href={`/proyectos/${project.slug}`}
+                className="logobar-item flex shrink-0 items-center gap-3 px-5"
+                style={
+                  {
+                    "--project": project.theme.accent,
+                    "--project-glow": project.theme.glow,
+                  } as CSSProperties
+                }
+              >
+                <span className="logobar-logo relative h-8 w-8 shrink-0 overflow-hidden rounded-full border border-line">
+                  <Image
+                    src={project.logo!}
+                    alt=""
+                    fill
+                    className="object-cover opacity-75 grayscale"
+                    sizes="32px"
+                  />
+                </span>
+                <span className="font-display text-base font-medium tracking-tight whitespace-nowrap">
                   {project.name}
                 </span>
-                <span className="mt-0.5 block max-w-[11rem] truncate text-[11px] text-muted sm:max-w-[13rem]">
-                  {project.sector}
-                </span>
-              </span>
-            </Link>
-          ))}
-        </Marquee>
+              </Link>
+            ))}
+          </Marquee>
+        </div>
       </div>
     </section>
   );

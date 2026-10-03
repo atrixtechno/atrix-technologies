@@ -82,6 +82,8 @@ export function AdminTrafficPanel() {
   }, []);
 
   useEffect(() => {
+    // Carga inicial desde la API: el estado se actualiza tras el await, no en el cuerpo del efecto.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     void load();
     const id = window.setInterval(() => void load(), POLL_MS);
     return () => window.clearInterval(id);

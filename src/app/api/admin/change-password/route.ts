@@ -3,11 +3,13 @@ import { NextResponse } from "next/server";
 import {
   AUTH_COOKIE,
   DEFAULT_PASSWORD,
+  MAX_PASSWORD_LENGTH,
   PENDING_COOKIE,
   clearCookieOptions,
   createSessionToken,
   getCredentials,
   hashPassword,
+  passwordsMatch,
   setCredentials,
   sessionCookieOptions,
   verifySessionToken,
@@ -17,18 +19,26 @@ import {
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
+const MIN_PASSWORD_LENGTH = 10;
+
 export async function POST(request: Request) {
   try {
     const body = (await request.json()) as {
-      newPassword?: string;
-      confirmPassword?: string;
+      newPassword?: unknown;
+      confirmPassword?: unknown;
+      currentPassword?: unknown;
     };
-    const newPassword = body.newPassword ?? "";
-    const confirmPassword = body.confirmPassword ?? newPassword;
+    const newPassword = typeof body.newPassword === "string" ? body.newPassword : "";
+    const confirmPassword =
+      typeof body.confirmPassword === "string" ? body.confirmPassword : "";
+    const currentPassword =
+      typeof body.currentPassword === "string" ? body.currentPassword : "";
 
     const jar = await cookies();
-    const pending = verifySessionToken(jar.get(PENDING_COOKIE)?.value, "pending");
-    const session = verifySessionToken(jar.get(AUTH_COOKIE)?.value, "session");
+    const pending = await verifySessionToken(jar.get(PENDING_COOKIE)?.value, "pending");
+    const session = pending
+      ? null
+      : await verifySessionToken(jar.get(AUTH_COOKIE)?.value, "session");
 
     if (!pending && !session) {
       return NextResponse.json(
@@ -37,9 +47,27 @@ export async function POST(request: Request) {
       );
     }
 
-    if (newPassword.length < 8) {
+    const creds = await getCredentials();
+
+    // Con sesión normal (no el cambio forzado tras el login) se exige la contraseña actual.
+    if (session && !passwordsMatch(currentPassword, creds.passwordHash)) {
       return NextResponse.json(
-        { error: "La nueva contraseña debe tener al menos 8 caracteres." },
+        { error: "La contraseña actual no es correcta." },
+        { status: 403 },
+      );
+    }
+
+    if (newPassword.length < MIN_PASSWORD_LENGTH) {
+      return NextResponse.json(
+        {
+          error: `La nueva contraseña debe tener al menos ${MIN_PASSWORD_LENGTH} caracteres.`,
+        },
+        { status: 400 },
+      );
+    }
+    if (newPassword.length > MAX_PASSWORD_LENGTH) {
+      return NextResponse.json(
+        { error: "La contraseña es demasiado larga." },
         { status: 400 },
       );
     }
@@ -55,19 +83,18 @@ export async function POST(request: Request) {
         { status: 400 },
       );
     }
-
-    const creds = await getCredentials();
-    const nextHash = hashPassword(newPassword);
-    if (passwordsEqual(nextHash, creds.passwordHash)) {
+    if (passwordsMatch(newPassword, creds.passwordHash)) {
       return NextResponse.json(
         { error: "Elige una contraseña distinta a la actual." },
         { status: 400 },
       );
     }
 
+    const nextHash = hashPassword(newPassword);
     await setCredentials(nextHash, true);
 
-    const token = createSessionToken("session", SESSION_TTL_SECONDS);
+    // El hash nuevo cambia la huella `pv`: todas las sesiones anteriores quedan inválidas.
+    const token = createSessionToken("session", SESSION_TTL_SECONDS, nextHash);
     const res = NextResponse.json({
       ok: true,
       expiresIn: SESSION_TTL_SECONDS,
@@ -76,12 +103,7 @@ export async function POST(request: Request) {
     res.cookies.set(PENDING_COOKIE, "", clearCookieOptions());
     return res;
   } catch (err) {
-    const message =
-      err instanceof Error ? err.message : "Error del servidor";
-    return NextResponse.json({ error: message }, { status: 500 });
+    console.error("admin change-password", err);
+    return NextResponse.json({ error: "Error del servidor" }, { status: 500 });
   }
-}
-
-function passwordsEqual(a: string, b: string): boolean {
-  return a === b;
 }

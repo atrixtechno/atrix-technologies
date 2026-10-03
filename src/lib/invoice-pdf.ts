@@ -231,7 +231,7 @@ function drawParagraphBlock(
   const lines = doc.splitTextToSize(text, opts.contentW) as string[];
   const blockH = lines.length * opts.leading;
 
-  let cursor = ensureBlockSpace(
+  const cursor = ensureBlockSpace(
     doc,
     y,
     blockH + 2,

@@ -19,14 +19,6 @@ export const soporteRemotoPage = {
     "Hola ATRIX, me interesa el soporte técnico remoto — quiero que sean nuestro departamento de sistemas.",
 } as const;
 
-export const soporteRemotoChapters = [
-  { id: "enfoque", number: "01", label: "Enfoque" },
-  { id: "problemas", number: "02", label: "Problemas" },
-  { id: "servicios", number: "03", label: "Servicios" },
-  { id: "plan", number: "04", label: "Plan" },
-  { id: "cotizar", number: "05", label: "Cotizar" },
-] as const;
-
 export const soporteProblemas = [
   "Computadoras lentas que reducen la productividad.",
   "Errores constantes que interrumpen el trabajo.",

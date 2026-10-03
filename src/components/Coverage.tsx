@@ -1,6 +1,7 @@
+import Image from "next/image";
 import { Reveal } from "@/components/Reveal";
 import { SectionLink } from "@/components/SectionLink";
-import { SectionMedia } from "@/components/SectionMedia";
+import { ArrowIcon, SectionHeading, WhatsAppIcon } from "@/components/ui";
 import { pillars, promises, values } from "@/content/services";
 import { site, whatsappUrl } from "@/content/site";
 
@@ -8,141 +9,165 @@ const cities = [
   {
     name: "Nuevo Laredo",
     region: "Tamaulipas, MX",
+    coords: "27.47°N · 99.51°W",
     note: "Visitas a domicilio y negocio",
   },
   {
     name: "Laredo",
     region: "Texas, US",
+    coords: "27.53°N · 99.48°W",
     note: "Soporte y proyectos en la frontera",
   },
 ] as const;
 
 export function Coverage() {
   return (
-    <section id="cobertura" className="scroll-mt-10 border-t border-line">
-      <div className="relative overflow-hidden border-b border-line bg-bg-elevated/40">
-        <div className="pointer-events-none absolute inset-0" aria-hidden>
-          <div className="animate-orb absolute -left-16 top-0 h-56 w-56 rounded-full bg-accent/10 blur-3xl" />
-          <div className="animate-orb-delayed absolute -right-10 bottom-0 h-64 w-64 rounded-full bg-signal/10 blur-3xl" />
-          <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-accent/40 to-transparent" />
-        </div>
+    <section id="cobertura" className="relative scroll-mt-24 border-t border-line">
+      {/* Banda de respuesta rápida */}
+      <div className="mx-auto max-w-[1240px] px-5 pt-24 sm:px-8 md:pt-28">
+        <Reveal>
+          <div className="relative overflow-hidden rounded-[1.75rem] border border-line bg-[#060a16] p-8 text-white sm:p-10 md:p-14">
+            <div className="hero-grid pointer-events-none absolute inset-0 opacity-70" aria-hidden />
+            <div className="pointer-events-none absolute -top-32 -right-24 h-80 w-80 rounded-full bg-[radial-gradient(closest-side,rgba(59,130,255,0.4),transparent)] blur-xl" aria-hidden />
+            <div className="pointer-events-none absolute -bottom-32 left-10 h-72 w-72 rounded-full bg-[radial-gradient(closest-side,rgba(34,211,238,0.18),transparent)] blur-xl" aria-hidden />
 
-        <div className="relative mx-auto grid max-w-6xl gap-10 px-5 py-14 md:grid-cols-[1.05fr_0.95fr] md:items-center md:gap-12 md:px-8 md:py-16">
-          <Reveal>
-            <p className="text-xs font-semibold tracking-[0.28em] text-accent uppercase">
-              Respuesta rápida
-            </p>
-            <h2 className="font-display mt-4 max-w-xl text-3xl font-bold tracking-tight md:text-4xl">
-              ¿Equipo caído, red inestable o cámaras sin grabar?
-            </h2>
-            <div className="animate-line mt-4 h-px w-24 bg-accent/50" />
-            <p className="mt-4 max-w-lg text-muted">
-              Escríbenos por WhatsApp y te orientamos al momento. Atendemos hogares
-              y empresas en ambos lados de la frontera.
-            </p>
-            <div className="mt-8 flex flex-wrap items-center gap-3">
-              <a
-                href={whatsappUrl(
-                  "Hola ATRIX, necesito soporte técnico cuanto antes.",
-                )}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn-primary inline-flex items-center justify-center rounded-full px-6 py-3.5 text-sm font-semibold"
-              >
-                WhatsApp ahora · {site.phoneDisplay}
-              </a>
-              <SectionLink
-                hash="contacto"
-                className="rounded-full border border-line bg-bg/70 px-6 py-3.5 text-sm font-medium text-fg backdrop-blur transition hover:border-accent/50 hover:text-accent"
-              >
-                Enviar mensaje
-              </SectionLink>
-            </div>
-          </Reveal>
+            <div className="relative grid gap-10 md:grid-cols-[1.2fr_0.8fr] md:items-center">
+              <div>
+                <p className="chip chip-dark">
+                  <span className="live-dot" aria-hidden />
+                  Respuesta rápida
+                </p>
+                <h2 className="section-title mt-6 max-w-xl">
+                  ¿Equipo caído, red inestable o{" "}
+                  <span className="bg-gradient-to-r from-[#5b9bff] to-[#22d3ee] bg-clip-text text-transparent">
+                    cámaras sin grabar?
+                  </span>
+                </h2>
+                <p className="mt-5 max-w-lg text-[#aab6cf]">
+                  Escríbenos por WhatsApp y un ingeniero te orienta al momento.
+                  Atendemos hogares y empresas en ambos lados de la frontera.
+                </p>
+                <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+                  <a
+                    href={whatsappUrl("Hola ATRIX, necesito soporte técnico cuanto antes.")}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn btn-whatsapp"
+                  >
+                    <WhatsAppIcon />
+                    WhatsApp · {site.phoneDisplay}
+                  </a>
+                  <SectionLink hash="contacto" className="btn btn-ghost-light">
+                    Enviar mensaje
+                    <ArrowIcon />
+                  </SectionLink>
+                </div>
+              </div>
 
-          <Reveal delay={100}>
-            <div className="space-y-4">
-              <SectionMedia
-                src="/images/home/respuesta-rapida.jpg"
-                alt="Técnico ATRIX brindando soporte profesional en sitio"
-                aspect="aspect-[16/11]"
-                sizes="(max-width: 768px) 100vw, 48vw"
-              />
-              <ul className="grid gap-3 sm:grid-cols-2">
+              <ul className="grid gap-3">
                 {cities.map((city) => (
                   <li
                     key={city.name}
-                    className="tech-frame rounded-[1.5rem] border border-line bg-bg/80 p-4 shadow-[0_12px_40px_rgba(11,18,32,0.06)] backdrop-blur transition hover:border-accent/35"
+                    className="rounded-2xl border border-white/10 bg-white/[0.04] p-5 backdrop-blur"
                   >
-                    <p className="font-display text-lg font-semibold">{city.name}</p>
-                    <p className="mt-1 text-[10px] font-semibold tracking-[0.16em] text-signal uppercase">
-                      {city.region}
+                    <div className="flex items-start justify-between gap-3">
+                      <div>
+                        <p className="font-display text-lg font-semibold">{city.name}</p>
+                        <p className="mt-0.5 text-sm text-[#93a0bb]">{city.region}</p>
+                      </div>
+                      <span className="live-dot mt-2" aria-hidden />
+                    </div>
+                    <p className="mono mt-4 text-[11px] tracking-[0.08em] text-[#5b9bff]">
+                      {city.coords}
                     </p>
-                    <p className="mt-1.5 text-sm text-muted">{city.note}</p>
+                    <p className="mt-1 text-sm text-[#aab6cf]">{city.note}</p>
                   </li>
                 ))}
               </ul>
             </div>
-          </Reveal>
-        </div>
+          </div>
+        </Reveal>
       </div>
 
-      <div className="mx-auto max-w-6xl px-5 py-16 md:px-8 md:py-20">
-        <div className="grid items-end gap-8 lg:grid-cols-[1fr_1.05fr] lg:gap-12">
+      {/* Cobertura */}
+      <div className="mx-auto max-w-[1240px] px-5 py-24 sm:px-8 md:py-28">
+        <div className="grid items-center gap-12 lg:grid-cols-[1fr_1.05fr] lg:gap-16">
           <Reveal>
-            <p className="text-xs font-semibold tracking-[0.28em] text-accent uppercase">
-              Cobertura
-            </p>
-            <h2 className="font-display mt-4 max-w-2xl text-3xl font-bold tracking-tight md:text-4xl">
-              Servicio en {site.coverage}
-            </h2>
-            <div className="animate-line mt-4 h-px w-24 bg-accent/50" />
-            <p className="mt-4 max-w-md text-muted">
-              Operamos en la frontera con presencia local, tiempos de respuesta
-              claros y seguimiento hasta dejar tu operación estable.
-            </p>
-          </Reveal>
-          <Reveal delay={80}>
-            <SectionMedia
-              src="/images/home/cobertura-frontera.jpg"
-              alt="Atardecer artístico en la frontera Nuevo Laredo–Laredo"
-              aspect="aspect-[16/9]"
-              sizes="(max-width: 1024px) 100vw, 55vw"
+            <SectionHeading
+              index="02"
+              eyebrow="Cobertura"
+              title={
+                <>
+                  Presencia local en <span className="text-gradient">{site.coverage}</span>
+                </>
+              }
+              lead="Operamos en la frontera con tiempos de respuesta claros y seguimiento hasta dejar tu operación estable."
             />
+            <ul className="mt-10 space-y-6">
+              {promises.map((item, index) => (
+                <li key={item.title} className="flex gap-4">
+                  <span className="mono mt-0.5 shrink-0 text-[11px] text-accent">
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+                  <div className="border-l border-line pl-4">
+                    <h3 className="font-display text-base font-semibold">{item.title}</h3>
+                    <p className="mt-1 text-sm leading-relaxed text-muted">{item.copy}</p>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </Reveal>
+
+          <Reveal delay={100}>
+            <div className="media-frame tech-frame aspect-[4/3]">
+              <Image
+                src="/images/home/cobertura-frontera.jpg"
+                alt="Atardecer en la frontera Nuevo Laredo–Laredo"
+                fill
+                className="object-cover"
+                sizes="(max-width: 1024px) 100vw, 55vw"
+              />
+              <div className="absolute top-4 left-4 z-10 flex items-center gap-2 rounded-lg border border-white/15 bg-black/50 px-3 py-2 backdrop-blur">
+                <span className="live-dot" aria-hidden />
+                <span className="mono text-[10px] tracking-[0.14em] text-white/85 uppercase">
+                  Zona de servicio activa
+                </span>
+              </div>
+              <div className="absolute right-4 bottom-4 left-4 z-10 grid grid-cols-2 gap-3">
+                {["MX", "US"].map((code, i) => (
+                  <div
+                    key={code}
+                    className="rounded-xl border border-white/12 bg-black/45 px-4 py-3 text-white backdrop-blur"
+                  >
+                    <p className="mono text-[10px] tracking-[0.14em] text-white/60 uppercase">
+                      Región {code}
+                    </p>
+                    <p className="font-display mt-1 text-sm font-semibold">
+                      {cities[i].name}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
           </Reveal>
         </div>
 
-        <ul className="mt-10 grid gap-6 md:grid-cols-3">
-          {promises.map((item, index) => (
-            <Reveal key={item.title} delay={index * 90}>
-              <li className="border-t border-line pt-5">
-                <h3 className="font-display text-lg font-semibold">{item.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-muted">{item.copy}</p>
-              </li>
-            </Reveal>
-          ))}
-        </ul>
-
-        <ul className="mt-12 grid gap-4 sm:grid-cols-3">
+        <ul className="mt-16 grid gap-5 sm:grid-cols-3">
           {pillars.map((item, index) => (
-            <Reveal key={item.title} delay={index * 90}>
-              <li className="tech-frame rounded-[1.5rem] border border-line bg-bg-elevated/50 px-5 py-5 shadow-[0_12px_40px_rgba(11,18,32,0.06)] transition duration-300 hover:-translate-y-0.5 hover:border-accent/35">
-                <h3 className="font-display text-base font-semibold text-signal">
-                  {item.title}
-                </h3>
-                <p className="mt-2 text-sm text-muted">{item.copy}</p>
-              </li>
+            <Reveal as="li" key={item.title} delay={index * 90} className="card-glow p-6">
+              <p className="mono text-[11px] tracking-[0.14em] text-subtle uppercase">
+                Pilar {String(index + 1).padStart(2, "0")}
+              </p>
+              <h3 className="font-display mt-3 text-lg font-semibold">{item.title}</h3>
+              <p className="mt-2 text-sm leading-relaxed text-muted">{item.copy}</p>
             </Reveal>
           ))}
         </ul>
 
         <Reveal delay={120}>
-          <div className="mt-10 flex flex-wrap gap-2">
+          <div className="mt-8 flex flex-wrap gap-2">
             {values.map((value) => (
-              <span
-                key={value}
-                className="rounded-full border border-line px-4 py-2 text-[11px] font-semibold tracking-[0.18em] text-muted uppercase transition hover:border-accent/40 hover:text-accent"
-              >
+              <span key={value} className="chip">
                 {value}
               </span>
             ))}

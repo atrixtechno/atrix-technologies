@@ -1,60 +1,67 @@
+import Image from "next/image";
 import { Reveal } from "@/components/Reveal";
-import { SectionMedia } from "@/components/SectionMedia";
+import { SectionHeading } from "@/components/ui";
 import { benefits } from "@/content/services";
 
 export function Benefits() {
   return (
-    <section id="beneficios" className="relative scroll-mt-10 border-t border-line py-24 md:py-28">
-      <div className="pointer-events-none absolute -left-20 top-1/3 h-56 w-56 rounded-full bg-accent/5 blur-3xl" />
-      <div className="mx-auto max-w-6xl px-5 md:px-8">
-        <div className="grid items-start gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:gap-14">
-          <Reveal>
-            <p className="text-xs font-semibold tracking-[0.28em] text-accent uppercase">
-              Por qué ATRIX
-            </p>
-            <h2 className="font-display mt-4 max-w-2xl text-3xl font-bold tracking-tight md:text-5xl">
-              Un aliado tecnológico completo
-            </h2>
-            <div className="animate-line mt-4 h-px w-24 bg-accent/50" />
-            <p className="mt-4 max-w-2xl text-muted">
-              Impulsamos tu hogar o negocio con tecnología confiable, innovadora y
-              adaptada a tus necesidades reales.
-            </p>
-            <div className="mt-8 hidden lg:block">
-              <SectionMedia
+    <section
+      id="beneficios"
+      className="relative scroll-mt-24 border-t border-line bg-bg-soft py-24 md:py-32"
+    >
+      <div className="grid-dots pointer-events-none absolute inset-0 opacity-60" aria-hidden />
+      <div className="relative mx-auto max-w-[1240px] px-5 sm:px-8">
+        <div className="grid items-start gap-14 lg:grid-cols-[0.95fr_1.05fr] lg:gap-16">
+          <Reveal className="lg:sticky lg:top-28">
+            <SectionHeading
+              index="03"
+              eyebrow="Por qué ATRIX"
+              title={
+                <>
+                  Tu aliado <span className="text-gradient">tecnológico</span> completo
+                </>
+              }
+              lead="Tecnología confiable, innovadora y adaptada a tu operación real — con la misma gente que la diseña, la instala y le da seguimiento."
+            />
+            <div className="media-frame tech-frame mt-10 aspect-[4/3]">
+              <Image
                 src="/images/home/aliado-tecnologico.jpg"
                 alt="Consultoría tecnológica profesional ATRIX con el cliente"
-                aspect="aspect-[4/3]"
+                fill
+                className="object-cover"
                 sizes="(max-width: 1024px) 100vw, 42vw"
               />
+              <div className="absolute bottom-4 left-4 z-10 rounded-xl border border-white/12 bg-black/50 px-4 py-3 text-white backdrop-blur">
+                <p className="mono text-[10px] tracking-[0.14em] text-white/60 uppercase">
+                  Modelo de servicio
+                </p>
+                <p className="font-display mt-1 text-sm font-semibold">
+                  Diagnóstico → Implementación → Soporte
+                </p>
+              </div>
             </div>
           </Reveal>
 
-          <ul className="grid gap-6 sm:grid-cols-2 lg:grid-cols-1">
-            <li className="lg:hidden">
-              <SectionMedia
-                src="/images/home/aliado-tecnologico.jpg"
-                alt="Consultoría tecnológica profesional ATRIX con el cliente"
-                aspect="aspect-[16/10]"
-                sizes="100vw"
-              />
-            </li>
+          <ol className="grid gap-5">
             {benefits.map((item, index) => (
-              <Reveal key={item.title} delay={index * 80}>
-                <li className="border-t border-line pt-6 transition hover:border-accent/40">
-                  <p className="text-[11px] font-semibold tracking-[0.2em] text-signal uppercase">
-                    {String(index + 1).padStart(2, "0")}
-                  </p>
-                  <h3 className="font-display mt-3 text-xl font-semibold md:text-2xl">
-                    {item.title}
-                  </h3>
-                  <p className="mt-3 text-sm leading-relaxed text-muted md:text-base">
+              <Reveal
+                as="li"
+                key={item.title}
+                delay={index * 80}
+                className="card-glow flex gap-5 p-6 sm:p-7"
+              >
+                <span className="stat-value text-gradient shrink-0 text-4xl sm:text-5xl">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+                <div>
+                  <h3 className="font-display text-xl font-semibold">{item.title}</h3>
+                  <p className="mt-2.5 text-sm leading-relaxed text-muted sm:text-[15px]">
                     {item.copy}
                   </p>
-                </li>
+                </div>
               </Reveal>
             ))}
-          </ul>
+          </ol>
         </div>
       </div>
     </section>

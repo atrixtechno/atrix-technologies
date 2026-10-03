@@ -33,17 +33,19 @@ Panel: `/admin` · Proyectos `/admin/proyectos` · Facturas `/admin/facturas`.
 
 ### Login admin
 
-- Usuario: escribe solo `admin` (la UI muestra el sufijo `@atrix.com`)
-- Contraseña por defecto: `12345678` (hasta el primer cambio)
-- Si ya cambiaste la contraseña en Supabase, usa la nueva o restablécela
+- Usuario: escribe solo `admin` (la UI muestra el sufijo `@atrix.com`).
+- Contraseñas guardadas con **scrypt + sal**; los hashes SHA-256 antiguos se migran solos al iniciar sesión.
+- La sesión es una cookie httpOnly firmada (8 h) que se invalida al cambiar la contraseña.
+- Bloqueo de 15 min tras 5 intentos fallidos por IP, o 20 en total para el usuario.
+- En producción es obligatorio un secreto de sesión (`ADMIN_SESSION_SECRET`, o en su defecto `PROJECT_SECRETS_KEY` / `SUPABASE_SERVICE_ROLE_KEY`) y un almacén de credenciales (Supabase o `ADMIN_PASSWORD_HASH`).
 
-Reset one-time (service role, desde la raíz del repo):
+Restablecer el acceso (service role, desde la raíz del repo):
 
 ```bash
 node --env-file=.env.local scripts/reset-admin-password.mjs
 ```
 
-Esto pone el hash de `12345678`, `password_changed=false`, y limpia bloqueos en `admin_login_attempts`.
+Genera una contraseña temporal aleatoria (se imprime una sola vez), pone `password_changed=false` y limpia los bloqueos. El panel obliga a cambiarla en el primer login (mínimo 10 caracteres).
 
 Bucket Storage recomendado (público): `project-assets` para logos de proyecto.
 

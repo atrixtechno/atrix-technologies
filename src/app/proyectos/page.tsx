@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
+import { PageHero } from "@/components/PageHero";
 import { ProjectsIndexGrid } from "@/components/ProjectsIndexGrid";
 import { projects } from "@/content/projects";
 import { site } from "@/content/site";
@@ -65,38 +66,31 @@ export default function ProjectsIndexPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <div className="atmosphere relative min-h-screen">
+      <div className="relative min-h-screen bg-bg">
         <Header />
-        <main className="relative z-10">
-          <section className="relative overflow-hidden bg-[#050a16] text-white">
-            <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_70%_50%_at_80%_20%,rgba(26,107,255,0.28),transparent_60%)]" />
-            <div className="relative mx-auto max-w-6xl px-5 pb-16 pt-28 sm:px-8 sm:pb-20 sm:pt-32 md:pb-24 md:pt-36">
-              <p className="font-display text-[clamp(2.4rem,8vw,4.5rem)] font-extrabold leading-[0.9] tracking-[-0.04em]">
-                {site.name}
-              </p>
-              <p className="mt-2 text-sm font-semibold tracking-[0.22em] text-white/65 uppercase">
-                Technologies · Portafolio
-              </p>
-              <h1 className="font-display mt-8 max-w-3xl text-balance text-[1.75rem] font-bold leading-[1.12] tracking-[-0.03em] sm:text-4xl md:text-5xl">
-                Proyectos que operan en el mundo real
-              </h1>
-              <p className="mt-5 max-w-2xl text-pretty text-[15px] leading-relaxed text-white/75 sm:text-base md:text-lg">
-                Filtra por sitio web o sistema. Entra a cada caso para ver el reto,
-                la solución y por qué un cliente elegiría algo similar.
-              </p>
-            </div>
-          </section>
+        <main className="relative">
+          <PageHero
+            eyebrow={`Portafolio · ${projects.length} casos`}
+            title={
+              <>
+                Proyectos que operan en el{" "}
+                <span className="bg-gradient-to-r from-[#5b9bff] to-[#22d3ee] bg-clip-text text-transparent">
+                  mundo real
+                </span>
+              </>
+            }
+            lead="Filtra por sitio web o sistema. Entra a cada caso para ver el reto, la solución y por qué un cliente elegiría algo similar."
+            meta="Web · iOS · Android · Paneles en producción"
+          />
 
-          <div className="relative overflow-hidden rounded-t-[2rem] bg-bg md:rounded-t-[2.5rem]">
-            <div className="grid-tech pointer-events-none absolute inset-0 opacity-50" />
-            <div className="relative mx-auto max-w-6xl px-5 pb-20 pt-10 sm:px-8 sm:pb-24 sm:pt-12 md:pt-14">
+          <div className="relative overflow-hidden bg-bg">
+            <div className="grid-tech pointer-events-none absolute inset-0 opacity-70" />
+            <div className="relative mx-auto max-w-[1240px] px-5 pt-14 pb-24 sm:px-8 md:pt-16 md:pb-32">
               <ProjectsIndexGrid />
             </div>
           </div>
         </main>
-        <div className="relative z-10">
-          <Footer />
-        </div>
+        <Footer />
       </div>
     </>
   );

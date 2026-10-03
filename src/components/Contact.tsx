@@ -2,6 +2,7 @@
 
 import { FormEvent, useEffect, useRef, useState } from "react";
 import { SectionMedia } from "@/components/SectionMedia";
+import { ArrowIcon, SectionHeading, WhatsAppIcon } from "@/components/ui";
 import { site, whatsappUrl } from "@/content/site";
 
 type Phase = "idle" | "loading" | "success" | "error";
@@ -88,57 +89,50 @@ export function Contact() {
   }
 
   return (
-    <section id="contacto" className="relative scroll-mt-10 border-t border-line py-24 md:py-32">
-      <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
-        <div className="absolute -right-10 top-20 h-40 w-40 rounded-full border border-accent/20" />
-        <div className="absolute -right-4 top-28 h-28 w-28 rounded-full border border-signal/20" />
-      </div>
+    <section
+      id="contacto"
+      className="relative scroll-mt-24 overflow-hidden border-t border-line py-24 md:py-32"
+    >
+      <div className="grid-tech pointer-events-none absolute inset-0" aria-hidden />
+      <div className="pointer-events-none absolute top-0 right-0 h-[30rem] w-[30rem] rounded-full bg-[radial-gradient(closest-side,color-mix(in_srgb,var(--accent)_16%,transparent),transparent)]" aria-hidden />
 
-      <div className="relative mx-auto grid max-w-6xl gap-14 px-5 md:grid-cols-2 md:gap-20 md:px-8">
+      <div className="relative mx-auto grid max-w-[1240px] gap-14 px-5 sm:px-8 lg:grid-cols-[0.9fr_1.1fr] lg:gap-20">
         <div>
-          <p className="text-xs font-semibold tracking-[0.16em] text-accent uppercase">
-            Contacto
-          </p>
-          <h2 className="font-display mt-4 text-3xl font-semibold tracking-tight md:text-5xl">
-            ¿Listo para cotizar?
-          </h2>
-          <p className="mt-4 max-w-md leading-relaxed text-muted">
-            Soporte técnico, CCTV, redes, impresoras, software o IT empresarial.
-            Escríbenos y te orientamos sin compromiso.
-          </p>
-          <div className="mt-6 hidden md:block">
-            <SectionMedia
-              src="/images/home/contacto-escritorio.jpg"
-              alt="Escritorio profesional ATRIX listo para atender tu cotización"
-              aspect="aspect-[16/10]"
-              sizes="(max-width: 768px) 100vw, 42vw"
-            />
-          </div>
+          <SectionHeading
+            index="08"
+            eyebrow="Contacto"
+            title={
+              <>
+                ¿Listo para <span className="text-gradient">cotizar?</span>
+              </>
+            }
+            lead="Soporte técnico, CCTV, redes, impresoras, software o IT empresarial. Cuéntanos qué necesitas y un ingeniero te responde sin compromiso."
+          />
+
           <a
             href={whatsappUrl("Hola ATRIX, quiero cotizar un servicio.")}
             target="_blank"
             rel="noopener noreferrer"
-            className="btn-primary mt-8 inline-flex items-center justify-center rounded-full px-6 py-3.5 font-semibold"
+            className="btn btn-whatsapp mt-9"
           >
-            WhatsApp
+            <WhatsAppIcon />
+            WhatsApp · {site.phoneDisplay}
           </a>
 
-          <ul className="mt-6 space-y-3">
+          <ul className="mt-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
             <li>
               <a
                 href={site.facebook}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group inline-flex items-center gap-3 text-sm text-muted transition hover:text-fg"
+                className="card group flex items-center gap-3 p-4 transition hover:border-[#1877F2]/40"
               >
-                <span className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-line bg-bg-elevated text-[#1877F2] transition group-hover:border-[#1877F2]/40">
+                <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-line bg-bg text-[#1877F2]">
                   <FacebookIcon className="h-5 w-5" />
                 </span>
-                <span>
-                  <span className="block text-[11px] font-semibold tracking-[0.16em] uppercase">
-                    Facebook
-                  </span>
-                  <span className="mt-0.5 block text-fg transition group-hover:text-accent">
+                <span className="min-w-0">
+                  <span className="field-label block">Facebook</span>
+                  <span className="mt-0.5 block truncate text-sm text-fg transition group-hover:text-accent">
                     facebook.com/atrixnld
                   </span>
                 </span>
@@ -147,85 +141,122 @@ export function Contact() {
             <li>
               <a
                 href={`mailto:${site.email}`}
-                className="group inline-flex items-center gap-3 text-sm text-muted transition hover:text-fg"
+                className="card group flex items-center gap-3 p-4 transition hover:border-accent/40"
               >
-                <span className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-line bg-bg-elevated transition group-hover:border-accent/40">
+                <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-line bg-bg">
                   <GmailIcon className="h-5 w-5" />
                 </span>
-                <span>
-                  <span className="block text-[11px] font-semibold tracking-[0.16em] uppercase">
-                    Gmail
-                  </span>
-                  <span className="mt-0.5 block text-fg transition group-hover:text-accent">
+                <span className="min-w-0">
+                  <span className="field-label block">Correo</span>
+                  <span className="mt-0.5 block truncate text-sm text-fg transition group-hover:text-accent">
                     {site.email}
                   </span>
                 </span>
               </a>
             </li>
           </ul>
+
+          <div className="mt-10 hidden lg:block">
+            <SectionMedia
+              src="/images/home/contacto-escritorio.jpg"
+              alt="Escritorio profesional ATRIX listo para atender tu cotización"
+              aspect="aspect-[16/9]"
+              sizes="(max-width: 1024px) 100vw, 40vw"
+            />
+          </div>
         </div>
 
-        <form ref={formRef} onSubmit={onSubmit} className="relative space-y-5">
-          <div className="pointer-events-none absolute -inset-px rounded-[1.5rem] bg-gradient-to-br from-accent/20 via-transparent to-signal/20 opacity-60" />
-          <div className="relative space-y-5 rounded-[1.5rem] border border-line bg-bg-elevated/80 p-5 shadow-[0_12px_40px_rgba(11,18,32,0.06)] backdrop-blur md:p-6">
+        <form
+          ref={formRef}
+          onSubmit={onSubmit}
+          className="relative self-start overflow-hidden rounded-[1.25rem] border border-line bg-bg-elevated shadow-[var(--shadow-soft)]"
+        >
+          <div className="console-bar !border-line">
+            <i />
+            <i />
+            <i />
+            <span className="mono ml-2 text-[11px] text-muted">nueva-solicitud</span>
+            <span className="ml-auto inline-flex items-center gap-2 text-[11px] text-muted">
+              <span className="live-dot" aria-hidden />
+              <span className="mono hidden sm:inline">Respuesta el mismo día</span>
+            </span>
+          </div>
+          <div className="space-y-5 p-6 sm:p-8">
+            {/* Honeypot anti-spam: oculto para personas, los bots lo llenan. */}
+            <div className="absolute -left-[9999px] h-px w-px overflow-hidden" aria-hidden>
+              <label>
+                Sitio web
+                <input name="website" tabIndex={-1} autoComplete="off" />
+              </label>
+            </div>
+            <div className="grid gap-5 sm:grid-cols-2">
+              <label className="block">
+                <span className="field-label">Nombre</span>
+                <input
+                  name="name"
+                  required
+                  maxLength={120}
+                  autoComplete="name"
+                  className="field mt-2"
+                />
+              </label>
+              <label className="block">
+                <span className="field-label">Teléfono / WhatsApp</span>
+                <input
+                  name="phone"
+                  type="tel"
+                  inputMode="tel"
+                  autoComplete="tel"
+                  maxLength={30}
+                  value={phone}
+                  onChange={(e) => setPhone(sanitizePhone(e.target.value))}
+                  onKeyDown={(e) => {
+                    if (e.key === " " || e.code === "Space") e.preventDefault();
+                  }}
+                  onPaste={(e) => {
+                    e.preventDefault();
+                    const text = e.clipboardData.getData("text");
+                    setPhone((prev) => sanitizePhone(prev + text));
+                  }}
+                  className="field mt-2"
+                />
+              </label>
+            </div>
             <label className="block">
-              <span className="text-xs tracking-[0.16em] text-muted uppercase">Nombre</span>
-              <input
-                name="name"
-                required
-                className="mt-2 w-full rounded-xl border border-line bg-bg px-4 py-3.5 text-fg outline-none transition focus:border-accent"
-              />
-            </label>
-            <label className="block">
-              <span className="text-xs tracking-[0.16em] text-muted uppercase">
-                Teléfono / WhatsApp
-              </span>
-              <input
-                name="phone"
-                type="tel"
-                inputMode="tel"
-                autoComplete="tel"
-                value={phone}
-                onChange={(e) => setPhone(sanitizePhone(e.target.value))}
-                onKeyDown={(e) => {
-                  if (e.key === " " || e.code === "Space") e.preventDefault();
-                }}
-                onPaste={(e) => {
-                  e.preventDefault();
-                  const text = e.clipboardData.getData("text");
-                  setPhone((prev) => sanitizePhone(prev + text));
-                }}
-                className="mt-2 w-full rounded-xl border border-line bg-bg px-4 py-3.5 text-fg outline-none transition focus:border-accent"
-              />
-            </label>
-            <label className="block">
-              <span className="text-xs tracking-[0.16em] text-muted uppercase">
-                Servicio de interés
-              </span>
+              <span className="field-label">Servicio de interés</span>
               <input
                 name="business"
+                maxLength={160}
                 placeholder="Ej. CCTV, redes, soporte, sitio web…"
-                className="mt-2 w-full rounded-xl border border-line bg-bg px-4 py-3.5 text-fg outline-none transition focus:border-accent"
+                className="field mt-2"
               />
             </label>
             <label className="block">
-              <span className="text-xs tracking-[0.16em] text-muted uppercase">Mensaje</span>
+              <span className="field-label">Mensaje</span>
               <textarea
                 name="message"
                 required
-                rows={4}
-                className="mt-2 w-full resize-y rounded-xl border border-line bg-bg px-4 py-3.5 text-fg outline-none transition focus:border-accent"
+                rows={5}
+                maxLength={2000}
+                placeholder="Cuéntanos brevemente qué necesitas"
+                className="field mt-2 resize-y"
               />
             </label>
-            <button
-              type="submit"
-              disabled={phase === "loading"}
-              className="w-full rounded-xl border border-accent bg-transparent px-6 py-3.5 font-semibold text-accent transition hover:bg-accent hover:text-accent-ink disabled:opacity-60 md:w-auto"
-            >
-              Enviar mensaje
-            </button>
+            <div className="flex flex-col gap-4 pt-1 sm:flex-row sm:items-center sm:justify-between">
+              <p className="text-xs text-subtle">
+                Tus datos solo se usan para responder tu solicitud.
+              </p>
+              <button
+                type="submit"
+                disabled={phase === "loading"}
+                className="btn btn-primary disabled:opacity-60"
+              >
+                Enviar solicitud
+                <ArrowIcon />
+              </button>
+            </div>
             {phase === "error" && (
-              <p className="text-sm text-red-500">
+              <p className="rounded-xl border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-400">
                 No se pudo enviar. Escríbenos por WhatsApp, por favor.
               </p>
             )}
@@ -235,12 +266,12 @@ export function Contact() {
 
       {(phase === "loading" || phase === "success") && (
         <div
-          className="fixed inset-0 z-[80] flex items-center justify-center bg-bg/70 px-5 backdrop-blur-md"
+          className="fixed inset-0 z-[80] flex items-center justify-center bg-bg/75 px-5 backdrop-blur-md"
           role="dialog"
           aria-modal="true"
           aria-labelledby="contact-modal-title"
         >
-          <div className="animate-fade-scale relative w-full max-w-md overflow-hidden rounded-[1.5rem] border border-line bg-bg-elevated p-8 shadow-[0_30px_80px_rgba(11,26,36,0.18)]">
+          <div className="animate-fade-scale relative w-full max-w-md overflow-hidden rounded-[1.5rem] border border-line bg-bg-elevated p-8 shadow-[var(--shadow-soft)]">
             <div className="pointer-events-none absolute -right-8 -top-8 h-28 w-28 rounded-full bg-accent/15 blur-2xl" />
             <div className="pointer-events-none absolute -bottom-10 -left-6 h-24 w-24 rounded-full bg-signal/15 blur-2xl" />
             <div className="pointer-events-none absolute inset-x-0 top-0 h-1 bg-line">
@@ -294,7 +325,7 @@ export function Contact() {
                 <button
                   type="button"
                   onClick={closeModal}
-                  className="mt-8 rounded-full bg-accent px-6 py-3 text-sm font-semibold text-accent-ink transition hover:brightness-110"
+                  className="btn btn-primary mt-8"
                 >
                   Entendido
                 </button>

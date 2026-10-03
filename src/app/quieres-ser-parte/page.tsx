@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
-import { QuieresSerParteHero } from "@/components/QuieresSerParteHero";
+import { PageHero } from "@/components/PageHero";
 import { QuieresSerParteIdentidad } from "@/components/QuieresSerParteIdentidad";
 import { Reveal } from "@/components/Reveal";
 import { SectionMedia } from "@/components/SectionMedia";
@@ -121,10 +121,19 @@ export default function QuieresSerPartePage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <div className="atmosphere relative min-h-screen">
+      <div className="relative bg-bg min-h-screen">
         <Header />
         <main className="relative z-10">
-          <QuieresSerParteHero whatsappHref={wa} />
+          <PageHero
+            eyebrow={unetePage.eyebrow}
+            title={unetePage.title}
+            lead={unetePage.lead}
+            image="/images/unete/hero-equipo.jpg"
+            imagePosition="center 30%"
+            primary={{ href: wa, label: "Enviar CV por WhatsApp" }}
+            secondary={{ href: "/#contacto", label: "Completar formulario" }}
+            meta={`${site.coverage} · Equipo tech en crecimiento`}
+          />
           <div className="relative overflow-hidden rounded-t-[2rem] bg-bg md:rounded-t-[2.5rem]">
             <div className="grid-tech pointer-events-none absolute inset-0 opacity-50" />
             <div className="relative">
@@ -135,14 +144,14 @@ export default function QuieresSerPartePage() {
             className="border-b border-line py-14 md:py-20"
             aria-labelledby="areas-heading"
           >
-            <div className="mx-auto max-w-6xl px-4 sm:px-5 md:px-8">
+            <div className="mx-auto max-w-[1240px] px-4 sm:px-5 md:px-8">
               <Reveal>
-                <p className="text-[10px] font-semibold tracking-[0.22em] text-signal uppercase">
+                <p className="eyebrow">
                   En qué trabajamos
                 </p>
                 <h2
                   id="areas-heading"
-                  className="font-display mt-3 max-w-2xl text-[1.65rem] font-bold tracking-tight sm:text-3xl md:text-4xl"
+                  className="section-title mt-3 max-w-2xl !text-[clamp(1.75rem,3.2vw,2.6rem)]"
                 >
                   Un equipo tech de punta a punta
                 </h2>
@@ -150,31 +159,29 @@ export default function QuieresSerPartePage() {
 
               <ul className="mt-10 grid grid-cols-1 gap-4 sm:mt-12 sm:grid-cols-2 lg:grid-cols-5 lg:gap-3">
                 {uneteAreas.map((area, index) => (
-                  <Reveal key={area.label} delay={index * 55}>
-                    <li className="group h-full overflow-hidden rounded-[1.5rem] border border-line bg-bg-elevated/70 shadow-[0_12px_40px_rgba(11,18,32,0.06)] transition hover:border-accent/35 hover:bg-bg-elevated hover:shadow-[0_20px_44px_rgba(26,107,255,0.12)]">
-                      <div className="relative aspect-[16/11] w-full overflow-hidden border-b border-line bg-bg">
-                        <Image
-                          src={area.image}
-                          alt={area.label}
-                          fill
-                          quality={85}
-                          className="object-cover transition duration-500 group-hover:scale-[1.04]"
-                          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 20vw"
-                        />
-                        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-bg-elevated via-transparent to-transparent opacity-80" />
-                      </div>
-                      <div className="px-5 py-5">
-                        <p className="font-display text-xl font-extrabold text-accent/30 tabular-nums transition group-hover:text-accent/55">
-                          {String(index + 1).padStart(2, "0")}
-                        </p>
-                        <h3 className="font-display mt-2 text-base font-semibold sm:text-[17px]">
-                          {area.label}
-                        </h3>
-                        <p className="mt-2 text-sm leading-relaxed text-muted">
-                          {area.copy}
-                        </p>
-                      </div>
-                    </li>
+                  <Reveal as="li" key={area.label} delay={index * 55} className="group h-full overflow-hidden rounded-[1.25rem] border border-line bg-bg-elevated/70 shadow-[var(--shadow-card)] transition hover:border-accent/35 hover:bg-bg-elevated hover:shadow-[0_20px_44px_color-mix(in_srgb,var(--accent)_16%,transparent)]">
+                    <div className="relative aspect-[16/11] w-full overflow-hidden border-b border-line bg-bg">
+                      <Image
+                        src={area.image}
+                        alt={area.label}
+                        fill
+                        quality={85}
+                        className="object-cover transition duration-500 group-hover:scale-[1.04]"
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 20vw"
+                      />
+                      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-bg-elevated via-transparent to-transparent opacity-80" />
+                    </div>
+                    <div className="px-5 py-5">
+                      <p className="font-display text-xl font-extrabold text-accent/30 tabular-nums transition group-hover:text-accent/55">
+                        {String(index + 1).padStart(2, "0")}
+                      </p>
+                      <h3 className="font-display mt-2 text-base font-semibold sm:text-[17px]">
+                        {area.label}
+                      </h3>
+                      <p className="mt-2 text-sm leading-relaxed text-muted">
+                        {area.copy}
+                      </p>
+                    </div>
                   </Reveal>
                 ))}
               </ul>
@@ -187,15 +194,15 @@ export default function QuieresSerPartePage() {
             className="scroll-mt-24 border-b border-line bg-bg-elevated/35 py-16 md:py-24"
             aria-labelledby="como-unirte-heading"
           >
-            <div className="mx-auto max-w-6xl px-4 sm:px-5 md:px-8">
+            <div className="mx-auto max-w-[1240px] px-4 sm:px-5 md:px-8">
               <div className="grid items-end gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:gap-12">
                 <Reveal>
-                  <p className="text-[10px] font-semibold tracking-[0.22em] text-accent uppercase">
+                  <p className="eyebrow">
                     Cómo unirte
                   </p>
                   <h2
                     id="como-unirte-heading"
-                    className="font-display mt-3 max-w-2xl text-[1.65rem] font-bold tracking-tight sm:text-3xl md:text-4xl"
+                    className="section-title mt-3 max-w-2xl !text-[clamp(1.75rem,3.2vw,2.6rem)]"
                   >
                     Proceso claro y directo
                   </h2>
@@ -216,39 +223,37 @@ export default function QuieresSerPartePage() {
 
               <ol className="mt-12 grid grid-cols-1 gap-4 md:mt-14 md:grid-cols-3 md:gap-5">
                 {uneteSteps.map((step, index) => (
-                  <Reveal key={step.number} delay={index * 70}>
-                    <li className="flex h-full flex-col rounded-[1.5rem] border border-line bg-bg p-6 shadow-[0_12px_40px_rgba(11,18,32,0.06)] sm:p-7">
-                      <span className="font-display text-3xl font-extrabold text-accent tabular-nums">
-                        {step.number}
+                  <Reveal as="li" key={step.number} delay={index * 70} className="flex h-full flex-col rounded-[1.25rem] border border-line bg-bg p-6 shadow-[var(--shadow-card)] sm:p-7">
+                    <span className="font-display text-3xl font-extrabold text-accent tabular-nums">
+                      {step.number}
+                    </span>
+                    <h3 className="font-display mt-4 text-lg font-semibold sm:text-xl">
+                      {step.title}
+                    </h3>
+                    <p className="mt-3 flex-1 text-sm leading-relaxed text-muted md:text-[15px]">
+                      {step.copy}
+                    </p>
+                    {step.cta === "whatsapp" ? (
+                      <a
+                        href={wa}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="btn-primary mt-6 inline-flex w-full items-center justify-center rounded-full px-5 py-3 text-sm font-semibold"
+                      >
+                        WhatsApp · CV
+                      </a>
+                    ) : step.cta === "form" ? (
+                      <Link
+                        href="/#contacto"
+                        className="mt-6 inline-flex w-full items-center justify-center rounded-full border border-line px-5 py-3 text-sm font-semibold text-fg transition hover:border-accent/40 hover:bg-bg-elevated"
+                      >
+                        Ir al formulario
+                      </Link>
+                    ) : (
+                      <span className="mt-6 inline-flex w-full items-center justify-center rounded-full border border-dashed border-line px-5 py-3 text-sm text-muted">
+                        Te contactamos
                       </span>
-                      <h3 className="font-display mt-4 text-lg font-semibold sm:text-xl">
-                        {step.title}
-                      </h3>
-                      <p className="mt-3 flex-1 text-sm leading-relaxed text-muted md:text-[15px]">
-                        {step.copy}
-                      </p>
-                      {step.cta === "whatsapp" ? (
-                        <a
-                          href={wa}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="btn-primary mt-6 inline-flex w-full items-center justify-center rounded-full px-5 py-3 text-sm font-semibold"
-                        >
-                          WhatsApp · CV
-                        </a>
-                      ) : step.cta === "form" ? (
-                        <Link
-                          href="/#contacto"
-                          className="mt-6 inline-flex w-full items-center justify-center rounded-full border border-line px-5 py-3 text-sm font-semibold text-fg transition hover:border-accent/40 hover:bg-bg-elevated"
-                        >
-                          Ir al formulario
-                        </Link>
-                      ) : (
-                        <span className="mt-6 inline-flex w-full items-center justify-center rounded-full border border-dashed border-line px-5 py-3 text-sm text-muted">
-                          Te contactamos
-                        </span>
-                      )}
-                    </li>
+                    )}
                   </Reveal>
                 ))}
               </ol>
@@ -260,9 +265,9 @@ export default function QuieresSerPartePage() {
             className="py-16 md:py-24"
             aria-labelledby="cta-unete-heading"
           >
-            <div className="mx-auto max-w-6xl px-4 sm:px-5 md:px-8">
+            <div className="mx-auto max-w-[1240px] px-4 sm:px-5 md:px-8">
               <Reveal>
-                <div className="relative overflow-hidden rounded-[1.5rem] border border-line bg-gradient-to-br from-bg-elevated via-bg to-bg shadow-[0_12px_40px_rgba(11,18,32,0.06)]">
+                <div className="relative overflow-hidden rounded-[1.25rem] border border-line bg-gradient-to-br from-bg-elevated via-bg to-bg shadow-[var(--shadow-card)]">
                   <div className="pointer-events-none absolute inset-0" aria-hidden>
                     <div className="grid-tech absolute inset-0 opacity-30" />
                     <div className="absolute -left-16 top-0 h-56 w-56 rounded-full bg-accent/15 blur-3xl" />
@@ -275,7 +280,7 @@ export default function QuieresSerPartePage() {
                       </p>
                       <h2
                         id="cta-unete-heading"
-                        className="font-display mt-4 text-[1.65rem] font-bold tracking-tight sm:text-3xl md:text-4xl"
+                        className="section-title mt-4 !text-[clamp(1.75rem,3.2vw,2.6rem)]"
                       >
                         Sé parte del equipo ATRIX
                       </h2>

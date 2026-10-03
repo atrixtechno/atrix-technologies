@@ -29,7 +29,9 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const { theme } = useTheme();
   const [ready, setReady] = useState(false);
-  const [mobileOpen, setMobileOpen] = useState(false);
+  // El menú móvil se cierra solo al navegar: queda abierto únicamente en la ruta donde se abrió.
+  const [mobileOpenPath, setMobileOpenPath] = useState<string | null>(null);
+  const mobileOpen = mobileOpenPath === pathname;
 
   useEffect(() => {
     let cancelled = false;
@@ -72,10 +74,6 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
       cancelled = true;
     };
   }, [router]);
-
-  useEffect(() => {
-    setMobileOpen(false);
-  }, [pathname]);
 
   async function logout() {
     try {
@@ -183,7 +181,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
               <ThemeToggle />
               <button
                 type="button"
-                onClick={() => setMobileOpen((o) => !o)}
+                onClick={() => setMobileOpenPath(mobileOpen ? null : pathname)}
                 className="rounded-sm border border-line px-3 py-2 text-xs font-semibold text-fg"
                 aria-expanded={mobileOpen}
                 aria-controls="admin-mobile-nav"

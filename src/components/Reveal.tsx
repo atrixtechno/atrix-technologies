@@ -6,12 +6,15 @@ export function Reveal({
   children,
   className = "",
   delay = 0,
+  as: Tag = "div",
 }: {
   children: React.ReactNode;
   className?: string;
   delay?: number;
+  /** Elemento a renderizar; usa "li" dentro de listas para mantener HTML válido. */
+  as?: "div" | "li" | "article";
 }) {
-  const ref = useRef<HTMLDivElement>(null);
+  const ref = useRef<HTMLElement>(null);
 
   useEffect(() => {
     const el = ref.current;
@@ -30,12 +33,12 @@ export function Reveal({
   }, []);
 
   return (
-    <div
-      ref={ref}
+    <Tag
+      ref={ref as React.Ref<never>}
       className={`reveal ${className}`}
       style={{ transitionDelay: `${delay}ms` }}
     >
       {children}
-    </div>
+    </Tag>
   );
 }

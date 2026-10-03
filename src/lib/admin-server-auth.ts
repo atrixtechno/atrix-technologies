@@ -2,6 +2,7 @@ import {
   createHash,
   createHmac,
   randomBytes,
+  scryptSync,
   timingSafeEqual,
 } from "crypto";
 import {
@@ -11,17 +12,25 @@ import {
 import { ADMIN_SESSION_COOKIE } from "@/lib/analytics";
 
 export const ADMIN_USERNAME = "admin";
+/** Contraseña inicial heredada: nunca se acepta como contraseña nueva. */
 export const DEFAULT_PASSWORD = "12345678";
 export const SESSION_TTL_SECONDS = 8 * 60 * 60; // 8 hours
 export const PENDING_TTL_SECONDS = 15 * 60; // 15 minutes for forced password change
+/** Intentos fallidos por IP + usuario antes de bloquear. */
 export const MAX_LOGIN_FAILS = 5;
+/** Intentos fallidos del usuario sumando todas las IPs antes de bloquear. */
+export const MAX_GLOBAL_LOGIN_FAILS = 20;
+export const GLOBAL_ATTEMPT_IP = "*";
 export const LOCKOUT_MINUTES = 15;
+export const MAX_PASSWORD_LENGTH = 256;
 
 export const AUTH_COOKIE = ADMIN_SESSION_COOKIE;
 export const PENDING_COOKIE = "atrix_admin_pending";
 
 const DEFAULT_PASSWORD_HASH =
   "ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f";
+
+const IS_PRODUCTION = process.env.NODE_ENV === "production";
 
 type SessionKind = "session" | "pending";
 
@@ -31,7 +40,11 @@ type TokenPayload = {
   iat: number;
   exp: number;
   jti: string;
+  /** Huella de la contraseña vigente: cambiarla invalida las sesiones previas. */
+  pv: string;
 };
+
+export class AdminAuthConfigError extends Error {}
 
 function resolveSessionSecret(): string {
   const explicit = process.env.ADMIN_SESSION_SECRET?.trim();
@@ -40,24 +53,66 @@ function resolveSessionSecret(): string {
   if (project) return `atrix-admin-session:${project}`;
   const service = process.env.SUPABASE_SERVICE_ROLE_KEY?.trim();
   if (service) return `atrix-admin-session:${service}`;
-  // Dev-only fallback so local builds work; production must set a secret.
+  if (IS_PRODUCTION) {
+    // Fail closed: sin secreto, cualquiera podría firmar una sesión válida.
+    throw new AdminAuthConfigError(
+      "Falta ADMIN_SESSION_SECRET (o PROJECT_SECRETS_KEY / SUPABASE_SERVICE_ROLE_KEY).",
+    );
+  }
   return "atrix-dev-admin-session-secret";
 }
 
+// ---------------------------------------------------------------------------
+// Password hashing — scrypt con sal aleatoria. Formato:
+//   scrypt$<N>$<r>$<p>$<salt b64url>$<hash b64url>
+// Los hashes SHA-256 heredados (64 hex) se aceptan y se migran al iniciar sesión.
+// ---------------------------------------------------------------------------
+
+const SCRYPT_N = 16384;
+const SCRYPT_R = 8;
+const SCRYPT_P = 1;
+const SCRYPT_KEYLEN = 64;
+const LEGACY_SHA256 = /^[0-9a-f]{64}$/i;
+
 export function hashPassword(password: string): string {
-  return createHash("sha256").update(password, "utf8").digest("hex");
+  const salt = randomBytes(16);
+  const hash = scryptSync(password, salt, SCRYPT_KEYLEN, {
+    N: SCRYPT_N,
+    r: SCRYPT_R,
+    p: SCRYPT_P,
+  });
+  return ["scrypt", SCRYPT_N, SCRYPT_R, SCRYPT_P, b64url(salt), b64url(hash)].join(
+    "$",
+  );
 }
 
-export function passwordsMatch(input: string, expectedHash: string): boolean {
-  const inputHash = hashPassword(input);
+export function passwordsMatch(input: string, storedHash: string): boolean {
+  if (!input || !storedHash || input.length > MAX_PASSWORD_LENGTH) return false;
   try {
-    const a = Buffer.from(inputHash, "utf8");
-    const b = Buffer.from(expectedHash, "utf8");
-    if (a.length !== b.length) return false;
-    return timingSafeEqual(a, b);
+    if (storedHash.startsWith("scrypt$")) {
+      const [, n, r, p, saltRaw, hashRaw] = storedHash.split("$");
+      const expected = fromB64url(hashRaw ?? "");
+      if (expected.length === 0) return false;
+      const actual = scryptSync(input, fromB64url(saltRaw ?? ""), expected.length, {
+        N: Number(n),
+        r: Number(r),
+        p: Number(p),
+      });
+      return timingSafeEqual(actual, expected);
+    }
+    if (LEGACY_SHA256.test(storedHash)) {
+      const actual = createHash("sha256").update(input, "utf8").digest();
+      return timingSafeEqual(actual, Buffer.from(storedHash, "hex"));
+    }
   } catch {
-    return false;
+    /* hash malformado */
   }
+  return false;
+}
+
+/** true si el hash guardado usa el formato heredado y debe migrarse a scrypt. */
+export function needsRehash(storedHash: string): boolean {
+  return !storedHash.startsWith("scrypt$");
 }
 
 export function normalizeUsername(value: string): string {
@@ -83,17 +138,25 @@ function fromB64url(value: string): Buffer {
   return Buffer.from(b64, "base64");
 }
 
+function passwordFingerprint(passwordHash: string): string {
+  return b64url(
+    createHmac("sha256", resolveSessionSecret())
+      .update(`pv:${passwordHash}`)
+      .digest()
+      .subarray(0, 12),
+  );
+}
+
 function signPayload(payload: TokenPayload): string {
   const body = b64url(JSON.stringify(payload));
-  const sig = createHmac("sha256", resolveSessionSecret())
-    .update(body)
-    .digest();
-  return `v1.${body}.${b64url(sig)}`;
+  const sig = createHmac("sha256", resolveSessionSecret()).update(body).digest();
+  return `v2.${body}.${b64url(sig)}`;
 }
 
 export function createSessionToken(
-  kind: SessionKind = "session",
-  ttlSeconds = SESSION_TTL_SECONDS,
+  kind: SessionKind,
+  ttlSeconds: number,
+  passwordHash: string,
 ): string {
   const now = Math.floor(Date.now() / 1000);
   return signPayload({
@@ -102,45 +165,64 @@ export function createSessionToken(
     iat: now,
     exp: now + ttlSeconds,
     jti: randomBytes(8).toString("hex"),
+    pv: passwordFingerprint(passwordHash),
   });
 }
 
-export function verifySessionToken(
+/** Valida firma, tipo y expiración (sin consultar la contraseña vigente). */
+function verifyTokenSignature(
   token: string | undefined | null,
-  expectedKind: SessionKind = "session",
+  expectedKind: SessionKind,
 ): TokenPayload | null {
-  if (!token || !token.startsWith("v1.")) return null;
+  if (!token || !token.startsWith("v2.")) return null;
   const parts = token.split(".");
   if (parts.length !== 3) return null;
   const [, body, sig] = parts;
   if (!body || !sig) return null;
 
-  const expectedSig = createHmac("sha256", resolveSessionSecret())
-    .update(body)
-    .digest();
-  let provided: Buffer;
   try {
-    provided = fromB64url(sig);
+    const expectedSig = createHmac("sha256", resolveSessionSecret())
+      .update(body)
+      .digest();
+    const provided = fromB64url(sig);
+    if (
+      provided.length !== expectedSig.length ||
+      !timingSafeEqual(provided, expectedSig)
+    ) {
+      return null;
+    }
+
+    const payload = JSON.parse(fromB64url(body).toString("utf8")) as TokenPayload;
+    if (payload.kind !== expectedKind) return null;
+    if (payload.u !== ADMIN_USERNAME) return null;
+    if (typeof payload.pv !== "string") return null;
+    if (typeof payload.exp !== "number" || payload.exp * 1000 < Date.now()) {
+      return null;
+    }
+    return payload;
   } catch {
     return null;
   }
-  if (
-    provided.length !== expectedSig.length ||
-    !timingSafeEqual(provided, expectedSig)
-  ) {
-    return null;
-  }
+}
 
-  let payload: TokenPayload;
+/**
+ * Verifica una sesión admin completa: firma, expiración y que la contraseña
+ * no haya cambiado desde que se emitió (cambiarla cierra todas las sesiones).
+ */
+export async function verifySessionToken(
+  token: string | undefined | null,
+  expectedKind: SessionKind = "session",
+): Promise<TokenPayload | null> {
+  const payload = verifyTokenSignature(token, expectedKind);
+  if (!payload) return null;
   try {
-    payload = JSON.parse(fromB64url(body).toString("utf8")) as TokenPayload;
+    const creds = await getCredentials();
+    const current = Buffer.from(passwordFingerprint(creds.passwordHash));
+    const provided = Buffer.from(payload.pv);
+    if (current.length !== provided.length || !timingSafeEqual(current, provided)) {
+      return null;
+    }
   } catch {
-    return null;
-  }
-
-  if (payload.kind !== expectedKind) return null;
-  if (payload.u !== ADMIN_USERNAME) return null;
-  if (typeof payload.exp !== "number" || payload.exp * 1000 < Date.now()) {
     return null;
   }
   return payload;
@@ -427,6 +509,7 @@ export async function getLockoutState(
 export async function recordFailedLogin(
   ip: string,
   username: string,
+  maxFails = MAX_LOGIN_FAILS,
 ): Promise<LockoutState> {
   const key = attemptKey(ip, username);
   const prev = await getLockoutState(ip, username);
@@ -438,7 +521,7 @@ export async function recordFailedLogin(
     failCount = 1;
   }
 
-  if (failCount >= MAX_LOGIN_FAILS) {
+  if (failCount >= maxFails) {
     lockedUntil = new Date(Date.now() + LOCKOUT_MINUTES * 60_000);
   }
 

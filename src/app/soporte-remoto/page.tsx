@@ -5,7 +5,7 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Reveal } from "@/components/Reveal";
 import { SectionMedia } from "@/components/SectionMedia";
-import { SoporteRemotoHero } from "@/components/SoporteRemotoHero";
+import { PageHero } from "@/components/PageHero";
 import {
   soporteIdealAudiences,
   soporteProblemas,
@@ -155,10 +155,25 @@ export default function SoporteRemotoPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <div className="atmosphere relative min-h-screen">
+      <div className="relative bg-bg min-h-screen">
         <Header />
         <main className="relative z-10">
-          <SoporteRemotoHero whatsappHref={wa} />
+          <PageHero
+            eyebrow={soporteRemotoPage.title}
+            title={
+              <>
+                Tu departamento de sistemas,{" "}
+                <span className="bg-gradient-to-r from-[#5b9bff] to-[#22d3ee] bg-clip-text text-transparent">
+                  remoto y listo
+                </span>
+              </>
+            }
+            lead={soporteRemotoPage.lead}
+            image="/images/services/it-empresarial.jpg"
+            primary={{ href: wa, label: "Solicitar por WhatsApp" }}
+            secondary={{ href: "#servicios", label: "Ver cobertura" }}
+            meta={`${site.coverage} · Windows · macOS`}
+          />
           <div className="relative overflow-hidden rounded-t-[2rem] bg-bg md:rounded-t-[2.5rem]">
             <div className="grid-tech pointer-events-none absolute inset-0 opacity-50" />
             <div className="relative">
@@ -167,7 +182,7 @@ export default function SoporteRemotoPage() {
             aria-label="Flujo del servicio"
             className="border-b border-line bg-bg/70 backdrop-blur-sm"
           >
-            <div className="mx-auto flex max-w-6xl items-stretch gap-0 overflow-x-auto overscroll-x-contain px-4 py-3 [-ms-overflow-style:none] [scrollbar-width:none] sm:px-5 md:px-8 [&::-webkit-scrollbar]:hidden">
+            <div className="mx-auto flex max-w-[1240px] items-stretch gap-0 overflow-x-auto overscroll-x-contain px-4 py-3 [-ms-overflow-style:none] [scrollbar-width:none] sm:px-5 md:px-8 [&::-webkit-scrollbar]:hidden">
               <FlowStep step="01" label="Enfoque" href="#enfoque" />
               <span
                 className="mx-1 w-6 shrink-0 self-center border-t border-dashed border-line sm:mx-0 sm:w-8"
@@ -198,7 +213,7 @@ export default function SoporteRemotoPage() {
             className="scroll-mt-24 border-b border-line py-16 md:py-24"
             aria-labelledby="enfoque-heading"
           >
-            <div className="mx-auto max-w-6xl px-4 sm:px-5 md:px-8">
+            <div className="mx-auto max-w-[1240px] px-4 sm:px-5 md:px-8">
               <Reveal>
                 <blockquote className="mb-12 border-l-[3px] border-signal pl-5 sm:mb-14 sm:pl-7 md:mb-16">
                   <p className="font-display text-[1.45rem] font-bold leading-snug tracking-tight text-fg sm:text-2xl md:text-[2rem] md:leading-[1.2]">
@@ -216,12 +231,12 @@ export default function SoporteRemotoPage() {
 
               <div className="grid gap-8 lg:grid-cols-[0.4fr_0.6fr] lg:gap-16">
                 <Reveal>
-                  <p className="text-[11px] font-semibold tracking-[0.22em] text-signal uppercase">
+                  <p className="eyebrow">
                     Enfoque operativo
                   </p>
                   <h2
                     id="enfoque-heading"
-                    className="font-display mt-4 text-[1.65rem] font-bold tracking-tight sm:text-3xl md:text-4xl"
+                    className="section-title mt-4 !text-[clamp(1.75rem,3.2vw,2.6rem)]"
                   >
                     Al servicio de tu operación
                   </h2>
@@ -254,16 +269,16 @@ export default function SoporteRemotoPage() {
             className="scroll-mt-24 border-b border-line py-16 md:py-28"
             aria-labelledby="problemas-heading"
           >
-            <div className="mx-auto max-w-6xl px-4 sm:px-5 md:px-8">
+            <div className="mx-auto max-w-[1240px] px-4 sm:px-5 md:px-8">
               <Reveal>
                 <div className="mb-10 flex flex-col gap-4 sm:mb-12 sm:flex-row sm:items-end sm:justify-between">
                   <div>
-                    <p className="text-[11px] font-semibold tracking-[0.22em] text-signal uppercase">
+                    <p className="eyebrow">
                       Diagnóstico
                     </p>
                     <h2
                       id="problemas-heading"
-                      className="font-display mt-3 text-[1.65rem] font-bold tracking-tight sm:text-3xl md:text-4xl"
+                      className="section-title mt-3 !text-[clamp(1.75rem,3.2vw,2.6rem)]"
                     >
                       Del problema a la solución
                     </h2>
@@ -277,7 +292,7 @@ export default function SoporteRemotoPage() {
 
               <div className="grid gap-6 lg:grid-cols-2 lg:gap-8">
                 <Reveal>
-                  <div className="flex h-full flex-col overflow-hidden rounded-[1.5rem] border border-line bg-bg-elevated/40 shadow-[0_12px_40px_rgba(11,18,32,0.06)]">
+                  <div className="flex h-full flex-col overflow-hidden rounded-[1.25rem] border border-line bg-bg-elevated/40 shadow-[var(--shadow-card)]">
                     <div className="relative aspect-[16/10] w-full shrink-0 overflow-hidden border-b border-line bg-bg">
                       <Image
                         src="/images/soporte/friccion-oficina.jpg"
@@ -331,7 +346,7 @@ export default function SoporteRemotoPage() {
                 </Reveal>
 
                 <Reveal delay={100}>
-                  <div className="relative flex h-full flex-col overflow-hidden rounded-[1.5rem] border border-accent/35 bg-accent/[0.06] shadow-[0_12px_40px_rgba(11,18,32,0.06)]">
+                  <div className="relative flex h-full flex-col overflow-hidden rounded-[1.25rem] border border-accent/35 bg-accent/[0.06] shadow-[var(--shadow-card)]">
                     <div
                       className="pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full bg-accent/15 blur-3xl"
                       aria-hidden
@@ -414,15 +429,15 @@ export default function SoporteRemotoPage() {
             className="scroll-mt-24 border-b border-line bg-bg-elevated/35 py-16 md:py-28"
             aria-labelledby="servicios-heading"
           >
-            <div className="mx-auto max-w-6xl px-4 sm:px-5 md:px-8">
+            <div className="mx-auto max-w-[1240px] px-4 sm:px-5 md:px-8">
               <div className="grid items-end gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:gap-12">
                 <Reveal>
-                  <p className="text-[11px] font-semibold tracking-[0.22em] text-signal uppercase">
+                  <p className="eyebrow">
                     Cobertura incluida
                   </p>
                   <h2
                     id="servicios-heading"
-                    className="font-display mt-3 max-w-2xl text-[1.65rem] font-bold tracking-tight sm:text-3xl md:text-4xl"
+                    className="section-title mt-3 max-w-2xl !text-[clamp(1.75rem,3.2vw,2.6rem)]"
                   >
                     Servicios incluidos
                   </h2>
@@ -443,25 +458,23 @@ export default function SoporteRemotoPage() {
 
               <ul className="mt-10 grid grid-cols-1 gap-3 sm:mt-12 sm:grid-cols-2">
                 {soporteServiciosIncluidos.map((item, index) => (
-                  <Reveal key={item} delay={Math.min(index * 40, 180)}>
-                    <li className="flex items-start gap-3 rounded-[1.5rem] border border-line bg-bg/50 px-4 py-4 shadow-[0_12px_40px_rgba(11,18,32,0.06)] transition hover:border-accent/35 hover:bg-bg-elevated sm:gap-4 sm:px-5">
-                      <span
-                        className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-xl border border-accent/40 bg-accent/10 text-xs font-bold text-accent"
-                        aria-hidden
-                      >
-                        ✓
-                      </span>
-                      <p className="min-w-0 text-sm leading-relaxed text-fg md:text-[15px]">
-                        {item}
-                      </p>
-                    </li>
+                  <Reveal as="li" key={item} delay={Math.min(index * 40, 180)} className="flex items-start gap-3 rounded-[1.25rem] border border-line bg-bg/50 px-4 py-4 shadow-[var(--shadow-card)] transition hover:border-accent/35 hover:bg-bg-elevated sm:gap-4 sm:px-5">
+                    <span
+                      className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-xl border border-accent/40 bg-accent/10 text-xs font-bold text-accent"
+                      aria-hidden
+                    >
+                      ✓
+                    </span>
+                    <p className="min-w-0 text-sm leading-relaxed text-fg md:text-[15px]">
+                      {item}
+                    </p>
                   </Reveal>
                 ))}
               </ul>
 
               <Reveal delay={80}>
                 <div className="mt-10 grid gap-4 sm:mt-12 sm:grid-cols-[1fr_auto] sm:items-center">
-                  <div className="tech-frame rounded-[1.5rem] border border-line bg-bg/60 px-4 py-5 shadow-[0_12px_40px_rgba(11,18,32,0.06)] sm:px-6">
+                  <div className="tech-frame rounded-[1.25rem] border border-line bg-bg/60 px-4 py-5 shadow-[var(--shadow-card)] sm:px-6">
                     <p className="text-[10px] font-semibold tracking-[0.18em] text-signal uppercase">
                       Sistemas compatibles
                     </p>
@@ -496,20 +509,20 @@ export default function SoporteRemotoPage() {
             className="scroll-mt-24 border-b border-line py-16 md:py-28"
             aria-labelledby="plan-heading"
           >
-            <div className="mx-auto max-w-6xl px-4 sm:px-5 md:px-8">
-              <div className="relative overflow-hidden rounded-[1.5rem] border border-line shadow-[0_12px_40px_rgba(11,18,32,0.06)]">
+            <div className="mx-auto max-w-[1240px] px-4 sm:px-5 md:px-8">
+              <div className="relative overflow-hidden rounded-[1.25rem] border border-line shadow-[var(--shadow-card)]">
                 <div className="pointer-events-none absolute inset-0" aria-hidden>
                   <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_100%_0%,rgba(26,76,255,0.1),transparent_60%)]" />
                   <div className="grid-tech absolute inset-0 opacity-25" />
                 </div>
                 <div className="relative grid gap-8 p-5 sm:gap-10 sm:p-8 md:grid-cols-[1.05fr_0.95fr] md:items-center md:gap-12 md:p-12 lg:p-14">
                   <Reveal>
-                    <p className="text-[11px] font-semibold tracking-[0.22em] text-signal uppercase">
+                    <p className="eyebrow">
                       Plan a medida
                     </p>
                     <h2
                       id="plan-heading"
-                      className="font-display mt-3 text-[1.65rem] font-bold tracking-tight sm:text-3xl md:text-4xl"
+                      className="section-title mt-3 !text-[clamp(1.75rem,3.2vw,2.6rem)]"
                     >
                       Plan personalizado
                     </h2>
@@ -571,9 +584,9 @@ export default function SoporteRemotoPage() {
             className="scroll-mt-24 py-16 md:py-28"
             aria-labelledby="cotizar-heading"
           >
-            <div className="mx-auto max-w-6xl px-4 sm:px-5 md:px-8">
+            <div className="mx-auto max-w-[1240px] px-4 sm:px-5 md:px-8">
               <Reveal>
-                <div className="relative overflow-hidden rounded-[1.5rem] border border-signal/25 bg-signal/[0.04] shadow-[0_12px_40px_rgba(11,18,32,0.06)]">
+                <div className="relative overflow-hidden rounded-[1.25rem] border border-signal/25 bg-signal/[0.04] shadow-[var(--shadow-card)]">
                   <div className="pointer-events-none absolute inset-0" aria-hidden>
                     <div className="grid-tech absolute inset-0 opacity-25" />
                     <div className="animate-orb absolute -right-8 top-0 h-40 w-40 rounded-full bg-signal/12 blur-3xl" />
@@ -581,12 +594,12 @@ export default function SoporteRemotoPage() {
                   </div>
                   <div className="relative grid gap-0 md:grid-cols-[1.05fr_0.95fr] md:items-stretch">
                     <div className="px-5 py-10 sm:px-10 sm:py-14 md:px-12 md:py-16 lg:px-14">
-                      <p className="text-[11px] font-semibold tracking-[0.22em] text-signal uppercase">
+                      <p className="eyebrow">
                         Siguiente paso
                       </p>
                       <h2
                         id="cotizar-heading"
-                        className="font-display mt-3 text-[1.65rem] font-bold tracking-tight sm:text-3xl md:text-4xl"
+                        className="section-title mt-3 !text-[clamp(1.75rem,3.2vw,2.6rem)]"
                       >
                         {soporteRemotoPage.closing}
                       </h2>

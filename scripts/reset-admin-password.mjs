@@ -1,21 +1,28 @@
 #!/usr/bin/env node
 /**
- * One-time owner script: reset admin password to 12345678 and clear lockouts.
+ * Owner script: set a random one-time admin password and clear lockouts.
+ * The temporary password is printed once; the panel forces a change on first login.
  *
  * Usage (from repo root, with .env.local loaded):
  *   node --env-file=.env.local scripts/reset-admin-password.mjs
  *
  * Requires SUPABASE_SERVICE_ROLE_KEY + NEXT_PUBLIC_SUPABASE_URL.
- * Does not print secrets.
+ * Prints only the generated temporary password.
  */
 
-import { createHash } from "crypto";
+import { randomBytes, scryptSync } from "crypto";
 import { createClient } from "@supabase/supabase-js";
 
-const DEFAULT_PASSWORD = "12345678";
-const DEFAULT_HASH = createHash("sha256")
-  .update(DEFAULT_PASSWORD, "utf8")
-  .digest("hex");
+// Same format as src/lib/admin-server-auth.ts → hashPassword().
+function hashPassword(password) {
+  const b64url = (buf) => buf.toString("base64url");
+  const salt = randomBytes(16);
+  const hash = scryptSync(password, salt, 64, { N: 16384, r: 8, p: 1 });
+  return ["scrypt", 16384, 8, 1, b64url(salt), b64url(hash)].join("$");
+}
+
+const TEMP_PASSWORD = randomBytes(12).toString("base64url");
+const DEFAULT_HASH = hashPassword(TEMP_PASSWORD);
 
 const url = process.env.NEXT_PUBLIC_SUPABASE_URL?.trim();
 const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY?.trim();
@@ -121,7 +128,7 @@ try {
   console.log("");
   console.log("Login with:");
   console.log("  Usuario:   admin   (UI shows @atrix.com)");
-  console.log("  Password:  12345678");
+  console.log(`  Password:  ${TEMP_PASSWORD}   (temporal, de un solo uso)`);
   console.log("You will be prompted to change the password on first login.");
 } catch (err) {
   console.error(err instanceof Error ? err.message : err);

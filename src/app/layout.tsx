@@ -1,5 +1,5 @@
-import type { Metadata } from "next";
-import { Outfit, Plus_Jakarta_Sans } from "next/font/google";
+import type { Metadata, Viewport } from "next";
+import { JetBrains_Mono, Plus_Jakarta_Sans, Space_Grotesk } from "next/font/google";
 import { ConsentGatedAnalytics } from "@/components/ConsentGatedAnalytics";
 import { CookieConsentBanner } from "@/components/CookieConsentBanner";
 import { HashGuard } from "@/components/HashGuard";
@@ -10,16 +10,22 @@ import "./globals.css";
 
 const googleVerification = process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION?.trim();
 
-const outfit = Outfit({
-  variable: "--font-syne",
+const display = Space_Grotesk({
+  variable: "--font-display-face",
   subsets: ["latin"],
-  weight: ["500", "600", "700", "800"],
+  weight: ["500", "600", "700"],
 });
 
-const jakarta = Plus_Jakarta_Sans({
-  variable: "--font-sora",
+const body = Plus_Jakarta_Sans({
+  variable: "--font-body-face",
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
+});
+
+const mono = JetBrains_Mono({
+  variable: "--font-mono-face",
+  subsets: ["latin"],
+  weight: ["400", "500"],
 });
 
 export const metadata: Metadata = {
@@ -95,14 +101,19 @@ export const metadata: Metadata = {
   },
 };
 
+export const viewport: Viewport = {
+  themeColor: "#05070d",
+  colorScheme: "light dark",
+};
+
 const themeInitScript = `
 (function(){
   try {
     var t = localStorage.getItem('atrix-theme');
-    if (t !== 'dark' && t !== 'light') t = 'light';
+    if (t !== 'dark' && t !== 'light') t = 'dark';
     document.documentElement.setAttribute('data-theme', t);
   } catch (e) {
-    document.documentElement.setAttribute('data-theme', 'light');
+    document.documentElement.setAttribute('data-theme', 'dark');
   }
 })();
 `;
@@ -130,7 +141,8 @@ export default function RootLayout({
   return (
     <html
       lang="es"
-      className={`${outfit.variable} ${jakarta.variable} h-full`}
+      className={`${display.variable} ${body.variable} ${mono.variable} h-full`}
+      data-theme="dark"
       suppressHydrationWarning
     >
       <head>

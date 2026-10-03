@@ -1,97 +1,99 @@
+import Image from "next/image";
 import { Reveal } from "@/components/Reveal";
-import { SectionMedia } from "@/components/SectionMedia";
+import { CheckIcon, SectionHeading } from "@/components/ui";
 import { businessGuide, homeGuide } from "@/content/guides";
 
-function GuideBlock({
+type Guide = typeof homeGuide;
+
+function GuideCard({
   id,
-  eyebrow,
-  title,
-  intro,
-  items,
+  guide,
   image,
   imageAlt,
-  tone = "accent",
+  tag,
 }: {
   id: string;
-  eyebrow: string;
-  title: string;
-  intro: string;
-  items: { title: string; copy: string }[];
+  guide: Guide;
   image: string;
   imageAlt: string;
-  tone?: "accent" | "signal";
+  tag: string;
 }) {
-  const color = tone === "signal" ? "text-signal" : "text-accent";
-  const ghost = tone === "signal" ? "text-signal/25" : "text-accent/25";
-  const line = tone === "signal" ? "bg-signal/50" : "bg-accent/50";
-
   return (
-    <section id={id} className="scroll-mt-10 py-20 md:py-24">
-      <div className="mx-auto max-w-6xl px-5 md:px-8">
-        <div className="grid items-start gap-8 lg:grid-cols-[1fr_0.95fr] lg:gap-12">
-          <Reveal>
-            <p className={`text-xs font-semibold tracking-[0.28em] uppercase ${color}`}>
-              {eyebrow}
-            </p>
-            <h2 className="font-display mt-4 max-w-3xl text-3xl font-bold tracking-tight md:text-4xl">
-              {title}
-            </h2>
-            <div className={`animate-line mt-4 h-px w-24 ${line}`} />
-            <p className="mt-4 max-w-2xl text-muted">{intro}</p>
-          </Reveal>
-          <Reveal delay={90}>
-            <SectionMedia
-              src={image}
-              alt={imageAlt}
-              aspect="aspect-[16/10]"
-              sizes="(max-width: 1024px) 100vw, 48vw"
-            />
-          </Reveal>
-        </div>
-        <ol className="mt-12 grid gap-8 sm:grid-cols-2">
-          {items.map((item, index) => (
-            <Reveal key={item.title} delay={index * 80}>
-              <li className="transition hover:translate-x-1">
-                <span className={`font-display text-4xl font-extrabold ${ghost}`}>
-                  {String(index + 1).padStart(2, "0")}
-                </span>
-                <h3 className="font-display mt-2 text-lg font-semibold">{item.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-muted">{item.copy}</p>
-              </li>
-            </Reveal>
-          ))}
-        </ol>
+    <article id={id} className="card-glow group flex h-full scroll-mt-28 flex-col overflow-hidden">
+      <div className="relative aspect-[16/8] overflow-hidden">
+        <Image
+          src={image}
+          alt={imageAlt}
+          fill
+          className="object-cover transition duration-700 group-hover:scale-[1.04]"
+          sizes="(max-width: 1024px) 100vw, 50vw"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-bg-elevated via-bg-elevated/40 to-transparent" />
+        <span className="chip chip-dark absolute top-4 left-4">{tag}</span>
       </div>
-    </section>
+      <div className="flex flex-1 flex-col p-6 sm:p-8">
+        <p className="eyebrow">{guide.eyebrow}</p>
+        <h3 className="font-display mt-4 text-2xl font-semibold tracking-tight text-balance sm:text-[1.7rem]">
+          {guide.title}
+        </h3>
+        <p className="mt-3 text-sm leading-relaxed text-muted sm:text-[15px]">{guide.intro}</p>
+        <ul className="mt-7 grid gap-4 border-t border-line pt-7 sm:grid-cols-2">
+          {guide.items.map((item) => (
+            <li key={item.title} className="flex gap-3">
+              <span className="mt-0.5 inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-accent/12 text-accent">
+                <CheckIcon className="h-3.5 w-3.5" />
+              </span>
+              <div>
+                <h4 className="text-sm font-semibold">{item.title}</h4>
+                <p className="mt-1 text-[13px] leading-relaxed text-muted">{item.copy}</p>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </article>
   );
 }
 
 export function AudienceGuides() {
   return (
-    <div className="border-t border-line">
-      <div className="bg-bg-elevated/60">
-        <GuideBlock
-          id="hogares"
-          eyebrow={homeGuide.eyebrow}
-          title={homeGuide.title}
-          intro={homeGuide.intro}
-          items={homeGuide.items}
-          image="/images/guides/hogares-tech.jpg"
-          imageAlt="Tecnología para el hogar: WiFi estable y seguridad discreta"
-        />
+    <section className="relative border-t border-line py-24 md:py-32">
+      <div className="mx-auto max-w-[1240px] px-5 sm:px-8">
+        <Reveal>
+          <SectionHeading
+            index="04"
+            eyebrow="Soluciones por perfil"
+            title={
+              <>
+                Tecnología a la medida de{" "}
+                <span className="text-gradient">tu casa o tu empresa</span>
+              </>
+            }
+            lead="Mismo estándar de ingeniería, distinto alcance: elige el camino que se parece a tu día a día."
+          />
+        </Reveal>
+
+        <div className="mt-14 grid gap-6 lg:grid-cols-2">
+          <Reveal className="h-full">
+            <GuideCard
+              id="hogares"
+              guide={homeGuide}
+              tag="Hogar · Home office"
+              image="/images/guides/hogares-tech.jpg"
+              imageAlt="Tecnología para el hogar: WiFi estable y seguridad discreta"
+            />
+          </Reveal>
+          <Reveal delay={100} className="h-full">
+            <GuideCard
+              id="empresas"
+              guide={businessGuide}
+              tag="PyME · Corporativo"
+              image="/images/guides/empresas-infra.jpg"
+              imageAlt="Infraestructura IT empresarial: redes, monitores y operación"
+            />
+          </Reveal>
+        </div>
       </div>
-      <div className="border-t border-line">
-        <GuideBlock
-          id="empresas"
-          eyebrow={businessGuide.eyebrow}
-          title={businessGuide.title}
-          intro={businessGuide.intro}
-          items={businessGuide.items}
-          image="/images/guides/empresas-infra.jpg"
-          imageAlt="Infraestructura IT empresarial: redes, monitores y operación"
-          tone="signal"
-        />
-      </div>
-    </div>
+    </section>
   );
 }

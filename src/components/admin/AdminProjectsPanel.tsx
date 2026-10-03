@@ -120,6 +120,8 @@ export function AdminProjectsPanel() {
   }, []);
 
   useEffect(() => {
+    // Carga inicial desde la API: el estado se actualiza tras el await, no en el cuerpo del efecto.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     void load();
   }, [load]);
 

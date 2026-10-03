@@ -1,0 +1,704 @@
+/* ==========================================================================
+   Escaparate 3D de dispositivos (laptop + iPhone + Android)
+   Todo el escenario vive en un lienzo fijo de 1100×640 que se escala al ancho
+   disponible, así las proporciones 3D son idénticas en cualquier pantalla.
+   ========================================================================== */
+
+.ds-viewport {
+  position: relative;
+  width: 100%;
+  touch-action: pan-y;
+}
+
+.ds-canvas {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 1100px;
+  height: 720px;
+  transform-origin: top center;
+  perspective: 2400px;
+  perspective-origin: 50% 32%;
+}
+
+/* Solo los contenedores que alojan caras 3D conservan la profundidad;
+   las pantallas y su contenido se renderizan planos (más nítidos y estables). */
+.ds-scene,
+.ds-abs,
+.ds-float,
+.ds-laptop,
+.ds-lid,
+.ds-base,
+.ds-phone {
+  transform-style: preserve-3d;
+}
+
+.ds-scene {
+  position: absolute;
+  inset: 0;
+  will-change: transform;
+}
+
+.ds-abs {
+  position: absolute;
+}
+
+/* --------------------------------------------------------------------------
+   Piso con retícula
+   -------------------------------------------------------------------------- */
+
+.ds-floor {
+  position: absolute;
+  left: -250px;
+  top: -120px;
+  width: 1600px;
+  height: 1200px;
+  transform-origin: center;
+  transform: rotateX(90deg) translateZ(-6px);
+  background-image:
+    linear-gradient(to right, color-mix(in srgb, var(--accent) 22%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in srgb, var(--accent) 22%, transparent) 1px, transparent 1px);
+  background-size: 60px 60px;
+  mask-image: radial-gradient(ellipse 45% 45% at 50% 50%, black 10%, transparent 70%);
+  opacity: 0.55;
+}
+
+.ds-floor-glow {
+  position: absolute;
+  left: 150px;
+  top: 80px;
+  width: 800px;
+  height: 800px;
+  transform: rotateX(90deg) translateZ(-5px);
+  background: radial-gradient(closest-side, color-mix(in srgb, var(--accent) 38%, transparent), transparent);
+  filter: blur(10px);
+  animation: ds-glow 6s ease-in-out infinite;
+}
+
+@keyframes ds-glow {
+  0%,
+  100% {
+    opacity: 0.55;
+  }
+  50% {
+    opacity: 0.9;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Laptop
+   -------------------------------------------------------------------------- */
+
+.ds-laptop {
+  left: 230px;
+  top: 70px;
+  width: 640px;
+  height: 410px;
+}
+
+.ds-lid {
+  position: absolute;
+  inset: 0;
+  transform-origin: 50% 100%;
+  transform: rotateX(-86deg);
+  transition: transform 1.6s cubic-bezier(0.22, 1, 0.36, 1) 0.15s;
+}
+
+.ds-viewport.is-open .ds-lid {
+  transform: rotateX(10deg);
+}
+
+.ds-lid-front,
+.ds-lid-back {
+  position: absolute;
+  inset: 0;
+  border-radius: 20px 20px 12px 12px;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.ds-lid-front {
+  padding: 14px 14px 30px;
+  background: linear-gradient(180deg, #0d1017, #07090d);
+  box-shadow:
+    0 0 0 2px #2b3140,
+    0 0 0 3px #5b6475,
+    inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+}
+
+.ds-lid-front::after {
+  /* marca en la barbilla */
+  content: "ATRIX";
+  position: absolute;
+  bottom: 9px;
+  left: 50%;
+  transform: translateX(-50%);
+  font: 600 9px/1 var(--font-mono-face), monospace;
+  letter-spacing: 0.35em;
+  color: rgba(200, 212, 235, 0.35);
+}
+
+.ds-lid-back {
+  transform: translateZ(-7px) rotateY(180deg);
+  background:
+    radial-gradient(circle at 50% 45%, rgba(91, 155, 255, 0.35), transparent 22%),
+    linear-gradient(160deg, #3a4150, #1c212b 55%, #13171f);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+  display: grid;
+  place-items: center;
+}
+
+.ds-lid-back img {
+  width: 76px;
+  height: 76px;
+  opacity: 0.9;
+  filter: drop-shadow(0 0 16px rgba(59, 130, 255, 0.8));
+}
+
+.ds-lid-edge {
+  position: absolute;
+  left: 4px;
+  right: 4px;
+  top: 100%;
+  height: 7px;
+  transform-origin: top;
+  transform: rotateX(-90deg);
+  background: linear-gradient(90deg, #2b3140, #4b5466 50%, #2b3140);
+}
+
+.ds-screen {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 6px;
+  background: #05070d;
+}
+
+.ds-browser-bar {
+  position: absolute;
+  inset: 0 0 auto;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 24px;
+  padding: 0 10px;
+  background: rgba(12, 16, 26, 0.92);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(8px);
+}
+
+.ds-browser-bar i {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #3a4252;
+}
+
+.ds-browser-bar i:nth-child(1) {
+  background: #ff5f57;
+}
+
+.ds-browser-bar i:nth-child(2) {
+  background: #febc2e;
+}
+
+.ds-browser-bar i:nth-child(3) {
+  background: #28c840;
+}
+
+.ds-url {
+  margin: 0 auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  min-width: 46%;
+  justify-content: center;
+  height: 15px;
+  padding: 0 10px;
+  border-radius: 5px;
+  background: rgba(255, 255, 255, 0.06);
+  font: 500 8.5px/1 var(--font-mono-face), monospace;
+  color: rgba(220, 230, 250, 0.75);
+}
+
+.ds-url svg {
+  width: 8px;
+  height: 8px;
+  color: #34d399;
+}
+
+.ds-slide {
+  position: absolute;
+  inset: 24px 0 0;
+  opacity: 0;
+  transform: scale(1.04);
+  transition:
+    opacity 0.9s ease,
+    transform 4.5s ease-out;
+}
+
+.ds-slide.is-active {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.ds-slide img {
+  object-fit: cover;
+  object-position: top;
+}
+
+/* Reflejo que sigue al cursor */
+.ds-glare {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+  background: linear-gradient(
+    115deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.13) 45%,
+    rgba(255, 255, 255, 0.03) 55%,
+    transparent 70%
+  );
+  background-size: 250% 250%;
+  background-position: var(--gx, 50%) 50%;
+  mix-blend-mode: screen;
+}
+
+.ds-notch {
+  position: absolute;
+  top: 5px;
+  left: 50%;
+  z-index: 5;
+  width: 8px;
+  height: 8px;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #2c3a55, #05070d 70%);
+}
+
+/* Base y teclado */
+.ds-base {
+  position: absolute;
+  left: -35px;
+  top: 100%;
+  width: 710px;
+  height: 450px;
+  transform-origin: 50% 0;
+  transform: rotateX(90deg);
+  border-radius: 6px 6px 26px 26px;
+  background: linear-gradient(180deg, #2a303c, #20252f 40%, #1a1e27);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.07);
+}
+
+.ds-hinge {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 230px;
+  height: 10px;
+  transform: translateX(-50%);
+  border-radius: 0 0 10px 10px;
+  background: linear-gradient(180deg, #0c0f15, #262c38);
+}
+
+.ds-keyboard {
+  position: absolute;
+  top: 38px;
+  left: 52px;
+  right: 52px;
+  height: 215px;
+  border-radius: 10px;
+  background:
+    repeating-linear-gradient(90deg, transparent 0 38px, #0b0e14 38px 43px),
+    repeating-linear-gradient(180deg, transparent 0 36px, #0b0e14 36px 43px),
+    #1b2130;
+  background-position: 6px 6px;
+  box-shadow:
+    inset 0 0 0 4px #0b0e14,
+    0 0 24px color-mix(in srgb, var(--accent) 35%, transparent);
+  transform: translateZ(1px);
+}
+
+.ds-keyboard::after {
+  /* retroiluminación */
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(ellipse at 50% 60%, color-mix(in srgb, var(--accent) 22%, transparent), transparent 70%);
+  mix-blend-mode: screen;
+}
+
+.ds-trackpad {
+  position: absolute;
+  left: 50%;
+  bottom: 40px;
+  width: 250px;
+  height: 140px;
+  transform: translateX(-50%) translateZ(1px);
+  border-radius: 12px;
+  background: linear-gradient(180deg, #252b37, #1f2430);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+}
+
+.ds-base-front {
+  position: absolute;
+  left: 18px;
+  right: 18px;
+  top: 100%;
+  height: 16px;
+  transform-origin: top;
+  transform: rotateX(-90deg);
+  border-radius: 0 0 14px 14px;
+  background: linear-gradient(180deg, #3b4352, #171b23);
+}
+
+.ds-base-front::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 110px;
+  height: 5px;
+  transform: translateX(-50%);
+  border-radius: 0 0 6px 6px;
+  background: #10131a;
+}
+
+.ds-base-shadow {
+  position: absolute;
+  inset: -40px -70px -90px;
+  transform: translateZ(-4px);
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(0, 0, 0, 0.7), transparent);
+  filter: blur(18px);
+}
+
+/* --------------------------------------------------------------------------
+   Teléfonos
+   -------------------------------------------------------------------------- */
+
+.ds-float {
+  animation: ds-float 7s ease-in-out infinite;
+}
+
+.ds-float.is-late {
+  animation-duration: 8.2s;
+  animation-delay: -3s;
+}
+
+@keyframes ds-float {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) rotateZ(0deg);
+  }
+  50% {
+    transform: translate3d(0, -18px, 14px) rotateZ(1.2deg);
+  }
+}
+
+.ds-phone {
+  position: relative;
+  width: 214px;
+  height: 450px;
+}
+
+.ds-phone-layer {
+  position: absolute;
+  inset: 0;
+  border-radius: 40px;
+  background: var(--frame, #1d2330);
+}
+
+.ds-phone-front {
+  position: absolute;
+  inset: 0;
+  padding: 9px;
+  border-radius: 40px;
+  background: #040507;
+  transform: translateZ(1px);
+  box-shadow:
+    0 0 0 2px var(--frame, #1d2330),
+    0 0 0 3px var(--rim, #3c4555),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.ds-phone-screen {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 32px;
+  background: #05070d;
+}
+
+.ds-phone-screen img {
+  object-fit: cover;
+  object-position: top;
+}
+
+.ds-island {
+  position: absolute;
+  top: 9px;
+  left: 50%;
+  z-index: 5;
+  width: 72px;
+  height: 21px;
+  transform: translateX(-50%);
+  border-radius: 999px;
+  background: #000;
+}
+
+.ds-punch {
+  position: absolute;
+  top: 11px;
+  left: 50%;
+  z-index: 5;
+  width: 12px;
+  height: 12px;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #26324a, #000 70%);
+}
+
+.ds-phone-back {
+  position: absolute;
+  inset: 0;
+  border-radius: 40px;
+  transform: translateZ(-10px) rotateY(180deg);
+  background: var(--back, linear-gradient(160deg, #2b3242, #141820));
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.ds-camera {
+  position: absolute;
+  top: 18px;
+  left: 18px;
+  width: 92px;
+  height: 92px;
+  border-radius: 26px;
+  background: rgba(0, 0, 0, 0.25);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.12);
+}
+
+.ds-camera i {
+  position: absolute;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 40% 40%, #2c3a55 10%, #05070d 45%, #11151d 60%);
+  box-shadow: 0 0 0 3px #2a2f3a;
+}
+
+.ds-camera i:nth-child(1) {
+  top: 10px;
+  left: 10px;
+}
+
+.ds-camera i:nth-child(2) {
+  top: 48px;
+  left: 10px;
+}
+
+.ds-camera i:nth-child(3) {
+  top: 29px;
+  left: 48px;
+}
+
+.ds-btn {
+  position: absolute;
+  width: 4px;
+  border-radius: 2px;
+  background: var(--rim, #3c4555);
+  transform: translateZ(-5px);
+}
+
+/* Notificación que entra en la pantalla del teléfono */
+.ds-toast {
+  position: absolute;
+  top: 38px;
+  left: 10px;
+  right: 10px;
+  z-index: 6;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 10px;
+  border-radius: 16px;
+  background: rgba(22, 28, 40, 0.88);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
+  color: #fff;
+  font-size: 10px;
+  line-height: 1.25;
+  animation: ds-toast 7s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+}
+
+.ds-toast.is-late {
+  animation-delay: 3.5s;
+}
+
+.ds-toast b {
+  display: block;
+  font-weight: 600;
+}
+
+.ds-toast span {
+  color: rgba(220, 230, 250, 0.7);
+}
+
+.ds-toast-icon {
+  display: grid;
+  flex-shrink: 0;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 8px;
+  background: var(--toast, #1a6bff);
+  font-size: 13px;
+}
+
+@keyframes ds-toast {
+  0%,
+  8% {
+    opacity: 0;
+    transform: translateY(-140%) scale(0.92);
+  }
+  14%,
+  52% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  60%,
+  100% {
+    opacity: 0;
+    transform: translateY(-140%) scale(0.92);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Tarjetas flotantes (profundidad)
+   -------------------------------------------------------------------------- */
+
+.ds-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  border-radius: 16px;
+  border: 1px solid rgba(148, 170, 220, 0.2);
+  background: rgba(9, 13, 24, 0.82);
+  box-shadow:
+    0 24px 50px rgba(0, 0, 0, 0.45),
+    0 0 30px color-mix(in srgb, var(--accent) 18%, transparent);
+  color: #fff;
+  white-space: nowrap;
+  backdrop-filter: blur(14px);
+}
+
+.ds-card-icon {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  flex-shrink: 0;
+}
+
+.ds-card b {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.ds-card span {
+  display: block;
+  margin-top: 2px;
+  font: 500 10px/1.2 var(--font-mono-face), monospace;
+  letter-spacing: 0.04em;
+  color: #8ea0c2;
+}
+
+.ds-bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  height: 30px;
+}
+
+.ds-bars i {
+  width: 6px;
+  border-radius: 2px;
+  background: linear-gradient(180deg, #22d3ee, #1a6bff);
+  animation: ds-bar 2.4s ease-in-out infinite;
+  transform-origin: bottom;
+}
+
+.ds-bars i:nth-child(2) {
+  animation-delay: -0.4s;
+}
+
+.ds-bars i:nth-child(3) {
+  animation-delay: -0.8s;
+}
+
+.ds-bars i:nth-child(4) {
+  animation-delay: -1.2s;
+}
+
+.ds-bars i:nth-child(5) {
+  animation-delay: -1.6s;
+}
+
+@keyframes ds-bar {
+  0%,
+  100% {
+    transform: scaleY(0.55);
+  }
+  50% {
+    transform: scaleY(1);
+  }
+}
+
+/* En pantallas chicas las tarjetas flotantes se vuelven ilegibles: se ocultan. */
+@media (max-width: 639px) {
+  .ds-hide-sm {
+    display: none;
+  }
+}
+
+/* Pistas de plataforma bajo el escenario */
+.ds-legend {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ds-lid {
+    transition: none;
+  }
+
+  .ds-float,
+  .ds-toast,
+  .ds-bars i,
+  .ds-floor-glow {
+    animation: none;
+  }
+
+  .ds-toast {
+    opacity: 1;
+  }
+
+  .ds-slide {
+    transition: opacity 0.3s ease;
+    transform: none;
+  }
+}

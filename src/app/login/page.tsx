@@ -14,17 +14,16 @@ export default function LoginPage() {
   return (
     <div className="atmosphere relative min-h-screen">
       <Header />
-      <main className="relative z-10">
-        <div className="relative overflow-hidden rounded-t-[2rem] bg-bg md:rounded-t-[2.5rem]">
-          <div className="grid-tech pointer-events-none absolute inset-0 opacity-50" />
-          <div className="relative mx-auto flex min-h-[80svh] max-w-6xl items-center justify-center px-5 py-24 md:px-8 md:py-32">
+      <main className="relative">
+        <div className="relative overflow-hidden">
+          <div className="grid-tech pointer-events-none absolute inset-0" />
+          <div className="pointer-events-none absolute top-1/3 left-1/2 h-[30rem] w-[40rem] -translate-x-1/2 rounded-full bg-[radial-gradient(closest-side,color-mix(in_srgb,var(--accent)_18%,transparent),transparent)]" />
+          <div className="relative mx-auto flex min-h-[86svh] max-w-[1240px] items-center justify-center px-5 pt-32 pb-24 md:px-8">
             <LoginForm />
           </div>
         </div>
       </main>
-      <div className="relative z-10">
-        <Footer />
-      </div>
+      <Footer />
     </div>
   );
 }

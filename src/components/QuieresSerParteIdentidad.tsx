@@ -15,10 +15,10 @@ export function QuieresSerParteIdentidad() {
         <div className="grid-tech absolute inset-0 opacity-20" />
       </div>
 
-      <div className="relative mx-auto max-w-6xl px-4 py-16 sm:px-5 sm:py-20 md:px-8 md:py-24">
+      <div className="relative mx-auto max-w-[1240px] px-4 py-16 sm:px-5 sm:py-20 md:px-8 md:py-24">
         <Reveal>
           <div className="max-w-3xl">
-            <p className="text-[10px] font-semibold tracking-[0.22em] text-accent uppercase sm:text-xs">
+            <p className="eyebrow">
               {unetePage.identityEyebrow}
             </p>
             <h2
@@ -36,15 +36,13 @@ export function QuieresSerParteIdentidad() {
 
         <ul className="mt-10 grid grid-cols-1 gap-px overflow-hidden border border-white/10 bg-white/10 sm:mt-12 sm:grid-cols-3">
           {unetePage.identityPillars.map((pillar, index) => (
-            <Reveal key={pillar.label} delay={index * 70}>
-              <li className="h-full bg-[#080b11] px-5 py-6 sm:px-6 sm:py-7">
-                <p className="font-display text-xs font-semibold tracking-[0.18em] text-accent uppercase">
-                  {String(index + 1).padStart(2, "0")} · {pillar.label}
-                </p>
-                <p className="mt-3 text-sm leading-relaxed text-white/70 sm:text-[15px]">
-                  {pillar.copy}
-                </p>
-              </li>
+            <Reveal as="li" key={pillar.label} delay={index * 70} className="h-full bg-[#080b11] px-5 py-6 sm:px-6 sm:py-7">
+              <p className="font-display text-xs font-semibold tracking-[0.18em] text-accent uppercase">
+                {String(index + 1).padStart(2, "0")} · {pillar.label}
+              </p>
+              <p className="mt-3 text-sm leading-relaxed text-white/70 sm:text-[15px]">
+                {pillar.copy}
+              </p>
             </Reveal>
           ))}
         </ul>
@@ -95,7 +93,7 @@ export function QuieresSerParteIdentidad() {
               </p>
             </div>
             <div className="flex flex-col justify-center border border-white/10 bg-[#080b11] px-5 py-7 sm:px-8 sm:py-9">
-              <p className="text-[10px] font-semibold tracking-[0.22em] text-accent uppercase">
+              <p className="eyebrow">
                 Estándar ATRIX
               </p>
               <p className="font-display mt-3 text-xl font-semibold tracking-tight text-white sm:text-2xl">

@@ -1,25 +1,25 @@
-import Image from "next/image";
 import { Reveal } from "@/components/Reveal";
 import { SectionLink } from "@/components/SectionLink";
+import { ArrowIcon, SectionHeading } from "@/components/ui";
 
 const steps = [
   {
+    code: "01",
     title: "Diagnóstico",
-    body: "Entendemos tu operación real: clientes, equipo y lo que hoy te frena.",
-    image: "/images/home/respuesta-rapida.jpg",
-    imageAlt: "Diagnóstico técnico profesional en sitio",
+    body: "Entendemos tu operación real: clientes, equipo, infraestructura y lo que hoy te frena.",
+    output: "Mapa de necesidades y propuesta clara",
   },
   {
+    code: "02",
     title: "Construcción",
     body: "Diseñamos e implementamos la solución con foco en claridad, velocidad y control.",
-    image: "/images/services/software.jpg",
-    imageAlt: "Construcción de software e infraestructura ATRIX",
+    output: "Instalación, desarrollo y pruebas",
   },
   {
+    code: "03",
     title: "Puesta en marcha",
-    body: "Dejamos el sistema vivo, capacitamos a tu equipo y acompañamos los primeros ajustes.",
-    image: "/images/home/aliado-tecnologico.jpg",
-    imageAlt: "Puesta en marcha y acompañamiento con el cliente",
+    body: "Dejamos el sistema operando, capacitamos a tu equipo y acompañamos los primeros ajustes.",
+    output: "Entrega, capacitación y soporte",
   },
 ] as const;
 
@@ -27,57 +27,56 @@ export function Process() {
   return (
     <section
       id="proceso"
-      className="scroll-mt-10 border-t border-line bg-bg-elevated/60 py-24 md:py-32"
+      className="relative scroll-mt-24 overflow-hidden border-t border-line bg-bg-soft py-24 md:py-32"
     >
-      <div className="mx-auto max-w-6xl px-5 md:px-8">
+      <div className="grid-tech pointer-events-none absolute inset-0" aria-hidden />
+      <div className="relative mx-auto max-w-[1240px] px-5 sm:px-8">
         <Reveal>
-          <p className="text-xs font-semibold tracking-[0.28em] text-accent uppercase">
-            Proceso
-          </p>
-          <h2 className="font-display mt-4 max-w-3xl text-3xl font-bold tracking-tight md:text-5xl">
-            De la idea al sistema en producción
-          </h2>
-          <div className="animate-line mt-4 h-px w-24 bg-accent/50" />
-          <p className="mt-4 max-w-2xl text-muted">
-            Un flujo claro para hogares y empresas: diagnosticar, construir y dejar
-            operando — con acompañamiento real.
-          </p>
+          <SectionHeading
+            index="06"
+            eyebrow="Proceso"
+            title={
+              <>
+                De la idea al sistema <span className="text-gradient">en producción</span>
+              </>
+            }
+            lead="Un flujo claro para hogares y empresas: diagnosticar, construir y dejar operando — con acompañamiento real."
+          />
         </Reveal>
 
-        <ol className="mt-12 grid gap-6 md:mt-14 md:grid-cols-3 md:gap-5">
+        <div className="relative mt-16">
+          <div
+            className="pointer-events-none absolute top-[2.15rem] right-[16%] left-[16%] hidden h-px bg-gradient-to-r from-accent/0 via-accent/50 to-accent/0 md:block"
+            aria-hidden
+          />
+          <ol className="relative grid gap-5 md:grid-cols-3">
           {steps.map((step, i) => (
-            <Reveal key={step.title} delay={i * 80}>
-              <li className="group flex h-full flex-col overflow-hidden rounded-[1.5rem] border border-line bg-bg/70 shadow-[0_12px_40px_rgba(11,18,32,0.06)] transition hover:-translate-y-1 hover:border-accent/35 hover:shadow-[0_20px_44px_rgba(26,107,255,0.12)]">
-                <div className="relative aspect-[16/10] w-full overflow-hidden border-b border-line bg-bg">
-                  <Image
-                    src={step.image}
-                    alt={step.imageAlt}
-                    fill
-                    quality={85}
-                    className="object-cover transition duration-500 group-hover:scale-[1.03]"
-                    sizes="(max-width: 768px) 100vw, 33vw"
-                  />
-                  <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-bg/70 via-transparent to-transparent" />
-                  <span className="font-display absolute bottom-3 left-3 text-4xl font-extrabold text-white/90 tabular-nums">
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                </div>
-                <div className="flex flex-1 flex-col p-5 sm:p-6">
-                  <h3 className="font-display text-xl font-bold">{step.title}</h3>
-                  <p className="mt-3 flex-1 text-sm leading-relaxed text-muted">
-                    {step.body}
-                  </p>
-                  <SectionLink
-                    hash="contacto"
-                    className="mt-5 inline-flex text-sm font-semibold text-accent transition hover:brightness-110"
-                  >
-                    Empezar →
-                  </SectionLink>
-                </div>
-              </li>
+            <Reveal as="li" key={step.title} delay={i * 100} className="relative">
+              <div className="flex justify-center md:justify-start">
+                <span className="relative z-10 inline-flex h-[4.3rem] w-[4.3rem] items-center justify-center rounded-2xl border border-accent/35 bg-bg-elevated shadow-[0_0_40px_color-mix(in_srgb,var(--accent)_25%,transparent)]">
+                  <span className="stat-value text-gradient text-2xl">{step.code}</span>
+                </span>
+              </div>
+              <div className="card-glow mt-6 h-[calc(100%-5.8rem)] p-6 sm:p-7">
+                <h3 className="font-display text-xl font-semibold">{step.title}</h3>
+                <p className="mt-3 text-sm leading-relaxed text-muted">{step.body}</p>
+                <p className="mono mt-6 border-t border-line pt-4 text-[11px] tracking-[0.06em] text-signal">
+                  → {step.output}
+                </p>
+              </div>
             </Reveal>
           ))}
-        </ol>
+          </ol>
+        </div>
+
+        <Reveal delay={200}>
+          <div className="mt-12 flex justify-center">
+            <SectionLink hash="contacto" className="btn btn-outline">
+              Empezar mi diagnóstico
+              <ArrowIcon />
+            </SectionLink>
+          </div>
+        </Reveal>
       </div>
     </section>
   );

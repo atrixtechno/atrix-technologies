@@ -50,10 +50,12 @@ export async function GET(request: Request) {
     }
 
     const supabase = getSupabaseAdmin();
-    let { data, error } = await supabase
+    const initial = await supabase
       .from("admin_projects")
       .select("*")
       .order("name", { ascending: true });
+    const { error } = initial;
+    let data = initial.data;
 
     if (error) {
       const tableMissing =

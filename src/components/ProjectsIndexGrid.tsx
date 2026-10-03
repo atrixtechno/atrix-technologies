@@ -68,7 +68,7 @@ export function ProjectsIndexGrid() {
           <li key={project.slug} className="min-w-0">
             <Link
               href={`/proyectos/${project.slug}`}
-                  className="group block h-full overflow-hidden rounded-[1.5rem] border border-line bg-bg-elevated shadow-[0_12px_40px_rgba(11,18,32,0.06)] transition hover:-translate-y-1 hover:border-accent/40 hover:shadow-[0_20px_44px_rgba(26,107,255,0.12)]"
+                  className="group block h-full overflow-hidden rounded-[1.25rem] border border-line bg-bg-elevated shadow-[var(--shadow-card)] transition hover:-translate-y-1 hover:border-accent/40 hover:shadow-[0_20px_44px_color-mix(in_srgb,var(--accent)_16%,transparent)]"
               style={{
                 boxShadow: `inset 3px 0 0 ${project.theme.accent}`,
                 ["--accent" as string]: project.theme.accent,
@@ -120,7 +120,7 @@ export function ProjectsIndexGrid() {
       </ul>
 
       {filtered.length === 0 ? (
-        <p className="mt-10 rounded-[1.5rem] border border-dashed border-line bg-bg-elevated/40 px-5 py-8 text-center text-sm text-muted">
+        <p className="mt-10 rounded-[1.25rem] border border-dashed border-line bg-bg-elevated/40 px-5 py-8 text-center text-sm text-muted">
           Aún no hay proyectos en esta categoría.
         </p>
       ) : null}

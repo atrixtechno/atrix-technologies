@@ -12,7 +12,7 @@ export const dynamic = "force-dynamic";
 
 export async function GET() {
   const jar = await cookies();
-  const session = verifySessionToken(jar.get(AUTH_COOKIE)?.value, "session");
+  const session = await verifySessionToken(jar.get(AUTH_COOKIE)?.value, "session");
   if (session) {
     return NextResponse.json({
       ok: true,
@@ -25,7 +25,7 @@ export async function GET() {
     });
   }
 
-  const pending = verifySessionToken(jar.get(PENDING_COOKIE)?.value, "pending");
+  const pending = await verifySessionToken(jar.get(PENDING_COOKIE)?.value, "pending");
   if (pending) {
     return NextResponse.json({
       ok: true,

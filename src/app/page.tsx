@@ -163,28 +163,21 @@ export default function HomePage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <div className="atmosphere relative">
+      <div className="relative bg-bg">
         <Header />
-        <main className="relative z-10">
+        <main className="relative">
           <Hero />
-          <div className="relative overflow-hidden rounded-t-[2rem] bg-bg md:rounded-t-[2.5rem]">
-            <div className="grid-tech pointer-events-none absolute inset-0 opacity-60" />
-            <div className="relative">
-              <TrustedCompanies />
-              <Services />
-              <Coverage />
-              <Benefits />
-              <AudienceGuides />
-              <ProjectsTeaser />
-              <Process />
-              <Recommendations />
-              <Contact />
-            </div>
-          </div>
+          <TrustedCompanies />
+          <Services />
+          <Coverage />
+          <Benefits />
+          <AudienceGuides />
+          <ProjectsTeaser />
+          <Process />
+          <Recommendations />
+          <Contact />
         </main>
-        <div className="relative z-10">
-          <Footer />
-        </div>
+        <Footer />
       </div>
     </>
   );

@@ -1,10 +1,10 @@
 import { Marquee } from "@/components/Marquee";
 import { Reveal } from "@/components/Reveal";
+import { ArrowIcon, CheckIcon, SectionHeading } from "@/components/ui";
 import {
   recommendations,
   recommendationsPage,
 } from "@/content/recommendations";
-import { site } from "@/content/site";
 
 function QuoteIcon({ className }: { className?: string }) {
   return (
@@ -20,90 +20,86 @@ export function Recommendations() {
   return (
     <section
       id="recomendaciones"
-      className="relative scroll-mt-10 overflow-hidden border-t border-line py-20 md:py-28"
+      className="relative scroll-mt-24 overflow-hidden border-t border-line py-24 md:py-32"
       aria-labelledby="recomendaciones-heading"
     >
-      <div className="pointer-events-none absolute inset-0" aria-hidden>
-        <div className="animate-orb absolute -right-16 top-10 h-56 w-56 rounded-full bg-accent/10 blur-3xl" />
-        <div className="animate-orb-delayed absolute -left-10 bottom-0 h-48 w-48 rounded-full bg-signal/10 blur-3xl" />
-      </div>
-
-      <div className="relative mx-auto max-w-6xl px-5 md:px-8">
+      <div className="relative mx-auto max-w-[1240px] px-5 sm:px-8">
         <Reveal>
-          <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
-            <div className="max-w-2xl">
-              <p className="text-xs font-semibold tracking-[0.28em] text-accent uppercase">
-                Recomendaciones
-              </p>
-              <h2
-                id="recomendaciones-heading"
-                className="font-display mt-4 text-3xl font-bold tracking-tight md:text-5xl"
-              >
-                {recommendationsPage.title}
-              </h2>
-              <div className="animate-line mt-4 h-px w-24 bg-accent/50" />
-              <p className="mt-4 text-muted">{recommendationsPage.lead}</p>
-            </div>
-            <div className="flex flex-wrap gap-3">
-              <div className="rounded-2xl border border-line bg-bg-elevated/60 px-4 py-3 shadow-[0_8px_24px_rgba(11,18,32,0.04)]">
-                <p className="font-display text-xl font-extrabold text-accent tabular-nums">
-                  100%
-                </p>
-                <p className="text-[10px] font-semibold tracking-[0.14em] text-muted uppercase">
+          <div className="flex flex-col gap-10 lg:flex-row lg:items-end lg:justify-between">
+            <SectionHeading
+              id="recomendaciones-heading"
+              index="07"
+              eyebrow={recommendationsPage.eyebrow}
+              title={
+                <>
+                  Personas que <span className="text-gradient">confían en nosotros</span>
+                </>
+              }
+              lead={recommendationsPage.lead}
+            />
+            <dl className="grid shrink-0 grid-cols-2 gap-3">
+              <div className="card flex flex-col-reverse px-5 py-4">
+                <dd className="stat-value text-gradient text-3xl">100%</dd>
+                <dt className="mono mt-2 text-[10px] tracking-[0.14em] text-muted uppercase">
                   {summary.scoreLabel}
-                </p>
+                </dt>
               </div>
-              <div className="rounded-2xl border border-line bg-bg-elevated/60 px-4 py-3 shadow-[0_8px_24px_rgba(11,18,32,0.04)]">
-                <p className="font-display text-xl font-extrabold tabular-nums">
-                  {summary.reviewCount}
-                </p>
-                <p className="text-[10px] font-semibold tracking-[0.14em] text-muted uppercase">
-                  En Facebook
-                </p>
+              <div className="card flex flex-col-reverse px-5 py-4">
+                <dd className="stat-value text-3xl">{summary.reviewCount}</dd>
+                <dt className="mono mt-2 text-[10px] tracking-[0.14em] text-muted uppercase">
+                  Reseñas en Facebook
+                </dt>
               </div>
-            </div>
+            </dl>
           </div>
         </Reveal>
       </div>
 
-      <div className="relative mt-10 md:mt-14">
-        <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-10 bg-gradient-to-r from-bg to-transparent sm:w-16 md:w-24" />
-        <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-10 bg-gradient-to-l from-bg to-transparent sm:w-16 md:w-24" />
+      <div className="relative mt-14">
+        <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-12 bg-gradient-to-r from-bg to-transparent sm:w-24" />
+        <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-12 bg-gradient-to-l from-bg to-transparent sm:w-24" />
 
-        <Marquee duration={55} className="py-1">
+        <Marquee duration={60} className="py-2">
           {recommendations.map((item) => (
             <article
               key={item.name}
-              className="flex w-[min(85vw,22rem)] shrink-0 flex-col rounded-[1.5rem] border border-line bg-bg-elevated/55 p-5 shadow-[0_12px_40px_rgba(11,18,32,0.06)] sm:w-[24rem] sm:p-6"
+              className="card flex w-[min(85vw,22rem)] shrink-0 flex-col p-6 sm:w-[24rem]"
             >
-              <div className="flex items-start justify-between gap-3">
-                <QuoteIcon className="h-7 w-7 shrink-0 text-accent/35" />
-                <span className="rounded-full border border-line px-2.5 py-1 text-[10px] font-semibold tracking-[0.14em] text-muted uppercase">
-                  Facebook
+              <div className="flex items-center justify-between gap-3">
+                <QuoteIcon className="h-7 w-7 text-accent/40" />
+                <span className="flex gap-0.5 text-amber-400" aria-label="5 estrellas">
+                  {"★★★★★"}
                 </span>
               </div>
-              <p className="mt-4 flex-1 text-sm leading-relaxed text-fg md:text-[15px]">
+              <p className="mt-4 flex-1 text-sm leading-relaxed text-fg/90 md:text-[15px]">
                 “{item.excerpt}”
               </p>
-              <div className="mt-5 border-t border-line pt-4">
-                <p className="font-display text-base font-semibold">{item.name}</p>
-                <p className="mt-1 text-xs font-medium text-signal">
-                  ✓ Recomienda ATRIX · Facebook
-                </p>
+              <div className="mt-5 flex items-center gap-3 border-t border-line pt-4">
+                <span className="font-display inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-accent/15 text-sm font-semibold text-accent">
+                  {item.name.charAt(0)}
+                </span>
+                <div className="min-w-0">
+                  <p className="truncate text-sm font-semibold">{item.name}</p>
+                  <p className="mt-0.5 flex items-center gap-1 text-xs text-success">
+                    <CheckIcon className="h-3.5 w-3.5" />
+                    Recomienda ATRIX · Facebook
+                  </p>
+                </div>
               </div>
             </article>
           ))}
         </Marquee>
       </div>
 
-      <div className="relative mx-auto mt-10 max-w-6xl px-5 text-center md:px-8">
+      <div className="relative mx-auto mt-12 max-w-[1240px] px-5 text-center sm:px-8">
         <a
           href={recommendationsPage.facebookUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center justify-center rounded-full border border-line px-6 py-3 text-sm font-semibold text-fg transition hover:border-accent/40 hover:bg-bg-elevated"
+          className="btn btn-outline"
         >
-          {recommendationsPage.facebookLabel} · {site.name}
+          {recommendationsPage.facebookLabel}
+          <ArrowIcon />
         </a>
       </div>
     </section>

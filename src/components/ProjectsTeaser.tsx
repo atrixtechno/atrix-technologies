@@ -1,135 +1,97 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ProjectLogo } from "@/components/ProjectLogo";
+import { AndroidLogo, AppleLogo } from "@/components/DeviceFrames";
+import { DeviceShowcase } from "@/components/DeviceShowcase";
 import { Reveal } from "@/components/Reveal";
-import { projects } from "@/content/projects";
+import { ArrowIcon, SectionHeading } from "@/components/ui";
+import { projectKindLabel, projects } from "@/content/projects";
 
-function hexToRgba(hex: string, alpha: number) {
-  const h = hex.replace("#", "");
-  const full =
-    h.length === 3
-      ? h
-          .split("")
-          .map((c) => c + c)
-          .join("")
-      : h;
-  const n = Number.parseInt(full, 16);
-  const r = (n >> 16) & 255;
-  const g = (n >> 8) & 255;
-  const b = n & 255;
-  return `rgba(${r},${g},${b},${alpha})`;
-}
+const gallery = projects.filter((p) => p.previewImage).slice(0, 6);
 
 export function ProjectsTeaser() {
   return (
-    <section id="proyectos" className="relative scroll-mt-24 py-20 md:py-28">
-      <div className="pointer-events-none absolute right-0 top-6 h-32 w-32 rounded-full bg-signal/10 blur-3xl" />
-      <div className="mx-auto max-w-6xl px-5 md:px-8">
+    <section
+      id="proyectos"
+      className="relative scroll-mt-24 overflow-hidden border-t border-line py-24 md:py-32"
+    >
+      <div className="pointer-events-none absolute top-1/3 left-1/2 h-[36rem] w-[60rem] -translate-x-1/2 rounded-full bg-[radial-gradient(closest-side,color-mix(in_srgb,var(--accent)_14%,transparent),transparent)]" aria-hidden />
+
+      <div className="relative mx-auto max-w-[1240px] px-5 sm:px-8">
         <Reveal>
-          <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between sm:gap-6">
-            <div className="min-w-0">
-              <p className="text-[10px] font-semibold tracking-[0.28em] text-accent uppercase sm:text-xs">
-                Plataformas digitales
-              </p>
-              <h2 className="font-display mt-2 max-w-xl text-2xl font-bold tracking-tight sm:text-3xl md:text-5xl">
-                Infraestructuras que facturan
-              </h2>
-              <p className="mt-3 max-w-lg text-sm text-muted sm:text-[15px]">
-                Sitios, paneles, apps e integraciones operativas — plataformas
-                completas en producción, no solo páginas.
-              </p>
-            </div>
-            <Link
-              href="/proyectos"
-              className="btn-ink inline-flex shrink-0 rounded-full px-5 py-2.5 text-sm font-semibold"
-            >
-              Ver portafolio
-            </Link>
-          </div>
-        </Reveal>
-
-        <Reveal delay={60}>
-          <div className="relative mt-7 sm:mt-8">
-            <div
-              className="projects-scroll max-h-[22.5rem] overflow-y-auto overscroll-contain rounded-[1.5rem] border border-line bg-bg-elevated/60 shadow-[0_12px_40px_rgba(11,18,32,0.05)] sm:max-h-[24rem]"
-              tabIndex={0}
-              aria-label="Lista de plataformas digitales. Desliza para ver más."
-            >
-              <ul className="divide-y divide-line">
-                {projects.map((project) => {
-                  const { accent, glow } = project.theme;
-                  return (
-                    <li key={project.slug} className="min-w-0">
-                      <Link
-                        href={`/proyectos/${project.slug}`}
-                        className="project-tile group relative flex min-h-[10.5rem] gap-3 overflow-hidden px-3 py-3 transition hover:bg-bg-elevated/70 sm:min-h-[11rem] sm:gap-4 sm:px-4 sm:py-3.5"
-                        style={
-                          {
-                            "--project-accent": accent,
-                            "--project-glow": glow,
-                            "--project-tint": hexToRgba(accent, 0.1),
-                            "--project-border": hexToRgba(accent, 0.28),
-                            "--accent": accent,
-                            boxShadow: `inset 3px 0 0 ${accent}`,
-                            background:
-                              "linear-gradient(90deg, var(--project-tint) 0%, transparent 42%)",
-                          } as React.CSSProperties
-                        }
-                      >
-                        <div className="relative hidden h-[8.75rem] w-[11.5rem] shrink-0 overflow-hidden rounded-xl border border-line/70 bg-bg sm:block">
-                          {project.previewImage ? (
-                            <Image
-                              src={project.previewImage}
-                              alt=""
-                              fill
-                              quality={75}
-                              className="object-cover object-top transition duration-500 group-hover:scale-[1.03]"
-                              sizes="184px"
-                            />
-                          ) : null}
-                        </div>
-
-                        <div className="relative flex min-w-0 flex-1 flex-col justify-center gap-1.5 py-0.5">
-                          <div className="flex min-w-0 items-center gap-2.5">
-                            {project.logo && (
-                              <ProjectLogo
-                                src={project.logo}
-                                name={project.name}
-                                size="sm"
-                              />
-                            )}
-                            <div className="min-w-0">
-                              <h3 className="font-display truncate text-[15px] font-semibold sm:text-base">
-                                {project.name}
-                              </h3>
-                              <p className="truncate text-[11px] font-medium text-[var(--project-accent)] sm:text-xs">
-                                {project.sector}
-                              </p>
-                            </div>
-                          </div>
-                          <p className="line-clamp-2 text-pretty text-xs leading-relaxed text-muted sm:text-[13px]">
-                            {project.summary}
-                          </p>
-                          <p className="text-xs font-semibold text-[var(--project-accent)]">
-                            Ver caso →
-                          </p>
-                        </div>
-                      </Link>
-                    </li>
-                  );
-                })}
-              </ul>
-            </div>
-
-            <div
-              className="pointer-events-none absolute inset-x-0 bottom-0 h-10 bg-gradient-to-t from-bg via-bg/70 to-transparent"
-              aria-hidden
+          <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
+            <SectionHeading
+              index="05"
+              eyebrow="Plataformas digitales"
+              title={
+                <>
+                  Software en producción: <span className="text-gradient">web, iOS y Android</span>
+                </>
+              }
+              lead="Sitios, paneles, apps e integraciones operativas. Plataformas completas que venden y administran negocios reales — no solo páginas."
             />
-            <p className="mt-3 text-center text-[11px] tracking-[0.16em] text-muted uppercase">
-              Desliza para ver más · {projects.length} proyectos
-            </p>
+            <div className="flex shrink-0 flex-col items-start gap-4 lg:items-end">
+              <div className="flex flex-wrap gap-2">
+                <span className="chip">
+                  <AppleLogo className="h-3.5 w-3.5" />
+                  iOS
+                </span>
+                <span className="chip">
+                  <AndroidLogo className="h-3.5 w-3.5 text-[#3ddc84]" />
+                  Android
+                </span>
+                <span className="chip">Web · Cloud</span>
+              </div>
+              <Link href="/proyectos" className="btn btn-primary">
+                Ver portafolio completo
+                <ArrowIcon />
+              </Link>
+            </div>
           </div>
         </Reveal>
+
+        {/* Escenario 3D de dispositivos */}
+        <Reveal delay={60}>
+          <div className="relative mt-10 md:mt-14">
+            <DeviceShowcase />
+          </div>
+        </Reveal>
+
+        <ul className="mt-20 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {gallery.map((project, index) => (
+            <Reveal as="li" key={project.slug} delay={(index % 3) * 70}>
+              <Link
+                href={`/proyectos/${project.slug}`}
+                className="card-glow group block overflow-hidden"
+              >
+                <div className="relative aspect-[16/10] overflow-hidden">
+                  {project.previewImage && (
+                    <Image
+                      src={project.previewImage}
+                      alt={project.name}
+                      fill
+                      quality={90}
+                      className="object-cover object-top transition duration-700 group-hover:scale-[1.05]"
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    />
+                  )}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
+                  <span className="mono absolute top-3 left-3 rounded-md border border-white/15 bg-black/45 px-2 py-1 text-[10px] tracking-[0.12em] text-white/85 uppercase backdrop-blur">
+                    {projectKindLabel(project.kind)}
+                  </span>
+                </div>
+                <div className="flex items-center justify-between gap-4 p-5">
+                  <div className="min-w-0">
+                    <p className="font-display truncate text-lg font-semibold">{project.name}</p>
+                    <p className="mt-0.5 truncate text-sm text-muted">{project.sector}</p>
+                  </div>
+                  <span className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-line text-muted transition group-hover:border-accent group-hover:bg-accent group-hover:text-white">
+                    <ArrowIcon className="h-4 w-4" />
+                  </span>
+                </div>
+              </Link>
+            </Reveal>
+          ))}
+        </ul>
       </div>
     </section>
   );

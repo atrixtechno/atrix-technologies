@@ -25,7 +25,7 @@ export function ProjectCase({ project }: { project: Project }) {
               "radial-gradient(ellipse 70% 55% at 80% 0%, var(--project-glow), transparent 55%)",
           }}
         />
-        <div className="relative mx-auto grid max-w-6xl gap-8 px-5 pb-14 pt-14 sm:gap-10 sm:pb-16 md:grid-cols-[1.05fr_0.95fr] md:items-end md:gap-12 md:px-8 md:pb-20 md:pt-16">
+        <div className="relative mx-auto grid max-w-[1240px] gap-8 px-5 pb-14 pt-14 sm:gap-10 sm:pb-16 md:grid-cols-[1.05fr_0.95fr] md:items-end md:gap-12 md:px-8 md:pb-20 md:pt-16">
           <div className="animate-rise min-w-0">
             <Link
               href="/proyectos"
@@ -124,14 +124,14 @@ export function ProjectCase({ project }: { project: Project }) {
           {(project.previewImage || project.url) && (
             <div className="animate-fade-scale relative min-w-0">
               <div
-                className="animate-glow pointer-events-none absolute -inset-2 -z-10 rounded-[1.5rem] blur-2xl sm:-inset-3"
+                className="animate-glow pointer-events-none absolute -inset-2 -z-10 rounded-[1.25rem] blur-2xl sm:-inset-3"
                 style={{ background: "var(--project-glow)" }}
               />
               <a
                 href={project.url ?? "#"}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="project-preview-float group block overflow-hidden rounded-[1.5rem] border border-[var(--line)] bg-[var(--bg-elevated)] shadow-[0_24px_60px_rgba(11,40,45,0.12)] transition hover:-translate-y-1"
+                className="project-preview-float group block overflow-hidden rounded-[1.25rem] border border-[var(--line)] bg-[var(--bg-elevated)] shadow-[0_24px_60px_rgba(11,40,45,0.12)] transition hover:-translate-y-1"
                 aria-label={`Abrir ${project.name} en vivo`}
               >
                 <div className="flex items-center gap-2 border-b border-[var(--line)] bg-[color-mix(in_srgb,var(--fg)_4%,transparent)] px-3 py-2.5">
@@ -171,7 +171,7 @@ export function ProjectCase({ project }: { project: Project }) {
 
       {project.stats && project.stats.length > 0 && (
         <section className="relative border-b border-[var(--line)] bg-[var(--bg-elevated)]">
-          <div className="mx-auto grid max-w-6xl gap-3 px-5 py-8 sm:grid-cols-2 md:grid-cols-4 md:px-8">
+          <div className="mx-auto grid max-w-[1240px] gap-3 px-5 py-8 sm:grid-cols-2 md:grid-cols-4 md:px-8">
             {project.stats.map((stat, index) => (
               <Reveal key={stat.label} delay={index * 70}>
                 <div className="project-card tech-frame border border-[var(--line)] bg-[var(--bg)] px-5 py-5">
@@ -187,9 +187,9 @@ export function ProjectCase({ project }: { project: Project }) {
       )}
 
       {project.story && project.story.length > 0 ? (
-        <section className="relative mx-auto max-w-6xl px-5 py-16 md:px-8 md:py-20">
+        <section className="relative mx-auto max-w-[1240px] px-5 py-16 md:px-8 md:py-20">
           <Reveal>
-            <p className="text-xs font-semibold tracking-[0.28em] text-[var(--accent)] uppercase">
+            <p className="eyebrow">
               De qué trató el proyecto
             </p>
             <h2 className="font-display mt-3 text-2xl font-bold md:text-3xl">
@@ -206,14 +206,14 @@ export function ProjectCase({ project }: { project: Project }) {
           </Reveal>
         </section>
       ) : (
-        <section className="relative mx-auto grid max-w-6xl gap-10 px-5 py-16 md:grid-cols-2 md:gap-14 md:px-8 md:py-20">
+        <section className="relative mx-auto grid max-w-[1240px] gap-10 px-5 py-16 md:grid-cols-2 md:gap-14 md:px-8 md:py-20">
           <Reveal>
-            <h2 className="font-display text-2xl font-bold md:text-3xl">El reto</h2>
+            <h2 className="font-display text-2xl font-semibold tracking-tight md:text-3xl">El reto</h2>
             <div className="project-section-line mt-4 h-px w-16 bg-[var(--accent)]/50" />
             <p className="mt-4 leading-relaxed text-[var(--muted)]">{project.challenge}</p>
           </Reveal>
           <Reveal delay={100}>
-            <h2 className="font-display text-2xl font-bold md:text-3xl">La solución</h2>
+            <h2 className="font-display text-2xl font-semibold tracking-tight md:text-3xl">La solución</h2>
             <div className="project-section-line mt-4 h-px w-16 bg-[var(--accent)]/50" />
             <p className="mt-4 leading-relaxed text-[var(--muted)]">{project.solution}</p>
           </Reveal>
@@ -221,26 +221,24 @@ export function ProjectCase({ project }: { project: Project }) {
       )}
 
       <section className="relative border-y border-[var(--line)] bg-[var(--bg-elevated)] py-16 md:py-20">
-        <div className="mx-auto max-w-6xl px-5 md:px-8">
+        <div className="mx-auto max-w-[1240px] px-5 md:px-8">
           <Reveal>
-            <h2 className="font-display text-2xl font-bold md:text-3xl">Impacto</h2>
+            <h2 className="font-display text-2xl font-semibold tracking-tight md:text-3xl">Impacto</h2>
             <div className="project-section-line mt-4 h-px w-24 bg-[var(--accent)]/50" />
           </Reveal>
           <ul className="mt-8 grid gap-4 md:grid-cols-3">
             {project.impact.map((item, index) => (
-              <Reveal key={item} delay={index * 80}>
-                <li className="project-card border border-[var(--line)] bg-[var(--bg)] p-5 text-sm leading-relaxed">
-                  {item}
-                </li>
+              <Reveal as="li" key={item} delay={index * 80} className="project-card border border-[var(--line)] bg-[var(--bg)] p-5 text-sm leading-relaxed">
+                {item}
               </Reveal>
             ))}
           </ul>
         </div>
       </section>
 
-      <section className="relative mx-auto max-w-6xl px-5 py-16 md:px-8 md:py-20">
+      <section className="relative mx-auto max-w-[1240px] px-5 py-16 md:px-8 md:py-20">
         <Reveal>
-          <h2 className="font-display text-2xl font-bold md:text-3xl">
+          <h2 className="font-display text-2xl font-semibold tracking-tight md:text-3xl">
             Módulos entregados
           </h2>
           <div className="project-section-line mt-4 h-px w-24 bg-[var(--accent)]/50" />
@@ -265,9 +263,9 @@ export function ProjectCase({ project }: { project: Project }) {
 
       {project.deliverables && project.deliverables.length > 0 && (
         <section className="relative border-y border-[var(--line)] bg-[var(--bg-elevated)] py-16 md:py-20">
-          <div className="mx-auto max-w-6xl px-5 md:px-8">
+          <div className="mx-auto max-w-[1240px] px-5 md:px-8">
             <Reveal>
-              <h2 className="font-display text-2xl font-bold md:text-3xl">
+              <h2 className="font-display text-2xl font-semibold tracking-tight md:text-3xl">
                 Todo lo que se construyó
               </h2>
               <div className="project-section-line mt-4 h-px w-24 bg-[var(--accent)]/50" />
@@ -295,9 +293,9 @@ export function ProjectCase({ project }: { project: Project }) {
       )}
 
       {project.approach && project.approach.length > 0 && (
-        <section className="relative mx-auto max-w-6xl px-5 py-16 md:px-8 md:py-20">
+        <section className="relative mx-auto max-w-[1240px] px-5 py-16 md:px-8 md:py-20">
           <Reveal>
-            <h2 className="font-display text-2xl font-bold md:text-3xl">Enfoque ATRIX</h2>
+            <h2 className="font-display text-2xl font-semibold tracking-tight md:text-3xl">Enfoque ATRIX</h2>
             <div className="project-section-line mt-4 h-px w-24 bg-[var(--accent)]/50" />
             <p className="mt-3 max-w-2xl text-[var(--muted)]">
               Criterio visual con implementación real.
@@ -317,9 +315,9 @@ export function ProjectCase({ project }: { project: Project }) {
       )}
 
       <section className="relative border-y border-[var(--line)] py-16 md:py-20">
-        <div className="mx-auto max-w-6xl px-5 md:px-8">
+        <div className="mx-auto max-w-[1240px] px-5 md:px-8">
           <Reveal>
-            <h2 className="font-display text-2xl font-bold md:text-3xl">Tecnologías</h2>
+            <h2 className="font-display text-2xl font-semibold tracking-tight md:text-3xl">Tecnologías</h2>
             <div className="project-section-line mt-4 h-px w-24 bg-[var(--accent)]/50" />
             <p className="mt-3 max-w-2xl text-[var(--muted)]">
               Stack elegido para rendimiento, mantenimiento y escala.
@@ -327,11 +325,9 @@ export function ProjectCase({ project }: { project: Project }) {
           </Reveal>
           <ul className="mt-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
             {project.technologies.map((tech, index) => (
-              <Reveal key={tech.name} delay={index * 40}>
-                <li className="project-card flex flex-col border border-[var(--line)] bg-[var(--bg-elevated)] px-4 py-4">
-                  <span className="font-semibold">{tech.name}</span>
-                  <span className="mt-1 text-sm text-[var(--muted)]">{tech.role}</span>
-                </li>
+              <Reveal as="li" key={tech.name} delay={index * 40} className="project-card flex flex-col border border-[var(--line)] bg-[var(--bg-elevated)] px-4 py-4">
+                <span className="font-semibold">{tech.name}</span>
+                <span className="mt-1 text-sm text-[var(--muted)]">{tech.role}</span>
               </Reveal>
             ))}
           </ul>
@@ -339,9 +335,9 @@ export function ProjectCase({ project }: { project: Project }) {
       </section>
 
       {project.languages && project.languages.length > 0 && (
-        <section className="relative mx-auto max-w-6xl px-5 py-16 md:px-8 md:py-20">
+        <section className="relative mx-auto max-w-[1240px] px-5 py-16 md:px-8 md:py-20">
           <Reveal>
-            <h2 className="font-display text-2xl font-bold md:text-3xl">Idiomas del sitio</h2>
+            <h2 className="font-display text-2xl font-semibold tracking-tight md:text-3xl">Idiomas del sitio</h2>
             <div className="project-section-line mt-4 h-px w-24 bg-[var(--accent)]/50" />
             <p className="mt-3 max-w-2xl text-[var(--muted)]">
               Experiencia global para pacientes locales e internacionales.
@@ -349,11 +345,9 @@ export function ProjectCase({ project }: { project: Project }) {
           </Reveal>
           <ul className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
             {project.languages.map((lang, index) => (
-              <Reveal key={lang.code} delay={index * 40}>
-                <li className="project-card border border-[var(--line)] bg-[var(--bg-elevated)] px-3 py-3">
-                  <p className="text-sm font-semibold">{lang.code}</p>
-                  <p className="mt-0.5 truncate text-[11px] text-[var(--muted)]">{lang.name}</p>
-                </li>
+              <Reveal as="li" key={lang.code} delay={index * 40} className="project-card border border-[var(--line)] bg-[var(--bg-elevated)] px-3 py-3">
+                <p className="text-sm font-semibold">{lang.code}</p>
+                <p className="mt-0.5 truncate text-[11px] text-[var(--muted)]">{lang.name}</p>
               </Reveal>
             ))}
           </ul>
@@ -361,21 +355,19 @@ export function ProjectCase({ project }: { project: Project }) {
       )}
 
       <section className="relative border-t border-[var(--line)] bg-[var(--bg-elevated)] py-16 md:py-20">
-        <div className="mx-auto max-w-6xl px-5 md:px-8">
+        <div className="mx-auto max-w-[1240px] px-5 md:px-8">
           <Reveal>
-            <h2 className="font-display text-2xl font-bold md:text-3xl">Cómo lo construimos</h2>
+            <h2 className="font-display text-2xl font-semibold tracking-tight md:text-3xl">Cómo lo construimos</h2>
             <div className="project-section-line mt-4 h-px w-24 bg-[var(--accent)]/50" />
           </Reveal>
           <ol className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
             {project.process.map((step, index) => (
-              <Reveal key={step.title} delay={index * 80}>
-                <li className="transition hover:translate-x-1">
-                  <p className="font-display text-3xl font-extrabold text-[var(--accent)]/40">
-                    {String(index + 1).padStart(2, "0")}
-                  </p>
-                  <h3 className="font-display mt-2 text-lg font-semibold">{step.title}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-[var(--muted)]">{step.copy}</p>
-                </li>
+              <Reveal as="li" key={step.title} delay={index * 80} className="transition hover:translate-x-1">
+                <p className="font-display text-3xl font-extrabold text-[var(--accent)]/40">
+                  {String(index + 1).padStart(2, "0")}
+                </p>
+                <h3 className="font-display mt-2 text-lg font-semibold">{step.title}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-[var(--muted)]">{step.copy}</p>
               </Reveal>
             ))}
           </ol>
@@ -385,7 +377,7 @@ export function ProjectCase({ project }: { project: Project }) {
       {project.lead && (
         <section className="relative border-t border-[var(--line)] bg-[color-mix(in_srgb,var(--fg)_92%,#000)] py-16 text-[var(--bg)] md:py-20">
           <Reveal>
-            <div className="mx-auto max-w-6xl px-5 md:px-8">
+            <div className="mx-auto max-w-[1240px] px-5 md:px-8">
               <p className="text-xs font-semibold tracking-[0.2em] text-[var(--accent)] uppercase">
                 Conoce al responsable
               </p>
@@ -418,20 +410,18 @@ export function ProjectCase({ project }: { project: Project }) {
       )}
 
       <section className="relative border-t border-[var(--line)] bg-[var(--bg-elevated)] py-16 md:py-20">
-        <div className="mx-auto max-w-6xl px-5 md:px-8">
+        <div className="mx-auto max-w-[1240px] px-5 md:px-8">
           <Reveal>
-            <h2 className="font-display text-2xl font-bold md:text-3xl">
+            <h2 className="font-display text-2xl font-semibold tracking-tight md:text-3xl">
               Por qué un cliente elegiría esto
             </h2>
             <div className="project-section-line mt-4 h-px w-24 bg-[var(--accent)]/50" />
           </Reveal>
           <ul className="mt-8 space-y-4">
             {project.persuasion.map((item, index) => (
-              <Reveal key={item} delay={index * 60}>
-                <li className="flex gap-3 text-[var(--fg)]/90 transition hover:translate-x-1">
-                  <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--accent)]" />
-                  {item}
-                </li>
+              <Reveal as="li" key={item} delay={index * 60} className="flex gap-3 text-[var(--fg)]/90 transition hover:translate-x-1">
+                <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--accent)]" />
+                {item}
               </Reveal>
             ))}
           </ul>

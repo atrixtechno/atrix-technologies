@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Reveal } from "@/components/Reveal";
+import { ArrowIcon, CheckIcon, SectionHeading } from "@/components/ui";
 import { services } from "@/content/services";
 import { whatsappUrl } from "@/content/site";
 
@@ -81,79 +82,94 @@ function Icon({ name }: { name: string }) {
 
 export function Services() {
   return (
-    <section id="servicios" className="relative scroll-mt-24 py-20 md:py-28">
-      <div className="pointer-events-none absolute inset-0 opacity-50" aria-hidden>
-        <div className="animate-orb absolute -left-16 top-24 h-56 w-56 rounded-full bg-accent/10 blur-3xl" />
-        <div className="animate-orb-delayed absolute -right-10 bottom-10 h-64 w-64 rounded-full bg-signal/10 blur-3xl" />
-      </div>
-      <div className="relative mx-auto max-w-6xl px-5 md:px-8">
+    <section id="servicios" className="relative scroll-mt-24 py-24 md:py-32">
+      <div className="grid-tech pointer-events-none absolute inset-0 opacity-70" aria-hidden />
+      <div className="relative mx-auto max-w-[1240px] px-5 sm:px-8">
         <Reveal>
-          <p className="text-xs font-semibold tracking-[0.28em] text-accent uppercase">
-            Servicios
-          </p>
-          <h2 className="font-display mt-4 max-w-3xl text-3xl font-bold tracking-tight md:text-5xl">
-            Ecosistemas digitales y tecnología que escala contigo
-          </h2>
-          <p className="mt-4 max-w-2xl text-muted">
-            Soporte técnico, seguridad, redes, infraestructura y plataformas — para
-            hogares y empresas en la frontera.
-          </p>
+          <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
+            <SectionHeading
+              index="01"
+              eyebrow="Servicios"
+              title={
+                <>
+                  Un solo equipo para toda tu{" "}
+                  <span className="text-gradient">operación tecnológica</span>
+                </>
+              }
+              lead="Soporte técnico, seguridad, redes, infraestructura y plataformas digitales — diseñados, instalados y mantenidos por ingenieros en la frontera."
+            />
+            <a
+              href={whatsappUrl("Hola ATRIX, quiero una evaluación de mi tecnología.")}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn btn-outline shrink-0 self-start lg:self-end"
+            >
+              Solicitar evaluación
+              <ArrowIcon />
+            </a>
+          </div>
         </Reveal>
 
         <ul className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {services.map((service, index) => (
-            <Reveal key={service.slug} delay={index * 70}>
-              <li className="group overflow-hidden rounded-[1.5rem] border border-line bg-bg-elevated shadow-[0_12px_40px_rgba(11,18,32,0.06)] transition duration-300 hover:-translate-y-1 hover:border-accent/35 hover:shadow-[0_20px_44px_rgba(26,107,255,0.12)]">
-                <div className="relative aspect-[16/10] overflow-hidden border-b border-line">
-                  <Image
-                    src={service.image}
-                    alt={service.imageAlt}
-                    fill
-                    className="object-cover transition duration-500 group-hover:scale-[1.04]"
-                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-bg-elevated/90 via-bg-elevated/20 to-transparent" />
-                  <span className="absolute bottom-3 left-3 inline-flex h-10 w-10 items-center justify-center rounded-xl border border-line/80 bg-bg-elevated/90 text-accent backdrop-blur-sm transition group-hover:border-accent/50 group-hover:text-signal">
-                    <Icon name={service.icon} />
-                  </span>
-                  <span className="absolute top-3 right-3 text-[11px] font-semibold tracking-[0.18em] text-fg/70 tabular-nums">
-                    {String(index + 1).padStart(2, "0")}
-                  </span>
-                </div>
-                <div className="p-6">
-                  <h3 className="font-display text-xl font-semibold">{service.title}</h3>
-                  <p className="mt-1 text-sm font-medium text-signal">{service.short}</p>
-                  <p className="mt-3 text-sm leading-relaxed text-muted">{service.copy}</p>
-                  <ul className="mt-4 space-y-1.5">
-                    {service.bullets.map((b) => (
-                      <li key={b} className="flex gap-2 text-sm text-fg/80">
-                        <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-accent" />
-                        {b}
-                      </li>
-                    ))}
-                  </ul>
-                  <div className="mt-5 flex flex-wrap items-center gap-x-4 gap-y-2">
-                    <a
-                      href={whatsappUrl(
-                        `Hola ATRIX, me interesa el servicio de ${service.title}.`,
-                      )}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex text-sm font-semibold text-accent transition hover:text-fg"
-                    >
-                      Cotizar →
-                    </a>
-                    {remoteSupportSlugs.has(service.slug) && (
-                      <Link
-                        href="/soporte-remoto"
-                        className="inline-flex text-sm font-semibold text-muted transition hover:text-accent"
-                      >
-                        Ver departamento de sistemas →
-                      </Link>
+            <Reveal
+              as="li"
+              key={service.slug}
+              delay={(index % 3) * 80}
+              className="card-glow group flex flex-col overflow-hidden"
+            >
+              <div className="relative aspect-[16/9] overflow-hidden">
+                <Image
+                  src={service.image}
+                  alt={service.imageAlt}
+                  fill
+                  className="object-cover opacity-90 transition duration-700 group-hover:scale-[1.05] group-hover:opacity-100"
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-bg-elevated via-bg-elevated/30 to-transparent" />
+                <span className="mono absolute top-4 right-4 rounded-md border border-white/15 bg-black/40 px-2 py-1 text-[10px] tracking-[0.12em] text-white/80 backdrop-blur">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+              </div>
+              <div className="relative -mt-8 flex flex-1 flex-col px-6 pb-6">
+                <span className="icon-tile">
+                  <Icon name={service.icon} />
+                </span>
+                <h3 className="font-display mt-4 text-xl font-semibold">{service.title}</h3>
+                <p className="mono mt-1.5 text-[11px] tracking-[0.06em] text-signal">
+                  {service.short}
+                </p>
+                <p className="mt-3 text-sm leading-relaxed text-muted">{service.copy}</p>
+                <ul className="mt-5 space-y-2 border-t border-line pt-5">
+                  {service.bullets.map((b) => (
+                    <li key={b} className="flex items-start gap-2.5 text-sm text-fg/85">
+                      <CheckIcon className="mt-0.5 h-4 w-4 shrink-0 text-accent" />
+                      {b}
+                    </li>
+                  ))}
+                </ul>
+                <div className="mt-auto flex flex-wrap items-center gap-x-5 gap-y-2 pt-6">
+                  <a
+                    href={whatsappUrl(
+                      `Hola ATRIX, me interesa el servicio de ${service.title}.`,
                     )}
-                  </div>
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="link-arrow"
+                  >
+                    Cotizar
+                    <ArrowIcon className="h-3.5 w-3.5" />
+                  </a>
+                  {remoteSupportSlugs.has(service.slug) && (
+                    <Link
+                      href="/soporte-remoto"
+                      className="text-sm font-medium text-muted transition hover:text-fg"
+                    >
+                      Departamento de sistemas
+                    </Link>
+                  )}
                 </div>
-              </li>
+              </div>
             </Reveal>
           ))}
         </ul>

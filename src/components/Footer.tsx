@@ -1,9 +1,7 @@
-"use client";
-
 import Link from "next/link";
 import { Logo } from "@/components/Logo";
 import { SectionLink } from "@/components/SectionLink";
-import { useTheme } from "@/components/ThemeProvider";
+import { ArrowIcon, WhatsAppIcon } from "@/components/ui";
 import { projects } from "@/content/projects";
 import { services } from "@/content/services";
 import { site, whatsappUrl } from "@/content/site";
@@ -16,107 +14,95 @@ const explore = [
   { hash: "contacto", label: "Contacto" },
 ] as const;
 
-export function Footer({ light = false }: { light?: boolean }) {
-  const { theme } = useTheme();
-  const useLightLogo = light || theme === "light";
+const pages = [
+  { href: "/proyectos", label: "Portafolio" },
+  { href: "/soporte-remoto", label: "Soporte remoto" },
+  { href: "/conferencias", label: "Conferencias" },
+  { href: "/quieres-ser-parte", label: "Sé parte de ATRIX" },
+] as const;
+
+const linkClass = "text-sm text-[#8a97b2] transition hover:text-white";
+
+export function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="relative border-t border-line bg-bg-elevated/40">
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-accent/35 to-transparent" />
+    <footer className="relative overflow-hidden bg-[#04060b] text-white">
+      <div className="glow-divider absolute inset-x-0 top-0" aria-hidden />
+      <div className="hero-grid pointer-events-none absolute inset-0 opacity-60" aria-hidden />
+      <div className="pointer-events-none absolute -top-40 left-1/2 h-80 w-[50rem] -translate-x-1/2 rounded-full bg-[radial-gradient(closest-side,rgba(59,130,255,0.22),transparent)]" aria-hidden />
 
-      <div className="mx-auto max-w-6xl px-5 pt-14 pb-10 md:px-8 md:pt-16">
-        <div className="grid gap-12 md:grid-cols-[1.35fr_1fr_1fr_1.1fr] md:gap-10">
+      <div className="relative mx-auto max-w-[1240px] px-5 sm:px-8">
+        {/* CTA final */}
+        <div className="flex flex-col items-start gap-8 border-b border-white/8 py-16 md:flex-row md:items-center md:justify-between md:py-20">
+          <div className="max-w-2xl">
+            <p className="mono text-[11px] tracking-[0.16em] text-[#5b9bff] uppercase">
+              ¿Hablamos?
+            </p>
+            <p className="font-display mt-4 text-3xl font-semibold tracking-tight text-balance sm:text-4xl md:text-5xl">
+              Pongamos tu tecnología a{" "}
+              <span className="bg-gradient-to-r from-[#5b9bff] to-[#22d3ee] bg-clip-text text-transparent">
+                trabajar por ti
+              </span>
+            </p>
+          </div>
+          <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
+            <a
+              href={whatsappUrl("Hola ATRIX, quiero que me asesoren.")}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn btn-primary h-[3.25rem] px-6"
+            >
+              <WhatsAppIcon />
+              Quiero que me asesoren
+            </a>
+            <SectionLink hash="contacto" className="btn btn-ghost-light h-[3.25rem] px-6">
+              Enviar mensaje
+              <ArrowIcon />
+            </SectionLink>
+          </div>
+        </div>
+
+        <div className="grid gap-12 py-14 md:grid-cols-2 lg:grid-cols-[1.3fr_0.8fr_1fr_1.1fr] lg:gap-10">
           <div>
             <Link href="/" className="inline-flex items-center" aria-label="ATRIX Technologies">
-              <Logo
-                variant={useLightLogo ? "lockup-light" : "lockup"}
-                size={200}
-                className="shrink-0"
-              />
+              <Logo variant="lockup" size={190} className="shrink-0" />
             </Link>
-            <p className="mt-5 max-w-xs text-sm leading-relaxed text-muted">
-              {site.tagline}. Atención personalizada en {site.coverage}.
+            <p className="mt-5 max-w-xs text-sm leading-relaxed text-[#8a97b2]">
+              {site.tagline}. Ingeniería y atención personalizada en {site.coverage}.
             </p>
-            <div className="mt-6 flex flex-wrap items-center gap-3">
-              <a
-                href={whatsappUrl()}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn-primary inline-flex rounded-full px-5 py-2.5 text-sm font-semibold"
-              >
-                Cotizar por WhatsApp
-              </a>
-              <Link
-                href="/login"
-                className="inline-flex rounded-full border border-line px-5 py-2.5 text-sm font-semibold text-fg transition hover:border-accent/40 hover:text-accent"
-              >
-                Acceso
-              </Link>
-            </div>
+            <p className="mono mt-6 inline-flex items-center gap-2 rounded-full border border-emerald-400/20 bg-emerald-400/8 px-3 py-1.5 text-[10.5px] tracking-[0.1em] text-emerald-300 uppercase">
+              <span className="live-dot" aria-hidden />
+              Atendiendo ahora
+            </p>
           </div>
 
           <div>
-            <p className="text-[11px] font-semibold tracking-[0.22em] text-accent uppercase">
-              Explorar
-            </p>
-            <ul className="mt-4 space-y-2.5">
+            <p className="mono text-[11px] tracking-[0.16em] text-[#5d6984] uppercase">Explorar</p>
+            <ul className="mt-5 space-y-3">
               {explore.map((item) => (
                 <li key={item.hash}>
-                  <SectionLink
-                    hash={item.hash}
-                    className="text-sm text-muted transition hover:text-fg"
-                  >
+                  <SectionLink hash={item.hash} className={linkClass}>
                     {item.label}
                   </SectionLink>
                 </li>
               ))}
-              <li>
-                <Link
-                  href="/proyectos"
-                  className="text-sm text-muted transition hover:text-fg"
-                >
-                  Software
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/soporte-remoto"
-                  className="text-sm text-muted transition hover:text-fg"
-                >
-                  Soporte remoto
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/conferencias"
-                  className="text-sm text-muted transition hover:text-fg"
-                >
-                  Conferencias
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/quieres-ser-parte"
-                  className="text-sm text-muted transition hover:text-fg"
-                >
-                  Sé parte de ATRIX
-                </Link>
-              </li>
+              {pages.map((item) => (
+                <li key={item.href}>
+                  <Link href={item.href} className={linkClass}>
+                    {item.label}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 
           <div>
-            <p className="text-[11px] font-semibold tracking-[0.22em] text-accent uppercase">
-              Servicios
-            </p>
-            <ul className="mt-4 space-y-2.5">
-              {services.slice(0, 5).map((service) => (
+            <p className="mono text-[11px] tracking-[0.16em] text-[#5d6984] uppercase">Servicios</p>
+            <ul className="mt-5 space-y-3">
+              {services.map((service) => (
                 <li key={service.slug}>
-                  <SectionLink
-                    hash="servicios"
-                    className="text-sm text-muted transition hover:text-fg"
-                  >
+                  <SectionLink hash="servicios" className={linkClass}>
                     {service.title}
                   </SectionLink>
                 </li>
@@ -125,39 +111,36 @@ export function Footer({ light = false }: { light?: boolean }) {
           </div>
 
           <div>
-            <p className="text-[11px] font-semibold tracking-[0.22em] text-accent uppercase">
-              Contacto
-            </p>
-            <ul className="mt-4 space-y-3 text-sm text-muted">
+            <p className="mono text-[11px] tracking-[0.16em] text-[#5d6984] uppercase">Contacto</p>
+            <ul className="mt-5 space-y-4 text-sm">
               <li>
-                <p className="text-[11px] tracking-[0.16em] text-fg/50 uppercase">
-                  Cobertura
-                </p>
-                <p className="mt-1 text-fg">{site.coverage}</p>
-              </li>
-              <li>
-                <p className="text-[11px] tracking-[0.16em] text-fg/50 uppercase">
-                  WhatsApp
-                </p>
+                <p className="text-[11px] text-[#5d6984]">WhatsApp</p>
                 <a
                   href={whatsappUrl()}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="mt-1 inline-block font-medium text-fg transition hover:text-accent"
+                  className="font-display mt-1 inline-block text-lg font-medium text-white transition hover:text-[#5b9bff]"
                 >
                   {site.phoneDisplay}
                 </a>
               </li>
               <li>
-                <p className="text-[11px] tracking-[0.16em] text-fg/50 uppercase">
-                  Casos recientes
-                </p>
-                <div className="mt-2 flex flex-wrap gap-2">
-                  {projects.map((project) => (
+                <p className="text-[11px] text-[#5d6984]">Correo</p>
+                <a
+                  href={`mailto:${site.email}`}
+                  className="mt-1 inline-block text-white/85 transition hover:text-[#5b9bff]"
+                >
+                  {site.email}
+                </a>
+              </li>
+              <li>
+                <p className="text-[11px] text-[#5d6984]">Casos recientes</p>
+                <div className="mt-2 flex flex-wrap gap-1.5">
+                  {projects.slice(0, 6).map((project) => (
                     <Link
                       key={project.slug}
                       href={`/proyectos/${project.slug}`}
-                      className="border border-line px-2.5 py-1 text-xs text-muted transition hover:border-accent/40 hover:text-accent"
+                      className="rounded-md border border-white/10 px-2.5 py-1 text-xs text-[#8a97b2] transition hover:border-white/30 hover:text-white"
                     >
                       {project.name}
                     </Link>
@@ -168,14 +151,22 @@ export function Footer({ light = false }: { light?: boolean }) {
           </div>
         </div>
 
-        <div className="mt-12 flex flex-col gap-3 border-t border-line pt-6 md:flex-row md:items-center md:justify-between">
-          <p className="text-[11px] leading-relaxed text-muted">
-            © {year} {site.legalName}. Soporte técnico, CCTV, redes y desarrollo
-            en {site.coverage}.
+        <div className="flex flex-col gap-4 border-t border-white/8 py-7 md:flex-row md:items-center md:justify-between">
+          <p className="text-xs leading-relaxed text-[#5d6984]">
+            © {year} {site.legalName} · {site.city}
           </p>
-          <p className="text-[11px] tracking-[0.16em] text-muted uppercase">
-            {site.motto}
-          </p>
+          <div className="flex items-center gap-5">
+            <p className="mono hidden text-[10.5px] tracking-[0.14em] text-[#5d6984] uppercase sm:block">
+              {site.motto}
+            </p>
+            <Link
+              href="/login"
+              className="text-xs text-[#5d6984] transition hover:text-white"
+              rel="nofollow"
+            >
+              Acceso
+            </Link>
+          </div>
         </div>
       </div>
     </footer>

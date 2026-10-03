@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { ConferenciasHero } from "@/components/ConferenciasHero";
+import { PageHero } from "@/components/PageHero";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { Reveal } from "@/components/Reveal";
@@ -69,7 +69,7 @@ function ChapterMark({ number, label }: { number: string; label: string }) {
         {number}
       </span>
       <div>
-        <p className="text-[10px] font-semibold tracking-[0.28em] text-signal uppercase">
+        <p className="eyebrow">
           Capítulo
         </p>
         <p className="mt-1 text-xs font-semibold tracking-[0.2em] text-accent uppercase">
@@ -208,10 +208,19 @@ export default function ConferenciasPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <div className="atmosphere relative min-h-screen">
+      <div className="relative bg-bg min-h-screen">
         <Header />
         <main className="relative z-10">
-          <ConferenciasHero whatsappHref={wa} />
+          <PageHero
+            eyebrow={conferenciasPage.eyebrow}
+            title={conferenciasPage.title}
+            lead={conferenciasPage.lead}
+            image="/images/conferencias/ia-keynote.jpg"
+            imagePosition="center 35%"
+            primary={{ href: wa, label: "Agendar por WhatsApp" }}
+            secondary={{ href: "#temas", label: "Ver temario" }}
+            meta={`${site.coverage} · Presencial o virtual`}
+          />
           <div className="relative overflow-hidden rounded-t-[2rem] bg-bg md:rounded-t-[2.5rem]">
             <div className="grid-tech pointer-events-none absolute inset-0 opacity-50" />
             <div className="relative">
@@ -220,7 +229,7 @@ export default function ConferenciasPage() {
             aria-label="Índice de capítulos"
             className="border-b border-line bg-bg-elevated/50"
           >
-            <div className="mx-auto flex max-w-6xl flex-col gap-3 px-4 py-4 sm:gap-4 sm:px-5 sm:py-5 md:flex-row md:items-center md:gap-8 md:px-8 md:py-6">
+            <div className="mx-auto flex max-w-[1240px] flex-col gap-3 px-4 py-4 sm:gap-4 sm:px-5 sm:py-5 md:flex-row md:items-center md:gap-8 md:px-8 md:py-6">
               <p className="shrink-0 text-[10px] font-semibold tracking-[0.28em] text-muted uppercase">
                 Índice
               </p>
@@ -249,12 +258,12 @@ export default function ConferenciasPage() {
             className="scroll-mt-24 border-b border-line py-16 md:py-28"
             aria-labelledby="para-quien-heading"
           >
-            <div className="mx-auto max-w-6xl px-4 sm:px-5 md:px-8">
+            <div className="mx-auto max-w-[1240px] px-4 sm:px-5 md:px-8">
               <Reveal>
                 <ChapterMark number="01" label="Para quién" />
                 <h2
                   id="para-quien-heading"
-                  className="font-display mt-5 max-w-2xl text-[1.65rem] font-bold tracking-tight sm:mt-6 sm:text-3xl md:text-5xl"
+                  className="section-title mt-5 sm:mt-6 max-w-2xl"
                 >
                   Empresas, escuelas y negocios
                 </h2>
@@ -287,7 +296,7 @@ export default function ConferenciasPage() {
                       <p className="font-display text-5xl font-extrabold text-signal/[0.12] tabular-nums sm:text-6xl">
                         {String(index + 1).padStart(2, "0")}
                       </p>
-                      <p className="-mt-6 text-[11px] font-semibold tracking-[0.22em] text-signal uppercase sm:-mt-8">
+                      <p className="-mt-6 eyebrow sm:-mt-8">
                         {item.label}
                       </p>
                       <h3 className="font-display mt-3 text-lg font-semibold sm:mt-4 sm:text-xl md:text-2xl">
@@ -309,12 +318,12 @@ export default function ConferenciasPage() {
             className="scroll-mt-24 border-b border-line py-16 md:py-28"
             aria-labelledby="conferencista-heading"
           >
-            <div className="mx-auto max-w-6xl px-4 sm:px-5 md:px-8">
+            <div className="mx-auto max-w-[1240px] px-4 sm:px-5 md:px-8">
               <Reveal>
                 <ChapterMark number="02" label="Conferencista" />
                 <h2
                   id="conferencista-heading"
-                  className="font-display mt-5 max-w-3xl text-[1.65rem] font-bold tracking-tight sm:mt-6 sm:text-3xl md:text-5xl"
+                  className="section-title mt-5 sm:mt-6 max-w-3xl"
                 >
                   {speaker.name}
                 </h2>
@@ -342,7 +351,7 @@ export default function ConferenciasPage() {
                   {speaker.visuals.slice(0, 3).map((visual) => (
                     <figure
                       key={visual.src}
-                      className="overflow-hidden rounded-[1.5rem] border border-line bg-bg-elevated/40 shadow-[0_12px_40px_rgba(11,18,32,0.06)]"
+                      className="overflow-hidden rounded-[1.25rem] border border-line bg-bg-elevated/40 shadow-[var(--shadow-card)]"
                     >
                       <div className="relative aspect-[16/10]">
                         <Image
@@ -385,12 +394,12 @@ export default function ConferenciasPage() {
             className="scroll-mt-24 border-b border-line bg-bg-elevated/40 py-16 md:py-28"
             aria-labelledby="utilidad-heading"
           >
-            <div className="mx-auto max-w-6xl px-4 sm:px-5 md:px-8">
+            <div className="mx-auto max-w-[1240px] px-4 sm:px-5 md:px-8">
               <Reveal>
                 <ChapterMark number="03" label="Utilidad" />
                 <h2
                   id="utilidad-heading"
-                  className="font-display mt-5 max-w-md text-[1.65rem] font-bold tracking-tight sm:mt-6 sm:text-3xl md:text-5xl"
+                  className="section-title mt-5 sm:mt-6 max-w-md"
                 >
                   Qué se llevan tus asistentes
                 </h2>
@@ -413,20 +422,18 @@ export default function ConferenciasPage() {
 
               <ol className="mt-10 max-w-3xl space-y-0 sm:mt-14">
                 {conferenceBenefits.map((item, index) => (
-                  <Reveal key={item.title} delay={index * 70}>
-                    <li className="grid grid-cols-[auto_1fr] gap-4 border-t border-line py-6 first:border-t-0 first:pt-0 sm:gap-5 sm:py-7 md:gap-8 md:py-8">
-                      <span className="font-display pt-0.5 text-xl font-extrabold text-accent tabular-nums sm:text-2xl md:text-3xl">
-                        {String(index + 1).padStart(2, "0")}
-                      </span>
-                      <div className="min-w-0">
-                        <h3 className="font-display text-base font-semibold sm:text-lg md:text-xl">
-                          {item.title}
-                        </h3>
-                        <p className="mt-2 text-sm leading-relaxed text-muted md:text-[15px]">
-                          {item.copy}
-                        </p>
-                      </div>
-                    </li>
+                  <Reveal as="li" key={item.title} delay={index * 70} className="grid grid-cols-[auto_1fr] gap-4 border-t border-line py-6 first:border-t-0 first:pt-0 sm:gap-5 sm:py-7 md:gap-8 md:py-8">
+                    <span className="font-display pt-0.5 text-xl font-extrabold text-accent tabular-nums sm:text-2xl md:text-3xl">
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
+                    <div className="min-w-0">
+                      <h3 className="font-display text-base font-semibold sm:text-lg md:text-xl">
+                        {item.title}
+                      </h3>
+                      <p className="mt-2 text-sm leading-relaxed text-muted md:text-[15px]">
+                        {item.copy}
+                      </p>
+                    </div>
                   </Reveal>
                 ))}
               </ol>
@@ -436,7 +443,7 @@ export default function ConferenciasPage() {
                   {conferenceFormats.map((fmt, index) => (
                     <div
                       key={fmt.title}
-                      className="relative overflow-hidden rounded-[1.5rem] border border-line bg-bg/40 shadow-[0_12px_40px_rgba(11,18,32,0.06)]"
+                      className="relative overflow-hidden rounded-[1.25rem] border border-line bg-bg/40 shadow-[var(--shadow-card)]"
                     >
                       <div className="relative aspect-[16/10]">
                         <Image
@@ -472,14 +479,14 @@ export default function ConferenciasPage() {
             className="scroll-mt-24 border-b border-line py-16 md:py-28"
             aria-labelledby="temas-heading"
           >
-            <div className="mx-auto max-w-6xl px-4 sm:px-5 md:px-8">
+            <div className="mx-auto max-w-[1240px] px-4 sm:px-5 md:px-8">
               <Reveal>
                 <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between lg:gap-6">
                   <div>
                     <ChapterMark number="04" label="Temario" />
                     <h2
                       id="temas-heading"
-                      className="font-display mt-5 max-w-3xl text-[1.65rem] font-bold tracking-tight sm:mt-6 sm:text-3xl md:text-5xl"
+                      className="section-title mt-5 sm:mt-6 max-w-3xl"
                     >
                       Agenda de charlas
                     </h2>
@@ -505,7 +512,7 @@ export default function ConferenciasPage() {
               <div className="mt-10 space-y-4 sm:mt-14">
                 {conferenceTalks.map((talk, index) => (
                   <Reveal key={talk.slug} delay={Math.min(index * 50, 200)}>
-                    <article className="group relative overflow-hidden rounded-[1.5rem] border border-line bg-bg-elevated/30 shadow-[0_12px_40px_rgba(11,18,32,0.06)] transition hover:border-accent/40 hover:bg-bg-elevated/55 hover:shadow-[0_20px_44px_rgba(26,107,255,0.12)]">
+                    <article className="group relative overflow-hidden rounded-[1.25rem] border border-line bg-bg-elevated/30 shadow-[var(--shadow-card)] transition hover:border-accent/40 hover:bg-bg-elevated/55 hover:shadow-[0_20px_44px_color-mix(in_srgb,var(--accent)_16%,transparent)]">
                       <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-1 bg-accent/0 transition group-hover:bg-accent/70" />
                       <div className="flex flex-col lg:flex-row">
                         <div className="relative aspect-[16/10] w-full shrink-0 overflow-hidden bg-bg lg:aspect-auto lg:w-[280px] lg:self-stretch lg:min-h-[220px]">
@@ -587,7 +594,7 @@ export default function ConferenciasPage() {
               </div>
 
               <Reveal delay={80}>
-                <div className="relative mt-10 overflow-hidden rounded-[1.5rem] border border-line px-5 py-7 shadow-[0_12px_40px_rgba(11,18,32,0.06)] sm:mt-12 sm:px-8 sm:py-8">
+                <div className="relative mt-10 overflow-hidden rounded-[1.25rem] border border-line px-5 py-7 shadow-[var(--shadow-card)] sm:mt-12 sm:px-8 sm:py-8">
                   <div className="pointer-events-none absolute inset-0" aria-hidden>
                     <div className="animate-orb absolute -left-8 top-0 h-32 w-32 rounded-full bg-accent/10 blur-3xl" />
                   </div>
@@ -621,12 +628,12 @@ export default function ConferenciasPage() {
             className="scroll-mt-24 border-b border-line bg-bg-elevated/40 py-16 md:py-28"
             aria-labelledby="servicios-conf-heading"
           >
-            <div className="mx-auto max-w-6xl px-4 sm:px-5 md:px-8">
+            <div className="mx-auto max-w-[1240px] px-4 sm:px-5 md:px-8">
               <Reveal>
                 <ChapterMark number="05" label="Servicios ATRIX" />
                 <h2
                   id="servicios-conf-heading"
-                  className="font-display mt-5 max-w-3xl text-[1.65rem] font-bold tracking-tight sm:mt-6 sm:text-3xl md:text-5xl"
+                  className="section-title mt-5 sm:mt-6 max-w-3xl"
                 >
                   Lo que cubren las pláticas — y lo que podemos implementar
                 </h2>
@@ -638,33 +645,31 @@ export default function ConferenciasPage() {
 
               <ul className="mt-10 grid grid-cols-1 gap-4 sm:mt-14 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3">
                 {conferenceServiceLinks.map((svc, index) => (
-                  <Reveal key={svc.slug} delay={index * 55}>
-                    <li className="flex h-full flex-col overflow-hidden rounded-[1.5rem] border border-line bg-bg-elevated/80 shadow-[0_12px_40px_rgba(11,18,32,0.06)] transition hover:border-accent/35 hover:bg-bg-elevated hover:shadow-[0_20px_44px_rgba(26,107,255,0.12)]">
-                      <div className="relative aspect-[16/10] w-full shrink-0 overflow-hidden bg-bg">
-                        <Image
-                          src={svc.image}
-                          alt={svc.imageAlt}
-                          fill
-                          quality={85}
-                          className="object-cover object-center"
-                          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                        />
-                      </div>
-                      <div className="flex flex-1 flex-col p-5 sm:p-6 md:p-7">
-                        <p className="text-[10px] font-semibold tracking-[0.16em] text-signal uppercase tabular-nums">
-                          {String(index + 1).padStart(2, "0")}
-                        </p>
-                        <h3 className="font-display mt-3 text-lg font-semibold">
-                          {svc.title}
-                        </h3>
-                        <p className="mt-1 text-xs font-medium tracking-wide text-accent uppercase">
-                          {svc.short}
-                        </p>
-                        <p className="mt-3 text-sm leading-relaxed text-muted">
-                          {svc.talkAngle}
-                        </p>
-                      </div>
-                    </li>
+                  <Reveal as="li" key={svc.slug} delay={index * 55} className="flex h-full flex-col overflow-hidden rounded-[1.25rem] border border-line bg-bg-elevated/80 shadow-[var(--shadow-card)] transition hover:border-accent/35 hover:bg-bg-elevated hover:shadow-[0_20px_44px_color-mix(in_srgb,var(--accent)_16%,transparent)]">
+                    <div className="relative aspect-[16/10] w-full shrink-0 overflow-hidden bg-bg">
+                      <Image
+                        src={svc.image}
+                        alt={svc.imageAlt}
+                        fill
+                        quality={85}
+                        className="object-cover object-center"
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                      />
+                    </div>
+                    <div className="flex flex-1 flex-col p-5 sm:p-6 md:p-7">
+                      <p className="text-[10px] font-semibold tracking-[0.16em] text-signal uppercase tabular-nums">
+                        {String(index + 1).padStart(2, "0")}
+                      </p>
+                      <h3 className="font-display mt-3 text-lg font-semibold">
+                        {svc.title}
+                      </h3>
+                      <p className="mt-1 text-xs font-medium tracking-wide text-accent uppercase">
+                        {svc.short}
+                      </p>
+                      <p className="mt-3 text-sm leading-relaxed text-muted">
+                        {svc.talkAngle}
+                      </p>
+                    </div>
                   </Reveal>
                 ))}
               </ul>
@@ -689,9 +694,9 @@ export default function ConferenciasPage() {
             className="scroll-mt-24 py-16 md:py-28"
             aria-labelledby="agendar-heading"
           >
-            <div className="mx-auto max-w-6xl px-4 sm:px-5 md:px-8">
+            <div className="mx-auto max-w-[1240px] px-4 sm:px-5 md:px-8">
               <Reveal>
-                <div className="relative overflow-hidden rounded-[1.5rem] border border-line shadow-[0_12px_40px_rgba(11,18,32,0.06)]">
+                <div className="relative overflow-hidden rounded-[1.25rem] border border-line shadow-[var(--shadow-card)]">
                   <div className="pointer-events-none absolute inset-0" aria-hidden>
                     <div className="grid-tech absolute inset-0 opacity-35" />
                     <div className="animate-orb absolute -left-12 top-0 h-48 w-48 rounded-full bg-accent/14 blur-3xl" />
@@ -702,7 +707,7 @@ export default function ConferenciasPage() {
                       <ChapterMark number="06" label="Agenda tu sesión" />
                       <h2
                         id="agendar-heading"
-                        className="font-display mt-5 text-[1.65rem] font-bold tracking-tight sm:mt-6 sm:text-3xl md:text-5xl"
+                        className="section-title mt-5 sm:mt-6"
                       >
                         Lleva una conferencia ATRIX a tu organización
                       </h2>

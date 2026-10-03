@@ -2,7 +2,14 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useId, useRef, useState, type MouseEvent } from "react";
+import {
+  useEffect,
+  useId,
+  useRef,
+  useState,
+  useSyncExternalStore,
+  type MouseEvent,
+} from "react";
 import { createPortal } from "react-dom";
 import { Logo } from "@/components/Logo";
 import { ProjectLogo } from "@/components/ProjectLogo";
@@ -10,6 +17,7 @@ import { SectionLink } from "@/components/SectionLink";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { projects } from "@/content/projects";
 import { site, whatsappUrl } from "@/content/site";
+import { WhatsAppIcon } from "@/components/ui";
 
 const links = [
   { hash: "servicios", label: "Servicios" },
@@ -25,8 +33,18 @@ const pageLinks = [
   { href: "/quieres-ser-parte", label: "Sé parte" },
 ] as const;
 
-const navLinkClass =
-  "shrink-0 whitespace-nowrap rounded-full px-2.5 py-1.5 text-xs font-medium tracking-wide text-muted transition-colors hover:bg-bg/70 hover:text-fg xl:px-3 xl:py-2 xl:text-[13px]";
+const navLinkClass = "nav-link";
+
+const noopSubscribe = () => () => {};
+
+function subscribeScroll(onChange: () => void) {
+  window.addEventListener("scroll", onChange, { passive: true });
+  return () => window.removeEventListener("scroll", onChange);
+}
+
+function isScrolled() {
+  return window.scrollY > 24;
+}
 
 function Chevron({ open }: { open?: boolean }) {
   return (
@@ -93,7 +111,7 @@ function ProjectsDropdown({
     >
       <Link
         href="/proyectos"
-        className={`inline-flex items-center gap-1 ${navLinkClass} xl:gap-1.5`}
+        className={navLinkClass}
         aria-expanded={open}
         aria-haspopup="menu"
         aria-controls={panelId}
@@ -113,11 +131,9 @@ function ProjectsDropdown({
             : "pointer-events-none -translate-y-1 opacity-0"
         }`}
       >
-        <div className="overflow-hidden rounded-2xl border border-line bg-bg-elevated/95 shadow-[0_24px_60px_rgba(11,26,36,0.14)] backdrop-blur-md">
+        <div className="glass overflow-hidden rounded-2xl shadow-[var(--shadow-soft)]">
           <div className="border-b border-line px-4 py-3">
-            <p className="text-[10px] font-semibold tracking-[0.22em] text-accent uppercase">
-              Plataformas digitales
-            </p>
+            <p className="eyebrow text-[10px]">Plataformas digitales</p>
             <p className="mt-1 text-xs text-muted">
               Sistemas integrados y presencia web en producción
             </p>
@@ -195,28 +211,20 @@ function HamburgerIcon({ open }: { open: boolean }) {
   );
 }
 
-export function Header({
-  solid: _solid = false,
-  light: _light = false,
-  hideBrand: _hideBrand = false,
-}: {
-  solid?: boolean;
-  light?: boolean;
-  /** En landing: menú sticky sin logo (el hero ya lleva la marca). */
-  hideBrand?: boolean;
-}) {
+export function Header() {
   const pathname = usePathname();
   const [projectsOpen, setProjectsOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mobileProjectsOpen, setMobileProjectsOpen] = useState(false);
-  const [portalReady, setPortalReady] = useState(false);
+  const portalReady = useSyncExternalStore(
+    noopSubscribe,
+    () => true,
+    () => false,
+  );
+  const scrolled = useSyncExternalStore(subscribeScroll, isScrolled, () => false);
 
   const mobilePanelRef = useRef<HTMLDivElement>(null);
   const scrollLockY = useRef(0);
-
-  useEffect(() => {
-    setPortalReady(true);
-  }, []);
 
   useEffect(() => {
     if (!mobileOpen) return;
@@ -283,81 +291,74 @@ export function Header({
         key="drawer-lockup"
         variant="lockup"
         size={152}
-        className="transition-transform duration-300 group-hover:scale-[1.02]"
+        className="max-h-8 w-auto max-w-[160px] transition-transform duration-300 group-hover:scale-[1.02]"
         priority
       />
     </Link>
   );
 
   return (
-    <header className="pointer-events-none fixed inset-x-0 top-0 z-40 px-3 pt-3 sm:px-5 sm:pt-4 md:px-8">
-      <div className="pointer-events-auto mx-auto flex max-w-6xl items-center justify-between gap-3">
-        <Link
-          href="/"
-          className="group inline-flex min-w-0 shrink items-center rounded-full border border-white/10 bg-black/25 px-3 py-2 backdrop-blur-md sm:px-4"
-          aria-label="ATRIX Technologies"
-          onClick={onBrandClick}
-        >
-          <Logo
-            key="nav-lockup-dark-hero"
-            variant="lockup"
-            size={148}
-            className="transition-transform duration-300 group-hover:scale-[1.02]"
-            priority
-          />
-        </Link>
+    <header className={`nav-shell ${scrolled ? "is-scrolled" : ""}`}>
+      <Link
+        href="/"
+        className="group inline-flex min-w-0 shrink items-center"
+        aria-label="ATRIX Technologies"
+        onClick={onBrandClick}
+      >
+        <Logo
+          key="nav-lockup-dark-hero"
+          variant="lockup"
+          size={105}
+          className="max-h-8 w-auto max-w-[148px] transition-transform duration-300 group-hover:scale-[1.02] sm:max-h-none sm:max-w-none"
+          priority
+        />
+      </Link>
 
-        <div className="nav-pill hidden items-center gap-1 rounded-full px-2 py-1.5 lg:flex xl:gap-1.5 xl:px-2.5 xl:py-2">
-          <nav className="flex min-w-0 items-center gap-0.5" aria-label="Principal">
-            {links.slice(0, 3).map((link) => (
-              <SectionLink key={link.hash} hash={link.hash} className={navLinkClass}>
-                {link.label}
-              </SectionLink>
-            ))}
-
-            <ProjectsDropdown
-              open={projectsOpen}
-              onOpen={() => setProjectsOpen(true)}
-              onClose={() => setProjectsOpen(false)}
-            />
-
-            {pageLinks.map((link) => (
-              <Link key={link.href} href={link.href} className={navLinkClass}>
-                {link.label}
-              </Link>
-            ))}
-
-            <SectionLink hash="contacto" className={navLinkClass}>
-              Contacto
-            </SectionLink>
-          </nav>
-
-          <div className="ml-1 flex shrink-0 items-center gap-1.5 border-l border-line pl-2 xl:ml-1.5 xl:pl-3">
-            <ThemeToggle />
-            <a
-              href={whatsappUrl()}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-ink rounded-full px-3.5 py-2 text-xs font-semibold xl:px-4 xl:text-sm"
-            >
-              Cotizar
-            </a>
-          </div>
-        </div>
-
-        <div className="nav-pill flex items-center gap-2 rounded-full px-2 py-1.5 lg:hidden">
-          <ThemeToggle />
-          <button
-            type="button"
-            aria-label={mobileOpen ? "Cerrar menú" : "Abrir menú"}
-            aria-expanded={mobileOpen}
-            onClick={toggleMobileMenu}
-            className="inline-flex h-10 w-10 items-center justify-center rounded-full text-fg"
+      <nav className="nav-links" aria-label="Principal">
+        <SectionLink hash="servicios" className={navLinkClass}>
+          Servicios
+        </SectionLink>
+        <ProjectsDropdown
+          open={projectsOpen}
+          onOpen={() => setProjectsOpen(true)}
+          onClose={() => setProjectsOpen(false)}
+        />
+        {pageLinks.map((link) => (
+          <Link
+            key={link.href}
+            href={link.href}
+            className={navLinkClass}
+            aria-current={pathname === link.href ? "page" : undefined}
           >
-            <span className="sr-only">Menú</span>
-            <HamburgerIcon open={mobileOpen} />
-          </button>
-        </div>
+            {link.label}
+          </Link>
+        ))}
+      </nav>
+
+      <div className="ml-auto hidden shrink-0 items-center gap-2 lg:flex">
+        <ThemeToggle className="!h-10 !border-white/12 !bg-white/5 !text-white" />
+        <a
+          href={whatsappUrl("Hola ATRIX, quiero que me asesoren.")}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="btn btn-primary !min-h-10 !px-4 !text-[0.82rem]"
+        >
+          <WhatsAppIcon className="h-4 w-4" />
+          Cotizar ahora
+        </a>
+      </div>
+
+      <div className="ml-auto flex items-center gap-2 lg:hidden">
+        <button
+          type="button"
+          aria-label={mobileOpen ? "Cerrar menú" : "Abrir menú"}
+          aria-expanded={mobileOpen}
+          onClick={toggleMobileMenu}
+          className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-white/15 bg-white/5 text-white"
+        >
+          <span className="sr-only">Menú</span>
+          <HamburgerIcon open={mobileOpen} />
+        </button>
       </div>
 
       {/* Portal to body so backdrop-filter on sticky header doesn't trap fixed coords. */}
@@ -380,7 +381,7 @@ export function Header({
                   type="button"
                   aria-label="Cerrar menú"
                   onClick={closeMobileMenu}
-                  className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-line bg-bg-elevated text-fg"
+                  className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-line bg-bg-elevated text-fg"
                 >
                   <HamburgerIcon open />
                 </button>
@@ -391,15 +392,13 @@ export function Header({
               className="flex flex-1 flex-col overflow-y-auto overscroll-contain px-5 pb-8 pt-2"
               aria-label="Móvil"
             >
-              <p className="mb-1 pt-3 text-[10px] font-semibold tracking-[0.22em] text-accent uppercase">
-                Menú
-              </p>
+              <p className="eyebrow mb-1 pt-4 text-[10px]">Menú</p>
 
               {links.slice(0, 3).map((link) => (
                 <SectionLink
                   key={link.hash}
                   hash={link.hash}
-                  className="border-b border-line py-4 text-[15px] font-semibold text-fg"
+                  className="font-display border-b border-line py-4 text-lg font-medium text-fg"
                   onClick={closeMobileMenu}
                 >
                   {link.label}
@@ -410,7 +409,7 @@ export function Header({
                 <div className="flex items-center justify-between gap-3 py-4">
                   <Link
                     href="/proyectos"
-                    className="text-[15px] font-semibold text-fg"
+                    className="font-display text-lg font-medium text-fg"
                     onClick={closeMobileMenu}
                   >
                     Proyectos
@@ -420,13 +419,13 @@ export function Header({
                     aria-label="Ver plataformas digitales"
                     aria-expanded={mobileProjectsOpen}
                     onClick={() => setMobileProjectsOpen((v) => !v)}
-                    className="inline-flex h-8 w-8 items-center justify-center border border-line bg-bg-elevated text-muted"
+                    className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-line bg-bg-elevated text-muted"
                   >
                     <Chevron open={mobileProjectsOpen} />
                   </button>
                 </div>
                 {mobileProjectsOpen && (
-                  <ul className="max-h-[calc(4*2.75rem)] space-y-0 overflow-y-auto overscroll-contain bg-bg-elevated pb-2 pl-1">
+                  <ul className="mb-3 max-h-[calc(4*2.75rem)] space-y-0 overflow-y-auto overscroll-contain rounded-xl bg-bg-elevated pb-2 pl-1">
                     {projects.map((project) => (
                       <li key={project.slug}>
                         <Link
@@ -470,7 +469,7 @@ export function Header({
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="border-b border-line py-4 text-[15px] font-semibold text-fg"
+                  className="font-display border-b border-line py-4 text-lg font-medium text-fg"
                   onClick={closeMobileMenu}
                 >
                   {link.label}
@@ -479,7 +478,7 @@ export function Header({
 
               <SectionLink
                 hash="contacto"
-                className="border-b border-line py-4 text-[15px] font-semibold text-fg"
+                className="font-display border-b border-line py-4 text-lg font-medium text-fg"
                 onClick={closeMobileMenu}
               >
                 Contacto
@@ -489,9 +488,10 @@ export function Header({
                 href={whatsappUrl()}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="btn-primary mt-5 inline-flex items-center justify-center rounded-full px-4 py-3.5 text-sm font-semibold"
+                className="btn btn-primary mt-6"
                 onClick={closeMobileMenu}
               >
+                <WhatsAppIcon />
                 WhatsApp · {site.phoneDisplay}
               </a>
             </nav>
