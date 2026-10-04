@@ -1,6 +1,6 @@
 import { Marquee } from "@/components/Marquee";
 import { Reveal } from "@/components/Reveal";
-import { ArrowIcon, CheckIcon, SectionHeading } from "@/components/ui";
+import { ArrowIcon, CheckIcon } from "@/components/ui";
 import {
   recommendations,
   recommendationsPage,
@@ -14,43 +14,36 @@ function QuoteIcon({ className }: { className?: string }) {
   );
 }
 
+function StarIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="currentColor" aria-hidden>
+      <path d="M12 2.5l2.9 6.1 6.6.8-4.9 4.6 1.3 6.6L12 17.3l-5.9 3.3 1.3-6.6-4.9-4.6 6.6-.8L12 2.5z" />
+    </svg>
+  );
+}
+
 export function Recommendations() {
   const { summary } = recommendationsPage;
 
   return (
     <section
       id="recomendaciones"
-      className="relative scroll-mt-24 overflow-hidden border-t border-line py-24 md:py-32"
+      className="relative scroll-mt-20 overflow-hidden border-t border-line py-24 md:py-32"
       aria-labelledby="recomendaciones-heading"
     >
-      <div className="relative mx-auto max-w-[1240px] px-5 sm:px-8">
+      <div className="relative mx-auto max-w-[1320px] px-5 sm:px-8">
         <Reveal>
           <div className="flex flex-col gap-10 lg:flex-row lg:items-end lg:justify-between">
-            <SectionHeading
-              id="recomendaciones-heading"
-              index="07"
-              eyebrow={recommendationsPage.eyebrow}
-              title={
-                <>
-                  Personas que <span className="text-gradient">confían en nosotros</span>
-                </>
-              }
-              lead={recommendationsPage.lead}
-            />
-            <dl className="grid shrink-0 grid-cols-2 gap-3">
-              <div className="card flex flex-col-reverse px-5 py-4">
-                <dd className="stat-value text-gradient text-3xl">100%</dd>
-                <dt className="mono mt-2 text-[10px] tracking-[0.14em] text-muted uppercase">
-                  {summary.scoreLabel}
-                </dt>
-              </div>
-              <div className="card flex flex-col-reverse px-5 py-4">
-                <dd className="stat-value text-3xl">{summary.reviewCount}</dd>
-                <dt className="mono mt-2 text-[10px] tracking-[0.14em] text-muted uppercase">
-                  Reseñas en Facebook
-                </dt>
-              </div>
-            </dl>
+            <div className="max-w-3xl">
+              <h2 id="recomendaciones-heading" className="section-title">
+                Personas que confían en nosotros
+              </h2>
+              <p className="section-lead">{recommendationsPage.lead}</p>
+            </div>
+            <p className="osd inline-flex shrink-0 items-center gap-2 text-muted">
+              <span className="led" />
+              {summary.reviewCount} reseñas en Facebook · 100% {summary.scoreLabel}
+            </p>
           </div>
         </Reveal>
       </div>
@@ -67,8 +60,10 @@ export function Recommendations() {
             >
               <div className="flex items-center justify-between gap-3">
                 <QuoteIcon className="h-7 w-7 text-accent/40" />
-                <span className="flex gap-0.5 text-amber-400" aria-label="5 estrellas">
-                  {"★★★★★"}
+                <span className="flex gap-0.5 text-warn" role="img" aria-label="5 estrellas">
+                  {[0, 1, 2, 3, 4].map((i) => (
+                    <StarIcon key={i} className="h-3.5 w-3.5" />
+                  ))}
                 </span>
               </div>
               <p className="mt-4 flex-1 text-sm leading-relaxed text-fg/90 md:text-[15px]">
@@ -91,7 +86,7 @@ export function Recommendations() {
         </Marquee>
       </div>
 
-      <div className="relative mx-auto mt-12 max-w-[1240px] px-5 text-center sm:px-8">
+      <div className="relative mx-auto mt-12 max-w-[1320px] px-5 text-center sm:px-8">
         <a
           href={recommendationsPage.facebookUrl}
           target="_blank"

@@ -163,7 +163,7 @@ export default function SoporteRemotoPage() {
             title={
               <>
                 Tu departamento de sistemas,{" "}
-                <span className="bg-gradient-to-r from-[#5b9bff] to-[#22d3ee] bg-clip-text text-transparent">
+                <span className="text-accent">
                   remoto y listo
                 </span>
               </>

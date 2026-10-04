@@ -20,7 +20,7 @@ type ThemeContextValue = {
 const ThemeContext = createContext<ThemeContextValue | null>(null);
 
 const STORAGE_KEY = "atrix-theme";
-const DEFAULT_THEME: Theme = "dark";
+const DEFAULT_THEME: Theme = "light";
 
 // El script inline de layout.tsx fija data-theme antes de pintar; aquí solo lo leemos.
 const listeners = new Set<() => void>();

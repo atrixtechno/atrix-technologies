@@ -42,14 +42,13 @@ export function CookieConsentBanner({ onDecision }: CookieConsentBannerProps) {
       role="dialog"
       aria-labelledby="cookie-consent-title"
       aria-describedby="cookie-consent-desc"
-      className="fixed inset-x-0 bottom-0 z-[60] p-3 sm:p-5"
+      className="enter-sheet fixed inset-x-0 bottom-0 z-[60] p-3 sm:p-5"
     >
       <div className="glass relative mx-auto flex max-w-4xl flex-col gap-4 rounded-2xl p-5 shadow-[var(--shadow-soft)] md:flex-row md:items-center md:gap-8 md:p-6">
         <div className="min-w-0 flex-1">
-          <p className="eyebrow text-[10px]">Privacidad</p>
           <h2
             id="cookie-consent-title"
-            className="font-display mt-2 text-lg font-semibold tracking-tight text-fg"
+            className="font-display text-lg font-semibold tracking-tight text-fg"
           >
             Uso de cookies
           </h2>

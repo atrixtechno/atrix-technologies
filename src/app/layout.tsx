@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { JetBrains_Mono, Plus_Jakarta_Sans, Space_Grotesk } from "next/font/google";
+import { Geist, Geist_Mono } from "next/font/google";
 import { ConsentGatedAnalytics } from "@/components/ConsentGatedAnalytics";
 import { CookieConsentBanner } from "@/components/CookieConsentBanner";
 import { HashGuard } from "@/components/HashGuard";
@@ -10,22 +10,15 @@ import "./globals.css";
 
 const googleVerification = process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION?.trim();
 
-const display = Space_Grotesk({
-  variable: "--font-display-face",
-  subsets: ["latin"],
-  weight: ["500", "600", "700"],
-});
-
-const body = Plus_Jakarta_Sans({
+const body = Geist({
   variable: "--font-body-face",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
 });
 
-const mono = JetBrains_Mono({
+// Solo para datos: horas, canales, estados y medidas.
+const mono = Geist_Mono({
   variable: "--font-mono-face",
   subsets: ["latin"],
-  weight: ["400", "500"],
 });
 
 export const metadata: Metadata = {
@@ -102,7 +95,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#05070d",
+  themeColor: "#f5f6f8",
   colorScheme: "light dark",
 };
 
@@ -110,10 +103,10 @@ const themeInitScript = `
 (function(){
   try {
     var t = localStorage.getItem('atrix-theme');
-    if (t !== 'dark' && t !== 'light') t = 'dark';
+    if (t !== 'dark' && t !== 'light') t = 'light';
     document.documentElement.setAttribute('data-theme', t);
   } catch (e) {
-    document.documentElement.setAttribute('data-theme', 'dark');
+    document.documentElement.setAttribute('data-theme', 'light');
   }
 })();
 `;
@@ -141,8 +134,8 @@ export default function RootLayout({
   return (
     <html
       lang="es"
-      className={`${display.variable} ${body.variable} ${mono.variable} h-full`}
-      data-theme="dark"
+      className={`${body.variable} ${mono.variable} h-full`}
+      data-theme="light"
       suppressHydrationWarning
     >
       <head>

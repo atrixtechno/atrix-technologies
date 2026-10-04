@@ -3,32 +3,33 @@ import Link from "next/link";
 import { AndroidLogo, AppleLogo } from "@/components/DeviceFrames";
 import { DeviceShowcase } from "@/components/DeviceShowcase";
 import { Reveal } from "@/components/Reveal";
-import { ArrowIcon, SectionHeading } from "@/components/ui";
+import { ArrowIcon } from "@/components/ui";
 import { projectKindLabel, projects } from "@/content/projects";
 
 const gallery = projects.filter((p) => p.previewImage).slice(0, 6);
 
+function host(url?: string) {
+  if (!url) return null;
+  try {
+    return new URL(url).hostname.replace(/^www\./, "");
+  } catch {
+    return null;
+  }
+}
+
 export function ProjectsTeaser() {
   return (
-    <section
-      id="proyectos"
-      className="relative scroll-mt-24 overflow-hidden border-t border-line py-24 md:py-32"
-    >
-      <div className="pointer-events-none absolute top-1/3 left-1/2 h-[36rem] w-[60rem] -translate-x-1/2 rounded-full bg-[radial-gradient(closest-side,color-mix(in_srgb,var(--accent)_14%,transparent),transparent)]" aria-hidden />
-
+    <section id="proyectos" className="relative scroll-mt-16 overflow-hidden py-24 md:py-36">
       <div className="relative mx-auto max-w-[1240px] px-5 sm:px-8">
         <Reveal>
           <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
-            <SectionHeading
-              index="05"
-              eyebrow="Plataformas digitales"
-              title={
-                <>
-                  Software en producción: <span className="text-gradient">web, iOS y Android</span>
-                </>
-              }
-              lead="Sitios, paneles, apps e integraciones operativas. Plataformas completas que venden y administran negocios reales — no solo páginas."
-            />
+            <div className="max-w-3xl">
+              <h2 className="section-title">Plataformas en producción: web, iOS y Android</h2>
+              <p className="section-lead">
+                Sitios, paneles, apps e integraciones que venden y administran
+                negocios reales todos los días, no solo páginas.
+              </p>
+            </div>
             <div className="flex shrink-0 flex-col items-start gap-4 lg:items-end">
               <div className="flex flex-wrap gap-2">
                 <span className="chip">
@@ -39,7 +40,7 @@ export function ProjectsTeaser() {
                   <AndroidLogo className="h-3.5 w-3.5 text-[#3ddc84]" />
                   Android
                 </span>
-                <span className="chip">Web · Cloud</span>
+                <span className="chip">Web</span>
               </div>
               <Link href="/proyectos" className="btn btn-primary">
                 Ver portafolio completo
@@ -49,42 +50,41 @@ export function ProjectsTeaser() {
           </div>
         </Reveal>
 
-        {/* Escenario 3D de dispositivos */}
-        <Reveal delay={60}>
-          <div className="relative mt-10 md:mt-14">
-            <DeviceShowcase />
-          </div>
-        </Reveal>
+        <div className="stage mt-12 px-2 pt-10 pb-8 md:mt-16 md:px-6 md:pt-14">
+          <div className="stage-light" />
+          <DeviceShowcase />
+        </div>
 
-        <ul className="mt-20 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <ul className="mt-20 grid grid-cols-1 gap-x-5 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
           {gallery.map((project, index) => (
-            <Reveal as="li" key={project.slug} delay={(index % 3) * 70}>
-              <Link
-                href={`/proyectos/${project.slug}`}
-                className="card-glow group block overflow-hidden"
-              >
-                <div className="relative aspect-[16/10] overflow-hidden">
-                  {project.previewImage && (
-                    <Image
-                      src={project.previewImage}
-                      alt={project.name}
-                      fill
-                      quality={90}
-                      className="object-cover object-top transition duration-700 group-hover:scale-[1.05]"
-                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                    />
-                  )}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
-                  <span className="mono absolute top-3 left-3 rounded-md border border-white/15 bg-black/45 px-2 py-1 text-[10px] tracking-[0.12em] text-white/85 uppercase backdrop-blur">
-                    {projectKindLabel(project.kind)}
-                  </span>
+            <Reveal as="li" key={project.slug} delay={(index % 3) * 60}>
+              <Link href={`/proyectos/${project.slug}`} className="group block">
+                <div className="tile">
+                  <div className="relative aspect-[16/10] overflow-hidden">
+                    {project.previewImage && (
+                      <Image
+                        src={project.previewImage}
+                        alt={project.name}
+                        fill
+                        quality={90}
+                        className="tile-media object-cover object-top"
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 420px"
+                      />
+                    )}
+                    <span className="absolute top-3 left-3 inline-flex items-center gap-1.5 rounded-full bg-white/90 px-2.5 py-1 text-xs font-medium text-[#0b0d12] backdrop-blur">
+                      <span className="led" />
+                      {host(project.url) ?? projectKindLabel(project.kind)}
+                    </span>
+                  </div>
                 </div>
-                <div className="flex items-center justify-between gap-4 p-5">
+                <div className="mt-4 flex items-center justify-between gap-4">
                   <div className="min-w-0">
                     <p className="font-display truncate text-lg font-semibold">{project.name}</p>
-                    <p className="mt-0.5 truncate text-sm text-muted">{project.sector}</p>
+                    <p className="mt-0.5 truncate text-sm text-muted">
+                      {projectKindLabel(project.kind)} · {project.sector}
+                    </p>
                   </div>
-                  <span className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-line text-muted transition group-hover:border-accent group-hover:bg-accent group-hover:text-white">
+                  <span className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-line text-muted transition-colors group-hover:border-accent group-hover:bg-accent group-hover:text-white">
                     <ArrowIcon className="h-4 w-4" />
                   </span>
                 </div>

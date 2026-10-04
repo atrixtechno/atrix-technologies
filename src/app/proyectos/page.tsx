@@ -74,7 +74,7 @@ export default function ProjectsIndexPage() {
             title={
               <>
                 Proyectos que operan en el{" "}
-                <span className="bg-gradient-to-r from-[#5b9bff] to-[#22d3ee] bg-clip-text text-transparent">
+                <span className="text-accent">
                   mundo real
                 </span>
               </>

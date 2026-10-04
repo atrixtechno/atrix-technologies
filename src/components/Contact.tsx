@@ -1,8 +1,8 @@
 "use client";
 
 import { FormEvent, useEffect, useRef, useState } from "react";
-import { SectionMedia } from "@/components/SectionMedia";
-import { ArrowIcon, SectionHeading, WhatsAppIcon } from "@/components/ui";
+import Image from "next/image";
+import { ArrowIcon, WhatsAppIcon } from "@/components/ui";
 import { site, whatsappUrl } from "@/content/site";
 
 type Phase = "idle" | "loading" | "success" | "error";
@@ -91,23 +91,16 @@ export function Contact() {
   return (
     <section
       id="contacto"
-      className="relative scroll-mt-24 overflow-hidden border-t border-line py-24 md:py-32"
+      className="relative scroll-mt-16 overflow-hidden py-24 md:py-36"
     >
-      <div className="grid-tech pointer-events-none absolute inset-0" aria-hidden />
-      <div className="pointer-events-none absolute top-0 right-0 h-[30rem] w-[30rem] rounded-full bg-[radial-gradient(closest-side,color-mix(in_srgb,var(--accent)_16%,transparent),transparent)]" aria-hidden />
 
       <div className="relative mx-auto grid max-w-[1240px] gap-14 px-5 sm:px-8 lg:grid-cols-[0.9fr_1.1fr] lg:gap-20">
         <div>
-          <SectionHeading
-            index="08"
-            eyebrow="Contacto"
-            title={
-              <>
-                ¿Listo para <span className="text-gradient">cotizar?</span>
-              </>
-            }
-            lead="Soporte técnico, CCTV, redes, impresoras, software o IT empresarial. Cuéntanos qué necesitas y un ingeniero te responde sin compromiso."
-          />
+          <h2 className="section-title">Cuéntanos qué necesitas. Un ingeniero te contacta.</h2>
+          <p className="section-lead">
+            Soporte técnico, CCTV, redes, impresoras, software o IT empresarial.
+            Cuéntanos qué necesitas y un ingeniero te responde sin compromiso.
+          </p>
 
           <a
             href={whatsappUrl("Hola ATRIX, quiero cotizar un servicio.")}
@@ -157,12 +150,15 @@ export function Contact() {
           </ul>
 
           <div className="mt-10 hidden lg:block">
-            <SectionMedia
-              src="/images/home/contacto-escritorio.jpg"
-              alt="Escritorio profesional ATRIX listo para atender tu cotización"
-              aspect="aspect-[16/9]"
-              sizes="(max-width: 1024px) 100vw, 40vw"
-            />
+            <div className="tile relative aspect-[16/9]">
+              <Image
+                src="/images/home/contacto-escritorio.jpg"
+                alt="Escritorio de ATRIX listo para atender tu solicitud"
+                fill
+                sizes="(max-width: 1024px) 100vw, 520px"
+                className="tile-media object-cover"
+              />
+            </div>
           </div>
         </div>
 
@@ -175,10 +171,10 @@ export function Contact() {
             <i />
             <i />
             <i />
-            <span className="mono ml-2 text-[11px] text-muted">nueva-solicitud</span>
+            <span className="ml-2 text-sm font-medium text-muted">Nueva solicitud</span>
             <span className="ml-auto inline-flex items-center gap-2 text-[11px] text-muted">
               <span className="live-dot" aria-hidden />
-              <span className="mono hidden sm:inline">Respuesta el mismo día</span>
+              <span className="hidden text-sm sm:inline">En línea</span>
             </span>
           </div>
           <div className="space-y-5 p-6 sm:p-8">

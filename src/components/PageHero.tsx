@@ -1,30 +1,29 @@
-import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
+import Image from "next/image";
 import { ArrowIcon, WhatsAppIcon } from "@/components/ui";
 
 type Action = { href: string; label: string };
 
 type Props = {
+  /** Etiqueta de la página: se muestra sobre la imagen, no encima del título. */
   eyebrow: string;
   title: ReactNode;
   lead: ReactNode;
   image?: string;
   imagePosition?: string;
-  /** CTA principal (WhatsApp externo si empieza con http). */
   primary?: Action;
   secondary?: Action;
   meta?: ReactNode;
   children?: ReactNode;
 };
 
-/** Héroe oscuro compartido por las páginas internas. */
+/** Héroe de páginas internas: copy + monitor con la señal de la página. */
 export function PageHero({
   eyebrow,
   title,
   lead,
   image,
-  imagePosition = "center",
   primary,
   secondary,
   meta,
@@ -33,31 +32,16 @@ export function PageHero({
   const primaryExternal = primary?.href.startsWith("http");
 
   return (
-    <section className="relative isolate overflow-hidden bg-[#05070d] text-white">
-      {image && (
-        <Image
-          src={image}
-          alt=""
-          fill
-          priority
-          className="-z-20 object-cover opacity-35 [filter:saturate(0.7)_hue-rotate(-8deg)]"
-          style={{ objectPosition: imagePosition }}
-          sizes="100vw"
-          aria-hidden
-        />
-      )}
-      <div className="hero-overlay pointer-events-none absolute inset-0 -z-10" />
-      <div className="hero-grid pointer-events-none absolute inset-0 -z-10" />
-      <div className="pointer-events-none absolute -top-40 right-[-10%] -z-10 h-[34rem] w-[46rem] rounded-full bg-[radial-gradient(closest-side,rgba(59,130,255,0.3),transparent)] blur-2xl" />
+    <section className="relative isolate overflow-hidden">
 
-      <div className="relative mx-auto flex min-h-[78svh] max-w-[1240px] flex-col justify-end px-5 pt-32 pb-16 sm:px-8 md:min-h-[82svh] md:justify-center md:pb-24">
-        <div className="max-w-3xl">
-          <p className="chip chip-dark animate-rise">
-            <span className="live-dot" aria-hidden />
-            {eyebrow}
-          </p>
-          <h1 className="page-hero-title animate-rise-delay mt-6">{title}</h1>
-          <p className="animate-rise-delay-2 mt-6 max-w-2xl text-pretty text-base leading-relaxed text-[#aab6cf] sm:text-lg">
+      <div
+        className={`mx-auto grid max-w-[1240px] items-center gap-12 px-5 pt-28 pb-16 sm:px-8 lg:pt-32 lg:pb-24 ${
+          image ? "lg:grid-cols-[minmax(0,6fr)_minmax(0,6fr)] lg:gap-14" : ""
+        }`}
+      >
+        <div className="min-w-0 max-w-3xl">
+          <h1 className="page-hero-title animate-rise">{title}</h1>
+          <p className="animate-rise-delay mt-6 max-w-2xl text-lg leading-relaxed text-muted sm:text-xl">
             {lead}
           </p>
 
@@ -81,7 +65,7 @@ export function PageHero({
                   </Link>
                 ))}
               {secondary && (
-                <Link href={secondary.href} className="btn btn-ghost-light h-[3.25rem] px-6">
+                <Link href={secondary.href} className="btn btn-outline h-[3.25rem] px-6">
                   {secondary.label}
                   <ArrowIcon />
                 </Link>
@@ -90,14 +74,27 @@ export function PageHero({
           )}
 
           {meta && (
-            <p className="mono animate-rise-delay-3 mt-8 text-[11px] tracking-[0.14em] text-[#7d8aa6] uppercase">
+            <p className="animate-rise-delay-3 mt-8 inline-flex items-center gap-2 text-sm text-subtle">
+              <span className="led" />
               {meta}
             </p>
           )}
           {children}
         </div>
+
+        {image && (
+          <div className="animate-rise-delay-2 min-w-0">
+            <div className="stage relative aspect-[16/11]">
+              <Image src={image} alt="" fill priority sizes="(max-width: 1024px) 100vw, 620px" className="object-cover" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#070a10]/70 via-transparent to-transparent" />
+              <span className="absolute bottom-5 left-5 inline-flex items-center gap-2 rounded-full bg-white/90 px-3 py-1.5 text-xs font-semibold text-[#0b0d12]">
+                <span className="led" />
+                {eyebrow}
+              </span>
+            </div>
+          </div>
+        )}
       </div>
-      <div className="glow-divider absolute inset-x-0 bottom-0" aria-hidden />
     </section>
   );
 }

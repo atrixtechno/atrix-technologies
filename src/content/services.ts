@@ -7,6 +7,12 @@ export type Service = {
   icon: "pc" | "printer" | "cctv" | "network" | "code" | "gear";
   image: string;
   imageAlt: string;
+  /** Canal del muro de monitores. */
+  channel: string;
+  /** Etiqueta corta para el OSD del monitor. */
+  osd: string;
+  /** true cuando la imagen es una foto real (no render 3D). */
+  photo?: boolean;
 };
 
 export const services: Service[] = [
@@ -21,8 +27,10 @@ export const services: Service[] = [
       "Soporte a domicilio o remoto",
     ],
     icon: "pc",
-    image: "/images/services/soporte-tecnico.jpg",
-    imageAlt: "Estación de trabajo con laptop y herramientas de soporte técnico",
+    image: "/images/renders/soporte.webp",
+    imageAlt: "Render 3D de una PC abierta con herramientas de precisión y laptop",
+    channel: "CH-01",
+    osd: "SOPORTE",
   },
   {
     slug: "impresoras-perifericos",
@@ -35,8 +43,10 @@ export const services: Service[] = [
       "Mantenimiento y revisión",
     ],
     icon: "printer",
-    image: "/images/services/impresoras.jpg",
-    imageAlt: "Impresora multifunción y periféricos de oficina",
+    image: "/images/renders/impresoras.webp",
+    imageAlt: "Render 3D de una impresora multifuncional con teclado y mouse",
+    channel: "CH-02",
+    osd: "PERIFÉRICOS",
   },
   {
     slug: "cctv",
@@ -49,8 +59,10 @@ export const services: Service[] = [
       "Mantenimiento y ampliación",
     ],
     icon: "cctv",
-    image: "/images/services/cctv.jpg",
-    imageAlt: "Cámaras de seguridad CCTV con iluminación técnica",
+    image: "/images/renders/cctv.webp",
+    imageAlt: "Render 3D de cámaras de seguridad domo y bala",
+    channel: "CH-03",
+    osd: "CCTV",
   },
   {
     slug: "redes-infraestructura",
@@ -63,8 +75,10 @@ export const services: Service[] = [
       "Routers, switches y acceso",
     ],
     icon: "network",
-    image: "/images/services/redes.jpg",
-    imageAlt: "Infraestructura de red, switches y cableado estructurado",
+    image: "/images/renders/redes.webp",
+    imageAlt: "Render 3D de un switch de red con cables y punto de acceso WiFi",
+    channel: "CH-04",
+    osd: "REDES",
   },
   {
     slug: "desarrollo-software",
@@ -77,8 +91,10 @@ export const services: Service[] = [
       "Sistemas a la medida en producción",
     ],
     icon: "code",
-    image: "/images/services/software.jpg",
-    imageAlt: "Desarrollo de plataformas digitales e integraciones operativas",
+    image: "/images/renders/software.webp",
+    imageAlt: "Render 3D de laptop y celular con un panel de control",
+    channel: "CH-05",
+    osd: "PLATAFORMAS",
   },
   {
     slug: "soporte-it-empresarial",
@@ -93,6 +109,9 @@ export const services: Service[] = [
     icon: "gear",
     image: "/images/services/it-empresarial.jpg",
     imageAlt: "Rack de servidores e infraestructura IT empresarial",
+    channel: "CH-06",
+    osd: "IT EMPRESARIAL",
+    photo: true,
   },
 ];
 

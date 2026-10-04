@@ -242,7 +242,12 @@ export function DeviceShowcase() {
                       <span className="ds-island" />
                       <Image src="/projects/devices/phone-ios.jpg" alt="" fill quality={90} sizes="200px" />
                       <div className="ds-toast is-late" style={{ "--toast": "#1a6bff" } as CSSProperties}>
-                        <span className="ds-toast-icon">📅</span>
+                        <span className="ds-toast-icon">
+                          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden>
+                            <rect x="4" y="5" width="16" height="15" rx="2" />
+                            <path d="M8 3v4M16 3v4M4 10h16" />
+                          </svg>
+                        </span>
                         <span>
                           <b>Cita confirmada</b>
                           <span>DentalMate · hoy 4:30 pm</span>
@@ -286,7 +291,11 @@ export function DeviceShowcase() {
                       <span className="ds-punch" />
                       <Image src="/projects/devices/phone-android.jpg" alt="" fill quality={90} sizes="200px" />
                       <div className="ds-toast" style={{ "--toast": "#16a34a" } as CSSProperties}>
-                        <span className="ds-toast-icon">✓</span>
+                        <span className="ds-toast-icon">
+                          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2.4" aria-hidden>
+                            <path d="M5 12.5l4.2 4.2L19 7" strokeLinecap="round" strokeLinejoin="round" />
+                          </svg>
+                        </span>
                         <span>
                           <b>Orden #0259 cobrada</b>
                           <span>MOE&apos;S POS · $234.32</span>

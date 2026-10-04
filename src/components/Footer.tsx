@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Logo } from "@/components/Logo";
 import { SectionLink } from "@/components/SectionLink";
+import { LiveClock } from "@/components/LiveClock";
 import { ArrowIcon, WhatsAppIcon } from "@/components/ui";
 import { projects } from "@/content/projects";
 import { services } from "@/content/services";
@@ -27,23 +28,15 @@ export function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="relative overflow-hidden bg-[#04060b] text-white">
-      <div className="glow-divider absolute inset-x-0 top-0" aria-hidden />
+    <footer className="relative overflow-hidden border-t border-white/10 bg-[#05070c] text-white">
       <div className="hero-grid pointer-events-none absolute inset-0 opacity-60" aria-hidden />
-      <div className="pointer-events-none absolute -top-40 left-1/2 h-80 w-[50rem] -translate-x-1/2 rounded-full bg-[radial-gradient(closest-side,rgba(59,130,255,0.22),transparent)]" aria-hidden />
 
-      <div className="relative mx-auto max-w-[1240px] px-5 sm:px-8">
+      <div className="relative mx-auto max-w-[1320px] px-5 sm:px-8">
         {/* CTA final */}
         <div className="flex flex-col items-start gap-8 border-b border-white/8 py-16 md:flex-row md:items-center md:justify-between md:py-20">
           <div className="max-w-2xl">
-            <p className="mono text-[11px] tracking-[0.16em] text-[#5b9bff] uppercase">
-              ¿Hablamos?
-            </p>
-            <p className="font-display mt-4 text-3xl font-semibold tracking-tight text-balance sm:text-4xl md:text-5xl">
-              Pongamos tu tecnología a{" "}
-              <span className="bg-gradient-to-r from-[#5b9bff] to-[#22d3ee] bg-clip-text text-transparent">
-                trabajar por ti
-              </span>
+            <p className="display text-3xl text-balance sm:text-4xl md:text-5xl">
+              Pongamos tu tecnología a <span className="text-[#6fb1ff]">trabajar por ti</span>
             </p>
           </div>
           <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
@@ -71,9 +64,9 @@ export function Footer() {
             <p className="mt-5 max-w-xs text-sm leading-relaxed text-[#8a97b2]">
               {site.tagline}. Ingeniería y atención personalizada en {site.coverage}.
             </p>
-            <p className="mono mt-6 inline-flex items-center gap-2 rounded-full border border-emerald-400/20 bg-emerald-400/8 px-3 py-1.5 text-[10.5px] tracking-[0.1em] text-emerald-300 uppercase">
-              <span className="live-dot" aria-hidden />
-              Atendiendo ahora
+            <p className="osd mt-6 inline-flex items-center gap-2 text-[#93a0b8]">
+              <span className="led" />
+              Operando · Nuevo Laredo <LiveClock className="text-white" />
             </p>
           </div>
 

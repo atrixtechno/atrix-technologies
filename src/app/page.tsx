@@ -3,9 +3,7 @@ import { Header } from "@/components/Header";
 import { Hero } from "@/components/Hero";
 import { TrustedCompanies } from "@/components/TrustedCompanies";
 import { Services } from "@/components/Services";
-import { Coverage } from "@/components/Coverage";
-import { Benefits } from "@/components/Benefits";
-import { AudienceGuides } from "@/components/Guides";
+import { Bento } from "@/components/Bento";
 import { ProjectsTeaser } from "@/components/ProjectsTeaser";
 import { Process } from "@/components/Process";
 import { Recommendations } from "@/components/Recommendations";
@@ -169,9 +167,7 @@ export default function HomePage() {
           <Hero />
           <TrustedCompanies />
           <Services />
-          <Coverage />
-          <Benefits />
-          <AudienceGuides />
+          <Bento />
           <ProjectsTeaser />
           <Process />
           <Recommendations />

@@ -17,6 +17,7 @@ import { SectionLink } from "@/components/SectionLink";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { projects } from "@/content/projects";
 import { site, whatsappUrl } from "@/content/site";
+import { useTheme } from "@/components/ThemeProvider";
 import { WhatsAppIcon } from "@/components/ui";
 
 const links = [
@@ -133,7 +134,7 @@ function ProjectsDropdown({
       >
         <div className="glass overflow-hidden rounded-2xl shadow-[var(--shadow-soft)]">
           <div className="border-b border-line px-4 py-3">
-            <p className="eyebrow text-[10px]">Plataformas digitales</p>
+            <p className="text-sm font-semibold text-fg">Plataformas digitales</p>
             <p className="mt-1 text-xs text-muted">
               Sistemas integrados y presencia web en producción
             </p>
@@ -213,6 +214,8 @@ function HamburgerIcon({ open }: { open: boolean }) {
 
 export function Header() {
   const pathname = usePathname();
+  const { theme } = useTheme();
+  const logoVariant = theme === "dark" ? "lockup" : "lockup-light";
   const [projectsOpen, setProjectsOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mobileProjectsOpen, setMobileProjectsOpen] = useState(false);
@@ -289,7 +292,7 @@ export function Header() {
     >
       <Logo
         key="drawer-lockup"
-        variant="lockup"
+        variant={logoVariant}
         size={152}
         className="max-h-8 w-auto max-w-[160px] transition-transform duration-300 group-hover:scale-[1.02]"
         priority
@@ -299,6 +302,7 @@ export function Header() {
 
   return (
     <header className={`nav-shell ${scrolled ? "is-scrolled" : ""}`}>
+      <div className="mx-auto flex h-16 max-w-[1320px] items-center gap-6 px-5 sm:px-8">
       <Link
         href="/"
         className="group inline-flex min-w-0 shrink items-center"
@@ -307,7 +311,7 @@ export function Header() {
       >
         <Logo
           key="nav-lockup-dark-hero"
-          variant="lockup"
+          variant={logoVariant}
           size={105}
           className="max-h-8 w-auto max-w-[148px] transition-transform duration-300 group-hover:scale-[1.02] sm:max-h-none sm:max-w-none"
           priority
@@ -335,8 +339,8 @@ export function Header() {
         ))}
       </nav>
 
-      <div className="ml-auto hidden shrink-0 items-center gap-2 lg:flex">
-        <ThemeToggle className="!h-10 !border-white/12 !bg-white/5 !text-white" />
+      <div className="ml-auto hidden shrink-0 items-center gap-3 min-[1100px]:flex">
+        <ThemeToggle className="!h-10" />
         <a
           href={whatsappUrl("Hola ATRIX, quiero que me asesoren.")}
           target="_blank"
@@ -348,13 +352,13 @@ export function Header() {
         </a>
       </div>
 
-      <div className="ml-auto flex items-center gap-2 lg:hidden">
+      <div className="ml-auto flex items-center gap-2 min-[1100px]:hidden">
         <button
           type="button"
           aria-label={mobileOpen ? "Cerrar menú" : "Abrir menú"}
           aria-expanded={mobileOpen}
           onClick={toggleMobileMenu}
-          className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-white/15 bg-white/5 text-white"
+          className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-line bg-panel text-fg"
         >
           <span className="sr-only">Menú</span>
           <HamburgerIcon open={mobileOpen} />
@@ -367,7 +371,7 @@ export function Header() {
         createPortal(
           <div
             ref={mobilePanelRef}
-            className="fixed inset-0 z-[100] flex flex-col bg-bg lg:hidden"
+            className="enter-panel fixed inset-0 z-[100] flex flex-col bg-bg min-[1100px]:hidden"
             role="dialog"
             aria-modal="true"
             aria-label="Menú de navegación"
@@ -392,7 +396,6 @@ export function Header() {
               className="flex flex-1 flex-col overflow-y-auto overscroll-contain px-5 pb-8 pt-2"
               aria-label="Móvil"
             >
-              <p className="eyebrow mb-1 pt-4 text-[10px]">Menú</p>
 
               {links.slice(0, 3).map((link) => (
                 <SectionLink
@@ -498,6 +501,7 @@ export function Header() {
           </div>,
           document.body,
         )}
+      </div>
     </header>
   );
 }
