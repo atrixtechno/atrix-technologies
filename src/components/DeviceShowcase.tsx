@@ -7,9 +7,6 @@ import "@/app/devices-3d.css";
 
 const CANVAS_W = 1100;
 const CANVAS_H = 720;
-/** Orientación de reposo del escenario (vista ligeramente desde arriba e izquierda). */
-const BASE_RX = -15;
-const BASE_RY = -12;
 
 const laptopScreens = [
   { src: "/projects/devices/laptop-web.jpg", url: "moes.market" },
@@ -29,14 +26,14 @@ function LockIcon() {
 }
 
 /** Capas apiladas que dan grosor real al cuerpo del teléfono. */
-function PhoneBody({ layers = 9 }: { layers?: number }) {
+function PhoneBody({ layers = 4 }: { layers?: number }) {
   return (
     <>
       {Array.from({ length: layers }, (_, i) => (
         <div
           key={i}
           className="ds-phone-layer"
-          style={{ transform: `translateZ(${-i - 0.5}px)` }}
+          style={{ transform: `translateZ(${-(i * 3) - 0.5}px)` }}
         />
       ))}
     </>
@@ -46,8 +43,9 @@ function PhoneBody({ layers = 9 }: { layers?: number }) {
 export function DeviceShowcase() {
   const viewportRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLDivElement>(null);
-  const sceneRef = useRef<HTMLDivElement>(null);
+  const tiltRef = useRef<HTMLDivElement>(null);
   const [slide, setSlide] = useState(0);
+  const [inView, setInView] = useState(false);
 
   // Escala el lienzo fijo al ancho disponible.
   useEffect(() => {
@@ -65,66 +63,43 @@ export function DeviceShowcase() {
     return () => ro.disconnect();
   }, []);
 
-  // Apertura de la tapa al entrar en pantalla + bucle de movimiento solo mientras es visible.
+  // Sin bucle continuo: el balanceo es una animación CSS (corre en el compositor)
+  // y la inclinación con el mouse solo se calcula cuando el puntero se mueve.
   useEffect(() => {
     const viewport = viewportRef.current;
-    const scene = sceneRef.current;
-    if (!viewport || !scene) return;
-
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const target = { x: 0, y: 0, active: false };
-    const current = { rx: BASE_RX, ry: BASE_RY };
-    let raf = 0;
-    let visible = false;
-    const start = performance.now();
-
-    const apply = () => {
-      scene.style.transform = `rotateX(${current.rx.toFixed(2)}deg) rotateY(${current.ry.toFixed(2)}deg)`;
-      scene.style.setProperty("--gx", `${(50 + (current.ry - BASE_RY) * 4).toFixed(1)}%`);
-    };
-
-    const tick = (now: number) => {
-      const t = (now - start) / 1000;
-      // Sin cursor: balanceo suave automático.
-      const idleX = Math.sin(t * 0.45) * 0.35;
-      const idleY = Math.sin(t * 0.3) * 0.7;
-      const nx = target.active ? target.x : idleY;
-      const ny = target.active ? target.y : idleX;
-      const goalRy = BASE_RY + nx * 14;
-      const goalRx = BASE_RX - ny * 8;
-      current.rx += (goalRx - current.rx) * 0.06;
-      current.ry += (goalRy - current.ry) * 0.06;
-      apply();
-      if (visible) raf = requestAnimationFrame(tick);
-    };
+    const tilt = tiltRef.current;
+    if (!viewport || !tilt) return;
 
     const io = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) {
-          viewport.classList.add("is-open");
-          if (!reduced && !visible) {
-            visible = true;
-            raf = requestAnimationFrame(tick);
-          }
-        } else {
-          visible = false;
-          cancelAnimationFrame(raf);
-        }
+        setInView(entry.isIntersecting);
+        if (entry.isIntersecting) viewport.classList.add("is-open");
       },
-      { threshold: 0.25 },
+      { threshold: 0.15 },
     );
     io.observe(viewport);
-    apply();
 
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+    if (reduced || !finePointer) return () => io.disconnect();
+
+    let raf = 0;
+    let x = 0;
+    let y = 0;
+    const apply = () => {
+      raf = 0;
+      tilt.style.transform = `rotateX(${(-y * 6).toFixed(2)}deg) rotateY(${(x * 10).toFixed(2)}deg)`;
+    };
     const onMove = (e: PointerEvent) => {
-      if (e.pointerType !== "mouse") return;
       const r = viewport.getBoundingClientRect();
-      target.x = ((e.clientX - r.left) / r.width) * 2 - 1;
-      target.y = ((e.clientY - r.top) / r.height) * 2 - 1;
-      target.active = true;
+      x = ((e.clientX - r.left) / r.width) * 2 - 1;
+      y = ((e.clientY - r.top) / r.height) * 2 - 1;
+      if (!raf) raf = requestAnimationFrame(apply);
     };
     const onLeave = () => {
-      target.active = false;
+      x = 0;
+      y = 0;
+      if (!raf) raf = requestAnimationFrame(apply);
     };
     viewport.addEventListener("pointermove", onMove);
     viewport.addEventListener("pointerleave", onLeave);
@@ -137,32 +112,27 @@ export function DeviceShowcase() {
     };
   }, []);
 
-  // Pantallas rotativas.
+  // Pantallas rotativas, solo mientras la escena está a la vista.
   useEffect(() => {
+    if (!inView) return;
     const id = window.setInterval(() => {
       setSlide((s) => (s + 1) % laptopScreens.length);
     }, 4200);
-    return () => {
-      window.clearInterval(id);
-    };
-  }, []);
+    return () => window.clearInterval(id);
+  }, [inView]);
 
   return (
     <div>
       <div
         ref={viewportRef}
-        className="ds-viewport"
+        className={`ds-viewport ${inView ? "in-view" : ""}`}
         style={{ height: CANVAS_H }}
         role="img"
         aria-label="Plataformas ATRIX en laptop, iPhone y Android"
       >
         <div ref={canvasRef} className="ds-canvas" style={{ transform: "translateX(-50%)" }}>
-          <div
-            ref={sceneRef}
-            className="ds-scene"
-            style={{ transform: `rotateX(${BASE_RX}deg) rotateY(${BASE_RY}deg)` }}
-          >
-            <div className="ds-floor" aria-hidden />
+          <div ref={tiltRef} className="ds-tilt">
+          <div className="ds-scene">
             <div className="ds-floor-glow" aria-hidden />
 
             {/* Laptop */}
@@ -354,6 +324,7 @@ export function DeviceShowcase() {
                 </div>
               </div>
             </div>
+          </div>
           </div>
         </div>
       </div>

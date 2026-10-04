@@ -24,6 +24,7 @@
 /* Solo los contenedores que alojan caras 3D conservan la profundidad;
    las pantallas y su contenido se renderizan planos (más nítidos y estables). */
 .ds-scene,
+.ds-tilt,
 .ds-abs,
 .ds-float,
 .ds-laptop,
@@ -33,10 +34,34 @@
   transform-style: preserve-3d;
 }
 
+/* Inclinación con el mouse: se fija por JS solo al mover el puntero y se suaviza aquí. */
+.ds-tilt {
+  position: absolute;
+  inset: 0;
+  transition: transform 0.7s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+/* Balanceo de reposo: animación CSS (compositor), sin JavaScript por fotograma. */
 .ds-scene {
   position: absolute;
   inset: 0;
+  transform: rotateX(-15deg) rotateY(-12deg);
+  animation: ds-sway 16s ease-in-out infinite alternate;
   will-change: transform;
+}
+
+@keyframes ds-sway {
+  from {
+    transform: rotateX(-15deg) rotateY(-16deg);
+  }
+  to {
+    transform: rotateX(-12deg) rotateY(-5deg);
+  }
+}
+
+/* Fuera de pantalla todo queda en pausa. */
+.ds-viewport:not(.in-view) * {
+  animation-play-state: paused !important;
 }
 
 .ds-abs {
@@ -59,8 +84,7 @@
     linear-gradient(to right, color-mix(in srgb, var(--accent) 22%, transparent) 1px, transparent 1px),
     linear-gradient(to bottom, color-mix(in srgb, var(--accent) 22%, transparent) 1px, transparent 1px);
   background-size: 60px 60px;
-  mask-image: radial-gradient(ellipse 45% 45% at 50% 50%, black 10%, transparent 70%);
-  opacity: 0.55;
+  opacity: 0;
 }
 
 .ds-floor-glow {
@@ -70,9 +94,7 @@
   width: 800px;
   height: 800px;
   transform: rotateX(90deg) translateZ(-5px);
-  background: radial-gradient(closest-side, color-mix(in srgb, var(--accent) 38%, transparent), transparent);
-  filter: blur(10px);
-  animation: ds-glow 6s ease-in-out infinite;
+  background: radial-gradient(closest-side, rgba(47, 123, 255, 0.32), rgba(47, 123, 255, 0.08) 55%, transparent);
 }
 
 @keyframes ds-glow {
@@ -152,7 +174,7 @@
   width: 76px;
   height: 76px;
   opacity: 0.9;
-  filter: drop-shadow(0 0 16px rgba(59, 130, 255, 0.8));
+
 }
 
 .ds-lid-edge {
@@ -184,9 +206,8 @@
   gap: 6px;
   height: 24px;
   padding: 0 10px;
-  background: rgba(12, 16, 26, 0.92);
+  background: #0c101a;
   border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-  backdrop-filter: blur(8px);
 }
 
 .ds-browser-bar i {
@@ -233,15 +254,11 @@
   position: absolute;
   inset: 24px 0 0;
   opacity: 0;
-  transform: scale(1.04);
-  transition:
-    opacity 0.9s ease,
-    transform 4.5s ease-out;
+  transition: opacity 0.9s ease;
 }
 
 .ds-slide.is-active {
   opacity: 1;
-  transform: scale(1);
 }
 
 .ds-slide img {
@@ -258,13 +275,12 @@
   background: linear-gradient(
     115deg,
     transparent 30%,
-    rgba(255, 255, 255, 0.13) 45%,
-    rgba(255, 255, 255, 0.03) 55%,
+    rgba(255, 255, 255, 0.07) 45%,
+    rgba(255, 255, 255, 0.02) 55%,
     transparent 70%
   );
   background-size: 250% 250%;
-  background-position: var(--gx, 50%) 50%;
-  mix-blend-mode: screen;
+  background-position: 40% 50%;
 }
 
 .ds-notch {
@@ -328,8 +344,7 @@
   position: absolute;
   inset: 0;
   border-radius: inherit;
-  background: radial-gradient(ellipse at 50% 60%, color-mix(in srgb, var(--accent) 22%, transparent), transparent 70%);
-  mix-blend-mode: screen;
+  background: radial-gradient(ellipse at 50% 60%, rgba(47, 123, 255, 0.18), transparent 70%);
 }
 
 .ds-trackpad {
@@ -373,8 +388,7 @@
   inset: -40px -70px -90px;
   transform: translateZ(-4px);
   border-radius: 50%;
-  background: radial-gradient(closest-side, rgba(0, 0, 0, 0.7), transparent);
-  filter: blur(18px);
+  background: radial-gradient(closest-side, rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.25) 60%, transparent);
 }
 
 /* --------------------------------------------------------------------------
@@ -531,9 +545,8 @@
   gap: 8px;
   padding: 9px 10px;
   border-radius: 16px;
-  background: rgba(22, 28, 40, 0.88);
+  background: #161c28;
   border: 1px solid rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(12px);
   color: #fff;
   font-size: 10px;
   line-height: 1.25;
@@ -593,13 +606,10 @@
   padding: 12px 14px;
   border-radius: 16px;
   border: 1px solid rgba(148, 170, 220, 0.2);
-  background: rgba(9, 13, 24, 0.82);
-  box-shadow:
-    0 24px 50px rgba(0, 0, 0, 0.45),
-    0 0 30px color-mix(in srgb, var(--accent) 18%, transparent);
+  background: #0b1120;
+  box-shadow: 0 24px 50px rgba(0, 0, 0, 0.45);
   color: #fff;
   white-space: nowrap;
-  backdrop-filter: blur(14px);
 }
 
 .ds-card-icon {
@@ -686,6 +696,7 @@
     transition: none;
   }
 
+  .ds-scene,
   .ds-float,
   .ds-toast,
   .ds-bars i,
