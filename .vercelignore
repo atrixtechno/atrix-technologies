@@ -1,0 +1,10 @@
+# Nunca subir secretos locales ni archivos de trabajo
+.env*
+!.env.example
+._*
+.claude
+.impeccable
+assets
+scripts
+*.tsbuildinfo
+public/projects/devices/phone-ios-alt.jpg
