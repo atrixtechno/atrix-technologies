@@ -433,6 +433,8 @@ textarea {
 }
 
 .hero-video video {
+  /* La regla base "video { height: auto }" no debe recortar el fondo. */
+  height: 100%;
   opacity: 0.42;
   filter: invert(1) hue-rotate(205deg) saturate(1.6) contrast(1.15);
   mix-blend-mode: multiply;
