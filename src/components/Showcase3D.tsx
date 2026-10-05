@@ -72,7 +72,8 @@ export function Showcase3D() {
       captionRefs.current.forEach((el, i) => {
         if (!el) return;
         const d = pos - (i + 0.5);
-        let o = clamp(1 - (Math.abs(d) - 0.25) / 0.2);
+        // Sale de 0.3 a 0.5 y la siguiente entra de 0.5 a 0.3: siempre hay un titular visible.
+        let o = clamp(1 - (Math.abs(d) - 0.3) / 0.2);
         if ((i === 0 && d < 0) || (i === n - 1 && d > 0)) o = 1;
         el.style.opacity = o.toFixed(3);
         el.style.transform = `translate3d(0, ${(d * -24).toFixed(1)}px, 0)`;
@@ -129,10 +130,10 @@ export function Showcase3D() {
       className="relative"
       style={{ height: "340vh" }}
     >
-      <div className="sticky top-0 h-[100svh] overflow-hidden bg-[#030406]">
+      <div className="sticky top-0 h-[100svh] overflow-hidden bg-[#070a10]">
         {/* Luz de estudio */}
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_55%_45%_at_50%_60%,rgba(47,123,255,0.22),transparent_70%)]" />
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-[#030406] to-transparent" />
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-[#070a10] to-transparent" />
 
         <div className="absolute inset-0">
           {/* El render estático se ve hasta que la escena 3D está lista. */}
