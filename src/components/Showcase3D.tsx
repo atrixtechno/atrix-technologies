@@ -9,14 +9,19 @@ import { ArrowIcon } from "@/components/ui";
 import { useScrollProgress } from "@/components/useScrollProgress";
 
 function StaticFallback() {
+  // Contenedor con la proporción del render: así la máscara funde su borde real.
   return (
-    <Image
-      src="/images/renders/software.webp"
-      alt="Laptop y celular con plataformas de ATRIX"
-      fill
-      sizes="100vw"
-      className="render-feather object-contain px-6 pt-40 pb-24"
-    />
+    <div className="absolute inset-x-0 top-[22%] bottom-[12%] flex items-center justify-center px-4">
+      <div className="render-feather relative aspect-[4/3] h-full max-w-full">
+        <Image
+          src="/images/renders/software.webp"
+          alt="Laptop y celular con plataformas de ATRIX"
+          fill
+          sizes="(max-width: 768px) 100vw, 900px"
+          className="object-cover"
+        />
+      </div>
+    </div>
   );
 }
 
