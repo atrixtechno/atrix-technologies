@@ -25,10 +25,10 @@ function PhotoTile({
   sizes?: string;
 }) {
   return (
-    <div className={`tile group stage !rounded-[24px] !border-0 !bg-[#070a10] ${className}`}>
+    <div className={`tile group stage flex flex-col !rounded-[24px] !border-0 !bg-[#070a10] ${className}`}>
       <Image src={src} alt={alt} fill sizes={sizes} className="tile-media object-cover" />
       <div className="absolute inset-0 bg-gradient-to-t from-[#070a10] via-[#070a10]/75 to-[#070a10]/15" />
-      <div className="relative flex h-full flex-col justify-end p-7 sm:p-9">{children}</div>
+      <div className="relative mt-auto flex flex-col p-7 sm:p-9">{children}</div>
     </div>
   );
 }

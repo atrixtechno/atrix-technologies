@@ -1,13 +1,13 @@
-# ATRIX · Sistema de diseño "Producto premium"
+# ATRIX · Sistema de diseño "Pro cinematográfico"
 
-Página de producto de ingeniería: fondo luminoso con mucho aire, titulares enormes y los
-renders 3D de los equipos como protagonistas sobre **escenarios** oscuros. El impacto viene de
-escenas guiadas por el scroll, no de decoración.
+Página de producto "Pro": negro profundo, luz de estudio azul, titulares enormes y el 3D como
+protagonista. El impacto viene de escenas guiadas por el scroll y de una escena WebGL real,
+no de decoración.
 
 ## Mundo
 
-- **Tema por defecto claro** (`--bg #f5f6f8`, tarjetas `#ffffff`, tinta `#0b0d12`); existe modo
-  oscuro con los mismos roles.
+- **Tema por defecto oscuro** (`--bg #050506`, paneles `#101217`, tinta `#f2f4f8`); el modo
+  claro sigue disponible con el selector, con los mismos roles.
 - **Escenario** (`.stage`, `--stage #070a10`): el mismo azul marino del fondo de los renders, para
   que los equipos floten sin bordes. `.stage-light` añade luz de estudio (cobalto + ámbar suave).
   `.render-feather` funde el borde del render con una máscara radial.
@@ -30,7 +30,14 @@ Clases: `.hero-title`, `.section-title`, `.page-hero-title`, `.display`, `.secti
   clicable. En móvil y tablet: escenarios apilados sin fijar.
 - **Bento** (`Bento.tsx`): mosaico de tarjetas de distinto tamaño (`.tile`, `.tile-media`) con
   IT empresarial, WhatsApp, hogar, empresa, por qué ATRIX y cobertura (mapa con nodos animados).
-- **Portafolio:** escaparate 3D dentro de un escenario + galería de tarjetas.
+- **Plataformas 3D** (`Showcase3D.tsx` + `DeviceScene3D.tsx`): sección fijada de 340vh con escena
+  WebGL (Three.js / React Three Fiber). Laptop con tapa articulada, teclado generado en canvas,
+  logo iluminado en la tapa y pantallas con capturas reales; dos celulares que entran orbitando.
+  El scroll abre la laptop, la gira y cambia el sitio en pantalla; el mouse inclina la escena.
+  Carga diferida (se monta al acercarse), `frameloop` en pausa fuera de vista, `dpr` reducido en
+  móvil o equipos de pocos núcleos, cámara que se ajusta a pantallas verticales y respaldo con
+  render estático si no hay WebGL.
+- **Portafolio:** galería de tarjetas con los casos.
 - **Botones:** píldora (`.btn` + `.btn-primary | .btn-outline | .btn-ghost-light | .btn-whatsapp`),
   `:active` escala 0.97.
 - **`useScrollProgress(mode, onProgress)`:** un listener pasivo + rAF, pausado fuera de vista.

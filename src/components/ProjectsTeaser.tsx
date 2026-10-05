@@ -1,7 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import { AndroidLogo, AppleLogo } from "@/components/DeviceFrames";
-import { DeviceShowcase } from "@/components/DeviceShowcase";
 import { Reveal } from "@/components/Reveal";
 import { ArrowIcon } from "@/components/ui";
 import { projectKindLabel, projects } from "@/content/projects";
@@ -24,7 +23,7 @@ export function ProjectsTeaser() {
         <Reveal>
           <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
             <div className="max-w-3xl">
-              <h2 className="section-title">Plataformas en producción: web, iOS y Android</h2>
+              <h2 className="section-title">Casos reales, en línea hoy.</h2>
               <p className="section-lead">
                 Sitios, paneles, apps e integraciones que venden y administran
                 negocios reales todos los días, no solo páginas.
@@ -50,12 +49,7 @@ export function ProjectsTeaser() {
           </div>
         </Reveal>
 
-        <div className="stage mt-12 px-2 pt-10 pb-8 md:mt-16 md:px-6 md:pt-14">
-          <div className="stage-light" />
-          <DeviceShowcase />
-        </div>
-
-        <ul className="mt-20 grid grid-cols-1 gap-x-5 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
+        <ul className="mt-14 grid grid-cols-1 gap-x-5 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
           {gallery.map((project, index) => (
             <Reveal as="li" key={project.slug} delay={(index % 3) * 60}>
               <Link href={`/proyectos/${project.slug}`} className="group block">

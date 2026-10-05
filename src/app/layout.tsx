@@ -95,7 +95,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#f5f6f8",
+  themeColor: "#050506",
   colorScheme: "light dark",
 };
 
@@ -103,10 +103,10 @@ const themeInitScript = `
 (function(){
   try {
     var t = localStorage.getItem('atrix-theme');
-    if (t !== 'dark' && t !== 'light') t = 'light';
+    if (t !== 'dark' && t !== 'light') t = 'dark';
     document.documentElement.setAttribute('data-theme', t);
   } catch (e) {
-    document.documentElement.setAttribute('data-theme', 'light');
+    document.documentElement.setAttribute('data-theme', 'dark');
   }
 })();
 `;
@@ -135,7 +135,7 @@ export default function RootLayout({
     <html
       lang="es"
       className={`${body.variable} ${mono.variable} h-full`}
-      data-theme="light"
+      data-theme="dark"
       suppressHydrationWarning
     >
       <head>

@@ -5,6 +5,7 @@ import { TrustedCompanies } from "@/components/TrustedCompanies";
 import { Services } from "@/components/Services";
 import { Bento } from "@/components/Bento";
 import { ProjectsTeaser } from "@/components/ProjectsTeaser";
+import { Showcase3D } from "@/components/Showcase3D";
 import { Process } from "@/components/Process";
 import { Recommendations } from "@/components/Recommendations";
 import { Contact } from "@/components/Contact";
@@ -168,6 +169,7 @@ export default function HomePage() {
           <TrustedCompanies />
           <Services />
           <Bento />
+          <Showcase3D />
           <ProjectsTeaser />
           <Process />
           <Recommendations />
