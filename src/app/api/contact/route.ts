@@ -4,6 +4,11 @@ import {
   isCallMeBotConfigured,
   sendCallMeBotWhatsApp,
 } from "@/lib/callmebot";
+import { services } from "@/content/services";
+import { AD_COOKIE } from "@/lib/marketing/ads";
+import { pixelContext, safeEventId, sendPixelEvent } from "@/lib/marketing/meta-pixel";
+import { getCampaign } from "@/lib/marketing/store";
+import { campaignFromUtm } from "@/lib/marketing/visit-source";
 import { getSupabase } from "@/lib/supabase";
 
 const LIMITS = { name: 120, phone: 30, business: 160, message: 2000 } as const;
@@ -28,6 +33,22 @@ function rateLimited(ip: string): boolean {
 
 function field(value: unknown, max: number): string {
   return String(value ?? "").trim().slice(0, max);
+}
+
+function cookieValue(request: Request, name: string) {
+  for (const part of (request.headers.get("cookie") ?? "").split(";")) {
+    const [key, ...rest] = part.trim().split("=");
+    if (key === name) return rest.join("=");
+  }
+  return "";
+}
+
+/** Campaña pagada que trajo esta cotización (cookie de /a/<id>), solo si existe. */
+async function adCampaignFrom(request: Request) {
+  const id = campaignFromUtm(cookieValue(request, AD_COOKIE));
+  if (!id) return null;
+  const campaign = await getCampaign(id).catch(() => null);
+  return campaign ? { id: campaign.id, headline: campaign.headline } : null;
 }
 
 export async function POST(request: Request) {
@@ -63,19 +84,30 @@ export async function POST(request: Request) {
     }
 
     const lead = { name, phone, business, message };
+    const serviceSlug = field(body.service, 60);
+    const service = services.some((s) => s.slug === serviceSlug) ? serviceSlug : null;
+    const campaign = await adCampaignFrom(request);
 
     const supabase = getSupabase();
-    const { error } = await supabase.from("leads").insert(lead);
+    let { error } = await supabase.from("leads").insert({ ...lead, service, ad_campaign_id: campaign?.id ?? null });
+    // Si la migración de marketing todavía no se corrió, se guarda el lead sin atribución.
+    if (error && /column .* (service|ad_campaign_id)|schema cache|Could not find the/i.test(error.message)) {
+      ({ error } = await supabase.from("leads").insert(lead));
+    }
 
     if (error) {
       console.error("lead insert", error);
       return NextResponse.json({ error: "No se pudo guardar" }, { status: 500 });
     }
 
+    // Pixel de Meta (Conversions API): solo con permiso de cookies; teléfono con hash SHA-256.
+    await sendPixelEvent("Lead", { phone }, pixelContext(request, service ? `/servicios/${service}` : "/"), safeEventId(body.eventId));
+
     let whatsapp: "sent" | "failed" | "skipped" = "skipped";
     if (isCallMeBotConfigured()) {
+      const origin = [service ? `Servicio: ${service}` : null, campaign ? `Anuncio: ${campaign.headline.slice(0, 60)}` : null].filter(Boolean).join(" · ");
       const result = await sendCallMeBotWhatsApp(
-        formatLeadWhatsAppMessage(lead),
+        formatLeadWhatsAppMessage({ ...lead, message: origin ? `${lead.message}\n\n${origin}` : lead.message }),
       );
       whatsapp = result.ok ? "sent" : "failed";
     } else {

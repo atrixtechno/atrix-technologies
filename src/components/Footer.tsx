@@ -152,6 +152,9 @@ export function Footer() {
             <p className="mono hidden text-[10.5px] tracking-[0.14em] text-[#5d6984] uppercase sm:block">
               {site.motto}
             </p>
+            <Link href="/aviso-de-privacidad" className="text-xs text-[#5d6984] transition hover:text-white">
+              Privacidad
+            </Link>
             <Link
               href="/login"
               className="text-xs text-[#5d6984] transition hover:text-white"

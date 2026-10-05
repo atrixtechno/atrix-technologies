@@ -4,9 +4,10 @@ import { useEffect, useState } from "react";
 import { hasAnalyticsConsent } from "@/lib/cookie-consent";
 import { PageViewTracker } from "@/components/PageViewTracker";
 import { Analytics } from "@/components/Analytics";
+import { MetaPixel } from "@/components/MetaPixel";
 
 /**
- * Loads first-party pageviews and optional GA only after cookie consent = accepted.
+ * Loads first-party pageviews, optional GA and the Meta Pixel only after cookie consent = accepted.
  */
 export function ConsentGatedAnalytics() {
   const [allowed, setAllowed] = useState(false);
@@ -34,6 +35,7 @@ export function ConsentGatedAnalytics() {
     <>
       <PageViewTracker />
       <Analytics />
+      <MetaPixel />
     </>
   );
 }

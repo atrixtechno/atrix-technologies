@@ -3,10 +3,12 @@
 import { useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
 import { normalizeHash, normalizePath, shouldTrackPath } from "@/lib/analytics";
+import { currentVisit } from "@/lib/marketing/visit-client";
 
 /**
  * First-party pageview tracker. POSTs on pathname / hash changes.
- * Skips /admin, /login, /api.
+ * Skips /admin, /login, /api. Manda también la sesión, el origen y la campaña del anuncio
+ * (utm_campaign de la primera página de la sesión).
  */
 export function PageViewTracker() {
   const pathname = usePathname();
@@ -19,12 +21,16 @@ export function PageViewTracker() {
       if (key === lastKey.current) return;
       lastKey.current = key;
 
+      const visit = currentVisit();
       const payload = {
         path,
         hash,
         referrer: document.referrer || null,
         userAgent: navigator.userAgent.slice(0, 200),
         timestamp: new Date().toISOString(),
+        sessionId: visit.sessionId,
+        source: visit.source,
+        campaign: visit.campaign,
       };
 
       const body = JSON.stringify(payload);

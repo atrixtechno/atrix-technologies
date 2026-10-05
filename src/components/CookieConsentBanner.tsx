@@ -1,6 +1,7 @@
 "use client";
 
 import { useSyncExternalStore } from "react";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
   type CookieConsentValue,
@@ -54,7 +55,11 @@ export function CookieConsentBanner({ onDecision }: CookieConsentBannerProps) {
           </h2>
           <p id="cookie-consent-desc" className="mt-1.5 text-sm leading-relaxed text-muted">
             Usamos cookies necesarias para el tema y la sesión del panel. Con tu
-            aceptación también medimos visitas anónimas para mejorar el sitio.
+            aceptación también medimos visitas para mejorar el sitio y nuestros
+            anuncios en Facebook e Instagram (Pixel de Meta).{" "}
+            <Link href="/aviso-de-privacidad" className="text-accent underline-offset-2 hover:underline">
+              Aviso de privacidad
+            </Link>
           </p>
         </div>
         <div className="flex shrink-0 flex-col gap-2 sm:flex-row">

@@ -1,5 +1,6 @@
-import { NextResponse } from "next/server";
+import { after, NextResponse } from "next/server";
 import {
+  ADMIN_SESSION_COOKIE,
   geoFromRequest,
   normalizeHash,
   normalizePath,
@@ -7,9 +8,19 @@ import {
   shouldTrackPath,
   truncateUa,
 } from "@/lib/analytics";
+import { maybeSocialTick } from "@/lib/marketing/social";
+import { marketingStoreReady } from "@/lib/marketing/store";
+import { campaignFromUtm, isVisitSource } from "@/lib/marketing/visit-source";
 import { getSupabase, isSupabaseConfigured } from "@/lib/supabase";
 
 export const runtime = "nodejs";
+
+const SESSION_ID = /^[a-zA-Z0-9-]{8,64}$/;
+
+/** Columnas que agrega una migración que quizá todavía no se corrió. */
+function missingColumn(message: string, columns: string[]) {
+  return new RegExp(`column .* (${columns.join("|")})|schema cache|Could not find the ['"]?(${columns.join("|")})`, "i").test(message);
+}
 
 export async function POST(request: Request) {
   try {
@@ -27,6 +38,14 @@ export async function POST(request: Request) {
         { ok: false, skipped: true, reason: "supabase_not_configured" },
         { status: 200 },
       );
+    }
+
+    // Marketing en redes: publica lo pendiente con las visitas (máximo cada 5 minutos).
+    if (marketingStoreReady()) after(() => maybeSocialTick());
+
+    // No contar al administrador (navegador con sesión del panel).
+    if (request.headers.get("cookie")?.includes(`${ADMIN_SESSION_COOKIE}=`)) {
+      return NextResponse.json({ ok: true, skipped: true, reason: "admin" });
     }
 
     const body = await request.json().catch(() => ({}));
@@ -47,33 +66,25 @@ export async function POST(request: Request) {
         : request.headers.get("user-agent"),
     );
     const geo = geoFromRequest(request);
+    const attribution = {
+      session_id: typeof body.sessionId === "string" && SESSION_ID.test(body.sessionId) ? body.sessionId : null,
+      source: isVisitSource(body.source) ? body.source : null,
+      campaign: campaignFromUtm(typeof body.campaign === "string" ? body.campaign : null),
+    };
 
     const supabase = getSupabase();
-    const row = {
-      path,
-      hash,
-      referrer,
-      user_agent: userAgent,
-      country: geo.country,
-      region: geo.region,
-      city: geo.city,
-    };
-    const { error } = await supabase.from("page_views").insert(row);
+    const base = { path, hash, referrer, user_agent: userAgent };
+    const withGeo = { ...base, country: geo.country, region: geo.region, city: geo.city };
+    let { error } = await supabase.from("page_views").insert({ ...withGeo, ...attribution });
 
+    // Si falta alguna migración, se guarda lo que se pueda.
+    if (error && missingColumn(error.message, ["session_id", "source", "campaign"])) {
+      ({ error } = await supabase.from("page_views").insert(withGeo));
+    }
+    if (error && missingColumn(error.message, ["country", "region", "city"])) {
+      ({ error } = await supabase.from("page_views").insert(base));
+    }
     if (error) {
-      const missingGeo =
-        /column .* (country|region|city)|schema cache/i.test(error.message);
-      if (missingGeo) {
-        const retry = await supabase.from("page_views").insert({
-          path,
-          hash,
-          referrer,
-          user_agent: userAgent,
-        });
-        if (!retry.error) {
-          return NextResponse.json({ ok: true });
-        }
-      }
       console.error("pageview insert", error);
       // Table missing or RLS — don't break the public site
       return NextResponse.json(

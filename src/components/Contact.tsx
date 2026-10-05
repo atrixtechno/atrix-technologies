@@ -3,7 +3,9 @@
 import { FormEvent, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { ArrowIcon, WhatsAppIcon } from "@/components/ui";
+import { trackLeadInBrowser } from "@/components/MetaPixel";
 import { site, whatsappUrl } from "@/content/site";
+import { newEventId } from "@/lib/marketing/visit-client";
 
 type Phase = "idle" | "loading" | "success" | "error";
 
@@ -29,7 +31,8 @@ function GmailIcon({ className }: { className?: string }) {
   );
 }
 
-export function Contact() {
+/** `service`: slug del servicio de la página (se guarda con la cotización). */
+export function Contact({ service }: { service?: string } = {}) {
   const [phase, setPhase] = useState<Phase>("idle");
   const [progress, setProgress] = useState(0);
   const [phone, setPhone] = useState("");
@@ -61,6 +64,9 @@ export function Contact() {
     const form = e.currentTarget;
     const data = Object.fromEntries(new FormData(form).entries());
     data.phone = sanitizePhone(String(data.phone ?? ""));
+    // Mismo id para el Pixel del navegador y la Conversions API: Meta lo cuenta una vez.
+    const eventId = newEventId();
+    data.eventId = eventId;
 
     apiDone.current = false;
     timerDone.current = false;
@@ -74,6 +80,7 @@ export function Contact() {
         body: JSON.stringify(data),
       });
       if (!res.ok) throw new Error("fail");
+      trackLeadInBrowser(eventId, "contacto");
       apiDone.current = true;
       form.reset();
       setPhone("");
@@ -185,6 +192,7 @@ export function Contact() {
                 <input name="website" tabIndex={-1} autoComplete="off" />
               </label>
             </div>
+            {service ? <input type="hidden" name="service" value={service} /> : null}
             <div className="grid gap-5 sm:grid-cols-2">
               <label className="block">
                 <span className="field-label">Nombre</span>
