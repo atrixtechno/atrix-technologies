@@ -2,7 +2,7 @@
 
 import { Canvas, useFrame } from "@react-three/fiber";
 import { ContactShadows, Environment, Lightformer, RoundedBox, useTexture } from "@react-three/drei";
-import { Suspense, useMemo, useRef, type MutableRefObject } from "react";
+import { Suspense, useEffect, useMemo, useRef, type MutableRefObject } from "react";
 import * as THREE from "three";
 
 /** Estado compartido con la sección: avance del scroll y posición del mouse. */
@@ -171,12 +171,17 @@ function Phone({ texture, finish }: { texture: THREE.Texture; finish: "titanium"
   );
 }
 
-function Rig({ input }: { input: MutableRefObject<SceneInput> }) {
+function Rig({ input, onReady }: { input: MutableRefObject<SceneInput>; onReady?: () => void }) {
   const laptopTex = useTexture(LAPTOP_SCREENS, prepareTexture);
   const phoneTex = useTexture(PHONE_SCREENS, prepareTexture);
   const group = useRef<THREE.Group>(null);
   const iphone = useRef<THREE.Group>(null);
   const android = useRef<THREE.Group>(null);
+  // Las texturas ya cargaron (Suspense resolvió): avisa para retirar el respaldo.
+  useEffect(() => {
+    onReady?.();
+  }, [onReady]);
+
   useFrame((state, dt) => {
     const { camera } = state;
     const { p, mx, my, reduced } = input.current;
@@ -236,10 +241,12 @@ export default function DeviceScene3D({
   input,
   active,
   lowPower,
+  onReady,
 }: {
   input: MutableRefObject<SceneInput>;
   active: boolean;
   lowPower: boolean;
+  onReady?: () => void;
 }) {
   return (
     <Canvas
@@ -256,7 +263,7 @@ export default function DeviceScene3D({
       <pointLight position={[-4, 1.5, 2]} intensity={18} color="#2f7bff" distance={12} />
       <pointLight position={[4, -0.5, 2]} intensity={8} color="#ffb547" distance={10} />
       <Suspense fallback={null}>
-        <Rig input={input} />
+        <Rig input={input} onReady={onReady} />
         {/* Reflejos de estudio sin descargar mapas HDR externos. */}
         <Environment resolution={128} frames={1}>
           <Lightformer form="rect" intensity={3} position={[0, 4, -2]} scale={[8, 2, 1]} />

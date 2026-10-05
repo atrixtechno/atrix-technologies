@@ -20,10 +20,7 @@ function StaticFallback() {
   );
 }
 
-const DeviceScene3D = dynamic(() => import("@/components/DeviceScene3D"), {
-  ssr: false,
-  loading: StaticFallback,
-});
+const DeviceScene3D = dynamic(() => import("@/components/DeviceScene3D"), { ssr: false });
 
 const phases = [
   {
@@ -64,6 +61,8 @@ export function Showcase3D() {
   const [active, setActive] = useState(false);
   const [webgl, setWebgl] = useState(true);
   const [lowPower, setLowPower] = useState(false);
+  const [ready, setReady] = useState(false);
+  const onReady = useCallback(() => setReady(true), []);
   const n = phases.length;
 
   const onProgress = useCallback(
@@ -136,10 +135,18 @@ export function Showcase3D() {
         <div className="pointer-events-none absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-[#030406] to-transparent" />
 
         <div className="absolute inset-0">
-          {mounted && webgl ? (
-            <DeviceScene3D input={input} active={active} lowPower={lowPower} />
-          ) : (
+          {/* El render estático se ve hasta que la escena 3D está lista. */}
+          <div
+            className="absolute inset-0 transition-opacity duration-700"
+            style={{ opacity: ready && webgl ? 0 : 1 }}
+            aria-hidden={ready && webgl}
+          >
             <StaticFallback />
+          </div>
+          {mounted && webgl && (
+            <div className="absolute inset-0 transition-opacity duration-700" style={{ opacity: ready ? 1 : 0 }}>
+              <DeviceScene3D input={input} active={active} lowPower={lowPower} onReady={onReady} />
+            </div>
           )}
         </div>
 
