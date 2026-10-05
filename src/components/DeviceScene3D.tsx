@@ -8,13 +8,18 @@ import * as THREE from "three";
 /** Estado compartido con la sección: avance del scroll y posición del mouse. */
 export type SceneInput = { p: number; mx: number; my: number; reduced: boolean };
 
+/** Versión optimizada (WebP/AVIF redimensionado) servida por Next: texturas ligeras para la GPU del celular. */
+const optimized = (src: string, w: number) => `/_next/image?url=${encodeURIComponent(src)}&w=${w}&q=75`;
+
 const LAPTOP_SCREENS = [
   "/projects/devices/laptop-web.jpg",
   "/projects/dentalmate-preview.jpg",
   "/projects/grupo-gi-preview.jpg",
   "/projects/jonal-parfum-preview.jpg",
-];
-const PHONE_SCREENS = ["/projects/devices/phone-ios.jpg", "/projects/devices/phone-android.jpg"];
+].map((src) => optimized(src, 1080));
+const PHONE_SCREENS = ["/projects/devices/phone-ios.jpg", "/projects/devices/phone-android.jpg"].map((src) =>
+  optimized(src, 640),
+);
 
 /** Color correcto y nitidez en ángulo para las texturas cargadas. */
 function prepareTexture(tex: THREE.Texture | THREE.Texture[]) {
@@ -242,11 +247,13 @@ export default function DeviceScene3D({
   active,
   lowPower,
   onReady,
+  onError,
 }: {
   input: MutableRefObject<SceneInput>;
   active: boolean;
   lowPower: boolean;
   onReady?: () => void;
+  onError?: (reason: string) => void;
 }) {
   return (
     <Canvas
@@ -256,6 +263,10 @@ export default function DeviceScene3D({
       camera={{ position: [0, 1.25, 9], fov: 32 }}
       style={{ position: "absolute", inset: 0 }}
       aria-hidden
+      onCreated={({ gl }) => {
+        // Si el celular se queda sin memoria de GPU, vuelve al render estático.
+        gl.domElement.addEventListener("webglcontextlost", () => onError?.("contexto WebGL perdido"));
+      }}
     >
       <ambientLight intensity={0.45} />
       <directionalLight position={[3, 5, 4]} intensity={2.4} color="#e6eeff" />

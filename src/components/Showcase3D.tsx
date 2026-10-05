@@ -3,7 +3,7 @@
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import Link from "next/link";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { Component, useCallback, useEffect, useRef, useState, type ReactNode } from "react";
 import type { SceneInput } from "@/components/DeviceScene3D";
 import { ArrowIcon } from "@/components/ui";
 import { useScrollProgress } from "@/components/useScrollProgress";
@@ -53,9 +53,24 @@ function clamp(v: number) {
 function supportsWebGL() {
   try {
     const c = document.createElement("canvas");
-    return Boolean(c.getContext("webgl2") || c.getContext("webgl"));
+    // Three.js actual solo funciona con WebGL2.
+    return Boolean(c.getContext("webgl2"));
   } catch {
     return false;
+  }
+}
+
+/** Si la escena 3D lanza un error, se queda el render estático en lugar de romper la página. */
+class SceneBoundary extends Component<{ onError: (reason: string) => void; children: ReactNode }, { failed: boolean }> {
+  state = { failed: false };
+  static getDerivedStateFromError() {
+    return { failed: true };
+  }
+  componentDidCatch(error: unknown) {
+    this.props.onError(error instanceof Error ? error.message : String(error));
+  }
+  render() {
+    return this.state.failed ? null : this.props.children;
   }
 }
 
@@ -67,7 +82,14 @@ export function Showcase3D() {
   const [webgl, setWebgl] = useState(true);
   const [lowPower, setLowPower] = useState(false);
   const [ready, setReady] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [debug, setDebug] = useState<string | null>(null);
   const onReady = useCallback(() => setReady(true), []);
+  const onError = useCallback((reason: string) => {
+    setError(reason);
+    setReady(false);
+  }, []);
+  const show3D = mounted && webgl && !error;
   const n = phases.length;
 
   const onProgress = useCallback(
@@ -90,6 +112,24 @@ export function Showcase3D() {
 
   const sectionRef = useScrollProgress<HTMLElement>("sticky", onProgress);
 
+  // Diagnóstico en el propio teléfono: atrixnld.com/?debug3d=1
+  useEffect(() => {
+    if (!new URLSearchParams(window.location.search).has("debug3d")) return;
+    const id = window.setInterval(() => {
+      const i = input.current;
+      setDebug(
+        [
+          `webgl2=${supportsWebGL()}`,
+          `p=${i.p.toFixed(2)}`,
+          `reduced=${i.reduced}`,
+          `cores=${navigator.hardwareConcurrency ?? "?"}`,
+          `dpr=${window.devicePixelRatio}`,
+        ].join(" · "),
+      );
+    }, 300);
+    return () => window.clearInterval(id);
+  }, []);
+
   useEffect(() => {
     const el = sectionRef.current;
     if (!el) return;
@@ -108,7 +148,8 @@ export function Showcase3D() {
           near.disconnect();
         }
       },
-      { rootMargin: "100% 0px" },
+      // Precarga con margen amplio: llega lista cuando el visitante alcanza la sección.
+      { rootMargin: "250% 0px" },
     );
     const visible = new IntersectionObserver(([entry]) => setActive(entry.isIntersecting));
     near.observe(el);
@@ -144,14 +185,16 @@ export function Showcase3D() {
           {/* El render estático se ve hasta que la escena 3D está lista. */}
           <div
             className="absolute inset-0 transition-opacity duration-700"
-            style={{ opacity: ready && webgl ? 0 : 1 }}
-            aria-hidden={ready && webgl}
+            style={{ opacity: ready && show3D ? 0 : 1 }}
+            aria-hidden={ready && show3D}
           >
             <StaticFallback />
           </div>
-          {mounted && webgl && (
+          {show3D && (
             <div className="absolute inset-0 transition-opacity duration-700" style={{ opacity: ready ? 1 : 0 }}>
-              <DeviceScene3D input={input} active={active} lowPower={lowPower} onReady={onReady} />
+              <SceneBoundary onError={onError}>
+                <DeviceScene3D input={input} active={active} lowPower={lowPower} onReady={onReady} onError={onError} />
+              </SceneBoundary>
             </div>
           )}
         </div>
@@ -174,6 +217,13 @@ export function Showcase3D() {
             ))}
           </div>
         </div>
+
+        {debug && (
+          <p className="absolute top-20 left-2 z-20 max-w-[90%] rounded bg-black/80 px-2 py-1 font-mono text-[10px] text-[#7aa9ff]">
+            {debug} · mounted={String(mounted)} · active={String(active)} · ready={String(ready)} · low={String(lowPower)}
+            {error ? ` · error=${error}` : ""}
+          </p>
+        )}
 
         <div className="absolute inset-x-0 bottom-10 flex justify-center px-5">
           <Link href="/proyectos" className="btn btn-primary">
