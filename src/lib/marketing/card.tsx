@@ -12,7 +12,7 @@ export const MARKETING_SIZES = { feed: { width: 1080, height: 1350 }, historia: 
 export type CardFormat = keyof typeof MARKETING_SIZES;
 
 /** El PNG de satori como JPEG liviano. Si falta el convertidor, sale el PNG tal cual. */
-async function asJpeg(image: ImageResponse) {
+export async function asJpeg(image: ImageResponse) {
   const png = Buffer.from(await image.arrayBuffer());
   try {
     const sharp = (await import("sharp")).default;
@@ -23,7 +23,7 @@ async function asJpeg(image: ImageResponse) {
   }
 }
 
-type Palette = {
+export type Palette = {
   background: string;
   glow: string;
   text: string;
@@ -40,9 +40,9 @@ type Palette = {
   framedVisual: boolean;
 };
 
-const ACCENT = "#1a63e6";
+export const ACCENT = "#1a63e6";
 
-const PALETTES: Record<DesignStyle, Palette> = {
+export const PALETTES: Record<DesignStyle, Palette> = {
   azul: {
     background: "#070a10",
     glow: "radial-gradient(circle at 50% 70%, rgba(47,123,255,0.30) 0%, rgba(26,99,230,0.08) 35%, rgba(7,10,16,0) 60%)",
@@ -105,7 +105,7 @@ const PALETTES: Record<DesignStyle, Palette> = {
   },
 };
 
-const WHATSAPP_PATH = "M4 20l1.3-4A8 8 0 1 1 8 18.8zM9 8.5c0 3.5 3 6.5 6.5 6.5l1-1.5-2-1-1 1a4 4 0 0 1-2.5-2.5l1-1-1-2z";
+export const WHATSAPP_PATH = "M4 20l1.3-4A8 8 0 1 1 8 18.8zM9 8.5c0 3.5 3 6.5 6.5 6.5l1-1.5-2-1-1 1a4 4 0 0 1-2.5-2.5l1-1-1-2z";
 
 export type CardInput = {
   /** Etiqueta corta estilo OSD del monitor (p. ej. "CCTV"). */

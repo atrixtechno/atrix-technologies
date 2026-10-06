@@ -1,42 +1,70 @@
-// Publicación del día para Instagram (local): dibuja la imagen de marca del servicio que toca hoy
-// (feed 1080×1350 e historia 1080×1920) con el logo, el texto del servicio, su render y la franja de
-// WhatsApp, y deja los datos reales del servicio para escribir el guion.
-//   npm run post:diario            → el servicio de hoy
-//   npm run post:diario -- cctv    → un servicio en particular (slug de src/content/services.ts)
-import { mkdirSync, writeFileSync } from "node:fs";
+// "Consejo del día" para Instagram (local). Cada día cambia el diseño (consejo, pasos, checklist,
+// mito o realidad, error común, pregunta), la decoración y el estilo de color; el tema rota por
+// servicio. El contenido vive en marketing-diario/<fecha>/plan.json:
+//   - si no existe, se crea con un consejo real de src/content/tips.ts del tema del día;
+//   - si existe (por ejemplo, escrito con más detalle), se dibuja tal cual.
+//   npm run post:diario                 → plan del día (crea o usa plan.json) y dibuja feed + historia
+//   npm run post:diario -- --nuevo      → vuelve a crear plan.json automático
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";
 
-const { marketingCard } = await import("../src/lib/marketing/card.tsx");
+const { dailyCard, DAILY_LAYOUTS, DAILY_DECORS } = await import("../src/lib/marketing/daily-card.tsx");
 const { services } = await import("../src/content/services.ts");
-const { CONTACT_PHONE } = await import("../src/lib/marketing/templates.ts");
+const { dailyTips } = await import("../src/content/tips.ts");
 const { MARKETING_STYLES } = await import("../src/lib/marketing/styles.ts");
 
-// Fecha de Ciudad de México (UTC−6).
-const today = new Date(Date.now() - 6 * 3_600_000).toISOString().slice(0, 10);
+const today = new Date(Date.now() - 6 * 3_600_000).toISOString().slice(0, 10); // Ciudad de México
 const day = Math.floor(Date.parse(`${today}T00:00:00Z`) / 86_400_000);
-const wanted = process.argv[2];
-const service = (wanted && services.find((s) => s.slug === wanted)) || services[day % services.length];
-// El estilo rota con otro ritmo que el servicio, así no se repite la misma combinación cada semana.
-const style = MARKETING_STYLES[Math.floor(day / services.length) % MARKETING_STYLES.length].id;
-
-const card = {
-  kicker: service.osd,
-  headline: service.title,
-  subline: service.copy,
-  // Las etiquetas van en el texto de la publicación: así el render del servicio gana espacio.
-  chips: [],
-  cta: "Cotiza gratis en atrixnld.com",
-  style,
-  visual: service.image,
-  contactPhone: CONTACT_PHONE,
-};
-
+const FIRST_DAY = Math.floor(Date.parse("2026-10-06T00:00:00Z") / 86_400_000);
 const out = path.join(process.cwd(), "marketing-diario", today);
+const planFile = path.join(out, "plan.json");
 mkdirSync(out, { recursive: true });
-for (const format of ["feed", "historia"]) {
-  const image = await marketingCard({ ...card, format });
-  writeFileSync(path.join(out, `${service.slug}-${format}.jpg`), Buffer.from(await image.arrayBuffer()));
+
+// Temas por servicio, con las palabras para elegir consejos reales de tips.ts.
+const THEMES = [
+  { slug: "cctv", kicker: "CCTV", match: /c[aá]mara|cctv|dvr|nvr|vigil|grabaci/i },
+  { slug: "redes-infraestructura", kicker: "Redes y WiFi", match: /wifi|red(es)?\b|router|cable|puerto|ancho de banda|internet/i },
+  { slug: "soporte-tecnico", kicker: "Soporte técnico", match: /\bpc\b|laptop|computadora|disco|ssd|mantenimiento|lent|optimiza|actualiza equipos/i },
+  { slug: "desarrollo-software", kicker: "Plataformas digitales", match: /sitio|web|sistema|panel|app|software|whatsapp/i },
+  { slug: "soporte-it-empresarial", kicker: "IT empresarial", match: /respaldo|contrase|acceso|seguridad|admin|ti\b|responsable/i },
+  { slug: "impresoras-perifericos", kicker: "Impresoras", match: /impresora|perif|usb/i },
+];
+
+function autoPlan() {
+  // Ritmos de 6, 4 y 5 días: la misma combinación de diseño, estilo y decoración tarda 60 días en volver.
+  const theme = THEMES[day % THEMES.length];
+  const service = services.find((s) => s.slug === theme.slug) ?? services[0];
+  // Primero consejos cuyo título es del tema; si no hay, los que lo mencionan en el texto.
+  const byTitle = dailyTips.filter((tip) => theme.match.test(tip.title));
+  const tips = byTitle.length >= 3 ? byTitle : dailyTips.filter((tip) => theme.match.test(`${tip.title} ${tip.copy}`));
+  const tip = (tips.length ? tips : dailyTips)[Math.floor(day / THEMES.length) % (tips.length || dailyTips.length)];
+  return {
+    fecha: today,
+    servicio: service.slug,
+    pagina: `https://atrixnld.com/servicios/${service.slug}`,
+    layout: DAILY_LAYOUTS[day % DAILY_LAYOUTS.length],
+    style: MARKETING_STYLES[day % MARKETING_STYLES.length].id,
+    decor: DAILY_DECORS[day % DAILY_DECORS.length],
+    number: day - FIRST_DAY + 1,
+    kicker: theme.kicker,
+    visual: service.image,
+    cta: "Cotiza gratis en atrixnld.com",
+    // Contenido automático (consejo real). Para "pasos", "checklist", "mito", "error" o "pregunta",
+    // reescribe title/body/items con este mismo tema; si faltan items, se dibuja como "consejo".
+    title: tip.title,
+    body: tip.copy,
+    items: [],
+    consejo_base: tip,
+    servicio_datos: { titulo: service.title, texto: service.copy, incluye: service.bullets },
+  };
 }
-const data = { fecha: today, servicio: service.title, slug: service.slug, texto: service.copy, incluye: service.bullets, corto: service.short, estilo: style, pagina: `https://atrixnld.com/servicios/${service.slug}`, whatsapp: CONTACT_PHONE };
-writeFileSync(path.join(out, "datos.json"), JSON.stringify(data, null, 2));
-console.log(JSON.stringify({ carpeta: out, ...data }, null, 2));
+
+if (!existsSync(planFile) || process.argv.includes("--nuevo")) writeFileSync(planFile, JSON.stringify(autoPlan(), null, 2));
+const plan = JSON.parse(readFileSync(planFile, "utf8"));
+
+const date = new Date(`${today}T18:00:00Z`);
+for (const format of ["feed", "historia"]) {
+  const image = await dailyCard(plan, format, date);
+  writeFileSync(path.join(out, `consejo-${format}.jpg`), Buffer.from(await image.arrayBuffer()));
+}
+console.log(JSON.stringify({ carpeta: out, plan: planFile, layout: plan.layout, style: plan.style, decor: plan.decor, number: plan.number, tema: plan.kicker, title: plan.title }, null, 2));
