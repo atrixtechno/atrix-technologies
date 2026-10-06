@@ -16,6 +16,13 @@ export type DailyDecor = (typeof DAILY_DECORS)[number];
 
 export type DailyItem = { title: string; text?: string };
 
+export type DailySeason = {
+  /** Texto de la etiqueta (p. ej. "DÍA DE MUERTOS" o "FALTAN 3 DÍAS · NAVIDAD"). */
+  label: string;
+  accent: string;
+  motif: "flor" | "estrella" | "corazon" | "gota" | "sol" | "copo" | "confeti" | "tricolor" | "libro" | "calabaza";
+};
+
 export type DailySpec = {
   layout: DailyLayout;
   style: DesignStyle;
@@ -33,6 +40,8 @@ export type DailySpec = {
   /** Render o foto de /public que acompaña (p. ej. /images/renders/cctv.webp). */
   visual?: string | null;
   cta?: string;
+  /** Temporada o festividad del día (src/content/seasons.ts). */
+  season?: DailySeason | null;
 };
 
 const clip = (text: string | undefined, max: number) => {
@@ -59,12 +68,15 @@ export function normalizeSpec(spec: DailySpec): DailySpec {
     body: clip(spec.body, valid && (list || pairs) ? 110 : 190) || undefined,
     items: valid ? items : [],
     cta: clip(spec.cta || "Cotiza gratis en atrixnld.com", 40),
+    season: spec.season?.label && /^#[0-9a-f]{6}$/i.test(spec.season.accent ?? "") ? { ...spec.season, label: clip(spec.season.label, 34) } : null,
   };
 }
 
 const lines = (text: string | undefined, size: number, width: number, em = 0.52) => (text ? Math.ceil((text.length * size * em * 1.08) / width) : 0);
 
-function tones(p: Palette) {
+function tones(p: Palette, style: DesignStyle) {
+  // Sobre cobalto, rojo y verde puros se pierden: tonos claros.
+  if (style === "cobalto") return { bad: "#ffc9c9", good: "#b9f6d2", soft: "rgba(255,255,255,0.08)" };
   return p.light ? { bad: "#c93a3a", good: "#13875a", soft: "rgba(11,15,23,0.05)" } : { bad: "#ff6b6b", good: "#3ddc84", soft: "rgba(255,255,255,0.05)" };
 }
 
@@ -121,6 +133,104 @@ function Decor({ decor, p, w, h, number }: { decor: DailyDecor; p: Palette; w: n
   }
 }
 
+
+/** Texto legible sobre el color de acento. */
+function inkOn(hex: string) {
+  const [r, g, b] = [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16) / 255);
+  return 0.2126 * r + 0.7152 * g + 0.0722 * b > 0.55 ? "#0b0f17" : "#ffffff";
+}
+
+/** Motivo grande de la temporada, tenue, en la esquina superior derecha. */
+function Motif({ season, w, h }: { season: DailySeason; w: number; h: number }) {
+  const c = season.accent;
+  const sizeM = Math.round(w * 0.62);
+  const shape = (() => {
+    switch (season.motif) {
+      case "flor":
+        return (
+          <g>
+            {Array.from({ length: 10 }, (_, i) => (
+              <ellipse key={i} cx="50" cy="24" rx="9" ry="20" fill={c} transform={`rotate(${i * 36} 50 50)`} />
+            ))}
+            <circle cx="50" cy="50" r="12" fill={c} />
+          </g>
+        );
+      case "estrella":
+        return <polygon points="50,4 61,37 96,37 68,58 78,92 50,72 22,92 32,58 4,37 39,37" fill={c} />;
+      case "corazon":
+        return <path d="M50 88 C20 66 6 50 6 32 C6 18 17 8 30 8 C39 8 46 13 50 20 C54 13 61 8 70 8 C83 8 94 18 94 32 C94 50 80 66 50 88Z" fill={c} />;
+      case "gota":
+        return (
+          <g fill={c}>
+            <path d="M50 6 C62 28 74 42 74 58 C74 72 63 82 50 82 C37 82 26 72 26 58 C26 42 38 28 50 6Z" />
+            <path d="M18 54 C22 62 26 66 26 72 C26 77 22 80 18 80 C14 80 10 77 10 72 C10 66 14 62 18 54Z" />
+            <path d="M84 30 C88 38 92 42 92 48 C92 53 88 56 84 56 C80 56 76 53 76 48 C76 42 80 38 84 30Z" />
+          </g>
+        );
+      case "sol":
+        return (
+          <g fill={c}>
+            <circle cx="50" cy="50" r="20" />
+            {Array.from({ length: 12 }, (_, i) => (
+              <rect key={i} x="48" y="4" width="4" height="16" rx="2" transform={`rotate(${i * 30} 50 50)`} />
+            ))}
+          </g>
+        );
+      case "copo":
+        return (
+          <g stroke={c} strokeWidth="4" strokeLinecap="round">
+            {[0, 60, 120].map((r) => (
+              <g key={r} transform={`rotate(${r} 50 50)`}>
+                <line x1="50" y1="6" x2="50" y2="94" />
+                <line x1="50" y1="18" x2="40" y2="10" />
+                <line x1="50" y1="18" x2="60" y2="10" />
+                <line x1="50" y1="82" x2="40" y2="90" />
+                <line x1="50" y1="82" x2="60" y2="90" />
+              </g>
+            ))}
+          </g>
+        );
+      case "confeti":
+        return (
+          <g>
+            {[[12, 18, 0], [40, 8, 30], [70, 20, 60], [88, 46, 15], [24, 52, 75], [56, 44, 45], [78, 76, 20], [36, 82, 60], [8, 84, 10]].map(([x, y, r], i) => (
+              <rect key={i} x={x} y={y} width="10" height="5" rx="1.5" fill={i % 2 ? c : ACCENT} transform={`rotate(${r} ${x + 5} ${y + 2.5})`} />
+            ))}
+          </g>
+        );
+      case "tricolor":
+        return (
+          <g>
+            <rect x="6" y="20" width="29" height="60" fill="#0f8a4a" />
+            <rect x="35" y="20" width="30" height="60" fill="#ffffff" />
+            <rect x="65" y="20" width="29" height="60" fill="#ce1126" />
+          </g>
+        );
+      case "libro":
+        return (
+          <g fill="none" stroke={c} strokeWidth="5" strokeLinejoin="round">
+            <path d="M50 26 C40 18 24 16 8 18 V80 C24 78 40 80 50 88 C60 80 76 78 92 80 V18 C76 16 60 18 50 26Z" />
+            <path d="M50 26 V88" />
+          </g>
+        );
+      default:
+        return (
+          <g fill={c}>
+            <ellipse cx="50" cy="58" rx="40" ry="32" />
+            <rect x="46" y="14" width="8" height="16" rx="3" />
+          </g>
+        );
+    }
+  })();
+  return (
+    <div style={{ position: "absolute", top: 0, left: 0, width: w, height: h, display: "flex", justifyContent: "flex-end" }}>
+      <svg width={sizeM} height={sizeM} viewBox="0 0 100 100" style={{ marginTop: h * 0.04, marginRight: -sizeM * 0.18, opacity: season.motif === "tricolor" ? 0.16 : 0.13 }}>
+        {shape}
+      </svg>
+    </div>
+  );
+}
+
 function Check({ color, size }: { color: string; size: number }) {
   return (
     <svg width={size} height={size} viewBox="0 0 24 24">
@@ -143,7 +253,7 @@ export async function dailyCard(raw: DailySpec, format: CardFormat, date: Date =
   const size = MARKETING_SIZES[format];
   const tall = format === "historia";
   const p = PALETTES[spec.style] ?? PALETTES.azul;
-  const t = tones(p);
+  const t = tones(p, spec.style);
   const logo = p.light ? (logoOnLight ?? logoOnDark) : logoOnDark;
   const pad = tall ? 90 : 76;
   const inner = size.width - pad * 2;
@@ -159,7 +269,7 @@ export async function dailyCard(raw: DailySpec, format: CardFormat, date: Date =
   const dateLabel = new Intl.DateTimeFormat("es-MX", { timeZone: "America/Mexico_City", day: "numeric", month: "long" }).format(date);
 
   // Alto estimado del contenido: el render usa lo que sobre (si sobra poco, no se dibuja).
-  let content = (tall ? 130 : 60) + lines(spec.title, titleSize, inner) * titleSize * 1.06;
+  let content = (spec.season ? (tall ? 90 : 44) + 50 * k + 22 : tall ? 130 : 60) + lines(spec.title, titleSize, inner) * titleSize * 1.06;
   if (spec.body) content += 28 + lines(spec.body, bodySize, inner * (spec.layout === "pregunta" ? 0.9 : 1), 0.5) * bodySize * 1.34 + (spec.layout === "pregunta" ? 56 : 0);
   if (isList) content += 30 + items.reduce((sum, i) => sum + 34 + itemTitle * 1.2 + (i.text ? lines(i.text, itemText, inner - 110, 0.5) * itemText * 1.3 + 6 : 0), 0);
   if (isPair) content += 30 + items.reduce((sum, i) => sum + 20 + 60 + 34 + lines(i.title, itemTitle, inner - 70, 0.5) * itemTitle * 1.25, 0);
@@ -251,7 +361,8 @@ export async function dailyCard(raw: DailySpec, format: CardFormat, date: Date =
           }}
         >
           <div style={{ position: "absolute", top: 0, left: 0, width: size.width, height: size.height, display: "flex", background: p.glow }} />
-          <Decor decor={spec.decor} p={p} w={size.width} h={size.height} number={spec.number} />
+          {spec.season ? <Motif season={spec.season} w={size.width} h={size.height} /> : <Decor decor={spec.decor} p={p} w={size.width} h={size.height} number={spec.number} />}
+          {spec.season ? <div style={{ position: "absolute", top: 0, left: 0, width: size.width, height: tall ? 16 : 12, display: "flex", background: spec.season.accent }} /> : null}
 
           {/* Logo y etiqueta "Consejo del día". */}
           <div style={{ display: "flex", flexShrink: 0, alignItems: "center", justifyContent: "space-between", width: inner }}>
@@ -269,7 +380,14 @@ export async function dailyCard(raw: DailySpec, format: CardFormat, date: Date =
             </div>
           </div>
 
-          <div style={{ display: "flex", flexShrink: 0, marginTop: tall ? 130 : 60, fontSize: titleSize, fontWeight: 700, lineHeight: 1.06, letterSpacing: -titleSize * 0.035, width: inner }}>
+          {spec.season ? (
+            <div style={{ display: "flex", flexShrink: 0, marginTop: tall ? 90 : 44 }}>
+              <span style={{ display: "flex", padding: `${10 * k}px ${22 * k}px`, borderRadius: 999, background: spec.season.accent, color: inkOn(spec.season.accent), fontSize: 24 * k, fontWeight: 700, letterSpacing: 2 }}>
+                {spec.season.label.toUpperCase()}
+              </span>
+            </div>
+          ) : null}
+          <div style={{ display: "flex", flexShrink: 0, marginTop: spec.season ? 22 : tall ? 130 : 60, fontSize: titleSize, fontWeight: 700, lineHeight: 1.06, letterSpacing: -titleSize * 0.035, width: inner }}>
             {spec.layout === "pregunta" && !spec.title.startsWith("¿") ? `¿${spec.title.replace(/\?*$/, "")}?` : spec.title}
           </div>
           {list}

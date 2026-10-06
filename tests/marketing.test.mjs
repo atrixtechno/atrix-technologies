@@ -344,3 +344,24 @@ test("el Pixel del navegador solo se monta con permiso y la cotización guarda l
   assert.match(redirect, /httpOnly: true/);
   assert.match(redirect, /utm_medium", "paid"/);
 });
+
+test("temporadas: fechas móviles bien calculadas y no todos los días son de temporada", async () => {
+  const seasons = await import(new URL("src/content/seasons.ts", ROOT).href);
+  assert.equal(seasons.easter(2026).toISOString().slice(0, 10), "2026-04-05");
+  assert.equal(seasons.easter(2027).toISOString().slice(0, 10), "2027-03-28");
+  assert.equal(seasons.nthWeekday(2026, 11, 4, 4).toISOString().slice(0, 10), "2026-11-26", "Thanksgiving 2026");
+  assert.equal(seasons.nthWeekday(2027, 6, 0, 3).toISOString().slice(0, 10), "2027-06-20", "Día del Padre 2027");
+  assert.equal(seasons.activeSeason("2026-11-01")?.season.id, "muertos");
+  assert.equal(seasons.activeSeason("2026-12-25")?.season.id, "navidad");
+  const eve = seasons.activeSeason("2026-12-23");
+  assert.equal(eve?.phase, "proxima");
+  assert.equal(eve?.daysTo, 1);
+  let count = 0;
+  for (let t = Date.parse("2026-10-06"); t < Date.parse("2027-10-06"); t += 86_400_000) if (seasons.activeSeason(new Date(t).toISOString())) count += 1;
+  assert.ok(count > 60 && count < 160, `días de temporada: ${count}`);
+  for (const s of seasons.SEASONS) {
+    assert.match(s.accent, /^#[0-9a-f]{6}$/i, s.id);
+    assert.ok(s.angles.length && s.services.length, s.id);
+    assert.doesNotMatch(s.angles.join(" "), /descuento|promoci|% |\$\d/i, `${s.id}: ATRIX no ofrece promociones`);
+  }
+});

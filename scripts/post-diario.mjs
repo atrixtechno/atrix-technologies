@@ -1,6 +1,6 @@
 // "Consejo del día" para Instagram (local). Cada día cambia el diseño (consejo, pasos, checklist,
 // mito o realidad, error común, pregunta), la decoración y el estilo de color; el tema rota por
-// servicio. El contenido vive en marketing-diario/<fecha>/plan.json:
+// servicio y, en temporadas y festividades (src/content/seasons.ts), se conecta con la fecha. El contenido vive en marketing-diario/<fecha>/plan.json:
 //   - si no existe, se crea con un consejo real de src/content/tips.ts del tema del día;
 //   - si existe (por ejemplo, escrito con más detalle), se dibuja tal cual.
 //   npm run post:diario                 → plan del día (crea o usa plan.json) y dibuja feed + historia
@@ -12,6 +12,7 @@ const { dailyCard, DAILY_LAYOUTS, DAILY_DECORS } = await import("../src/lib/mark
 const { services } = await import("../src/content/services.ts");
 const { dailyTips } = await import("../src/content/tips.ts");
 const { MARKETING_STYLES } = await import("../src/lib/marketing/styles.ts");
+const { activeSeason } = await import("../src/content/seasons.ts");
 
 const today = new Date(Date.now() - 6 * 3_600_000).toISOString().slice(0, 10); // Ciudad de México
 const day = Math.floor(Date.parse(`${today}T00:00:00Z`) / 86_400_000);
@@ -32,7 +33,10 @@ const THEMES = [
 
 function autoPlan() {
   // Ritmos de 6, 4 y 5 días: la misma combinación de diseño, estilo y decoración tarda 60 días en volver.
-  const theme = THEMES[day % THEMES.length];
+  // Temporada o festividad de hoy (src/content/seasons.ts): elige un servicio que conecte con ella.
+  const active = activeSeason(today);
+  const seasonal = active ? THEMES.filter((t) => active.season.services.includes(t.slug)) : [];
+  const theme = seasonal.length ? seasonal[day % seasonal.length] : THEMES[day % THEMES.length];
   const service = services.find((s) => s.slug === theme.slug) ?? services[0];
   // Primero consejos cuyo título es del tema; si no hay, los que lo mencionan en el texto.
   const byTitle = dailyTips.filter((tip) => theme.match.test(tip.title));
@@ -55,6 +59,20 @@ function autoPlan() {
     body: tip.copy,
     items: [],
     consejo_base: tip,
+    season: active
+      ? {
+          id: active.season.id,
+          nombre: active.season.name,
+          fase: active.phase, // "hoy" | "proxima" | "temporada"
+          faltan_dias: active.daysTo,
+          label: active.phase === "proxima" ? (active.daysTo === 1 ? `Mañana · ${active.season.name}` : `Faltan ${active.daysTo} días · ${active.season.name}`) : active.season.name,
+          accent: active.season.accent,
+          motif: active.season.motif,
+          ideas: active.season.angles,
+          hashtags: active.season.hashtags,
+          fecha_aproximada: Boolean(active.season.approximate),
+        }
+      : null,
     servicio_datos: { titulo: service.title, texto: service.copy, incluye: service.bullets },
   };
 }
