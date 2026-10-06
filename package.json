@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "eslint",
     "admin:reset-password": "node --env-file=.env.local scripts/reset-admin-password.mjs",
-    "test": "node --no-warnings=MODULE_TYPELESS_PACKAGE_JSON --import ./tests/register.mjs --test \"tests/*.test.mjs\""
+    "test": "node --no-warnings=MODULE_TYPELESS_PACKAGE_JSON --import ./tests/register.mjs --test \"tests/*.test.mjs\"",
+    "post:diario": "node --no-warnings --import ./scripts/render-register.mjs scripts/post-diario.mjs"
   },
   "dependencies": {
     "@react-three/drei": "^10.7.9",

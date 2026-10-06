@@ -43,3 +43,6 @@ next-env.d.ts
 
 # macOS AppleDouble metadata
 ._*
+
+# publicaciones diarias generadas en local
+/marketing-diario/
