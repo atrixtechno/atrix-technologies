@@ -98,10 +98,10 @@ export function Services() {
   return (
     <section id="servicios" className="relative scroll-mt-16 pt-24 md:pt-36">
       <Reveal className="mx-auto max-w-[1240px] px-5 text-center sm:px-8">
-        <h2 className="section-title mx-auto max-w-3xl">Seis servicios. Un solo equipo responsable.</h2>
+        <h2 className="section-title mx-auto max-w-3xl">Siete servicios. Un solo equipo responsable.</h2>
         <p className="section-lead mx-auto">
-          Desde la PC que no enciende hasta la plataforma que vende por ti. Lo
-          diseñamos, lo instalamos y lo mantenemos nosotros mismos.
+          Desde la PC que no enciende hasta la plataforma que vende por ti y el
+          video que la presenta. Lo diseñamos, lo instalamos y lo mantenemos nosotros mismos.
         </p>
       </Reveal>
 

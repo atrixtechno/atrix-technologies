@@ -11,6 +11,8 @@ export type ServicePageExtra = {
   /** Para quién (sale de las guías de hogares y empresas). */
   audiences: { label: string; title: string; copy: string }[];
   faq: { q: string; a: string }[];
+  /** Muestras de trabajo (videos verticales en /public/video/reels). */
+  samples?: { title: string; video: string; poster: string }[];
 };
 
 const quoteFaq = {
@@ -76,6 +78,24 @@ export const servicePages: Record<string, ServicePageExtra> = {
       { q: "¿Tienen proyectos en producción?", a: "Sí. Puedes ver los casos reales, en línea hoy, en la sección de proyectos." },
       coverageFaq,
       quoteFaq,
+    ],
+  },
+  "edicion-videos": {
+    title: "Videos que explican tu negocio en segundos",
+    whatsappMessage: "Hola ATRIX, me interesa la edición de videos para mi negocio.",
+    audiences: [
+      { label: "Negocios", title: "Presenta tu producto o servicio", copy: "Reels con guion, voz y subtítulos para mostrar qué haces y por qué elegirte." },
+      { label: "Sistemas y apps", title: "Enseña cómo funciona", copy: "Animamos las pantallas reales de tu sitio, app o sistema paso a paso." },
+    ],
+    faq: [
+      { q: "¿En qué formatos entregan?", a: "Videos verticales para Reels, historias y TikTok; también formatos para Facebook y YouTube si los necesitas." },
+      { q: "¿Incluye el guion?", a: "Sí: escribimos el guion, la voz y los subtítulos contigo antes de editar." },
+      quoteFaq,
+    ],
+    samples: [
+      { title: "Tutorial de una app: CV en 5 pasos", video: "/video/reels/boombeejobs-cv.mp4", poster: "/video/reels/boombeejobs-cv.jpg" },
+      { title: "Presentación de un sistema para casas de cambio", video: "/video/reels/moneychange-libreta.mp4", poster: "/video/reels/moneychange-libreta.jpg" },
+      { title: "Contenido educativo: ¿mito o realidad?", video: "/video/reels/boombeejobs-mito.mp4", poster: "/video/reels/boombeejobs-mito.jpg" },
     ],
   },
   "soporte-it-empresarial": {

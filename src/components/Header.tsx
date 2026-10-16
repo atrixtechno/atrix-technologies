@@ -139,7 +139,7 @@ function ProjectsDropdown({
               Sistemas integrados y presencia web en producción
             </p>
           </div>
-          <ul className="max-h-[calc(4*3.35rem)] overflow-y-auto overscroll-contain py-1.5 [scrollbar-gutter:stable]">
+          <ul className="max-h-[calc(6*3.35rem)] overflow-y-auto overscroll-contain py-1.5 [scrollbar-gutter:stable]">
             {projects.map((project) => (
               <li key={project.slug}>
                 <Link

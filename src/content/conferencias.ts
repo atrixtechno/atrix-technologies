@@ -250,6 +250,8 @@ export const conferenceServiceLinks: ConferenceServiceLink[] = services.map(
         "Sin cobertura WiFi ni red ordenada, no hay nube ni IA útiles. Habitualmente es el primer diagnóstico.",
       "desarrollo-software":
         "Mostramos cuándo un sitio, panel o sistema a la medida — con o sin IA — resuelve captura de clientes y operación.",
+      "edicion-videos":
+        "Mostramos cómo un video corto bien hecho explica un producto o un servicio mejor que un texto largo.",
       "soporte-it-empresarial":
         "Mantenimiento, respaldos y continuidad: el acompañamiento después de la conferencia, si el equipo quiere implementar.",
     };

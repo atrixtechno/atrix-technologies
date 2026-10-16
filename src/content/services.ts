@@ -4,7 +4,7 @@ export type Service = {
   short: string;
   copy: string;
   bullets: string[];
-  icon: "pc" | "printer" | "cctv" | "network" | "code" | "gear";
+  icon: "pc" | "printer" | "cctv" | "network" | "code" | "video" | "gear";
   image: string;
   imageAlt: string;
   /** Canal del muro de monitores. */
@@ -97,6 +97,22 @@ export const services: Service[] = [
     osd: "PLATAFORMAS",
   },
   {
+    slug: "edicion-videos",
+    title: "Edición de videos",
+    short: "Reels, video promocional y contenido para redes",
+    copy: "Videos verticales para Instagram, Facebook y TikTok: guion, animación, voz, música y subtítulos para presentar tu negocio, tu producto o tu sistema.",
+    bullets: [
+      "Reels y videos para redes",
+      "Guion, voz y subtítulos",
+      "Animación de pantallas y productos",
+    ],
+    icon: "video",
+    image: "/images/renders/video.webp",
+    imageAlt: "Tres reels verticales editados por ATRIX sobre un escenario azul",
+    channel: "CH-06",
+    osd: "VIDEO",
+  },
+  {
     slug: "soporte-it-empresarial",
     title: "Soporte IT empresarial",
     short: "Tu departamento de sistemas",
@@ -109,7 +125,7 @@ export const services: Service[] = [
     icon: "gear",
     image: "/images/services/it-empresarial.jpg",
     imageAlt: "Rack de servidores e infraestructura IT empresarial",
-    channel: "CH-06",
+    channel: "CH-07",
     osd: "IT EMPRESARIAL",
     photo: true,
   },

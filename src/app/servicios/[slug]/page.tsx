@@ -119,6 +119,34 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
             </div>
           </section>
 
+          {extra.samples?.length ? (
+            <section className="border-t border-line py-20 md:py-28">
+              <div className="mx-auto max-w-[1240px] px-5 sm:px-8">
+                <Reveal className="max-w-3xl">
+                  <h2 className="section-title">Muestras de trabajo</h2>
+                  <p className="section-lead">Videos verticales editados por ATRIX para productos y sistemas reales.</p>
+                </Reveal>
+                <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                  {extra.samples.map((sample) => (
+                    <figure key={sample.video} className="min-w-0">
+                      <div className="overflow-hidden rounded-[1.5rem] border border-line bg-stage">
+                        <video
+                          src={sample.video}
+                          poster={sample.poster}
+                          controls
+                          playsInline
+                          preload="none"
+                          className="aspect-[9/16] w-full object-cover"
+                        />
+                      </div>
+                      <figcaption className="mt-3 text-sm text-muted">{sample.title}</figcaption>
+                    </figure>
+                  ))}
+                </div>
+              </div>
+            </section>
+          ) : null}
+
           <section className="border-t border-line py-20 md:py-28">
             <div className="mx-auto max-w-[1240px] px-5 sm:px-8">
               <Reveal className="max-w-3xl">

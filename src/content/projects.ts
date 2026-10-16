@@ -1,8 +1,12 @@
-export type ProjectKind = "sitio-web" | "sistema";
+import { moreProjects } from "./projects-more";
+
+export type ProjectKind = "sitio-web" | "sistema" | "plataforma" | "escritorio";
 
 export const projectKindLabels: Record<ProjectKind, string> = {
   "sitio-web": "Sitio web",
   sistema: "Sistema",
+  plataforma: "Plataforma y apps",
+  escritorio: "Programa de escritorio",
 };
 
 export function projectKindLabel(kind: ProjectKind) {
@@ -64,7 +68,7 @@ export type Project = {
   location: string;
 };
 
-export const projects: Project[] = [
+const baseProjects: Project[] = [
   {
     slug: "dentalmate",
     kind: "sitio-web",
@@ -1631,6 +1635,8 @@ export const projects: Project[] = [
     location: "Nuevo Laredo, Tamaulipas",
   },
 ];
+
+export const projects: Project[] = [...baseProjects, ...moreProjects];
 
 export function getProject(slug: string) {
   return projects.find((p) => p.slug === slug);

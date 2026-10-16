@@ -4,8 +4,18 @@ import Image from "next/image";
 import Link from "next/link";
 import { ProjectLogo } from "@/components/ProjectLogo";
 import { Reveal } from "@/components/Reveal";
-import type { Project } from "@/content/projects";
+import { projectKindLabel, type Project } from "@/content/projects";
 import { whatsappUrl } from "@/content/site";
+
+/** Enlace al sitio en vivo si existe; si es un programa de escritorio o un sistema interno, solo la captura. */
+function PreviewFrame({ url, className, label, children }: { url?: string; className: string; label: string; children: React.ReactNode }) {
+  if (!url) return <div className={className}>{children}</div>;
+  return (
+    <a href={url} target="_blank" rel="noopener noreferrer" className={className} aria-label={label}>
+      {children}
+    </a>
+  );
+}
 
 export function ProjectCase({ project }: { project: Project }) {
   return (
@@ -127,19 +137,17 @@ export function ProjectCase({ project }: { project: Project }) {
                 className="animate-glow pointer-events-none absolute -inset-2 -z-10 rounded-[1.25rem] blur-2xl sm:-inset-3"
                 style={{ background: "var(--project-glow)" }}
               />
-              <a
-                href={project.url ?? "#"}
-                target="_blank"
-                rel="noopener noreferrer"
+              <PreviewFrame
+                url={project.url}
                 className="project-preview-float group block overflow-hidden rounded-[1.25rem] border border-[var(--line)] bg-[var(--bg-elevated)] shadow-[0_24px_60px_rgba(11,40,45,0.12)] transition hover:-translate-y-1"
-                aria-label={`Abrir ${project.name} en vivo`}
+                label={`Abrir ${project.name} en vivo`}
               >
                 <div className="flex items-center gap-2 border-b border-[var(--line)] bg-[color-mix(in_srgb,var(--fg)_4%,transparent)] px-3 py-2.5">
                   <span className="h-2.5 w-2.5 rounded-full bg-[#ff5f57]" />
                   <span className="h-2.5 w-2.5 rounded-full bg-[#febc2e]" />
                   <span className="h-2.5 w-2.5 rounded-full bg-[#28c840]" />
                   <span className="ml-2 truncate font-mono text-[11px] text-[var(--muted)]">
-                    {project.url?.replace(/^https?:\/\//, "")}
+                    {project.url?.replace(/^https?:\/\//, "") ?? projectKindLabel(project.kind)}
                   </span>
                 </div>
                 <div className="relative aspect-[16/10] overflow-hidden bg-[var(--bg)]">
@@ -157,13 +165,15 @@ export function ProjectCase({ project }: { project: Project }) {
                       Vista previa
                     </div>
                   )}
-                  <div className="absolute inset-0 flex items-end justify-center bg-gradient-to-t from-[var(--fg)]/55 via-transparent to-transparent p-5 transition group-hover:from-[var(--fg)]/70">
-                    <span className="rounded-full bg-[var(--accent)] px-4 py-2 text-xs font-bold tracking-wide text-[var(--accent-ink)] uppercase shadow-lg transition group-hover:scale-105">
-                      Abrir sitio en vivo →
-                    </span>
-                  </div>
+                  {project.url ? (
+                    <div className="absolute inset-0 flex items-end justify-center bg-gradient-to-t from-[var(--fg)]/55 via-transparent to-transparent p-5 transition group-hover:from-[var(--fg)]/70">
+                      <span className="rounded-full bg-[var(--accent)] px-4 py-2 text-xs font-bold tracking-wide text-[var(--accent-ink)] uppercase shadow-lg transition group-hover:scale-105">
+                        Abrir sitio en vivo →
+                      </span>
+                    </div>
+                  ) : null}
                 </div>
-              </a>
+              </PreviewFrame>
             </div>
           )}
         </div>

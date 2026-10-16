@@ -9,12 +9,12 @@ import { site } from "@/content/site";
 export const metadata: Metadata = {
   title: "Proyectos",
   description:
-    "Portafolio de ATRIX Technologies: sitios web y sistemas operativos como MOE'S Market, DentalMate, Grupo GI, DojangSpace y Tecos Elite en Nuevo Laredo.",
+    "Portafolio de ATRIX Technologies: sitios web, plataformas con apps, sistemas y programas de escritorio como BoomBeeJobs, MOE'S Market, DentalMate, Grupo GI, ContaTrix y MONEYCHANGE.",
   alternates: { canonical: "/proyectos" },
   openGraph: {
     title: `Proyectos · ${site.legalName}`,
     description:
-      "Casos reales de sitios web, puntos de venta, paneles y plataformas construidas para negocios de la frontera.",
+      "Casos reales de sitios web, plataformas con apps, puntos de venta, paneles y programas de escritorio construidos por ATRIX.",
     url: `${site.url}/proyectos`,
     type: "website",
     images: [
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: `Proyectos · ${site.legalName}`,
     description:
-      "Casos reales de sitios web, puntos de venta, paneles y plataformas construidas para negocios de la frontera.",
+      "Casos reales de sitios web, plataformas con apps, puntos de venta, paneles y programas de escritorio construidos por ATRIX.",
     images: ["https://atrixnld.com/brand/og-atrix-v2.png"],
   },
   keywords: [
@@ -79,8 +79,8 @@ export default function ProjectsIndexPage() {
                 </span>
               </>
             }
-            lead="Filtra por sitio web o sistema. Entra a cada caso para ver el reto, la solución y por qué un cliente elegiría algo similar."
-            meta="Web · iOS · Android · Paneles en producción"
+            lead="Sitios web, plataformas con apps, sistemas y programas de escritorio. Entra a cada caso para ver el reto, la solución y por qué un cliente elegiría algo similar."
+            meta="Web · iOS · Android · Windows · En producción"
           />
 
           <div className="relative overflow-hidden bg-bg">

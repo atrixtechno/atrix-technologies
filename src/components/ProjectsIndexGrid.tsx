@@ -10,24 +10,43 @@ import {
   type ProjectKind,
 } from "@/content/projects";
 
-const filters: { id: ProjectKind; label: string; hint: string }[] = [
+type Filter = ProjectKind | "todos";
+
+const filters: { id: Filter; label: string; hint: string }[] = [
+  {
+    id: "todos",
+    label: "Todos",
+    hint: "Sitios, plataformas, sistemas y programas de escritorio que hoy operan negocios reales.",
+  },
   {
     id: "sitio-web",
-    label: "Sitio web",
+    label: "Sitios web",
     hint: "Presencia digital, landings y sitios públicos en producción.",
   },
   {
+    id: "plataforma",
+    label: "Plataformas y apps",
+    hint: "Productos web con apps para Android y iPhone, pagos y varios tipos de usuario.",
+  },
+  {
     id: "sistema",
-    label: "Sistema",
+    label: "Sistemas",
     hint: "Puntos de venta, paneles operativos e integraciones para el día a día del negocio.",
+  },
+  {
+    id: "escritorio",
+    label: "Programas de escritorio",
+    hint: "Programas para Windows que funcionan sin internet: escuelas, contabilidad, casas de cambio y más.",
   },
 ];
 
+const countFor = (id: Filter) => (id === "todos" ? projects.length : projects.filter((p) => p.kind === id).length);
+
 export function ProjectsIndexGrid() {
-  const [active, setActive] = useState<ProjectKind>("sitio-web");
+  const [active, setActive] = useState<Filter>("todos");
 
   const filtered = useMemo(
-    () => projects.filter((project) => project.kind === active),
+    () => (active === "todos" ? projects : projects.filter((project) => project.kind === active)),
     [active],
   );
 
@@ -56,6 +75,7 @@ export function ProjectsIndexGrid() {
               }`}
             >
               {filter.label}
+              <span className={`ml-1.5 tabular-nums ${selected ? "opacity-80" : "opacity-60"}`}>{countFor(filter.id)}</span>
             </button>
           );
         })}

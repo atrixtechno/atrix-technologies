@@ -5,7 +5,9 @@ import { Reveal } from "@/components/Reveal";
 import { ArrowIcon } from "@/components/ui";
 import { projectKindLabel, projects } from "@/content/projects";
 
-const gallery = projects.filter((p) => p.previewImage).slice(0, 6);
+// Un caso de cada tipo primero: sitio web, plataforma con apps, sistema y programas de escritorio.
+const FEATURED = ["boombeejobs", "dentalmate", "moes-pos", "contatrix", "grupo-gi-casa-de-cambio", "moneychange"];
+const gallery = FEATURED.map((slug) => projects.find((p) => p.slug === slug)).filter((p): p is (typeof projects)[number] => Boolean(p?.previewImage));
 
 function host(url?: string) {
   if (!url) return null;
@@ -23,10 +25,10 @@ export function ProjectsTeaser() {
         <Reveal>
           <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
             <div className="max-w-3xl">
-              <h2 className="section-title">Casos reales, en línea hoy.</h2>
+              <h2 className="section-title">{projects.length} casos reales, operando hoy.</h2>
               <p className="section-lead">
-                Sitios, paneles, apps e integraciones que venden y administran
-                negocios reales todos los días, no solo páginas.
+                Sitios, plataformas con apps, puntos de venta y programas de escritorio
+                que venden y administran negocios reales todos los días.
               </p>
             </div>
             <div className="flex shrink-0 flex-col items-start gap-4 lg:items-end">
@@ -40,9 +42,10 @@ export function ProjectsTeaser() {
                   Android
                 </span>
                 <span className="chip">Web</span>
+                <span className="chip">Windows</span>
               </div>
               <Link href="/proyectos" className="btn btn-primary">
-                Ver portafolio completo
+                Ver los {projects.length} proyectos
                 <ArrowIcon />
               </Link>
             </div>
